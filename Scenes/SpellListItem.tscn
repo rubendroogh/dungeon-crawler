@@ -1,0 +1,72 @@
+[gd_scene load_steps=5 format=3 uid="uid://csex8h13te3ep"]
+
+[ext_resource type="Texture2D" uid="uid://csjt8ylrgdkbj" path="res://Assets/TileAtlas.tres" id="1_ct5uf"]
+[ext_resource type="Script" uid="uid://xhe4kyv0hanb" path="res://Scripts/UI/SpellUI.cs" id="1_vj5hk"]
+[ext_resource type="StyleBox" uid="uid://dlabjtbbiahju" path="res://Resources/StyleBoxes/SpellSelected.tres" id="2_usfsc"]
+[ext_resource type="StyleBox" uid="uid://di1t0g1fgt6r5" path="res://Resources/StyleBoxes/SpellDefault.tres" id="3_usfsc"]
+
+[node name="PanelContainer" type="PanelContainer" node_paths=PackedStringArray("SpellName", "SpellDescription", "SpellIcon")]
+offset_right = 291.0
+offset_bottom = 57.0
+mouse_default_cursor_shape = 2
+script = ExtResource("1_vj5hk")
+SpellName = NodePath("HBoxContainer/VBoxContainer/MarginContainer/RichTextLabel")
+SpellDescription = NodePath("HBoxContainer/VBoxContainer/MarginContainer2/RichTextLabel")
+SpellIcon = NodePath("HBoxContainer/MarginContainer/TextureRect")
+SelectedStyle = ExtResource("2_usfsc")
+DefaultStyle = ExtResource("3_usfsc")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+size_flags_stretch_ratio = 0.25
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
+
+[node name="TextureRect" type="TextureRect" parent="HBoxContainer/MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.25
+texture = ExtResource("1_ct5uf")
+expand_mode = 4
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="MarginContainer" type="MarginContainer" parent="HBoxContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.8
+theme_override_constants/margin_left = 0
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 0
+
+[node name="RichTextLabel" type="RichTextLabel" parent="HBoxContainer/VBoxContainer/MarginContainer"]
+layout_mode = 2
+mouse_filter = 1
+theme_override_font_sizes/normal_font_size = 12
+text = "tekst"
+scroll_active = false
+
+[node name="MarginContainer2" type="MarginContainer" parent="HBoxContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/margin_left = 0
+theme_override_constants/margin_top = 0
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
+
+[node name="RichTextLabel" type="RichTextLabel" parent="HBoxContainer/VBoxContainer/MarginContainer2"]
+layout_mode = 2
+mouse_filter = 1
+theme_override_font_sizes/normal_font_size = 10
+text = "test"
+scroll_active = false

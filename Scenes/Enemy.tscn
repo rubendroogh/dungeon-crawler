@@ -1,0 +1,33 @@
+[gd_scene load_steps=6 format=3 uid="uid://dchnspiwg3mmg"]
+
+[ext_resource type="Script" uid="uid://dgqupkb65af2g" path="res://Scripts/Characters/Character.cs" id="1_wovta"]
+[ext_resource type="Texture2D" uid="uid://c62yrpshepv8m" path="res://icon.svg" id="2_xeo28"]
+[ext_resource type="Texture2D" uid="uid://csjt8ylrgdkbj" path="res://Assets/TileAtlas.tres" id="3_xeo28"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kpr8r"]
+atlas = ExtResource("3_xeo28")
+region = Rect2(663, 255, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1exfc"]
+atlas = ExtResource("3_xeo28")
+region = Rect2(204, 306, 16, 16)
+
+[node name="Enemy" type="Node2D"]
+script = ExtResource("1_wovta")
+
+[node name="CharacterSprite" type="Sprite2D" parent="."]
+texture = ExtResource("2_xeo28")
+
+[node name="HealthBar" type="TextureProgressBar" parent="."]
+offset_left = -106.0
+offset_top = 62.0
+offset_right = 106.0
+offset_bottom = 85.0
+value = 100.0
+nine_patch_stretch = true
+stretch_margin_left = 3
+stretch_margin_top = 3
+stretch_margin_right = 3
+stretch_margin_bottom = 3
+texture_under = SubResource("AtlasTexture_kpr8r")
+texture_progress = SubResource("AtlasTexture_1exfc")

@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="CharacterData" load_steps=3 format=3 uid="uid://cfekhne75nmml"]
+
+[ext_resource type="Script" uid="uid://bu8g8lcrmtl0e" path="res://Scripts/Characters/CharacterData.cs" id="1_kk36p"]
+[ext_resource type="Texture2D" uid="uid://c62yrpshepv8m" path="res://icon.svg" id="1_rb05q"]
+
+[resource]
+script = ExtResource("1_kk36p")
+Name = "Basic enemy"
+Image = ExtResource("1_rb05q")
+MaxHealth = 1200.0
+BaseGenuine = 10
+BaseCharming = 10
+BaseFocused = 10
+BaseWitty = 10
+BaseOptimistic = 10
+BaseDominant = 10
+BaseFearless = 10
+BaseBenevolent = 10
+BaseIntelligent = 10
+metadata/_custom_type_script = "uid://bu8g8lcrmtl0e"

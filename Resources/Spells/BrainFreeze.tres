@@ -1,0 +1,25 @@
+[gd_resource type="Resource" script_class="SpellData" load_steps=4 format=3 uid="uid://b3dxpaulgd75d"]
+
+[ext_resource type="Texture2D" uid="uid://csjt8ylrgdkbj" path="res://Assets/TileAtlas.tres" id="1_cbjo1"]
+[ext_resource type="Script" uid="uid://d31wkdgrcylv3" path="res://Scripts/Spells/SpellData.cs" id="1_spsgq"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_14adh"]
+atlas = ExtResource("1_cbjo1")
+region = Rect2(459, 170, 16, 16)
+
+[resource]
+script = ExtResource("1_spsgq")
+Name = "Brain freeze"
+Description = "Causes a splitting headache by cooling down the target's brain."
+Image = SubResource("AtlasTexture_14adh")
+BasePhysicalDamage = 0.0
+BaseDarkDamage = 0.0
+BaseLightDamage = 0.0
+BaseFireDamage = 0.0
+BaseIceDamage = 10.0
+BaseLightningDamage = 0.0
+BaseSanityDamage = 10.0
+BaseDiseaseDamage = 0.0
+ManaCost = 4
+ModifierMultiplier = 1.01
+metadata/_custom_type_script = "uid://d31wkdgrcylv3"
