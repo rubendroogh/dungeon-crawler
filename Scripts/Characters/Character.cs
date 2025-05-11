@@ -6,13 +6,67 @@ using Godot;
 /// </summary>
 public partial class Character : Node
 {
+    /// <summary>
+    /// The current health of the character.
+    /// This value is between 0 and the max health of the character.
+    /// </summary>
     public float CurrentHealth { get; private set; }
 
+    /// <summary>
+    /// The character data associated with this character.
+    /// This data contains the base stats, personality traits, and other information about the character.
+    /// </summary>
     [Export]
     public CharacterData CharacterData { get; set; }
 
+    /// <summary>
+    /// The current max health of the character.
+    /// </summary>
+    public float CurrentPhysicalDamageMultiplier => CharacterData.BasePhysicalDamageMultiplier;
+
+    /// <summary>
+    /// The current dark damage multiplier.
+    /// </summary>
+    public float CurrentDarkDamageMultiplier => CharacterData.BaseDarkDamageMultiplier;
+    
+    /// <summary>
+    /// The current light damage multiplier.
+    /// </summary>
+    public float CurrentLightDamageMultiplier => CharacterData.BaseLightDamageMultiplier;
+    
+    /// <summary>
+    /// The current fire damage multiplier.
+    /// </summary>
+    public float CurrentFireDamageMultiplier => CharacterData.BaseFireDamageMultiplier;
+    
+    /// <summary>
+    /// The current ice damage multiplier.
+    /// </summary>
+    public float CurrentIceDamageMultiplier => CharacterData.BaseIceDamageMultiplier;
+    
+    /// <summary>
+    /// The current lightning damage multiplier.
+    /// </summary>
+    public float CurrentLightningDamageMultiplier => CharacterData.BaseLightningDamageMultiplier;
+    
+    /// <summary>
+    /// The current sanity damage multiplier.
+    /// </summary>
+    public float CurrentSanityDamageMultiplier => CharacterData.BaseSanityDamageMultiplier;
+    
+    /// <summary>
+    /// The current disease damage multiplier.
+    /// </summary>
+    public float CurrentDiseaseDamageMultiplier => CharacterData.BaseDiseaseDamageMultiplier;
+
+    /// <summary>
+    /// The sprite that represents the character.
+    /// </summary>
     private Sprite2D CharacterSprite { get; set; }
 
+    /// <summary>
+    /// A progress bar that represents the character's health.
+    /// </summary>
     private TextureProgressBar HealthBar { get; set; }
 
     /// <summary>
@@ -27,6 +81,11 @@ public partial class Character : Node
         CurrentHealth = CharacterData.MaxHealth;
     }
 
+    /// <summary>
+    /// Set up the character with the given character data.
+    /// This method initializes the character's health, sprite, and health bar.
+    /// </summary>
+    /// <param name="characterData"></param>
     public void Setup(CharacterData characterData)
     {
         CharacterData = characterData;
@@ -54,28 +113,28 @@ public partial class Character : Node
         switch (damage.Type)
         {
             case DamageType.Physical:
-                CurrentHealth -= damage.Amount * CharacterData.BasePhysicalDamageMultiplier;
+                CurrentHealth -= damage.Amount * CurrentPhysicalDamageMultiplier;
                 break;
             case DamageType.Dark:
-                CurrentHealth -= damage.Amount * CharacterData.BaseDarkDamageMultiplier;
+                CurrentHealth -= damage.Amount * CurrentDarkDamageMultiplier;
                 break;
             case DamageType.Light:
-                CurrentHealth -= damage.Amount * CharacterData.BaseLightDamageMultiplier;
+                CurrentHealth -= damage.Amount * CurrentLightDamageMultiplier;
                 break;
             case DamageType.Fire:
-                CurrentHealth -= damage.Amount * CharacterData.BaseFireDamageMultiplier;
+                CurrentHealth -= damage.Amount * CurrentFireDamageMultiplier;
                 break;
             case DamageType.Ice:
-                CurrentHealth -= damage.Amount * CharacterData.BaseIceDamageMultiplier;
+                CurrentHealth -= damage.Amount * CurrentIceDamageMultiplier;
                 break;
             case DamageType.Lightning:
-                CurrentHealth -= damage.Amount * CharacterData.BaseLightningDamageMultiplier;
+                CurrentHealth -= damage.Amount * CurrentLightningDamageMultiplier;
                 break;
             case DamageType.Sanity:
-                CurrentHealth -= damage.Amount * CharacterData.BaseSanityDamageMultiplier;
+                CurrentHealth -= damage.Amount * CurrentSanityDamageMultiplier;
                 break;
             case DamageType.Disease:
-                CurrentHealth -= damage.Amount * CharacterData.BaseDiseaseDamageMultiplier;
+                CurrentHealth -= damage.Amount * CurrentDiseaseDamageMultiplier;
                 break;
         }
 
@@ -102,10 +161,8 @@ public partial class Character : Node
     }
 
     /// <summary>
-    /// Apply a status effect to the character or increase the duration.
+    /// Apply a status effect to the character or increase the duration for the specified turns.
     /// </summary>
-    /// <param name="effect"></param>
-    /// <param name="turns"></param>
     public void ApplyEffect(StatusEffect effect, int turns)
     {
         if (StatusEffects.ContainsKey(effect))
@@ -119,11 +176,17 @@ public partial class Character : Node
         }
     }
 
+    /// <summary>
+    /// Check if the character has a specific status effect.
+    /// </summary>
     public bool HasEffect(StatusEffect effect)
     {
         return StatusEffects.ContainsKey(effect);
     }
 
+    /// <summary>
+    /// Clear a specific status effect from the character.
+    /// </summary>
     public void ClearEffect(StatusEffect effect)
     {
         if (StatusEffects.ContainsKey(effect))
@@ -132,13 +195,24 @@ public partial class Character : Node
         }
     }
 
+    /// <summary>
+    /// Kill the character.
+    /// This method should be called when the character's health reaches 0 or when some instant death effect is applied.
+    /// </summary>
     private void Die()
     {
         ManagerRepository.BattleLogManager.AddToLog($"{CharacterData.Name} has died.");
     }
 
+    /// <summary>
+    /// Update the health bar to reflect the current health of the character.
+    /// </summary>
     public void UpdateHealthBar()
     {
-        HealthBar.Value = CurrentHealth;
+        var tween = CreateTween();
+        // Animate the rotation smoothly over 0.2 seconds
+        tween.TweenProperty(HealthBar, "value", CurrentHealth, .2f)
+            .SetTrans(Tween.TransitionType.Cubic)
+            .SetEase(Tween.EaseType.InOut);
     }
 }
