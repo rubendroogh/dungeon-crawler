@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=3 uid="uid://csex8h13te3ep"]
 
-[ext_resource type="Texture2D" uid="uid://csjt8ylrgdkbj" path="res://Assets/TileAtlas.tres" id="1_ct5uf"]
+[ext_resource type="Texture2D" uid="uid://csjt8ylrgdkbj" path="res://Resources/Atlasses/TileAtlas.tres" id="1_ct5uf"]
 [ext_resource type="Script" uid="uid://xhe4kyv0hanb" path="res://Scripts/UI/SpellUI.cs" id="1_vj5hk"]
 [ext_resource type="StyleBox" uid="uid://dlabjtbbiahju" path="res://Resources/StyleBoxes/SpellSelected.tres" id="2_usfsc"]
 [ext_resource type="StyleBox" uid="uid://di1t0g1fgt6r5" path="res://Resources/StyleBoxes/SpellDefault.tres" id="3_usfsc"]
@@ -52,7 +52,7 @@ theme_override_constants/margin_bottom = 0
 [node name="RichTextLabel" type="RichTextLabel" parent="HBoxContainer/VBoxContainer/MarginContainer"]
 layout_mode = 2
 mouse_filter = 1
-theme_override_font_sizes/normal_font_size = 12
+theme_override_font_sizes/normal_font_size = 24
 text = "tekst"
 scroll_active = false
 
@@ -67,6 +67,6 @@ theme_override_constants/margin_bottom = 5
 [node name="RichTextLabel" type="RichTextLabel" parent="HBoxContainer/VBoxContainer/MarginContainer2"]
 layout_mode = 2
 mouse_filter = 1
-theme_override_font_sizes/normal_font_size = 10
+theme_override_font_sizes/normal_font_size = 16
 text = "test"
 scroll_active = false

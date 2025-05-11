@@ -16,7 +16,7 @@ public partial class BattleLogManager : Node
 
     private void InitializeBattleLog()
     {
-        BattleLog = GetNode<RichTextLabel>("../../BattleLogPanelContainer/BattleLog");
+        BattleLog = GetNode<RichTextLabel>("../../BattleLogPanelContainer/MarginContainer/BattleLog");
     }
 
     public void AddToLog(string message)

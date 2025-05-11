@@ -1,6 +1,6 @@
 [gd_resource type="TileSet" load_steps=3 format=3 uid="uid://cawwlkpvy4krh"]
 
-[ext_resource type="Texture2D" uid="uid://csjt8ylrgdkbj" path="res://Assets/TileAtlas.tres" id="1_bwu17"]
+[ext_resource type="Texture2D" uid="uid://csjt8ylrgdkbj" path="res://Resources/Atlasses/TileAtlas.tres" id="1_bwu17"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_v51m0"]
 resource_name = "All Tiles"

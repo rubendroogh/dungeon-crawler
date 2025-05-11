@@ -30,7 +30,6 @@ public partial class BattleManager : Node
     private void InitializeBattle()
     {
         SpawnRandomEnemy();
-        ManagerRepository.BattleLogManager.AddToLog("Battle Initialized!");
     }
 
     public void StartBattle()
@@ -82,6 +81,6 @@ public partial class BattleManager : Node
         // Add enemy at root of the scene
         GetTree().Root.GetNode("Root").AddChild(TargetEnemy);
 
-        ManagerRepository.BattleLogManager.AddToLog($"{enemyData.Name} joined the fight!");
+        ManagerRepository.BattleLogManager.AddToLog($"{enemyData.Name} encountered!");
     }
 }

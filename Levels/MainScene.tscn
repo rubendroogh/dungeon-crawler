@@ -6,10 +6,10 @@
 [ext_resource type="Script" uid="uid://c0p2vud0ydmne" path="res://Scripts/Managers/ManagerRepository.cs" id="4_26f67"]
 [ext_resource type="Script" uid="uid://fi2i0pb2xx5u" path="res://Scripts/Managers/SpellCastingManager.cs" id="4_safex"]
 [ext_resource type="Script" uid="uid://burx8xbynydt" path="res://Scripts/Managers/SpellListManager.cs" id="5_26f67"]
-[ext_resource type="PackedScene" uid="uid://csex8h13te3ep" path="res://Scenes/SpellListItem.tscn" id="6_v8p1f"]
-[ext_resource type="Resource" uid="uid://b3dxpaulgd75d" path="res://Resources/Spells/BrainFreeze.tres" id="7_71tao"]
+[ext_resource type="PackedScene" uid="uid://csex8h13te3ep" path="res://Scenes/SpellListItem.tscn" id="6_71tao"]
+[ext_resource type="Resource" uid="uid://cn6ie7edpvr5j" path="res://Resources/Spells/BrainFreeze.tres" id="7_71tao"]
 [ext_resource type="Resource" uid="uid://cfekhne75nmml" path="res://Resources/Characters/BasicEnemy.tres" id="8_5eubm"]
-[ext_resource type="Resource" uid="uid://c18n7a5q4f48s" path="res://Resources/Spells/Discombobulate.tres" id="8_lxbb3"]
+[ext_resource type="Resource" uid="uid://b2obfc8fqqmsx" path="res://Resources/Spells/Discombobulate.tres" id="8_lxbb3"]
 [ext_resource type="Script" uid="uid://ccfu4bppobwlv" path="res://Scripts/Managers/BattleManager.cs" id="8_rc4gq"]
 [ext_resource type="Script" uid="uid://87g108e3say3" path="res://Scripts/Managers/BattleLogManager.cs" id="9_4h6gp"]
 [ext_resource type="PackedScene" uid="uid://dchnspiwg3mmg" path="res://Scenes/Enemy.tscn" id="12_aw745"]
@@ -48,6 +48,7 @@ layout_mode = 2
 
 [node name="Label" type="Label" parent="CardDeck/CardListPanelContainer/CardListHorizontalContainer"]
 layout_mode = 2
+theme_override_font_sizes/font_size = 48
 text = "Your deck"
 horizontal_alignment = 1
 
@@ -96,6 +97,7 @@ layout_mode = 2
 
 [node name="Label" type="Label" parent="SpellList/SpellListPanelContainer/SpellListHorizontalContainer"]
 layout_mode = 2
+theme_override_font_sizes/font_size = 48
 text = "Your spells"
 horizontal_alignment = 1
 
@@ -106,9 +108,10 @@ size_flags_vertical = 3
 
 [node name="CastSpell" type="Button" parent="."]
 offset_left = -573.0
-offset_top = 280.0
-offset_right = -403.0
-offset_bottom = 320.0
+offset_top = 245.0
+offset_right = -337.0
+offset_bottom = 326.0
+theme_override_font_sizes/font_size = 48
 text = "Cast spell!"
 script = ExtResource("2_lljjv")
 
@@ -120,7 +123,7 @@ script = ExtResource("4_safex")
 
 [node name="SpellListManager" type="Node" parent="ManagerRepository"]
 script = ExtResource("5_26f67")
-SpellListItemScene = ExtResource("6_v8p1f")
+SpellListItemScene = ExtResource("6_71tao")
 
 [node name="SpellPreloader" type="ResourcePreloader" parent="ManagerRepository/SpellListManager"]
 resources = [PackedStringArray("BrainFreeze", "Discombobulate", "FireBall"), [ExtResource("7_71tao"), ExtResource("8_lxbb3"), ExtResource("2_hvf01")]]
@@ -141,6 +144,12 @@ offset_top = 254.0
 offset_right = 243.0
 offset_bottom = 321.0
 
-[node name="BattleLog" type="RichTextLabel" parent="BattleLogPanelContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="BattleLogPanelContainer"]
 layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_right = 8
+
+[node name="BattleLog" type="RichTextLabel" parent="BattleLogPanelContainer/MarginContainer"]
+layout_mode = 2
+theme_override_font_sizes/normal_font_size = 24
 scroll_following = true

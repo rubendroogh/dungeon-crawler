@@ -1,12 +1,16 @@
-[gd_resource type="Resource" script_class="CharacterData" load_steps=3 format=3 uid="uid://cfekhne75nmml"]
+[gd_resource type="Resource" script_class="CharacterData" load_steps=4 format=3 uid="uid://cfekhne75nmml"]
 
 [ext_resource type="Script" uid="uid://bu8g8lcrmtl0e" path="res://Scripts/Characters/CharacterData.cs" id="1_kk36p"]
-[ext_resource type="Texture2D" uid="uid://c62yrpshepv8m" path="res://icon.svg" id="1_rb05q"]
+[ext_resource type="Texture2D" uid="uid://s2ihy4m3p226" path="res://Assets/RawImages/CreaturesTileMap.png" id="1_rb05q"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kftp3"]
+atlas = ExtResource("1_rb05q")
+region = Rect2(128, 224, 32, 32)
 
 [resource]
 script = ExtResource("1_kk36p")
-Name = "Basic enemy"
-Image = ExtResource("1_rb05q")
+Name = "Undead Knight"
+Image = SubResource("AtlasTexture_kftp3")
 MaxHealth = 1200.0
 BaseGenuine = 10
 BaseCharming = 10
@@ -17,4 +21,12 @@ BaseDominant = 10
 BaseFearless = 10
 BaseBenevolent = 10
 BaseIntelligent = 10
+BasePhysicalDamageMultiplier = 0.0
+BaseDarkDamageMultiplier = 0.0
+BaseLightDamageMultiplier = 0.0
+BaseFireDamageMultiplier = 0.0
+BaseIceDamageMultiplier = 0.0
+BaseLightningDamageMultiplier = 0.0
+BaseSanityDamageMultiplier = 0.0
+BaseDiseaseDamageMultiplier = 0.0
 metadata/_custom_type_script = "uid://bu8g8lcrmtl0e"
