@@ -15,6 +15,8 @@ public partial class BattleManager : Node
 
     private ResourcePreloader EnemiesPreloader;
 
+    private int CurrentTurn { get; set; } = 0;
+
     public override void _Ready()
     {
         EnemiesPreloader = GetNode<ResourcePreloader>("EnemiesPreloader");

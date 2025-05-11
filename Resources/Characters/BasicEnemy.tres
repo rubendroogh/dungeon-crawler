@@ -5,28 +5,28 @@
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_kftp3"]
 atlas = ExtResource("1_rb05q")
-region = Rect2(128, 224, 32, 32)
+region = Rect2(0, 0, 32, 32)
 
 [resource]
 script = ExtResource("1_kk36p")
-Name = "Undead Knight"
+Name = "Undead Squid"
 Image = SubResource("AtlasTexture_kftp3")
-MaxHealth = 120.0
-BaseGenuine = 10
-BaseCharming = 10
-BaseFocused = 10
-BaseWitty = 10
-BaseOptimistic = 10
-BaseDominant = 10
-BaseFearless = 10
-BaseBenevolent = 10
-BaseIntelligent = 10
-BasePhysicalDamageMultiplier = 0.0
-BaseDarkDamageMultiplier = 0.0
-BaseLightDamageMultiplier = 0.0
-BaseFireDamageMultiplier = 0.0
-BaseIceDamageMultiplier = 0.0
-BaseLightningDamageMultiplier = 0.0
-BaseSanityDamageMultiplier = 0.0
-BaseDiseaseDamageMultiplier = 0.0
+MaxHealth = 150.0
+BaseGenuine = 14
+BaseCharming = 7
+BaseFocused = 13
+BaseWitty = 1
+BaseOptimistic = 11
+BaseDominant = 8
+BaseFearless = 12
+BaseBenevolent = 5
+BaseIntelligent = 5
+BasePhysicalDamageMultiplier = 1.0
+BaseDarkDamageMultiplier = 1.0
+BaseLightDamageMultiplier = 1.2
+BaseFireDamageMultiplier = 0.6
+BaseIceDamageMultiplier = 1.2
+BaseLightningDamageMultiplier = 1.2
+BaseSanityDamageMultiplier = 1.0
+BaseDiseaseDamageMultiplier = 1.0
 metadata/_custom_type_script = "uid://bu8g8lcrmtl0e"

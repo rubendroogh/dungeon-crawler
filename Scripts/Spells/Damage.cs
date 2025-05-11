@@ -47,10 +47,15 @@ public partial class Damage
     /// <summary>
     /// Applies the damage to the target.
     /// </summary>
-    /// TODO: apply status effects
     public void Apply()
     {
-        Target.Damage(Amount);
+        if (StatusEffect != StatusEffect.None)
+        {
+            // TODO: This is 2 turns for now, but it should be the duration of the effect
+            Target.ApplyEffect(StatusEffect, 2);
+        }
+
+        Target.Damage(this);
     }
 }
 
@@ -66,6 +71,7 @@ public enum DamageType
     Disease,
 }
 
+// TODO: Does nothing for now
 public enum DamageSource
 {
     Unknown,
@@ -77,9 +83,9 @@ public enum DamageSource
 
 public enum StatusEffect
 {
+    None,
     Burn,
-    Freeze,
-    Shock,
-    Fear,
+    Frozen,
     Insanity,
+    BrainFreeze,
 }

@@ -108,7 +108,7 @@ offset_top = 245.0
 offset_right = -337.0
 offset_bottom = 326.0
 theme_override_font_sizes/font_size = 48
-text = "Cast spell!"
+text = "Cast spell"
 script = ExtResource("2_lljjv")
 
 [node name="ManagerRepository" type="Node" parent="."]

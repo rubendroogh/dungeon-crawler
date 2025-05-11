@@ -82,47 +82,47 @@ public partial class CharacterData : Resource
     /// The base physical damage multiplier.
     /// </summary>
     [Export]
-    public float BasePhysicalDamageMultiplier { get; set; } = 0;
+    public float BasePhysicalDamageMultiplier { get; set; } = 1;
     
     /// <summary>
     /// The base dark damage multiplier.
     /// </summary>
     [Export]
-    public float BaseDarkDamageMultiplier { get; set; } = 0;
+    public float BaseDarkDamageMultiplier { get; set; } = 1;
     
     /// <summary>
     /// The base light damage multiplier.
     /// </summary>
     [Export]
-   public float BaseLightDamageMultiplier { get; set; } = 0;
+   public float BaseLightDamageMultiplier { get; set; } = 1;
    
     /// <summary>
     /// The base fire damage multiplier.
     /// </summary>
     [Export]
-    public float BaseFireDamageMultiplier { get; set; } = 0;
+    public float BaseFireDamageMultiplier { get; set; } = 1;
     
     /// <summary>
     /// The base ice damage multiplier.
     /// </summary>
     [Export]
-    public float BaseIceDamageMultiplier { get; set; } = 0;
+    public float BaseIceDamageMultiplier { get; set; } = 1;
     
     /// <summary>
     /// The base lightning damage multiplier.
     /// </summary>
     [Export]
-    public float BaseLightningDamageMultiplier { get; set; } = 0;
+    public float BaseLightningDamageMultiplier { get; set; } = 1;
     
     /// <summary>
     /// The base sanity damage multiplier.
     /// </summary>
     [Export]
-    public float BaseSanityDamageMultiplier { get; set; } = 0;
+    public float BaseSanityDamageMultiplier { get; set; } = 1;
 
     /// <summary>
     /// The base disease damage multiplier.
     /// </summary>
     [Export]
-    public float BaseDiseaseDamageMultiplier { get; set; } = 0;
+    public float BaseDiseaseDamageMultiplier { get; set; } = 1;
 }

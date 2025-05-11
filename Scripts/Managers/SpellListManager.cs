@@ -20,7 +20,8 @@ public partial class SpellListManager : Node
     /// </summary>
     private Dictionary<string, ISpellBehaviour> SpellBehaviours = new()
     {
-        { "Fireball", new FireBallBehaviour() }
+        { "Fireball", new FireBallBehaviour() },
+        { "Brain Freeze", new BrainFreezeBehaviour() },
     };
 
     public override void _Ready()
