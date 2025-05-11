@@ -22,7 +22,7 @@ public partial class CharacterData : Resource
     /// The base max health of the character.
     /// </summary>
     [Export]
-    public float MaxHealth { get; set; } = 1200;
+    public float MaxHealth { get; set; } = 120;
 
     /// <summary>
     /// 0-20 the Genuine personality stat.

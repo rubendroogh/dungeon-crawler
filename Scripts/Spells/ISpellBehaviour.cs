@@ -6,11 +6,11 @@ using System.Collections.Generic;
 public interface ISpellBehaviour
 {
     /// <summary>
-    /// Calculates the damage the spell deals using the used cards.
+    /// Casts the spell using the selected cards and the spell data. Does not apply the damage to the target.
     /// </summary>
     /// <param name="cards"></param>
     /// <param name="spellData"></param>
-    /// <returns>The damage the spell deals.</returns>
-    /// TODO: Possibly also return the healing as a touple?
-    public float CalculateTotalDamage(List<Card> cards, SpellData spellData);
+    /// <param name="target"></param>
+    /// <returns>The result of the spellcast, a list of damages, healing, and status effects.</returns>
+    public SpellCastResult Cast(List<Card> cards, SpellData spellData, Character target);
 }

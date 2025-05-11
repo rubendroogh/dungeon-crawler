@@ -32,7 +32,7 @@ public partial class Character : Node
         CharacterSprite.Texture = characterData.Image;
     }
 
-    public void TakeDamage(float damage)
+    public void Damage(float damage)
     {
         CurrentHealth -= damage;
         UpdateHealthBar();

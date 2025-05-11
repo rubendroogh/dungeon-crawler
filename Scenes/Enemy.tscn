@@ -14,7 +14,7 @@ region = Rect2(663, 255, 16, 16)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_1exfc"]
 atlas = ExtResource("3_xeo28")
-region = Rect2(204, 306, 16, 16)
+region = Rect2(136, 85, 16, 16)
 
 [node name="Enemy" type="Node2D"]
 script = ExtResource("1_wovta")

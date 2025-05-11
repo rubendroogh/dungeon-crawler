@@ -1,6 +1,5 @@
 using Godot;
 using System.Collections.Generic;
-using System.Linq;
 
 /// <summary>
 /// Manages casting of spells and current state of all related variables.
@@ -32,15 +31,16 @@ public partial class SpellCastingManager : Node
     /// <summary>
     /// The maximum number of cards that can be selected for casting a spell.
     /// </summary>
-    public int MaxSelectedCards { get; set; } = 4;
+    public int MaxSelectedCards { get; set; } = 0;
 
     /// <summary>
     /// The label that shows the currently selected cards.
     /// </summary>
-    private Label SelectedCardsLabel { get; set; }
+    [Export]
+    public Label SelectedCardsLabel { get; set; }
 
     /// <summary>
-    /// Mark the card as selected and ready to cast a spell with.
+    /// Mark the card as selected and ready to cast a spell with and updates the label.
     /// </summary>
     /// <param name="card">The card to add.</param>
     /// <returns>True if the card was added, false if the maximum number of cards is reached.</returns>
@@ -52,11 +52,12 @@ public partial class SpellCastingManager : Node
         }
 
         SelectedCards.Add(card);
+        UpdateSelectedCardsLabel();
         return true;
     }
 
     /// <summary>
-    /// Unmark the card as selected and ready to cast a spell with.
+    /// Unmark the card as selected and ready to cast a spell with and updates the label.
     /// </summary>
     /// <param name="card">The card to remove.</param>
     /// <returns>True if the card was removed, false if the card was not in the selection.</returns>
@@ -68,6 +69,7 @@ public partial class SpellCastingManager : Node
         }
 
         SelectedCards.Remove(card);
+        UpdateSelectedCardsLabel();
         return true;
     }
 
@@ -83,12 +85,9 @@ public partial class SpellCastingManager : Node
             return;
         }
 
-        ManagerRepository.BattleLogManager.AddToLog($"Selected spell: {spellData.Name}");
-        EmitSignal(SignalName.SpellSelected, spellData.Name);
-
         // TODO: Clear selected cards
-        SelectedSpell = ManagerRepository.SpellListManager.GetSpell(spellData.Name);
-        MaxSelectedCards = spellData.MaxManaCharges;
+        var selectedSpell = ManagerRepository.SpellListManager.GetSpell(spellData.Name);
+        SetSelectedSpell(selectedSpell);
     }
 
     /// <summary>
@@ -96,8 +95,19 @@ public partial class SpellCastingManager : Node
     /// </summary>
     public void SetSelectedSpell(Spell spell)
     {
+        if (spell == null)
+        {
+            GD.PrintErr("Spell is null");
+            return;
+        }
+
+        ManagerRepository.BattleLogManager.AddToLog($"Selected {spell.Data.Name}");
+        EmitSignal(SignalName.SpellSelected, spell.Data.Name);
+
         SelectedSpell = spell;
         MaxSelectedCards = spell.Data.MaxManaCharges;
+
+        UpdateSelectedCardsLabel();
     }
 
     /// <summary>
@@ -118,14 +128,22 @@ public partial class SpellCastingManager : Node
             return;
         }
 
-        var totalDamage = SelectedSpell.Behaviour.CalculateTotalDamage(SelectedCards, SelectedSpell.Data);
-        target.CurrentHealth -= totalDamage;
+        var spellCastResult = SelectedSpell.Behaviour.Cast(SelectedCards, SelectedSpell.Data, target);
 
-        ManagerRepository.BattleLogManager.AddToLog($"Cast {SelectedSpell.Data.Name} on {target.Name} for {(int)totalDamage} damage!");
+        ManagerRepository.BattleLogManager.AddToLog($"Cast {SelectedSpell.Data.Name} on {target.Name} for {(int)spellCastResult.TotalDamage} damage!");
         EmitSignal(SignalName.SpellCast);
-        SelectedCards.Clear();
 
-        // TODO: Handle all other effects of the spell
-        target.TakeDamage(totalDamage);
+        foreach (var damage in spellCastResult.Damages)
+        {
+            damage.Apply();
+        }
+    }
+
+    /// <summary>
+    /// Updates the label that shows the currently selected cards.
+    /// </summary>
+    private void UpdateSelectedCardsLabel()
+    {
+        SelectedCardsLabel.Text = $"{SelectedCards.Count}/{MaxSelectedCards} mana charges";
     }
 }

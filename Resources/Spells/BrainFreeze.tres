@@ -5,7 +5,7 @@
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_14adh"]
 atlas = ExtResource("1_cbjo1")
-region = Rect2(459, 170, 16, 16)
+region = Rect2(459, 136, 16, 16)
 
 [resource]
 script = ExtResource("1_spsgq")
@@ -20,6 +20,6 @@ BaseIceDamage = 10.0
 BaseLightningDamage = 0.0
 BaseSanityDamage = 10.0
 BaseDiseaseDamage = 0.0
-ManaCost = 4
-ModifierMultiplier = 1.01
+MaxManaCharges = 4
+ModifierMultiplier = 1.1
 metadata/_custom_type_script = "uid://d31wkdgrcylv3"

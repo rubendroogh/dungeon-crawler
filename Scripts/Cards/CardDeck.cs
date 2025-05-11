@@ -9,8 +9,8 @@ public partial class CardDeck : Node
 	public override void _Ready()
 	{
 		base._Ready();
-		InitializeFullCardDeck();
-		// InitializeCustomCardDeck();
+		// InitializeFullCardDeck();
+		InitializeCustomCardDeck();
 		InitializeCardDeckUI();
 	}
 

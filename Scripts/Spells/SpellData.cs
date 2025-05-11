@@ -63,15 +63,3 @@ public partial class SpellData : Resource
         return [.. damageTypes];
     } }
 }
-
-public enum DamageType
-{
-    Physical,
-    Dark,
-    Light,
-    Fire,
-    Ice,
-    Lightning,
-    Sanity,
-    Disease,
-}

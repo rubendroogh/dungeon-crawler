@@ -1,25 +1,35 @@
 using System.Collections.Generic;
+using Godot;
 
 /// <summary>
 /// DefaultSpellBehaviour is a default implementation of the ISpellBehaviour interface.
+/// It only uses damage types and modifiers to calculate the damage dealt by the spell, and does not apply any effects or heal.
 /// </summary>
 public partial class DefaultSpellBehaviour : ISpellBehaviour
 {
-    public virtual float CalculateTotalDamage(List<Card> cards, SpellData spellData)
+    public virtual SpellCastResult Cast(List<Card> cards, SpellData spellData, Character target)
     {
+        // Caoculate the modifier based on the cards selected
         float modifier = 1;
         foreach (var card in cards)
         {
-            modifier *= ((float)card.Rank) * spellData.ModifierMultiplier;
+            modifier *= Mathf.Pow(spellData.ModifierMultiplier, (float)card.Rank);
         }
 
+        GD.Print("Modifier: " + modifier);
+
         // Add all damage types together
-        float totalDamage = 0;
+        List<Damage> damages = new();
         foreach (var damageType in spellData.DamageTypes)
         {
-            totalDamage += CalculateDamage(damageType, modifier, spellData);
+            float damage = CalculateDamage(damageType, modifier, spellData);
+            damages.Add(new Damage(damage, damageType, target));
         }
-        return totalDamage;
+
+        return new SpellCastResult
+        {
+            Damages = damages,
+        };
     }
 
     protected float CalculateDamage(DamageType damageType, float modifier, SpellData spellData)
