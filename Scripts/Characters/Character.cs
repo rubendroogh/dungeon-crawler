@@ -20,44 +20,44 @@ public partial class Character : Node
     public CharacterData CharacterData { get; set; }
 
     /// <summary>
-    /// The current max health of the character.
+    /// The current physical damage multiplier.
     /// </summary>
-    public float CurrentPhysicalDamageMultiplier => CharacterData.BasePhysicalDamageMultiplier;
+    public float CurrentPhysicalDamageMultiplier { get; set; }
 
     /// <summary>
     /// The current dark damage multiplier.
     /// </summary>
-    public float CurrentDarkDamageMultiplier => CharacterData.BaseDarkDamageMultiplier;
+    public float CurrentDarkDamageMultiplier { get; set; }
     
     /// <summary>
     /// The current light damage multiplier.
     /// </summary>
-    public float CurrentLightDamageMultiplier => CharacterData.BaseLightDamageMultiplier;
+    public float CurrentLightDamageMultiplier { get; set; }
     
     /// <summary>
     /// The current fire damage multiplier.
     /// </summary>
-    public float CurrentFireDamageMultiplier => CharacterData.BaseFireDamageMultiplier;
+    public float CurrentFireDamageMultiplier { get; set; }
     
     /// <summary>
     /// The current ice damage multiplier.
     /// </summary>
-    public float CurrentIceDamageMultiplier => CharacterData.BaseIceDamageMultiplier;
+    public float CurrentIceDamageMultiplier { get; set; }
     
     /// <summary>
     /// The current lightning damage multiplier.
     /// </summary>
-    public float CurrentLightningDamageMultiplier => CharacterData.BaseLightningDamageMultiplier;
+    public float CurrentLightningDamageMultiplier { get; set; }
     
     /// <summary>
     /// The current sanity damage multiplier.
     /// </summary>
-    public float CurrentSanityDamageMultiplier => CharacterData.BaseSanityDamageMultiplier;
+    public float CurrentSanityDamageMultiplier { get; set; }
     
     /// <summary>
     /// The current disease damage multiplier.
     /// </summary>
-    public float CurrentDiseaseDamageMultiplier => CharacterData.BaseDiseaseDamageMultiplier;
+    public float CurrentDiseaseDamageMultiplier { get; set; }
 
     /// <summary>
     /// The sprite that represents the character.
@@ -73,7 +73,7 @@ public partial class Character : Node
     /// A dictionary of status effects applied to the character.
     /// The key is the status effect, and the value is the number of turns remaining.
     /// </summary>
-    private Dictionary<StatusEffect, int> StatusEffects { get; set; } = new();
+    private List<StatusEffect> StatusEffects { get; set; } = new();
 
     public override void _Ready()
     {
@@ -96,6 +96,16 @@ public partial class Character : Node
         HealthBar.MaxValue = characterData.MaxHealth;
         HealthBar.Value = CurrentHealth;
         CharacterSprite.Texture = characterData.Image;
+
+        // Set the current damage multipliers to the initial values
+        CurrentPhysicalDamageMultiplier = CharacterData.BasePhysicalDamageMultiplier;
+        CurrentDarkDamageMultiplier = CharacterData.BaseDarkDamageMultiplier;
+        CurrentLightDamageMultiplier = CharacterData.BaseLightDamageMultiplier;
+        CurrentFireDamageMultiplier = CharacterData.BaseFireDamageMultiplier;
+        CurrentIceDamageMultiplier = CharacterData.BaseIceDamageMultiplier;
+        CurrentLightningDamageMultiplier = CharacterData.BaseLightningDamageMultiplier;
+        CurrentSanityDamageMultiplier = CharacterData.BaseSanityDamageMultiplier;
+        CurrentDiseaseDamageMultiplier = CharacterData.BaseDiseaseDamageMultiplier;
     }
 
     /// <summary>
@@ -163,35 +173,39 @@ public partial class Character : Node
     /// <summary>
     /// Apply a status effect to the character or increase the duration for the specified turns.
     /// </summary>
-    public void ApplyEffect(StatusEffect effect, int turns)
+    public void ApplyEffect(StatusEffectType effect, int turns)
     {
-        if (StatusEffects.ContainsKey(effect))
+        if (HasEffect(effect))
         {
-            StatusEffects[effect] += turns;
+            var existingEffect = StatusEffects.Find(e => e.Type == effect);
+            existingEffect.Duration += turns;
+            ManagerRepository.BattleLogManager.AddToLog($"{CharacterData.Name} is now affected by {effect} for {existingEffect.Duration} turns.");
         }
         else
         {
-            ManagerRepository.BattleLogManager.AddToLog($"{CharacterData.Name} is affected by {effect} for {turns} turns.");
-            StatusEffects[effect] = turns;
+            var newEffect = new StatusEffect(turns, effect);
+            StatusEffects.Add(newEffect);
+            ManagerRepository.BattleLogManager.AddToLog($"{CharacterData.Name} is now affected by {effect} for {newEffect.Duration} turns.");
         }
     }
 
     /// <summary>
     /// Check if the character has a specific status effect.
     /// </summary>
-    public bool HasEffect(StatusEffect effect)
+    public bool HasEffect(StatusEffectType effect)
     {
-        return StatusEffects.ContainsKey(effect);
+        return StatusEffects.Find(e => e.Type == effect) != null;
     }
 
     /// <summary>
     /// Clear a specific status effect from the character.
     /// </summary>
-    public void ClearEffect(StatusEffect effect)
+    public void ClearEffect(StatusEffectType effect)
     {
-        if (StatusEffects.ContainsKey(effect))
+        if (StatusEffects.Find(e => e.Type == effect) != null)
         {
-            StatusEffects.Remove(effect);
+            ManagerRepository.BattleLogManager.AddToLog($"{CharacterData.Name} is no longer affected by {effect}.");
+            StatusEffects.Remove(StatusEffects.Find(e => e.Type == effect));
         }
     }
 
@@ -214,5 +228,10 @@ public partial class Character : Node
         tween.TweenProperty(HealthBar, "value", CurrentHealth, .2f)
             .SetTrans(Tween.TransitionType.Cubic)
             .SetEase(Tween.EaseType.InOut);
+    }
+
+    private void ProcessEffects()
+    {
+
     }
 }

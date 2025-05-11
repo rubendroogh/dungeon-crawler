@@ -7,16 +7,16 @@ public partial class BrainFreezeBehaviour : DefaultSpellBehaviour
         // Check if the target is frozen
         foreach (var target in targets)
         {
-            if (target.HasEffect(StatusEffect.Frozen))
+            if (target.HasEffect(StatusEffectType.Frozen))
             {
                 // If the target is frozen, apply the BrainFreeze effect
-                target.ClearEffect(StatusEffect.Frozen);
-                target.ApplyEffect(StatusEffect.BrainFreeze, 3);
+                target.ClearEffect(StatusEffectType.Frozen);
+                target.ApplyEffect(StatusEffectType.BrainFreeze, 3);
             }
             else
             {
                 // If the target is not frozen, apply the frozen effect
-                target.ApplyEffect(StatusEffect.Frozen, 2);
+                target.ApplyEffect(StatusEffectType.Frozen, 2);
             }
         }
 

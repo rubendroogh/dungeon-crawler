@@ -26,7 +26,7 @@ public partial class Damage
     /// <summary>
     /// The status effect applied by the damage.
     /// </summary>
-    public StatusEffect StatusEffect { get; set; }
+    public StatusEffectType StatusEffect { get; set; }
     
     public Damage(float damageAmount, DamageType damageType, Character target)
     {
@@ -49,7 +49,7 @@ public partial class Damage
     /// </summary>
     public void Apply()
     {
-        if (StatusEffect != StatusEffect.None)
+        if (StatusEffect != StatusEffectType.None)
         {
             // TODO: This is 2 turns for now, but it should be the duration of the effect
             Target.ApplyEffect(StatusEffect, 2);
@@ -79,13 +79,4 @@ public enum DamageSource
     Item,
     Environment,
     Character,
-}
-
-public enum StatusEffect
-{
-    None,
-    Burn,
-    Frozen,
-    Insanity,
-    BrainFreeze,
 }
