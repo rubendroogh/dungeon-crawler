@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using Godot;
 
 /// <summary>
@@ -7,23 +8,27 @@ using Godot;
 /// </summary>
 public partial class DefaultSpellBehaviour : ISpellBehaviour
 {
-    public virtual SpellCastResult Cast(List<Card> cards, SpellData spellData, Character target)
+    public virtual SpellCastResult Cast(List<Card> cards, SpellData spellData, List<Character> targets)
     {
-        // Caoculate the modifier based on the cards selected
+        if (targets == null || targets.Count == 0)
+        {
+            GD.PrintErr("No targets selected.");
+            return new SpellCastResult();
+        }
+
+        // Calculate the modifier based on the cards selected
         float modifier = 1;
         foreach (var card in cards)
         {
             modifier *= Mathf.Pow(spellData.ModifierMultiplier, (float)card.Rank);
         }
 
-        GD.Print("Modifier: " + modifier);
-
         // Add all damage types together
         List<Damage> damages = new();
         foreach (var damageType in spellData.DamageTypes)
         {
             float damage = CalculateDamage(damageType, modifier, spellData);
-            damages.Add(new Damage(damage, damageType, target));
+            damages.Add(new Damage(damage, damageType, targets.First()));
         }
 
         return new SpellCastResult

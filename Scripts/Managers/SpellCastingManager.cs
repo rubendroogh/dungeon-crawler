@@ -101,7 +101,6 @@ public partial class SpellCastingManager : Node
             return;
         }
 
-        ManagerRepository.BattleLogManager.AddToLog($"Selected {spell.Data.Name}");
         EmitSignal(SignalName.SpellSelected, spell.Data.Name);
 
         SelectedSpell = spell;
@@ -128,7 +127,7 @@ public partial class SpellCastingManager : Node
             return;
         }
 
-        var spellCastResult = SelectedSpell.Behaviour.Cast(SelectedCards, SelectedSpell.Data, target);
+        var spellCastResult = SelectedSpell.Behaviour.Cast(SelectedCards, SelectedSpell.Data, [target]);
 
         ManagerRepository.BattleLogManager.AddToLog($"Cast {SelectedSpell.Data.Name} on {target.Name} for {(int)spellCastResult.TotalDamage} damage!");
         EmitSignal(SignalName.SpellCast);
