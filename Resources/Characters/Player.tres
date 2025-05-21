@@ -1,0 +1,26 @@
+[gd_resource type="Resource" script_class="CharacterData" load_steps=2 format=3 uid="uid://cdn0d7ugm3gse"]
+
+[ext_resource type="Script" uid="uid://bu8g8lcrmtl0e" path="res://Scripts/Characters/CharacterData.cs" id="1_mx4uj"]
+
+[resource]
+script = ExtResource("1_mx4uj")
+Name = "Player"
+MaxHealth = 120.0
+BaseGenuine = 10
+BaseCharming = 10
+BaseFocused = 10
+BaseWitty = 10
+BaseOptimistic = 10
+BaseDominant = 10
+BaseFearless = 10
+BaseBenevolent = 10
+BaseIntelligent = 10
+BasePhysicalDamageMultiplier = 1.0
+BaseDarkDamageMultiplier = 1.0
+BaseLightDamageMultiplier = 1.0
+BaseFireDamageMultiplier = 1.0
+BaseIceDamageMultiplier = 1.0
+BaseLightningDamageMultiplier = 1.0
+BaseSanityDamageMultiplier = 1.0
+BaseDiseaseDamageMultiplier = 1.0
+metadata/_custom_type_script = "uid://bu8g8lcrmtl0e"

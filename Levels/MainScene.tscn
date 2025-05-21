@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://ck8p1eru6l2f4"]
+[gd_scene load_steps=17 format=3 uid="uid://ck8p1eru6l2f4"]
 
 [ext_resource type="Resource" uid="uid://b1jhmr0xq4603" path="res://Resources/Spells/FireBall.tres" id="2_hvf01"]
 [ext_resource type="Script" uid="uid://cpji6emjswl8f" path="res://Scripts/UI/CastSpellButton.cs" id="2_lljjv"]
@@ -13,6 +13,8 @@
 [ext_resource type="Script" uid="uid://ccfu4bppobwlv" path="res://Scripts/Managers/BattleManager.cs" id="8_rc4gq"]
 [ext_resource type="Script" uid="uid://87g108e3say3" path="res://Scripts/Managers/BattleLogManager.cs" id="9_4h6gp"]
 [ext_resource type="PackedScene" uid="uid://dchnspiwg3mmg" path="res://Scenes/Enemy.tscn" id="12_aw745"]
+[ext_resource type="Script" uid="uid://dgqupkb65af2g" path="res://Scripts/Characters/Character.cs" id="14_lxbb3"]
+[ext_resource type="Resource" uid="uid://cdn0d7ugm3gse" path="res://Resources/Characters/Player.tres" id="15_aw745"]
 
 [sub_resource type="Theme" id="Theme_5eubm"]
 
@@ -114,8 +116,9 @@ script = ExtResource("2_lljjv")
 [node name="ManagerRepository" type="Node" parent="."]
 script = ExtResource("4_26f67")
 
-[node name="SpellCastingManager" type="Node" parent="ManagerRepository"]
+[node name="SpellCastingManager" type="Node" parent="ManagerRepository" node_paths=PackedStringArray("SelectedCardsLabel")]
 script = ExtResource("4_safex")
+SelectedCardsLabel = NodePath("../../CardDeck/CardListPanelContainer/CardListHorizontalContainer/SelectedCardsLabelContainer/SelectedCardsLabel")
 
 [node name="SpellListManager" type="Node" parent="ManagerRepository"]
 script = ExtResource("5_26f67")
@@ -133,6 +136,10 @@ EnemyScene = ExtResource("12_aw745")
 
 [node name="EnemiesPreloader" type="ResourcePreloader" parent="ManagerRepository/BattleManager"]
 resources = [PackedStringArray("BasicEnemy"), [ExtResource("8_5eubm")]]
+
+[node name="Player" type="Node" parent="ManagerRepository/BattleManager"]
+script = ExtResource("14_lxbb3")
+CharacterData = ExtResource("15_aw745")
 
 [node name="BattleLogPanelContainer" type="PanelContainer" parent="."]
 offset_left = -231.0

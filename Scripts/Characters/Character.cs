@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using Godot;
 
 /// <summary>
@@ -18,6 +19,11 @@ public partial class Character : Node
     /// </summary>
     [Export]
     public CharacterData CharacterData { get; set; }
+
+    /// <summary>
+    /// A boolean indicating if the character is a player.
+    /// </summary>
+    public bool IsPlayer { get; set; } = false;
 
     /// <summary>
     /// The current physical damage multiplier.
@@ -151,6 +157,9 @@ public partial class Character : Node
         {
             return;
         }
+
+        ManagerRepository.BattleLogManager.AddToLog($"{CharacterData.Name} took {damage.Amount} damage from {damage.Source}.");
+        ManagerRepository.BattleLogManager.AddToLog($"Character status effects: {string.Join(", ", StatusEffects.Select(s => $"{s.Type} ({s.Duration})"))}");
 
         // TODO: make this more dynamic
         switch (damage.Type)

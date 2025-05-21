@@ -14,5 +14,8 @@ public partial class CastSpellButton : Button
         // TODO: This is a placeholder logic.
         var target = ManagerRepository.BattleManager.Characters.FirstOrDefault(x => x.Value == false).Key;
         ManagerRepository.SpellCastingManager.CastSpell(target);
+
+        // TODO: Implement proper turn management
+        ManagerRepository.BattleManager.EndTurn();
     }
 }
