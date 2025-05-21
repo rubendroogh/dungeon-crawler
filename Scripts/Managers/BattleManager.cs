@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Linq;
 using Godot;
 
@@ -9,9 +10,11 @@ public partial class BattleManager : Node
     [Export]
     public PackedScene EnemyScene { get; set; }
 
-    public Character Player { get; set; }
-
-    public Character TargetEnemy { get; set; } // This can be a list if multiple enemies are involved
+    /// <summary>
+    /// The characters involved in the battle.
+    /// The key is the character, and the value is a boolean indicating if the character is the player.
+    /// </summary>
+    public Dictionary<Character, bool> Characters { get; set; }
 
     private ResourcePreloader EnemiesPreloader;
 
@@ -70,18 +73,20 @@ public partial class BattleManager : Node
     /// <param name="enemyData">The character data.</param>
     private void SpawnEnemy(CharacterData enemyData)
     {
-        TargetEnemy = EnemyScene.Instantiate<Character>();
-        if (TargetEnemy == null)
+        var enemy = EnemyScene.Instantiate<Character>();
+        if (enemy == null)
         {
             GD.PrintErr("Failed to instantiate enemy scene.");
             return;
         }
         
-        TargetEnemy.Setup(enemyData);
-        TargetEnemy.Name = enemyData.Name;
+        enemy.Setup(enemyData);
+        enemy.Name = enemyData.Name;
         
         // Add enemy at root of the scene
-        GetTree().Root.GetNode("Root").AddChild(TargetEnemy);
+        GetTree().Root.GetNode("Root").AddChild(enemy);
+
+        Characters.Add(enemy, false);
 
         ManagerRepository.BattleLogManager.AddToLog($"{enemyData.Name} encountered!");
     }

@@ -114,9 +114,8 @@ script = ExtResource("2_lljjv")
 [node name="ManagerRepository" type="Node" parent="."]
 script = ExtResource("4_26f67")
 
-[node name="SpellCastingManager" type="Node" parent="ManagerRepository" node_paths=PackedStringArray("SelectedCardsLabel")]
+[node name="SpellCastingManager" type="Node" parent="ManagerRepository"]
 script = ExtResource("4_safex")
-SelectedCardsLabel = NodePath("../../CardDeck/CardListPanelContainer/CardListHorizontalContainer/SelectedCardsLabelContainer/SelectedCardsLabel")
 
 [node name="SpellListManager" type="Node" parent="ManagerRepository"]
 script = ExtResource("5_26f67")

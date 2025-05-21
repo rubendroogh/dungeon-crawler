@@ -1,3 +1,4 @@
+using System.Linq;
 using Godot;
 
 public partial class CastSpellButton : Button
@@ -9,7 +10,9 @@ public partial class CastSpellButton : Button
 
     public void OnPressed()
     {
-        var target = ManagerRepository.BattleManager.TargetEnemy;
+        // Get the first character that is not the player
+        // TODO: This is a placeholder logic.
+        var target = ManagerRepository.BattleManager.Characters.FirstOrDefault(x => x.Value == false).Key;
         ManagerRepository.SpellCastingManager.CastSpell(target);
     }
 }

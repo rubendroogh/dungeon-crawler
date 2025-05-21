@@ -109,6 +109,39 @@ public partial class Character : Node
     }
 
     /// <summary>
+    /// Process the effects at the start of the opponent's turn.
+    /// </summary>
+    public void StartTurn()
+    {
+        // Process the effects at the start of the turn
+        foreach (var effect in StatusEffects)
+        {
+            effect.Behaviour.ProcessEffectStartTurn(this);
+        }
+    }
+
+    /// <summary>
+    /// Process the effects at the end of the opponent's turn.
+    /// </summary>
+    public void EndTurn()
+    {
+        foreach (var effect in StatusEffects)
+        {
+            effect.Duration--;
+            if (effect.Duration <= 0)
+            {
+                ClearEffect(effect.Type);
+            }
+        }
+
+        // Process the effects at the end of the turn
+        foreach (var effect in StatusEffects)
+        {
+            effect.Behaviour.ProcessEffectEndTurn(this);
+        }
+    }
+
+    /// <summary>
     /// Damage the character. Take into account the weaknesses and resistances of the character.
     /// </summary>
     /// <param name="damage"></param>
@@ -221,7 +254,7 @@ public partial class Character : Node
     /// <summary>
     /// Update the health bar to reflect the current health of the character.
     /// </summary>
-    public void UpdateHealthBar()
+    private void UpdateHealthBar()
     {
         var tween = CreateTween();
         // Animate the rotation smoothly over 0.2 seconds
