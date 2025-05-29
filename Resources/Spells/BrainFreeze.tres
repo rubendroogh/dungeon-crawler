@@ -10,7 +10,7 @@ region = Rect2(459, 136, 16, 16)
 [resource]
 script = ExtResource("1_spsgq")
 Name = "Brain Freeze"
-Description = "Causes a splitting headache by cooling down the target's brain. Even stronger when target is already frozen."
+Description = "Causes a splitting headache by freezing the target's brain. Even stronger when target is already frozen."
 Image = SubResource("AtlasTexture_14adh")
 BasePhysicalDamage = 0.0
 BaseDarkDamage = 0.0

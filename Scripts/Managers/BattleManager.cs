@@ -94,6 +94,22 @@ public partial class BattleManager : Node
     }
 
     /// <summary>
+    /// Starts a new turn phase from a specific phase.
+    /// It only changes the phase if the provided phase is the current phase.
+    /// </summary>
+    public void StartNewTurnPhaseFrom(TurnPhase phase)
+    {
+        if (CurrentTurnPhase == phase)
+        {
+            StartNewTurnPhase();
+        }
+        else
+        {
+            GD.PrintErr($"Cannot start new turn phase from {phase}. Current phase is {CurrentTurnPhase}.");
+        }
+    }
+
+    /// <summary>
     /// Advances the turn flow by processing the current turn phase.
     /// </summary>
     private void AdvanceTurnFlow()
@@ -125,6 +141,15 @@ public partial class BattleManager : Node
             case TurnPhase.Main:
                 break;
             case TurnPhase.Damage:
+                // This phase is where attacks are resolved and damage is calculated.
+                // Loop through the queued spells and attacks.
+                foreach (var spell in ManagerRepository.SpellCastingManager.SpellQueue)
+                {
+                    ManagerRepository.SpellCastingManager.CastSpell(spell);
+                }
+                
+                // Clear the spell queue after processing
+                ManagerRepository.SpellCastingManager.SpellQueue.Clear();
                 break;
             case TurnPhase.End:
                 currentCharacter.EndTurn();
@@ -227,8 +252,11 @@ public partial class BattleManager : Node
         
         // Add enemy at root of the scene
         GetTree().Root.GetNode("Root").AddChild(enemy);
-
         Characters.Add(enemy, false);
+
+        // Set the enemy as the selected target for spell casting
+        // TODO We want to add target selection logic later
+        ManagerRepository.SpellCastingManager.SelectedTarget = enemy;
 
         ManagerRepository.BattleLogManager.AddToLog($"{enemyData.Name} encountered!");
     }

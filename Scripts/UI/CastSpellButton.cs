@@ -9,12 +9,6 @@ public partial class CastSpellButton : Button
 
     public void OnPressed()
     {
-        if (ManagerRepository.BattleManager.CurrentTurnPhase != TurnPhase.Main)
-        {
-            GD.PrintErr("Cannot cast a spell outside of the Main phase.");
-            return;
-        }
-
-        ManagerRepository.BattleManager.StartNewTurnPhase();
+        ManagerRepository.BattleManager.StartNewTurnPhaseFrom(TurnPhase.Main);
     }
 }

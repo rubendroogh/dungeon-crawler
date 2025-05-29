@@ -43,7 +43,7 @@ public partial class SpellCastingManager : Node
     /// The queue of spells to be cast.
     /// This is used to manage spells that are queued for casting, allowing for multiple spells to be cast in a single turn.
     /// </summary>
-    public List<SpellQueueEntry> SpellQueue { get; } = [];
+    public List<SpellQueueEntry> SpellQueue { get; } = []; // TODO implement spell queueing per character
 
     /// <summary>
     /// The currently selected target for the spell.
@@ -137,26 +137,19 @@ public partial class SpellCastingManager : Node
     }
 
     /// <summary>
-    /// Cast the currently selected spell using the currently selected cards.
+    /// Casts the selected spell using the selected cards and target.
     /// </summary>
-    /// <param name="target">The chosen target.</param>
-    public void CastSpell(Character target)
+    public void CastSpell(SpellQueueEntry spell)
     {
-        if (SelectedCards.Count == 0)
+        if (spell.Spell == null)
         {
-            ManagerRepository.BattleLogManager.AddToLog("No cards selected.");
+            ManagerRepository.BattleLogManager.AddToLog("No spell selected to cast.");
             return;
         }
 
-        if (SelectedSpell == null)
-        {
-            ManagerRepository.BattleLogManager.AddToLog("No spell selected.");
-            return;
-        }
+        var spellCastResult = SelectedSpell.Behaviour.Cast(spell.Cards, spell.Spell.Data, [spell.Target]);
 
-        var spellCastResult = SelectedSpell.Behaviour.Cast(SelectedCards, SelectedSpell.Data, [target]);
-
-        ManagerRepository.BattleLogManager.AddToLog($"Cast {SelectedSpell.Data.Name} on {target.Name} for {(int)spellCastResult.TotalDamage} damage!");
+        ManagerRepository.BattleLogManager.AddToLog($"Cast {spell.Spell.Data.Name} on {spell.Target.Name} for {(int)spellCastResult.TotalDamage} damage!");
         EmitSignal(SignalName.SpellCast);
 
         foreach (var damage in spellCastResult.Damages)
