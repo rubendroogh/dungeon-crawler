@@ -1,4 +1,3 @@
-using System.Linq;
 using Godot;
 
 public partial class CastSpellButton : Button
@@ -10,12 +9,12 @@ public partial class CastSpellButton : Button
 
     public void OnPressed()
     {
-        // Get the first character that is not the player
-        // TODO: This is a placeholder logic.
-        var target = ManagerRepository.BattleManager.Characters.FirstOrDefault(x => x.Value == false).Key;
-        ManagerRepository.SpellCastingManager.CastSpell(target);
+        if (ManagerRepository.BattleManager.CurrentTurnPhase != TurnPhase.Main)
+        {
+            GD.PrintErr("Cannot cast a spell outside of the Main phase.");
+            return;
+        }
 
-        // TODO: Implement proper turn management
-        ManagerRepository.BattleManager.EndTurn();
+        ManagerRepository.BattleManager.StartNewTurnPhase();
     }
 }

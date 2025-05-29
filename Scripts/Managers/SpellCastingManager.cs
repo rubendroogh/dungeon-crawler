@@ -40,6 +40,17 @@ public partial class SpellCastingManager : Node
     public Label SelectedCardsLabel { get; set; }
 
     /// <summary>
+    /// The queue of spells to be cast.
+    /// This is used to manage spells that are queued for casting, allowing for multiple spells to be cast in a single turn.
+    /// </summary>
+    public List<SpellQueueEntry> SpellQueue { get; } = [];
+
+    /// <summary>
+    /// The currently selected target for the spell.
+    /// </summary>
+    public Character SelectedTarget { get; set; }
+
+    /// <summary>
     /// Mark the card as selected and ready to cast a spell with and updates the label.
     /// </summary>
     /// <param name="card">The card to add.</param>
@@ -110,6 +121,22 @@ public partial class SpellCastingManager : Node
     }
 
     /// <summary>
+    /// Adds a spell to the queue for casting.
+    /// </summary>
+    public void AddSpellToQueue(Spell spell, List<Card> cards, Character target)
+    {
+        if (spell == null || cards == null || target == null)
+        {
+            GD.PrintErr("Invalid parameters for adding spell to queue.");
+            return;
+        }
+
+        var entry = new SpellQueueEntry(spell, cards, target);
+        SpellQueue.Add(entry);
+        ManagerRepository.BattleLogManager.AddToLog($"Queued {spell.Data.Name} with {cards.Count} cards for {target.Name}.");
+    }
+
+    /// <summary>
     /// Cast the currently selected spell using the currently selected cards.
     /// </summary>
     /// <param name="target">The chosen target.</param>
@@ -144,5 +171,19 @@ public partial class SpellCastingManager : Node
     private void UpdateSelectedCardsLabel()
     {
         SelectedCardsLabel.Text = $"{SelectedCards.Count}/{MaxSelectedCards} mana charges";
+    }
+}
+
+public class SpellQueueEntry
+{
+    public Spell Spell { get; }
+    public List<Card> Cards { get; }
+    public Character Target { get; }
+
+    public SpellQueueEntry(Spell spell, List<Card> cards, Character target)
+    {
+        Spell = spell;
+        Cards = cards;
+        Target = target;
     }
 }

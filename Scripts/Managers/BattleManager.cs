@@ -17,9 +17,16 @@ public partial class BattleManager : Node
     public Dictionary<Character, bool> Characters { get; set; }
 
     /// <summary>
-    /// The resource preloader for enemies.
+    /// Used to determine the current phase of the turn (e.g., Start, Main, Damage, PostCombat, End).
+    /// Cannot be set directly; it is updated automatically as the turn progresses.
     /// </summary>
-    private ResourcePreloader EnemiesPreloader;
+    public TurnPhase CurrentTurnPhase { get; private set; } = TurnPhase.Start;
+    
+    /// <summary>
+    /// Indicates whether the turn phase has been processed.
+    /// This is used to ensure that the turn phase is processed only once per turn.
+    /// </summary>
+    private bool TurnPhaseProcessed { get; set; } = false;
 
     /// <summary>
     /// The current turn number.
@@ -27,9 +34,9 @@ public partial class BattleManager : Node
     private int CurrentTurn { get; set; } = 0;
 
     /// <summary>
-    /// Used to determine the current phase of the turn (e.g., Start, Main, Damage, PostCombat, End).
+    /// The resource preloader for enemies.
     /// </summary>
-    private TurnPhase CurrentTurnPhase { get; set; } = TurnPhase.Start;
+    private ResourcePreloader EnemiesPreloader;
 
     public override void _Ready()
     {
@@ -43,6 +50,11 @@ public partial class BattleManager : Node
         CallDeferred(nameof(InitializeBattle));
     }
 
+    public override void _Process(double delta)
+    {
+        AdvanceTurnFlow();
+    }
+
     /// <summary>
     /// Initializes the battle by setting up the characters and spawning a random enemy.
     /// The battle starts with the player's turn.
@@ -54,7 +66,6 @@ public partial class BattleManager : Node
             { GetNode<Character>("Player"), true }
         };
         SpawnRandomEnemy();
-
         StartNewTurn();
     }
 
@@ -69,20 +80,39 @@ public partial class BattleManager : Node
     {
         CurrentTurn++;
         CurrentTurnPhase = TurnPhase.Start;
+    }
 
-        // Get the character whose turn it is
-        var currentCharacter = GetCurrentCharacter();
-        if (currentCharacter == null)
-        {
-            GD.PrintErr("No current character found.");
-            return;
-        }
+    /// <summary>
+    /// Starts a new turn phase and processes it for the current character.
+    /// This method is called automatically after the current turn phase is completed.
+    /// </summary>
+    public void StartNewTurnPhase()
+    {
+        CurrentTurnPhase++;
+        TurnPhaseProcessed = false;
+        ManagerRepository.BattleLogManager.AddToLog($"Turn {CurrentTurn} - Phase: {CurrentTurnPhase}");
+    }
+
+    /// <summary>
+    /// Advances the turn flow by processing the current turn phase.
+    /// </summary>
+    private void AdvanceTurnFlow()
+    {
+        if (TurnPhaseProcessed) return;
 
         ProcessTurnPhase();
+        TurnPhaseProcessed = true;
+
+        // If phase requires immediate progression, handle it here.
+        if (ShouldAutoAdvancePhase(CurrentTurnPhase))
+        {
+            StartNewTurnPhase();
+        }
     }
 
     /// <summary>
     /// Processes the current turn phase for the character whose turn it is.
+    /// This contains the logic for each phase of the turn.
     /// </summary>
     private void ProcessTurnPhase()
     {
@@ -92,24 +122,16 @@ public partial class BattleManager : Node
             case TurnPhase.Start:
                 currentCharacter.StartTurn();
                 break;
+            case TurnPhase.Main:
+                break;
+            case TurnPhase.Damage:
+                break;
             case TurnPhase.End:
                 currentCharacter.EndTurn();
                 break;
-        }
-
-        StartNewTurnPhase();
-    }
-
-    /// <summary>
-    /// Starts a new turn phase.
-    /// This method is called at the end of each turn phase.
-    /// </summary>
-    private void StartNewTurnPhase()
-    {
-        CurrentTurnPhase++;
-        if (CurrentTurnPhase > TurnPhase.End)
-        {
-            EndTurn();
+            case TurnPhase.PostEnd:
+                EndTurn();
+                break;
         }
     }
 
@@ -117,7 +139,7 @@ public partial class BattleManager : Node
     /// This method is called when the current character's turn ends.
     /// It resets the turn phase and moves to the next character's turn.
     /// </summary>
-    private void EndTurn()
+    public void EndTurn()
     {
         MoveToNextCharacter();
         StartNewTurn();
@@ -128,7 +150,18 @@ public partial class BattleManager : Node
     /// </summary>
     private Character GetCurrentCharacter()
     {
-        return Characters.FirstOrDefault(c => c.Value).Key;
+        // If no character is currently set, return the first character in the dictionary
+        var currentCharacter = Characters.FirstOrDefault(c => c.Value).Key ?? Characters.FirstOrDefault().Key;        
+        return currentCharacter;
+    }
+
+    /// <summary>
+    /// Checks if the current phase should auto-advance to the next phase.
+    /// </summary>
+    private bool ShouldAutoAdvancePhase(TurnPhase phase)
+    {
+        // Only auto-advance phases that are automatic
+        return phase != TurnPhase.Main;
     }
 
     /// <summary>
@@ -218,17 +251,23 @@ public enum TurnPhase
     Main,
     /// <summary>
     /// The damage phase of the turn.
-    /// Attacks are resolved and damage is calculated.
+    /// Attacks are resolved and damage is calculated and applied.
     /// </summary>
     Damage,
     /// <summary>
     /// The post-combat phase of the turn.
     /// Status effects are resolved and characters can heal or use items.
+    /// Note: This phase is currently not implemented.
     /// </summary>
-    PostCombat,
+    // PostCombat,
     /// <summary>
     /// The end phase of the turn.
     /// Status effects are resolved and the turn ends.
     /// </summary>
-    End
+    End,
+    /// <summary>
+    /// The post-end phase of the turn.
+    /// Reaching this phase indicates that the turn has ended and the next turn will start.
+    /// </summary>
+    PostEnd
 }

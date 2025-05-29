@@ -1,6 +1,7 @@
-[gd_scene load_steps=17 format=3 uid="uid://ck8p1eru6l2f4"]
+[gd_scene load_steps=18 format=3 uid="uid://ck8p1eru6l2f4"]
 
 [ext_resource type="Resource" uid="uid://b1jhmr0xq4603" path="res://Resources/Spells/FireBall.tres" id="2_hvf01"]
+[ext_resource type="Script" uid="uid://b40v7nngruesy" path="res://Scripts/UI/AddSpellToQueueButton.cs" id="2_irpm1"]
 [ext_resource type="Script" uid="uid://cpji6emjswl8f" path="res://Scripts/UI/CastSpellButton.cs" id="2_lljjv"]
 [ext_resource type="Script" uid="uid://bb2xw40m0q3sm" path="res://Scripts/Cards/CardDeck.cs" id="3_hvf01"]
 [ext_resource type="Script" uid="uid://c0p2vud0ydmne" path="res://Scripts/Managers/ManagerRepository.cs" id="4_26f67"]
@@ -103,6 +104,15 @@ horizontal_alignment = 1
 custom_minimum_size = Vector2(0, 10)
 layout_mode = 2
 size_flags_vertical = 3
+
+[node name="AddSpellToQueue" type="Button" parent="."]
+offset_left = -569.0
+offset_top = 142.0
+offset_right = -333.0
+offset_bottom = 223.0
+theme_override_font_sizes/font_size = 48
+text = "Add to queue"
+script = ExtResource("2_irpm1")
 
 [node name="CastSpell" type="Button" parent="."]
 offset_left = -573.0
