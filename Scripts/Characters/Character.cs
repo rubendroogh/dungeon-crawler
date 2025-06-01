@@ -26,44 +26,52 @@ public partial class Character : Node
     public bool IsPlayer { get; set; } = false;
 
     /// <summary>
-    /// The current physical damage multiplier.
+    /// The current physical damage modifiers.
+    /// It is a list of damage modifiers that is applied to the character's physical damage.
     /// </summary>
-    public float CurrentPhysicalDamageMultiplier { get; set; }
+    public List<DamageModifier> PhysicalDamageModifiers { get; set; }
 
     /// <summary>
-    /// The current dark damage multiplier.
+    /// The current dark damage modifiers.
+    /// It is a list of damage modifiers that is applied to the character's dark damage.
     /// </summary>
-    public float CurrentDarkDamageMultiplier { get; set; }
-    
+    public List<DamageModifier> DarkDamageModifiers { get; set; }
+
     /// <summary>
-    /// The current light damage multiplier.
+    /// The current light damage modifiers.
+    /// It is a list of damage modifiers that is applied to the character's light damage.
     /// </summary>
-    public float CurrentLightDamageMultiplier { get; set; }
-    
+    public List<DamageModifier> LightDamageModifiers { get; set; }
+
     /// <summary>
-    /// The current fire damage multiplier.
+    /// The current fire damage modifiers.
+    /// It is a list of damage modifiers that is applied to the character's fire damage.
     /// </summary>
-    public float CurrentFireDamageMultiplier { get; set; }
-    
+    public List<DamageModifier> FireDamageModifiers { get; set; }
+
     /// <summary>
-    /// The current ice damage multiplier.
+    /// The current ice damage modifiers.
+    /// It is a list of damage modifiers that is applied to the character's ice damage.
     /// </summary>
-    public float CurrentIceDamageMultiplier { get; set; }
-    
+    public List<DamageModifier> IceDamageModifiers { get; set; }
+
     /// <summary>
-    /// The current lightning damage multiplier.
+    /// The current lightning damage modifiers.
+    /// It is a list of damage modifiers that is applied to the character's lightning damage.
     /// </summary>
-    public float CurrentLightningDamageMultiplier { get; set; }
-    
+    public List<DamageModifier> LightningDamageModifiers { get; set; }
+
     /// <summary>
-    /// The current sanity damage multiplier.
+    /// The current sanity damage modifiers.
+    /// It is a list of damage modifiers that is applied to the character's sanity damage.
     /// </summary>
-    public float CurrentSanityDamageMultiplier { get; set; }
-    
+    public List<DamageModifier> SanityDamageModifiers { get; set; }
+
     /// <summary>
-    /// The current disease damage multiplier.
+    /// The current disease damage modifiers.
+    /// It is a list of damage modifiers that is applied to the character's disease damage.
     /// </summary>
-    public float CurrentDiseaseDamageMultiplier { get; set; }
+    public List<DamageModifier> DiseaseDamageModifiers { get; set; }
 
     /// <summary>
     /// The sprite that represents the character.
@@ -104,14 +112,14 @@ public partial class Character : Node
         CharacterSprite.Texture = characterData.Image;
 
         // Set the current damage multipliers to the initial values
-        CurrentPhysicalDamageMultiplier = CharacterData.BasePhysicalDamageMultiplier;
-        CurrentDarkDamageMultiplier = CharacterData.BaseDarkDamageMultiplier;
-        CurrentLightDamageMultiplier = CharacterData.BaseLightDamageMultiplier;
-        CurrentFireDamageMultiplier = CharacterData.BaseFireDamageMultiplier;
-        CurrentIceDamageMultiplier = CharacterData.BaseIceDamageMultiplier;
-        CurrentLightningDamageMultiplier = CharacterData.BaseLightningDamageMultiplier;
-        CurrentSanityDamageMultiplier = CharacterData.BaseSanityDamageMultiplier;
-        CurrentDiseaseDamageMultiplier = CharacterData.BaseDiseaseDamageMultiplier;
+        PhysicalDamageModifiers.Add(new DamageModifier(DamageModifierType.Multiplicative, CharacterData.BasePhysicalDamageMultiplier));
+        DarkDamageModifiers.Add(new DamageModifier(DamageModifierType.Multiplicative, CharacterData.BaseDarkDamageMultiplier));
+        LightDamageModifiers.Add(new DamageModifier(DamageModifierType.Multiplicative, CharacterData.BaseLightDamageMultiplier));
+        FireDamageModifiers.Add(new DamageModifier(DamageModifierType.Multiplicative, CharacterData.BaseFireDamageMultiplier));
+        IceDamageModifiers.Add(new DamageModifier(DamageModifierType.Multiplicative, CharacterData.BaseIceDamageMultiplier));
+        LightningDamageModifiers.Add(new DamageModifier(DamageModifierType.Multiplicative, CharacterData.BaseLightningDamageMultiplier));
+        SanityDamageModifiers.Add(new DamageModifier(DamageModifierType.Multiplicative, CharacterData.BaseSanityDamageMultiplier));
+        DiseaseDamageModifiers.Add(new DamageModifier(DamageModifierType.Multiplicative, CharacterData.BaseDiseaseDamageMultiplier));
     }
 
     /// <summary>
@@ -165,28 +173,28 @@ public partial class Character : Node
         switch (damage.Type)
         {
             case DamageType.Physical:
-                CurrentHealth -= damage.Amount * CurrentPhysicalDamageMultiplier;
+                CurrentHealth -= CalculateModifiedDamage(damage.Amount, PhysicalDamageModifiers);
                 break;
             case DamageType.Dark:
-                CurrentHealth -= damage.Amount * CurrentDarkDamageMultiplier;
+                CurrentHealth -= CalculateModifiedDamage(damage.Amount, DarkDamageModifiers);
                 break;
             case DamageType.Light:
-                CurrentHealth -= damage.Amount * CurrentLightDamageMultiplier;
+                CurrentHealth -= CalculateModifiedDamage(damage.Amount, LightDamageModifiers);
                 break;
             case DamageType.Fire:
-                CurrentHealth -= damage.Amount * CurrentFireDamageMultiplier;
+                CurrentHealth -= CalculateModifiedDamage(damage.Amount, FireDamageModifiers);
                 break;
             case DamageType.Ice:
-                CurrentHealth -= damage.Amount * CurrentIceDamageMultiplier;
+                CurrentHealth -= CalculateModifiedDamage(damage.Amount, IceDamageModifiers);
                 break;
             case DamageType.Lightning:
-                CurrentHealth -= damage.Amount * CurrentLightningDamageMultiplier;
+                CurrentHealth -= CalculateModifiedDamage(damage.Amount, LightningDamageModifiers);
                 break;
             case DamageType.Sanity:
-                CurrentHealth -= damage.Amount * CurrentSanityDamageMultiplier;
+                CurrentHealth -= CalculateModifiedDamage(damage.Amount, SanityDamageModifiers);
                 break;
             case DamageType.Disease:
-                CurrentHealth -= damage.Amount * CurrentDiseaseDamageMultiplier;
+                CurrentHealth -= CalculateModifiedDamage(damage.Amount, DiseaseDamageModifiers);
                 break;
         }
 
@@ -252,6 +260,32 @@ public partial class Character : Node
     }
 
     /// <summary>
+    /// Calculate the modified damage based on the base damage and the list of damage modifiers.
+    /// </summary>
+    private float CalculateModifiedDamage(float baseDamage, List<DamageModifier> modifiers)
+    {
+        float modifiedDamage = baseDamage;
+
+        foreach (var modifier in modifiers)
+        {
+            switch (modifier.Type)
+            {
+                case DamageModifierType.Additive:
+                    modifiedDamage += modifier.Value;
+                    break;
+                case DamageModifierType.Multiplicative:
+                    modifiedDamage *= modifier.Value;
+                    break;
+                case DamageModifierType.Percentage:
+                    modifiedDamage *= 1 + modifier.Value / 100f;
+                    break;
+            }
+        }
+
+        return modifiedDamage;
+    }
+
+    /// <summary>
     /// Kill the character.
     /// This method should be called when the character's health reaches 0 or when some instant death effect is applied.
     /// </summary>
@@ -276,4 +310,40 @@ public partial class Character : Node
     {
 
     }
+}
+
+/// <summary>
+/// A modifier that can be applied to the damage dealt by a character.
+/// </summary>
+public class DamageModifier
+{
+    public DamageModifierType Type { get; set; }
+
+    public float Value { get; set; }
+
+    public DamageModifier(DamageModifierType type, float value)
+    {
+        Type = type;
+        Value = value;
+    }
+}
+
+/// <summary>
+/// The type of damage modifier.
+/// This enum defines the different types of damage modifiers that can be applied to a character's damage.
+/// </summary>
+public enum DamageModifierType
+{
+    /// <summary>
+    /// An additive modifier that adds a fixed amount to the damage.
+    /// </summary>
+    Additive,
+    /// <summary>
+    /// A multiplicative modifier that multiplies the damage by a factor.
+    /// </summary>
+    Multiplicative,
+    /// <summary>
+    /// A percentage modifier that applies a percentage increase or decrease to the damage.
+    /// </summary>
+    Percentage,
 }
