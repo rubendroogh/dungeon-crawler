@@ -235,6 +235,7 @@ public partial class Character : Node
         {
             var newEffect = new StatusEffect(turns, effect);
             StatusEffects.Add(newEffect);
+            newEffect.Behaviour.ProcessEffectStartTurn(this);
             ManagerRepository.BattleLogManager.AddToLog($"{CharacterData.Name} is now affected by {effect} for {newEffect.Duration} turns.");
         }
     }
@@ -252,11 +253,15 @@ public partial class Character : Node
     /// </summary>
     public void ClearEffect(StatusEffectType effect)
     {
-        if (StatusEffects.Find(e => e.Type == effect) != null)
+        var existingEffect = StatusEffects.Find(e => e.Type == effect);
+        if (existingEffect == null)
         {
-            ManagerRepository.BattleLogManager.AddToLog($"{CharacterData.Name} is no longer affected by {effect}.");
-            StatusEffects.Remove(StatusEffects.Find(e => e.Type == effect));
+            return;
         }
+        
+        existingEffect.Behaviour.ProcessEffectOnRemove(this);
+        StatusEffects.Remove(existingEffect);
+        ManagerRepository.BattleLogManager.AddToLog($"{CharacterData.Name} is no longer affected by {effect}.");
     }
 
     /// <summary>
@@ -305,45 +310,4 @@ public partial class Character : Node
             .SetTrans(Tween.TransitionType.Cubic)
             .SetEase(Tween.EaseType.InOut);
     }
-
-    private void ProcessEffects()
-    {
-
-    }
-}
-
-/// <summary>
-/// A modifier that can be applied to the damage dealt by a character.
-/// </summary>
-public class DamageModifier
-{
-    public DamageModifierType Type { get; set; }
-
-    public float Value { get; set; }
-
-    public DamageModifier(DamageModifierType type, float value)
-    {
-        Type = type;
-        Value = value;
-    }
-}
-
-/// <summary>
-/// The type of damage modifier.
-/// This enum defines the different types of damage modifiers that can be applied to a character's damage.
-/// </summary>
-public enum DamageModifierType
-{
-    /// <summary>
-    /// An additive modifier that adds a fixed amount to the damage.
-    /// </summary>
-    Additive,
-    /// <summary>
-    /// A multiplicative modifier that multiplies the damage by a factor.
-    /// </summary>
-    Multiplicative,
-    /// <summary>
-    /// A percentage modifier that applies a percentage increase or decrease to the damage.
-    /// </summary>
-    Percentage,
 }
