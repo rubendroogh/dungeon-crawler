@@ -59,8 +59,6 @@ public partial class CardDeck : Node
 		{
 			new Card { Rank = Rank.Two, Suit = Suit.Hearts },
 			new Card { Rank = Rank.Two, Suit = Suit.Spades },
-			new Card { Rank = Rank.Two, Suit = Suit.Diamonds },
-			new Card { Rank = Rank.Two, Suit = Suit.Clubs },
 			new Card { Rank = Rank.Three, Suit = Suit.Hearts },
 			new Card { Rank = Rank.Three, Suit = Suit.Spades },
 			new Card { Rank = Rank.Three, Suit = Suit.Diamonds },

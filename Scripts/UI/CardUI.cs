@@ -37,7 +37,7 @@ public partial class CardUI : TextureRect
     private void InitializeCustomSignals()
     {
         var spellCastingManager = ManagerRepository.SpellCastingManager;
-        spellCastingManager.SpellCast += OnSpellCast;
+        spellCastingManager.SpellQueued += OnSpellQueued;
     }
 
     public override void _GuiInput(InputEvent @event)
@@ -71,7 +71,7 @@ public partial class CardUI : TextureRect
         }
     }
 
-    private void OnSpellCast()
+    private void OnSpellQueued()
     {
         // Handle the spell cast event
         if (!IsSelected)

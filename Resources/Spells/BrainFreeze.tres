@@ -20,6 +20,6 @@ BaseIceDamage = 8.0
 BaseLightningDamage = 0.0
 BaseSanityDamage = 8.0
 BaseDiseaseDamage = 0.0
-MaxManaCharges = 4
+MaxManaCharges = 2
 ModifierMultiplier = 1.1
 metadata/_custom_type_script = "uid://d31wkdgrcylv3"

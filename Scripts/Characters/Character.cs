@@ -84,6 +84,11 @@ public partial class Character : Node
     private TextureProgressBar HealthBar { get; set; }
 
     /// <summary>
+    /// A label that shows the status effects applied to the character.
+    /// </summary>
+    private Label StatusEffectLabel { get; set; }
+
+    /// <summary>
     /// A dictionary of status effects applied to the character.
     /// The key is the status effect, and the value is the number of turns remaining.
     /// </summary>
@@ -107,6 +112,7 @@ public partial class Character : Node
 
         CharacterSprite = GetNode<Sprite2D>("CharacterSprite");
         HealthBar = GetNode<TextureProgressBar>("HealthBar");
+        StatusEffectLabel = GetNode<Label>("StatusEffectsLabel");
         HealthBar.MaxValue = characterData.MaxHealth;
         HealthBar.Value = CurrentHealth;
         CharacterSprite.Texture = characterData.Image;
@@ -153,53 +159,62 @@ public partial class Character : Node
         {
             effect.Behaviour.ProcessEffectEndTurn(this);
         }
+
+        UpdateStatusEffectLabel();
     }
 
     /// <summary>
     /// Damage the character. Take into account the weaknesses and resistances of the character.
     /// </summary>
     /// <param name="damage"></param>
-    public void Damage(Damage damage)
+    public int Damage(Damage damage)
     {
         if (damage.Amount <= 0)
         {
-            return;
+            return 0;
         }
+
+        var totalDamage = 0f;
 
         // TODO: make this more dynamic
         switch (damage.Type)
         {
             case DamageType.Physical:
-                CurrentHealth -= CalculateModifiedDamage(damage.Amount, PhysicalDamageModifiers);
+                totalDamage += CalculateModifiedDamage(damage.Amount, PhysicalDamageModifiers);
                 break;
             case DamageType.Dark:
-                CurrentHealth -= CalculateModifiedDamage(damage.Amount, DarkDamageModifiers);
+                totalDamage += CalculateModifiedDamage(damage.Amount, DarkDamageModifiers);
                 break;
             case DamageType.Light:
-                CurrentHealth -= CalculateModifiedDamage(damage.Amount, LightDamageModifiers);
+                totalDamage += CalculateModifiedDamage(damage.Amount, LightDamageModifiers);
                 break;
             case DamageType.Fire:
-                CurrentHealth -= CalculateModifiedDamage(damage.Amount, FireDamageModifiers);
+                totalDamage += CalculateModifiedDamage(damage.Amount, FireDamageModifiers);
                 break;
             case DamageType.Ice:
-                CurrentHealth -= CalculateModifiedDamage(damage.Amount, IceDamageModifiers);
+                totalDamage += CalculateModifiedDamage(damage.Amount, IceDamageModifiers);
                 break;
             case DamageType.Lightning:
-                CurrentHealth -= CalculateModifiedDamage(damage.Amount, LightningDamageModifiers);
+                totalDamage += CalculateModifiedDamage(damage.Amount, LightningDamageModifiers);
                 break;
             case DamageType.Sanity:
-                CurrentHealth -= CalculateModifiedDamage(damage.Amount, SanityDamageModifiers);
+                totalDamage += CalculateModifiedDamage(damage.Amount, SanityDamageModifiers);
                 break;
             case DamageType.Disease:
-                CurrentHealth -= CalculateModifiedDamage(damage.Amount, DiseaseDamageModifiers);
+                totalDamage += CalculateModifiedDamage(damage.Amount, DiseaseDamageModifiers);
                 break;
         }
+
+        // Apply the total damage to the character's health
+        CurrentHealth -= totalDamage;
 
         UpdateHealthBar();
         if (CurrentHealth <= 0)
         {
             Die();
         }
+
+        return (int)totalDamage;
     }
 
     /// <summary>
@@ -226,15 +241,15 @@ public partial class Character : Node
         {
             var existingEffect = StatusEffects.Find(e => e.Type == effect);
             existingEffect.Duration += turns;
-            ManagerRepository.BattleLogManager.Log($"{CharacterData.Name} is now affected by {effect} for {existingEffect.Duration} turns.");
         }
         else
         {
             var newEffect = new StatusEffect(turns, effect);
             StatusEffects.Add(newEffect);
             newEffect.Behaviour.ProcessEffectOnApply(this);
-            ManagerRepository.BattleLogManager.Log($"{CharacterData.Name} is now affected by {effect} for {newEffect.Duration} turns.");
         }
+
+        UpdateStatusEffectLabel();
     }
 
     /// <summary>
@@ -255,10 +270,11 @@ public partial class Character : Node
         {
             return;
         }
-        
+
         existingEffect.Behaviour.ProcessEffectOnRemove(this);
         StatusEffects.Remove(existingEffect);
-        ManagerRepository.BattleLogManager.Log($"{CharacterData.Name} is no longer affected by {effect}.");
+
+        UpdateStatusEffectLabel();
     }
 
     /// <summary>
@@ -306,5 +322,23 @@ public partial class Character : Node
         tween.TweenProperty(HealthBar, "value", CurrentHealth, .2f)
             .SetTrans(Tween.TransitionType.Cubic)
             .SetEase(Tween.EaseType.InOut);
+    }
+
+    /// <summary>
+    /// Update the status effect label to show the current status effects and their durations.
+    /// </summary>
+    protected virtual void UpdateStatusEffectLabel()
+    {
+        if (StatusEffectLabel == null)
+        {
+            GD.PrintErr("StatusEffectLabel is not set up in the scene.");
+            return;
+        }
+
+        StatusEffectLabel.Text = string.Join(", ", StatusEffects.Select(e => $"{e.Type} ({e.Duration})"));
+        if (StatusEffects.Count == 0)
+        {
+            StatusEffectLabel.Text = "No status effects";
+        }
     }
 }

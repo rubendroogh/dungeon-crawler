@@ -47,7 +47,7 @@ public partial class Damage
     /// <summary>
     /// Applies the damage to the target.
     /// </summary>
-    public void Apply()
+    public int Apply()
     {
         if (StatusEffect != StatusEffectType.None)
         {
@@ -55,7 +55,7 @@ public partial class Damage
             Target.ApplyEffect(StatusEffect, 2);
         }
 
-        Target.Damage(this);
+        return Target.Damage(this);
     }
 }
 

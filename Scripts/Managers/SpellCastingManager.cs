@@ -10,7 +10,7 @@ public partial class SpellCastingManager : Node
     /// Signal that is emitted when a spell is cast.
     /// </summary>
     [Signal]
-    public delegate void SpellCastEventHandler();
+    public delegate void SpellQueuedEventHandler();
 
     /// <summary>
     /// Signal that is emitted when a spell is selected.
@@ -131,9 +131,10 @@ public partial class SpellCastingManager : Node
             return;
         }
 
-        var entry = new SpellQueueEntry(spell, cards, target);
+        var entry = new SpellQueueEntry(spell, [.. cards], target);
         SpellQueue.Add(entry);
         ManagerRepository.BattleLogManager.Log($"Queued {spell.Data.Name} with {cards.Count} cards for {target.Name}.");
+        EmitSignal(SignalName.SpellQueued);
     }
 
     /// <summary>
@@ -161,14 +162,13 @@ public partial class SpellCastingManager : Node
 
         // TODO: Implement multitarget spells
         var spellCastResult = SelectedSpell.Behaviour.Cast(spellQueueEntry.Cards, spellQueueEntry.Spell.Data, [spellQueueEntry.Target]);
-
-        ManagerRepository.BattleLogManager.Log($"Cast {spellQueueEntry.Spell.Data.Name} on {spellQueueEntry.Target.Name} for {(int)spellCastResult.TotalDamage} damage!");
-        EmitSignal(SignalName.SpellCast);
-
+        var totalDamage = 0f;
         foreach (var damage in spellCastResult.Damages)
         {
-            damage.Apply();
+            totalDamage += damage.Apply();
         }
+
+        ManagerRepository.BattleLogManager.Log($"Cast {spellQueueEntry.Spell.Data.Name} on {spellQueueEntry.Target.Name} for {totalDamage} damage.");
     }
 
     /// <summary>

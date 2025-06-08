@@ -17,7 +17,7 @@ public partial class DefaultSpellBehaviour : ISpellBehaviour
         }
 
         // Calculate the modifier based on the cards selected
-        float modifier = 1;
+        float modifier = 1f;
         foreach (var card in cards)
         {
             modifier *= Mathf.Pow(spellData.ModifierMultiplier, (float)card.Rank);

@@ -106,21 +106,21 @@ layout_mode = 2
 size_flags_vertical = 3
 
 [node name="AddSpellToQueue" type="Button" parent="."]
-offset_left = -569.0
-offset_top = 142.0
-offset_right = -333.0
-offset_bottom = 223.0
+offset_left = -572.0
+offset_top = 224.0
+offset_right = -336.0
+offset_bottom = 270.0
 theme_override_font_sizes/font_size = 48
 text = "Add to queue"
 script = ExtResource("2_irpm1")
 
 [node name="CastSpell" type="Button" parent="."]
-offset_left = -573.0
-offset_top = 245.0
-offset_right = -337.0
-offset_bottom = 326.0
+offset_left = -572.0
+offset_top = 274.0
+offset_right = -336.0
+offset_bottom = 320.0
 theme_override_font_sizes/font_size = 48
-text = "Cast spell"
+text = "Cast queue"
 script = ExtResource("2_lljjv")
 
 [node name="ManagerRepository" type="Node" parent="."]
@@ -150,6 +150,15 @@ resources = [PackedStringArray("BasicEnemy"), [ExtResource("8_5eubm")]]
 [node name="Player" type="Node" parent="ManagerRepository/BattleManager"]
 script = ExtResource("14_lxbb3")
 CharacterData = ExtResource("15_aw745")
+
+[node name="TurnPanelContainer" type="PanelContainer" parent="ManagerRepository/BattleManager"]
+offset_left = 376.0
+offset_top = 270.0
+offset_right = 572.0
+offset_bottom = 319.0
+
+[node name="TurnLabel" type="Label" parent="ManagerRepository/BattleManager/TurnPanelContainer"]
+layout_mode = 2
 
 [node name="BattleLogPanelContainer" type="PanelContainer" parent="."]
 offset_left = -231.0

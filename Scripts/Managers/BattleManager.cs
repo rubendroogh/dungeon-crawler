@@ -38,9 +38,15 @@ public partial class BattleManager : Node
     /// </summary>
     private ResourcePreloader EnemiesPreloader;
 
+    /// <summary>
+    /// The label that displays the current turn number and phase.
+    /// </summary>
+    private Label TurnLabel;
+
     public override void _Ready()
     {
         EnemiesPreloader = GetNode<ResourcePreloader>("EnemiesPreloader");
+        TurnLabel = GetNode<Label>("TurnPanelContainer/TurnLabel");
         if (EnemiesPreloader == null)
         {
             GD.PrintErr("EnemiesPreloader not found in the scene.");
@@ -90,7 +96,7 @@ public partial class BattleManager : Node
     {
         CurrentTurnPhase++;
         TurnPhaseProcessed = false;
-        ManagerRepository.BattleLogManager.Log($"Turn {CurrentTurn} - Phase: {CurrentTurnPhase}");
+        TurnLabel.Text = $"Turn {CurrentTurn} - Phase: {CurrentTurnPhase}";
     }
 
     /// <summary>
@@ -165,7 +171,6 @@ public partial class BattleManager : Node
         // But let's first make it work for the player
         foreach (var spellEntry in ManagerRepository.SpellCastingManager.SpellQueue)
         {
-            // BattleTurn() -> CastSpell(spellEntry) -> Behaviour.Cast -> ApplyDamage()
             ManagerRepository.SpellCastingManager.CastSpell(spellEntry);
         }
         
