@@ -110,7 +110,8 @@ public partial class BattleManager : Node
     }
 
     /// <summary>
-    /// Advances the turn flow by processing the current turn phase.
+    /// Advances the turn flow by processing the current turn phase and then starting the next one.
+    /// Sets a flag to ensure turns are not 
     /// </summary>
     private void AdvanceTurnFlow()
     {
@@ -141,15 +142,7 @@ public partial class BattleManager : Node
             case TurnPhase.Main:
                 break;
             case TurnPhase.Damage:
-                // This phase is where attacks are resolved and damage is calculated.
-                // Loop through the queued spells and attacks.
-                foreach (var spell in ManagerRepository.SpellCastingManager.SpellQueue)
-                {
-                    ManagerRepository.SpellCastingManager.CastSpell(spell);
-                }
-                
-                // Clear the spell queue after processing
-                ManagerRepository.SpellCastingManager.SpellQueue.Clear();
+                BattleTurn();
                 break;
             case TurnPhase.End:
                 currentCharacter.EndTurn();
@@ -161,10 +154,30 @@ public partial class BattleManager : Node
     }
 
     /// <summary>
+    /// Processes the battle turn. It executes logic from queued spells or attacks
+    /// and makes sure the state is correctly preserved.
+    /// </summary>
+    private void BattleTurn()
+    {
+        // This phase is where attacks are resolved and damage is calculated.
+        // Loop through the queued spells and attacks.
+        // TODO: It now uses the spellqueue, but it needs to be character-specific
+        // But let's first make it work for the player
+        foreach (var spellEntry in ManagerRepository.SpellCastingManager.SpellQueue)
+        {
+            // BattleTurn() -> CastSpell(spellEntry) -> Behaviour.Cast -> ApplyDamage()
+            ManagerRepository.SpellCastingManager.CastSpell(spellEntry);
+        }
+        
+        // Clear the spell queue after processing
+        ManagerRepository.SpellCastingManager.SpellQueue.Clear();
+    }
+
+    /// <summary>
     /// This method is called when the current character's turn ends.
     /// It resets the turn phase and moves to the next character's turn.
     /// </summary>
-    public void EndTurn()
+    private void EndTurn()
     {
         MoveToNextCharacter();
         StartNewTurn();

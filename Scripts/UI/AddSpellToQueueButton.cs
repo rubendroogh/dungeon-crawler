@@ -29,7 +29,7 @@ public partial class AddSpellToQueueButton : Button
         ManagerRepository.SpellCastingManager.AddSpellToQueue(selectedSpell, selectedCards, target);
         ManagerRepository.BattleLogManager.AddToLog($"Added {selectedSpell.Data.Name} to the spell queue with {selectedCards.Count} cards for {target.Name}.");
 
-        // Unselect the cards after adding to the queue
+        // TODO Unselect the cards after adding to the queue
         // ManagerRepository.SpellCastingManager.ClearSelectedCards();
     }
 }

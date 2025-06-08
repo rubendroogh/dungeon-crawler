@@ -47,7 +47,7 @@ public partial class StatusEffect
     private Dictionary<StatusEffectType, IStatusEffectBehaviour> StatusEffectBehaviours = new()
     {
         { StatusEffectType.Frozen, new FrozenStatusEffectBehaviour() },
-        // { StatusEffectType.BrainFreeze, new BrainFreezeStatusEffectBehaviour() },
+        { StatusEffectType.BrainFreeze, new BrainFreezeStatusEffectBehaviour() },
     };
 }
 

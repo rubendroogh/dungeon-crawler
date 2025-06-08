@@ -29,49 +29,49 @@ public partial class Character : Node
     /// The current physical damage modifiers.
     /// It is a list of damage modifiers that is applied to the character's physical damage.
     /// </summary>
-    public List<DamageModifier> PhysicalDamageModifiers { get; set; }
+    public List<DamageModifier> PhysicalDamageModifiers { get; set; } = new();
 
     /// <summary>
     /// The current dark damage modifiers.
     /// It is a list of damage modifiers that is applied to the character's dark damage.
     /// </summary>
-    public List<DamageModifier> DarkDamageModifiers { get; set; }
+    public List<DamageModifier> DarkDamageModifiers { get; set; } = new();
 
     /// <summary>
     /// The current light damage modifiers.
     /// It is a list of damage modifiers that is applied to the character's light damage.
     /// </summary>
-    public List<DamageModifier> LightDamageModifiers { get; set; }
+    public List<DamageModifier> LightDamageModifiers { get; set; } = new();
 
     /// <summary>
     /// The current fire damage modifiers.
     /// It is a list of damage modifiers that is applied to the character's fire damage.
     /// </summary>
-    public List<DamageModifier> FireDamageModifiers { get; set; }
+    public List<DamageModifier> FireDamageModifiers { get; set; } = new();
 
     /// <summary>
     /// The current ice damage modifiers.
     /// It is a list of damage modifiers that is applied to the character's ice damage.
     /// </summary>
-    public List<DamageModifier> IceDamageModifiers { get; set; }
+    public List<DamageModifier> IceDamageModifiers { get; set; } = new();
 
     /// <summary>
     /// The current lightning damage modifiers.
     /// It is a list of damage modifiers that is applied to the character's lightning damage.
     /// </summary>
-    public List<DamageModifier> LightningDamageModifiers { get; set; }
+    public List<DamageModifier> LightningDamageModifiers { get; set; } = new();
 
     /// <summary>
     /// The current sanity damage modifiers.
     /// It is a list of damage modifiers that is applied to the character's sanity damage.
     /// </summary>
-    public List<DamageModifier> SanityDamageModifiers { get; set; }
+    public List<DamageModifier> SanityDamageModifiers { get; set; } = new();
 
     /// <summary>
     /// The current disease damage modifiers.
     /// It is a list of damage modifiers that is applied to the character's disease damage.
     /// </summary>
-    public List<DamageModifier> DiseaseDamageModifiers { get; set; }
+    public List<DamageModifier> DiseaseDamageModifiers { get; set; } = new();
 
     /// <summary>
     /// The sprite that represents the character.
@@ -166,9 +166,6 @@ public partial class Character : Node
             return;
         }
 
-        ManagerRepository.BattleLogManager.AddToLog($"{CharacterData.Name} took {damage.Amount} damage from {damage.Source}.");
-        ManagerRepository.BattleLogManager.AddToLog($"Character status effects: {string.Join(", ", StatusEffects.Select(s => $"{s.Type} ({s.Duration})"))}");
-
         // TODO: make this more dynamic
         switch (damage.Type)
         {
@@ -235,7 +232,7 @@ public partial class Character : Node
         {
             var newEffect = new StatusEffect(turns, effect);
             StatusEffects.Add(newEffect);
-            newEffect.Behaviour.ProcessEffectStartTurn(this);
+            newEffect.Behaviour.ProcessEffectOnApply(this);
             ManagerRepository.BattleLogManager.AddToLog($"{CharacterData.Name} is now affected by {effect} for {newEffect.Duration} turns.");
         }
     }

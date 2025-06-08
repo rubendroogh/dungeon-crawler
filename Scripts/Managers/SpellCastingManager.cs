@@ -147,6 +147,19 @@ public partial class SpellCastingManager : Node
             return;
         }
 
+        if (spell.Target == null)
+        {
+            ManagerRepository.BattleLogManager.AddToLog($"No target selected for {spell.Spell.Data.Name}.");
+            return;
+        }
+
+        if (spell.Cards.Count > spell.Spell.Data.MaxManaCharges)
+        {
+            ManagerRepository.BattleLogManager.AddToLog($"Cannot cast {spell.Spell.Data.Name} with {spell.Cards.Count} cards. Maximum is {spell.Spell.Data.MaxManaCharges}.");
+            return;
+        }
+
+        // TODO: Implement multitarget spells
         var spellCastResult = SelectedSpell.Behaviour.Cast(spell.Cards, spell.Spell.Data, [spell.Target]);
 
         ManagerRepository.BattleLogManager.AddToLog($"Cast {spell.Spell.Data.Name} on {spell.Target.Name} for {(int)spellCastResult.TotalDamage} damage!");
