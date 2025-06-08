@@ -226,14 +226,14 @@ public partial class Character : Node
         {
             var existingEffect = StatusEffects.Find(e => e.Type == effect);
             existingEffect.Duration += turns;
-            ManagerRepository.BattleLogManager.AddToLog($"{CharacterData.Name} is now affected by {effect} for {existingEffect.Duration} turns.");
+            ManagerRepository.BattleLogManager.Log($"{CharacterData.Name} is now affected by {effect} for {existingEffect.Duration} turns.");
         }
         else
         {
             var newEffect = new StatusEffect(turns, effect);
             StatusEffects.Add(newEffect);
             newEffect.Behaviour.ProcessEffectOnApply(this);
-            ManagerRepository.BattleLogManager.AddToLog($"{CharacterData.Name} is now affected by {effect} for {newEffect.Duration} turns.");
+            ManagerRepository.BattleLogManager.Log($"{CharacterData.Name} is now affected by {effect} for {newEffect.Duration} turns.");
         }
     }
 
@@ -258,7 +258,7 @@ public partial class Character : Node
         
         existingEffect.Behaviour.ProcessEffectOnRemove(this);
         StatusEffects.Remove(existingEffect);
-        ManagerRepository.BattleLogManager.AddToLog($"{CharacterData.Name} is no longer affected by {effect}.");
+        ManagerRepository.BattleLogManager.Log($"{CharacterData.Name} is no longer affected by {effect}.");
     }
 
     /// <summary>
@@ -293,7 +293,7 @@ public partial class Character : Node
     /// </summary>
     private void Die()
     {
-        ManagerRepository.BattleLogManager.AddToLog($"{CharacterData.Name} has died.");
+        ManagerRepository.BattleLogManager.Log($"{CharacterData.Name} has died.");
     }
 
     /// <summary>

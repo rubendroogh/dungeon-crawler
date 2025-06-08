@@ -27,7 +27,7 @@ public partial class AddSpellToQueueButton : Button
         var target = ManagerRepository.SpellCastingManager.SelectedTarget;
 
         ManagerRepository.SpellCastingManager.AddSpellToQueue(selectedSpell, selectedCards, target);
-        ManagerRepository.BattleLogManager.AddToLog($"Added {selectedSpell.Data.Name} to the spell queue with {selectedCards.Count} cards for {target.Name}.");
+        ManagerRepository.BattleLogManager.Log($"Added {selectedSpell.Data.Name} to the spell queue with {selectedCards.Count} cards for {target.Name}.");
 
         // TODO Unselect the cards after adding to the queue
         // ManagerRepository.SpellCastingManager.ClearSelectedCards();

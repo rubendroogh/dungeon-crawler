@@ -133,36 +133,36 @@ public partial class SpellCastingManager : Node
 
         var entry = new SpellQueueEntry(spell, cards, target);
         SpellQueue.Add(entry);
-        ManagerRepository.BattleLogManager.AddToLog($"Queued {spell.Data.Name} with {cards.Count} cards for {target.Name}.");
+        ManagerRepository.BattleLogManager.Log($"Queued {spell.Data.Name} with {cards.Count} cards for {target.Name}.");
     }
 
     /// <summary>
     /// Casts the selected spell using the selected cards and target.
     /// </summary>
-    public void CastSpell(SpellQueueEntry spell)
+    public void CastSpell(SpellQueueEntry spellQueueEntry)
     {
-        if (spell.Spell == null)
+        if (spellQueueEntry.Spell == null)
         {
-            ManagerRepository.BattleLogManager.AddToLog("No spell selected to cast.");
+            ManagerRepository.BattleLogManager.Log("No spell selected to cast.");
             return;
         }
 
-        if (spell.Target == null)
+        if (spellQueueEntry.Target == null)
         {
-            ManagerRepository.BattleLogManager.AddToLog($"No target selected for {spell.Spell.Data.Name}.");
+            ManagerRepository.BattleLogManager.Log($"No target selected for {spellQueueEntry.Spell.Data.Name}.");
             return;
         }
 
-        if (spell.Cards.Count > spell.Spell.Data.MaxManaCharges)
+        if (spellQueueEntry.Cards.Count > spellQueueEntry.Spell.Data.MaxManaCharges)
         {
-            ManagerRepository.BattleLogManager.AddToLog($"Cannot cast {spell.Spell.Data.Name} with {spell.Cards.Count} cards. Maximum is {spell.Spell.Data.MaxManaCharges}.");
+            ManagerRepository.BattleLogManager.Log($"Cannot cast {spellQueueEntry.Spell.Data.Name} with {spellQueueEntry.Cards.Count} cards. Maximum is {spellQueueEntry.Spell.Data.MaxManaCharges}.");
             return;
         }
 
         // TODO: Implement multitarget spells
-        var spellCastResult = SelectedSpell.Behaviour.Cast(spell.Cards, spell.Spell.Data, [spell.Target]);
+        var spellCastResult = SelectedSpell.Behaviour.Cast(spellQueueEntry.Cards, spellQueueEntry.Spell.Data, [spellQueueEntry.Target]);
 
-        ManagerRepository.BattleLogManager.AddToLog($"Cast {spell.Spell.Data.Name} on {spell.Target.Name} for {(int)spellCastResult.TotalDamage} damage!");
+        ManagerRepository.BattleLogManager.Log($"Cast {spellQueueEntry.Spell.Data.Name} on {spellQueueEntry.Target.Name} for {(int)spellCastResult.TotalDamage} damage!");
         EmitSignal(SignalName.SpellCast);
 
         foreach (var damage in spellCastResult.Damages)
@@ -180,6 +180,9 @@ public partial class SpellCastingManager : Node
     }
 }
 
+/// <summary>
+/// Represents an entry in the spell queue.
+/// </summary>
 public class SpellQueueEntry
 {
     public Spell Spell { get; }

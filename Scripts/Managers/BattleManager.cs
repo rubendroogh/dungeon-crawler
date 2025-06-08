@@ -90,7 +90,7 @@ public partial class BattleManager : Node
     {
         CurrentTurnPhase++;
         TurnPhaseProcessed = false;
-        ManagerRepository.BattleLogManager.AddToLog($"Turn {CurrentTurn} - Phase: {CurrentTurnPhase}");
+        ManagerRepository.BattleLogManager.Log($"Turn {CurrentTurn} - Phase: {CurrentTurnPhase}");
     }
 
     /// <summary>
@@ -271,7 +271,7 @@ public partial class BattleManager : Node
         // TODO We want to add target selection logic later
         ManagerRepository.SpellCastingManager.SelectedTarget = enemy;
 
-        ManagerRepository.BattleLogManager.AddToLog($"{enemyData.Name} encountered!");
+        ManagerRepository.BattleLogManager.Log($"{enemyData.Name} encountered!");
     }
 }
 

@@ -19,7 +19,7 @@ public partial class BattleLogManager : Node
         BattleLog = GetNode<RichTextLabel>("../../BattleLogPanelContainer/MarginContainer/BattleLog");
     }
 
-    public void AddToLog(string message)
+    public void Log(string message)
     {
         // Logic to add a message to the battle log
         BattleLog.AppendText(message + "\n");
