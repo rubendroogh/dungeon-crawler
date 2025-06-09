@@ -161,7 +161,7 @@ public partial class SpellCastingManager : Node
         }
 
         // TODO: Implement multitarget spells
-        var spellCastResult = SelectedSpell.Behaviour.Cast(spellQueueEntry.Cards, spellQueueEntry.Spell.Data, [spellQueueEntry.Target]);
+        var spellCastResult = spellQueueEntry.Spell.Behaviour.Cast(spellQueueEntry.Cards, spellQueueEntry.Spell.Data, [spellQueueEntry.Target]);
         var totalDamage = 0f;
         foreach (var damage in spellCastResult.Damages)
         {
