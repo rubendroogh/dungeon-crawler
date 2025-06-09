@@ -283,7 +283,6 @@ public partial class Character : Node
     private float CalculateModifiedDamage(float baseDamage, List<DamageModifier> modifiers)
     {
         float modifiedDamage = baseDamage;
-
         foreach (var modifier in modifiers)
         {
             switch (modifier.Type)
