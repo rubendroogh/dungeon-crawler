@@ -36,8 +36,7 @@ public partial class CardUI : TextureRect
 
     private void InitializeCustomSignals()
     {
-        var spellCastingManager = ManagerRepository.SpellCastingManager;
-        spellCastingManager.SpellQueued += OnSpellQueued;
+        ManagerRepository.BattleManager.GetPlayer().SpellQueued += OnSpellQueued;
     }
 
     public override void _GuiInput(InputEvent @event)
@@ -49,7 +48,7 @@ public partial class CardUI : TextureRect
                 // Handle click event
                 if (IsSelected)
                 {
-                    var isCardRemoved = ManagerRepository.SpellCastingManager.RemoveCardFromSelection(Card);
+                    var isCardRemoved = ManagerRepository.ActionManager.RemoveCardFromSelection(Card);
                     if (isCardRemoved)
                     {
                         IsSelected = false;
@@ -59,7 +58,7 @@ public partial class CardUI : TextureRect
                 }
                 else
                 {
-                    var isCardAdded = ManagerRepository.SpellCastingManager.AddCardToSelection(Card);
+                    var isCardAdded = ManagerRepository.ActionManager.AddCardToSelection(Card);
                     if (isCardAdded)
                     {
                         IsSelected = true;
@@ -71,9 +70,12 @@ public partial class CardUI : TextureRect
         }
     }
 
+    /// <summary>
+    /// Called when any spell is queued.
+    /// This is used to disable the card UI and grey it out after a spell using it is queued.
+    /// </summary>
     private void OnSpellQueued()
     {
-        // Handle the spell cast event
         if (!IsSelected)
         {
             return;
@@ -91,7 +93,7 @@ public partial class CardUI : TextureRect
         MouseEntered -= OnMouseEntered;
         MouseExited -= OnMouseExited;
         // Remove the card from the selection
-        ManagerRepository.SpellCastingManager.RemoveCardFromSelection(Card);
+        ManagerRepository.ActionManager.RemoveCardFromSelection(Card);
     }
 
     private void SetPivot()

@@ -12,5 +12,5 @@ public interface ISpellBehaviour
     /// <param name="spellData"></param>
     /// <param name="target"></param>
     /// <returns>The result of the spellcast, a list of damages, healing, and status effects.</returns>
-    public SpellCastResult Cast(List<Card> cards, SpellData spellData, List<Character> targets);
+    public DamagePacket Cast(List<Card> cards, ActionData spellData, List<Character> targets);
 }

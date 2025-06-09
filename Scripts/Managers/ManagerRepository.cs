@@ -6,7 +6,7 @@ using Godot;
 /// </summary>
 public partial class ManagerRepository : Node
 {
-    public static SpellCastingManager SpellCastingManager { get; set; }
+    public static ActionManager ActionManager { get; set; }
 
     public static SpellListManager SpellListManager { get; set; }
 
@@ -16,7 +16,7 @@ public partial class ManagerRepository : Node
 
     public override void _Ready()
     {
-        SpellCastingManager = GetNode<SpellCastingManager>("SpellCastingManager");
+        ActionManager = GetNode<ActionManager>("ActionManager");
         SpellListManager = GetNode<SpellListManager>("SpellListManager");
         BattleLogManager = GetNode<BattleLogManager>("BattleLogManager");
         BattleManager = GetNode<BattleManager>("BattleManager");

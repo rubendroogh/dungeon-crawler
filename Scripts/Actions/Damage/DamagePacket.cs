@@ -4,7 +4,7 @@ using System.Linq;
 /// <summary>
 /// SpellCastResult is a class that represents the result of a spell cast.
 /// </summary>
-public partial class SpellCastResult
+public partial class DamagePacket
 {
     /// <summary>
     /// The list of damages dealt by the spell.

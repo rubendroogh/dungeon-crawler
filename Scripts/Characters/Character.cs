@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Godot;
@@ -72,6 +73,12 @@ public partial class Character : Node
     /// It is a list of damage modifiers that is applied to the character's disease damage.
     /// </summary>
     public List<DamageModifier> DiseaseDamageModifiers { get; set; } = new();
+
+    /// <summary>
+    /// The action queue for the character.
+    /// This queue contains the actions that the character will perform in the next damage phase.
+    /// </summary>
+    public List<ActionQueueEntry> ActionQueue { get; set; } = new();
 
     /// <summary>
     /// The sprite that represents the character.
@@ -275,6 +282,26 @@ public partial class Character : Node
         StatusEffects.Remove(existingEffect);
 
         UpdateStatusEffectLabel();
+    }
+
+    /// <summary>
+    /// Queue an action for the character to perform in the next damage phase.
+    /// </summary>
+    /// <param name="action">The action to queue.</param>
+    public virtual void QueueAction(Spell spell, Character target, List<Card> cards = null)
+    {
+        if (spell == null || target == null)
+        {
+            GD.PrintErr("Invalid parameters for adding action to queue.");
+            return;
+        }
+
+        // Ensure the cards list is not null
+        cards ??= [];
+
+        var entry = new ActionQueueEntry(spell, [.. cards], target);
+        ActionQueue.Add(entry);
+        ManagerRepository.BattleLogManager.Log($"Queued {spell.Data.Name} with {cards.Count} cards for {target.Name}.");
     }
 
     /// <summary>

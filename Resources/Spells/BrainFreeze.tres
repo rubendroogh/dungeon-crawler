@@ -1,7 +1,7 @@
 [gd_resource type="Resource" script_class="SpellData" load_steps=4 format=3 uid="uid://cn6ie7edpvr5j"]
 
 [ext_resource type="Texture2D" uid="uid://csjt8ylrgdkbj" path="res://Resources/Atlasses/TileAtlas.tres" id="1_cbjo1"]
-[ext_resource type="Script" uid="uid://d31wkdgrcylv3" path="res://Scripts/Spells/SpellData.cs" id="1_spsgq"]
+[ext_resource type="Script" uid="uid://d31wkdgrcylv3" path="res://Scripts/Actions/ActionData.cs" id="1_spsgq"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_14adh"]
 atlas = ExtResource("1_cbjo1")

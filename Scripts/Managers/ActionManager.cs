@@ -2,16 +2,10 @@ using Godot;
 using System.Collections.Generic;
 
 /// <summary>
-/// Manages casting of spells and current state of all related variables.
+/// Manages casting of spells, handling of actions, and current state of all related variables.
 /// </summary>
-public partial class SpellCastingManager : Node
+public partial class ActionManager : Node
 {
-    /// <summary>
-    /// Signal that is emitted when a spell is cast.
-    /// </summary>
-    [Signal]
-    public delegate void SpellQueuedEventHandler();
-
     /// <summary>
     /// Signal that is emitted when a spell is selected.
     /// </summary>
@@ -24,7 +18,8 @@ public partial class SpellCastingManager : Node
     public List<Card> SelectedCards { get; } = [];
 
     /// <summary>
-    /// The spell to cast.
+    /// The currently selected spell.
+    /// This is the spell that is currently being prepared for queueing.
     /// </summary>
     public Spell SelectedSpell { get; set; }
 
@@ -43,7 +38,7 @@ public partial class SpellCastingManager : Node
     /// The queue of spells to be cast.
     /// This is used to manage spells that are queued for casting, allowing for multiple spells to be cast in a single turn.
     /// </summary>
-    public List<SpellQueueEntry> SpellQueue { get; } = []; // TODO implement spell queueing per character
+    public List<ActionQueueEntry> ActionQueue { get; } = []; // TODO implement spell queueing per character
 
     /// <summary>
     /// The currently selected target for the spell.
@@ -88,7 +83,7 @@ public partial class SpellCastingManager : Node
     /// Set the currently selected spell.
     /// This method creates a new Spell instance using the provided SpellData and a default spell behavior.
     /// </summary>
-    public void SetSelectedSpell(SpellData spellData)
+    public void SetSelectedSpell(ActionData spellData)
     {
         if (spellData == null)
         {
@@ -121,26 +116,9 @@ public partial class SpellCastingManager : Node
     }
 
     /// <summary>
-    /// Adds a spell to the queue for casting.
-    /// </summary>
-    public void AddSpellToQueue(Spell spell, List<Card> cards, Character target)
-    {
-        if (spell == null || cards == null || target == null)
-        {
-            GD.PrintErr("Invalid parameters for adding spell to queue.");
-            return;
-        }
-
-        var entry = new SpellQueueEntry(spell, [.. cards], target);
-        SpellQueue.Add(entry);
-        ManagerRepository.BattleLogManager.Log($"Queued {spell.Data.Name} with {cards.Count} cards for {target.Name}.");
-        EmitSignal(SignalName.SpellQueued);
-    }
-
-    /// <summary>
     /// Casts the selected spell using the selected cards and target.
     /// </summary>
-    public void CastSpell(SpellQueueEntry spellQueueEntry)
+    public void CastSpell(ActionQueueEntry spellQueueEntry)
     {
         if (spellQueueEntry.Spell == null)
         {
@@ -177,22 +155,5 @@ public partial class SpellCastingManager : Node
     private void UpdateSelectedCardsLabel()
     {
         SelectedCardsLabel.Text = $"{SelectedCards.Count}/{MaxSelectedCards} mana charges";
-    }
-}
-
-/// <summary>
-/// Represents an entry in the spell queue.
-/// </summary>
-public class SpellQueueEntry
-{
-    public Spell Spell { get; }
-    public List<Card> Cards { get; }
-    public Character Target { get; }
-
-    public SpellQueueEntry(Spell spell, List<Card> cards, Character target)
-    {
-        Spell = spell;
-        Cards = cards;
-        Target = target;
     }
 }

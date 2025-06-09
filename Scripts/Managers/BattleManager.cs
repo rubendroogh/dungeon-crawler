@@ -62,17 +62,12 @@ public partial class BattleManager : Node
     }
 
     /// <summary>
-    /// Initializes the battle by setting up the characters and spawning a random enemy.
-    /// The battle starts with the player's turn.
+    /// Gets the player character from the scene.
+    /// This method is used to access the player character for actions such as casting spells or attacking.
     /// </summary>
-    private void InitializeBattle()
+    public Player GetPlayer()
     {
-        Characters = new Dictionary<Character, bool>
-        {
-            { GetNode<Character>("Player"), true }
-        };
-        SpawnRandomEnemy();
-        StartNewTurn();
+        return GetNode<Player>("Player");
     }
 
     /// <summary>
@@ -116,6 +111,20 @@ public partial class BattleManager : Node
     }
 
     /// <summary>
+    /// Initializes the battle by setting up the characters and spawning a random enemy.
+    /// The battle starts with the player's turn.
+    /// </summary>
+    private void InitializeBattle()
+    {
+        Characters = new Dictionary<Character, bool>
+        {
+            { GetNode<Character>("Player"), true }
+        };
+        SpawnRandomEnemy();
+        StartNewTurn();
+    }
+
+    /// <summary>
     /// Advances the turn flow by processing the current turn phase and then starting the next one.
     /// Sets a flag to ensure turns are not 
     /// </summary>
@@ -148,7 +157,7 @@ public partial class BattleManager : Node
             case TurnPhase.Main:
                 break;
             case TurnPhase.Damage:
-                BattleTurn();
+                DamagePhase();
                 break;
             case TurnPhase.End:
                 currentCharacter.EndTurn();
@@ -160,22 +169,26 @@ public partial class BattleManager : Node
     }
 
     /// <summary>
-    /// Processes the battle turn. It executes logic from queued spells or attacks
+    /// Processes the damage phase. It executes logic from queued spells or attacks
     /// and makes sure the state is correctly preserved.
     /// </summary>
-    private void BattleTurn()
+    private void DamagePhase()
     {
-        // This phase is where attacks are resolved and damage is calculated.
-        // Loop through the queued spells and attacks.
-        // TODO: It now uses the spellqueue, but it needs to be character-specific
-        // But let's first make it work for the player
-        foreach (var spellEntry in ManagerRepository.SpellCastingManager.SpellQueue)
+        // var queue = GetCurrentCharacter().ActionQueue;
+        var queue = GetPlayer().ActionQueue;
+        if (queue.Count == 0)
         {
-            ManagerRepository.SpellCastingManager.CastSpell(spellEntry);
+            GD.Print("No actions in the queue for the current character.");
+            return;
+        }
+
+        foreach (var actionEntry in queue)
+        {
+            ManagerRepository.ActionManager.CastSpell(actionEntry);
         }
         
         // Clear the spell queue after processing
-        ManagerRepository.SpellCastingManager.SpellQueue.Clear();
+        queue.Clear();
     }
 
     /// <summary>
@@ -274,7 +287,7 @@ public partial class BattleManager : Node
 
         // Set the enemy as the selected target for spell casting
         // TODO We want to add target selection logic later
-        ManagerRepository.SpellCastingManager.SelectedTarget = enemy;
+        ManagerRepository.ActionManager.SelectedTarget = enemy;
 
         ManagerRepository.BattleLogManager.Log($"{enemyData.Name} encountered!");
     }

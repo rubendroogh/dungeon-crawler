@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using Godot;
 
 [GlobalClass] // Makes it creatable from the "New Resource" menu
-public partial class SpellData : Resource
+public partial class ActionData : Resource
 {
     [Export]
     public string Name { get; set; } = "Default spell";

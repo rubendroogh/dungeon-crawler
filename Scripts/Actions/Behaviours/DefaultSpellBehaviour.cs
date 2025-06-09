@@ -8,12 +8,12 @@ using Godot;
 /// </summary>
 public partial class DefaultSpellBehaviour : ISpellBehaviour
 {
-    public virtual SpellCastResult Cast(List<Card> cards, SpellData spellData, List<Character> targets)
+    public virtual DamagePacket Cast(List<Card> cards, ActionData spellData, List<Character> targets)
     {
         if (targets == null || targets.Count == 0)
         {
             GD.PrintErr("No targets selected.");
-            return new SpellCastResult();
+            return new DamagePacket();
         }
 
         // Calculate the modifier based on the cards selected
@@ -31,13 +31,13 @@ public partial class DefaultSpellBehaviour : ISpellBehaviour
             damages.Add(new Damage(damage, damageType, targets.First()));
         }
 
-        return new SpellCastResult
+        return new DamagePacket
         {
             Damages = damages,
         };
     }
 
-    protected float CalculateDamage(DamageType damageType, float modifier, SpellData spellData)
+    protected float CalculateDamage(DamageType damageType, float modifier, ActionData spellData)
     {
         return damageType switch
         {

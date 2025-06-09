@@ -21,7 +21,7 @@ public partial class SpellUI : PanelContainer
 	[Export]
 	public StyleBox DefaultStyle { get; set; }
 
-	private SpellData SpellData { get; set; }
+	private ActionData ActionData { get; set; }
 
 	private bool IsSelected { get; set; }
 
@@ -46,34 +46,33 @@ public partial class SpellUI : PanelContainer
 	{
 		if (@event is InputEventMouseButton mouseEvent && mouseEvent.Pressed && mouseEvent.ButtonIndex == MouseButton.Left)
 		{
-			ManagerRepository.SpellCastingManager.SetSelectedSpell(SpellData);
+			ManagerRepository.ActionManager.SetSelectedSpell(ActionData);
 		}
 	}
 
-	public void Setup(SpellData spellData)
+	public void Setup(ActionData actionData)
 	{
-		if (spellData == null)
+		if (actionData == null)
 		{
-			GD.PrintErr("SpellData is null");
+			GD.PrintErr("actionData is null");
 			return;
 		}
 
-		SpellData = spellData;
+		ActionData = actionData;
 
-		SpellName.Text = spellData.Name;
-		SpellDescription.Text = spellData.Description;
-		SpellIcon.Texture = spellData.Image;
+		SpellName.Text = actionData.Name;
+		SpellDescription.Text = actionData.Description;
+		SpellIcon.Texture = actionData.Image;
 	}
 
 	private void InitializeCustomSignals()
 	{
-		var spellCastingManager = ManagerRepository.SpellCastingManager;
-		spellCastingManager.SpellSelected += OnSpellSelected;
+		ManagerRepository.ActionManager.SpellSelected += OnSpellSelected;
 	}
 
 	private void OnSpellSelected(string spellName)
 	{
-		IsSelected = SpellData.Name == spellName;
+		IsSelected = ActionData.Name == spellName;
 		UpdateStyle();
 	}
 
@@ -85,12 +84,12 @@ public partial class SpellUI : PanelContainer
 		var gradient = new Gradient();
 		var offsets = new List<float>();
 		var colors = new List<Color>();
-		for (int i = 0; i < SpellData.DamageTypes.Length; i++)
+		for (int i = 0; i < ActionData.DamageTypes.Length; i++)
 		{
-			var color = DamageTypeColors.TryGetValue(SpellData.DamageTypes[i], out var damageColor) ? damageColor : new Color(1, 0, 0);
+			var color = DamageTypeColors.TryGetValue(ActionData.DamageTypes[i], out var damageColor) ? damageColor : new Color(1, 0, 0);
 			
 			// Get the position of the color in the gradient
-			float position = (float)i / (SpellData.DamageTypes.Length - 1f);
+			float position = (float)i / (ActionData.DamageTypes.Length - 1f);
 			offsets.Add(position);
 			colors.Add(color);
 		}

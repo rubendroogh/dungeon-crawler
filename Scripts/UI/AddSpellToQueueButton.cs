@@ -10,7 +10,7 @@ public partial class AddSpellToQueueButton : Button
     /// Adds the currently selected spell to the spell queue when the button is pressed.
     public void OnPressed()
     {
-        if (ManagerRepository.SpellCastingManager.SelectedSpell == null)
+        if (ManagerRepository.ActionManager.SelectedSpell == null)
         {
             GD.PrintErr("No spell selected to add to the queue.");
             return;
@@ -22,10 +22,11 @@ public partial class AddSpellToQueueButton : Button
             return;
         }
 
-        var selectedSpell = ManagerRepository.SpellCastingManager.SelectedSpell;
-        var selectedCards = ManagerRepository.SpellCastingManager.SelectedCards;
-        var target = ManagerRepository.SpellCastingManager.SelectedTarget;
+        var player = ManagerRepository.BattleManager.GetPlayer();
+        var selectedSpell = ManagerRepository.ActionManager.SelectedSpell;
+        var selectedCards = ManagerRepository.ActionManager.SelectedCards;
+        var target = ManagerRepository.ActionManager.SelectedTarget;
 
-        ManagerRepository.SpellCastingManager.AddSpellToQueue(selectedSpell, selectedCards, target);
+        player.QueueAction(selectedSpell, target, selectedCards);
     }
 }

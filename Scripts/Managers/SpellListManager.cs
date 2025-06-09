@@ -57,7 +57,7 @@ public partial class SpellListManager : Node
     {
         foreach (var key in SpellPreloader.GetResourceList())
         {
-            SpellData spellData = SpellPreloader.GetResource(key) as SpellData;
+            ActionData spellData = SpellPreloader.GetResource(key) as ActionData;
             ISpellBehaviour spellBehaviour = GetSpellBehaviour(spellData.Name);
 
             if (spellBehaviour != null)
