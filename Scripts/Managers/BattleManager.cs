@@ -148,13 +148,23 @@ public partial class BattleManager : Node
     /// </summary>
     private void ProcessTurnPhase()
     {
+        // Determine the current character based on the turn order.
+        // Determine the character type, and process the turn accordingly.
         var currentCharacter = GetCurrentCharacter();
+        if (currentCharacter == null)
+        {
+            GD.PrintErr("No current character found. Cannot process turn phase.");
+            return;
+        }
+
+        var isPlayer = currentCharacter is Player;
         switch (CurrentTurnPhase)
         {
             case TurnPhase.Start:
                 currentCharacter.StartTurn();
                 break;
             case TurnPhase.Main:
+                MainPhase();
                 break;
             case TurnPhase.Damage:
                 DamagePhase();
@@ -169,26 +179,38 @@ public partial class BattleManager : Node
     }
 
     /// <summary>
+    /// Processes the main phase of the turn.
+    /// In this phase, characters can queue spells and attacks.
+    /// If the current character is not a player, the AI will choose an action.
+    /// </summary>
+    private void MainPhase()
+    {
+        var currentCharacter = GetCurrentCharacter();
+        if (currentCharacter is not Player player)
+        {
+            var enemy = currentCharacter as Enemy;
+            // Choose the player as the target for the enemy's action.
+            // TODO Implement target selection logic for enemies.
+            enemy.ChooseAction(Characters.Keys.Where(c => c != enemy).ToList());
+            StartNewTurnPhase();
+        }
+    }
+
+    /// <summary>
     /// Processes the damage phase. It executes logic from queued spells or attacks
     /// and makes sure the state is correctly preserved.
     /// </summary>
     private void DamagePhase()
     {
-        // var queue = GetCurrentCharacter().ActionQueue;
-        var queue = GetPlayer().ActionQueue;
-        if (queue.Count == 0)
+        // Get the current character and their action queue.
+        var currentCharacter = GetCurrentCharacter();
+        if (currentCharacter == null)
         {
-            GD.Print("No actions in the queue for the current character.");
+            GD.PrintErr("No current character found. Cannot process damage phase.");
             return;
         }
-
-        foreach (var actionEntry in queue)
-        {
-            ManagerRepository.ActionManager.CastSpell(actionEntry);
-        }
         
-        // Clear the spell queue after processing
-        queue.Clear();
+        currentCharacter.ResolveQueue();
     }
 
     /// <summary>

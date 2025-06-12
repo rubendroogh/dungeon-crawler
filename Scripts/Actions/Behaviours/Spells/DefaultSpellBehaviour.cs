@@ -8,7 +8,7 @@ using Godot;
 /// </summary>
 public partial class DefaultSpellBehaviour : ISpellBehaviour
 {
-    public virtual DamagePacket Cast(List<Card> cards, ActionData spellData, List<Character> targets)
+    public virtual DamagePacket Resolve(List<Card> cards, ActionData spellData, List<Character> targets)
     {
         if (targets == null || targets.Count == 0)
         {
@@ -37,6 +37,14 @@ public partial class DefaultSpellBehaviour : ISpellBehaviour
         };
     }
 
+    public DamagePacket Resolve(ActionData actionData, List<Character> targets)
+    {
+        return Resolve(new List<Card>(), actionData, targets);
+    }
+
+    /// <summary>
+    /// Calculates the damage dealt by the spell based on the damage type, modifier, and spell data.
+    /// </summary>
     protected float CalculateDamage(DamageType damageType, float modifier, ActionData spellData)
     {
         return damageType switch

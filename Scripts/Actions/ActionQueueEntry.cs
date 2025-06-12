@@ -6,14 +6,19 @@ using System.Collections.Generic;
 /// </summary>
 public class ActionQueueEntry
 {
-    public Spell Spell { get; }
-    public List<Card> Cards { get; }
+    /// <summary>
+    /// The action to be performed.
+    /// </summary>
+    public Action Action { get; }
+
+    /// <summary>
+    /// The target of the action.
+    /// </summary>
     public Character Target { get; }
 
-    public ActionQueueEntry(Spell spell, List<Card> cards, Character target)
+    public ActionQueueEntry(Action action, Character target)
     {
-        Spell = spell;
-        Cards = cards;
+        Action = action;
         Target = target;
     }
 }

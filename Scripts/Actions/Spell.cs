@@ -1,15 +1,19 @@
 /// <summary>
-/// A spell is the combination of a spell data and the behavior that it has.
+/// Spell represents a magical action that can be cast by a player.
 /// </summary>
-public partial class Spell
+public partial class Spell : Action
 {
-    public ActionData Data { get; set; }
-
-    public ISpellBehaviour Behaviour { get; set; }
-
-    public Spell(ActionData spellData, ISpellBehaviour spellBehaviour)
+    public Spell(ActionData spellData, IActionBehaviour spellBehaviour) : base(spellData, spellBehaviour)
     {
         Data = spellData;
         Behaviour = spellBehaviour;
+    }
+
+    /// <summary>
+    /// Gets the behaviour of the spell, which is expected to implement ISpellBehaviour.
+    /// </summary>
+    public override ISpellBehaviour GetBehaviour()
+    {
+        return Behaviour as ISpellBehaviour;
     }
 }

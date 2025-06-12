@@ -18,7 +18,7 @@ public partial class SpellListManager : Node
     /// <summary>
     /// A dictionary that maps spell names to their respective behaviors.
     /// </summary>
-    private Dictionary<string, ISpellBehaviour> SpellBehaviours = new()
+    private Dictionary<string, IActionBehaviour> SpellBehaviours = new()
     {
         { "Fireball", new FireBallBehaviour() },
         { "Brain Freeze", new BrainFreezeBehaviour() },
@@ -58,7 +58,7 @@ public partial class SpellListManager : Node
         foreach (var key in SpellPreloader.GetResourceList())
         {
             ActionData spellData = SpellPreloader.GetResource(key) as ActionData;
-            ISpellBehaviour spellBehaviour = GetSpellBehaviour(spellData.Name);
+            IActionBehaviour spellBehaviour = GetSpellBehaviour(spellData.Name);
 
             if (spellBehaviour != null)
             {
@@ -80,7 +80,7 @@ public partial class SpellListManager : Node
     /// Retrieves the spell behavior for a given spell name.
     /// If the spell name is not found, it returns a default behavior.
     /// </summary>
-    private ISpellBehaviour GetSpellBehaviour(string spellName)
+    private IActionBehaviour GetSpellBehaviour(string spellName)
     {
         if (SpellBehaviours.TryGetValue(spellName, out var behaviour))
         {
