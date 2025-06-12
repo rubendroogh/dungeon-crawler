@@ -35,12 +35,6 @@ public partial class ActionManager : Node
     public Label SelectedCardsLabel { get; set; }
 
     /// <summary>
-    /// The queue of spells to be cast.
-    /// This is used to manage spells that are queued for casting, allowing for multiple spells to be cast in a single turn.
-    /// </summary>
-    public List<ActionQueueEntry> ActionQueue { get; } = []; // TODO implement spell queueing per character
-
-    /// <summary>
     /// The currently selected target for the spell.
     /// </summary>
     public Character SelectedTarget { get; set; }
@@ -116,37 +110,27 @@ public partial class ActionManager : Node
     }
 
     /// <summary>
-    /// Casts the selected spell using the selected cards and target.
+    /// Handles the result of resolving a DamagePacket.
+    /// This method applies all damages and heals in the packet and returns the total damage dealt.
     /// </summary>
-    public void CastSpell(ActionQueueEntry spellQueueEntry)
+    /// <returns>The total damage dealt by the action.</returns>
+    public float HandleResolveResult(DamagePacket damagePacket)
     {
-        if (spellQueueEntry.Spell == null)
+        if (damagePacket == null)
         {
-            ManagerRepository.BattleLogManager.Log("No spell selected to cast.");
-            return;
+            GD.PrintErr("DamagePacket is null");
+            return 0f;
         }
 
-        if (spellQueueEntry.Target == null)
-        {
-            ManagerRepository.BattleLogManager.Log($"No target selected for {spellQueueEntry.Spell.Data.Name}.");
-            return;
-        }
+        GD.Print($"DamagePacket resolved with {damagePacket.Damages.Count} damages and {damagePacket.Heals.Count} heals.");
 
-        if (spellQueueEntry.Cards.Count > spellQueueEntry.Spell.Data.MaxManaCharges)
-        {
-            ManagerRepository.BattleLogManager.Log($"Cannot cast {spellQueueEntry.Spell.Data.Name} with {spellQueueEntry.Cards.Count} cards. Maximum is {spellQueueEntry.Spell.Data.MaxManaCharges}.");
-            return;
-        }
-
-        // TODO: Implement multitarget spells
-        var spellCastResult = spellQueueEntry.Spell.Behaviour.Cast(spellQueueEntry.Cards, spellQueueEntry.Spell.Data, [spellQueueEntry.Target]);
         var totalDamage = 0f;
-        foreach (var damage in spellCastResult.Damages)
+        foreach (var damage in damagePacket.Damages)
         {
             totalDamage += damage.Apply();
         }
 
-        ManagerRepository.BattleLogManager.Log($"Cast {spellQueueEntry.Spell.Data.Name} on {spellQueueEntry.Target.Name} for {totalDamage} damage.");
+        return totalDamage;
     }
 
     /// <summary>

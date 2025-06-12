@@ -285,23 +285,16 @@ public partial class Character : Node
     }
 
     /// <summary>
-    /// Queue an action for the character to perform in the next damage phase.
+    /// Resolves the actions in the character's action queue and returns the resulting damage packet.
     /// </summary>
-    /// <param name="action">The action to queue.</param>
-    public virtual void QueueAction(Spell spell, Character target, List<Card> cards = null)
+    /// <returns>The damage packets containing the results of the resolved actions.</returns>
+    public virtual void ResolveQueue()
     {
-        if (spell == null || target == null)
+        // This method should be overridden in derived classes to implement specific action resolution logic.
+        foreach (var actionQueueEntry in ActionQueue)
         {
-            GD.PrintErr("Invalid parameters for adding action to queue.");
-            return;
+            actionQueueEntry.Action.GetBehaviour().Resolve(actionQueueEntry.Action.Data, [actionQueueEntry.Target]);
         }
-
-        // Ensure the cards list is not null
-        cards ??= [];
-
-        var entry = new ActionQueueEntry(spell, [.. cards], target);
-        ActionQueue.Add(entry);
-        ManagerRepository.BattleLogManager.Log($"Queued {spell.Data.Name} with {cards.Count} cards for {target.Name}.");
     }
 
     /// <summary>
