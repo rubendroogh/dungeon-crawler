@@ -13,6 +13,12 @@ public partial class ActionManager : Node
     public delegate void SpellSelectedEventHandler(string spellName);
 
     /// <summary>
+    /// Signal that is emitted when the cards should be reset.
+    /// </summary>
+    [Signal]
+    public delegate void CardsResetEventHandler();
+
+    /// <summary>
     /// The currently selected cards.
     /// </summary>
     public List<Card> SelectedCards { get; } = [];
@@ -75,7 +81,7 @@ public partial class ActionManager : Node
 
     /// <summary>
     /// Set the currently selected spell.
-    /// This method creates a new Spell instance using the provided SpellData and a default spell behavior.
+    /// This method finds the spell by its ActionData name from the Spell List.
     /// </summary>
     public void SetSelectedSpell(ActionData spellData)
     {
@@ -85,7 +91,6 @@ public partial class ActionManager : Node
             return;
         }
 
-        // TODO: Clear selected cards
         var selectedSpell = ManagerRepository.SpellListManager.GetSpell(spellData.Name);
         SetSelectedSpell(selectedSpell);
     }
@@ -122,8 +127,6 @@ public partial class ActionManager : Node
             return 0f;
         }
 
-        GD.Print($"DamagePacket resolved with {damagePacket.Damages.Count} damages and {damagePacket.Heals.Count} heals.");
-
         var totalDamage = 0f;
         foreach (var damage in damagePacket.Damages)
         {
@@ -131,6 +134,18 @@ public partial class ActionManager : Node
         }
 
         return totalDamage;
+    }
+
+    /// <summary>
+    /// Resets the mana cards to be usable again.
+    /// Used when a new turn starts.
+    /// </summary>
+    public void ResetCards()
+    {
+        EmitSignal(SignalName.CardsReset);
+
+        SelectedCards.Clear();
+        UpdateSelectedCardsLabel();
     }
 
     /// <summary>

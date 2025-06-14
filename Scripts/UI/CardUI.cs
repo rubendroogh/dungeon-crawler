@@ -16,10 +16,6 @@ public partial class CardUI : TextureRect
 
     public override void _Ready()
     {
-        // Enable mouse input
-        MouseFilter = MouseFilterEnum.Stop;
-        MouseDefaultCursorShape = CursorShape.PointingHand;
-
         // Center the anchor point (0.5 is center)
         AnchorLeft = 0.5f;
         AnchorTop = 0.5f;
@@ -27,15 +23,17 @@ public partial class CardUI : TextureRect
         AnchorBottom = 0.5f;
         CallDeferred(nameof(SetPivot));
 
-        // Connect built-in signals
         MouseEntered += OnMouseEntered;
         MouseExited += OnMouseExited;
+
+        SetUsable(true);
 
         CallDeferred(nameof(InitializeCustomSignals));
     }
 
     private void InitializeCustomSignals()
     {
+        ManagerRepository.ActionManager.CardsReset += OnCardsReset;
         ManagerRepository.BattleManager.GetPlayer().SpellQueued += OnSpellQueued;
     }
 
@@ -81,19 +79,52 @@ public partial class CardUI : TextureRect
             return;
         }
 
-        IsUsed = true;
-        AnimateRotation(0);
-        IsSelected = false;
+        SetUsable(false);
 
-        // Grey out the card
-        Modulate = new Color(0.5f, 0.5f, 0.5f, 1);
-        // Disable mouse input
-        MouseFilter = MouseFilterEnum.Ignore;
-        // Disconnect signals
-        MouseEntered -= OnMouseEntered;
-        MouseExited -= OnMouseExited;
         // Remove the card from the selection
         ManagerRepository.ActionManager.RemoveCardFromSelection(Card);
+    }
+
+    /// <summary>
+    /// Called when the ResetCards method is called on the ActionManager.
+    /// Used to handle the visual and functional changes necessary for each card.
+    /// </summary>
+    public void OnCardsReset()
+    {
+        IsSelected = false;
+        SetUsable(true);
+    }
+
+    /// <summary>
+    /// Changes the visual style and clickability depending on if it should be usable.
+    /// </summary>
+    /// <param name="shouldBeUsable"></param>
+    private void SetUsable(bool shouldBeUsable)
+    {
+        if (shouldBeUsable)
+        {
+            IsUsed = false;
+            // GD.Print("Should be usable");
+
+            // Enable mouse input
+            MouseFilter = MouseFilterEnum.Stop;
+            MouseDefaultCursorShape = CursorShape.PointingHand;
+
+            Modulate = Colors.White;
+        }
+        else
+        {
+            IsUsed = true;
+            IsSelected = false;
+            AnimateRotation(0);
+            // GD.Print("Should not be usable");
+
+            // Grey out the card
+            Modulate = new Color(0.5f, 0.5f, 0.5f, 1);
+
+            // Disable mouse input
+            MouseFilter = MouseFilterEnum.Ignore;
+        }
     }
 
     private void SetPivot()
