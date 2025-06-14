@@ -71,32 +71,23 @@ public partial class BattleManager : Node
     }
 
     /// <summary>
-    /// Starts a new turn in the battle.
-    /// This method is called when the current turn ends and a new turn begins.
-    /// </summary>
-    /// <remarks>
-    /// If called manually, it will start a new turn for the current character, skipping uncompleted phases.
-    /// </remarks>
-    public void StartNewTurn()
-    {
-        CurrentTurn++;
-        CurrentTurnPhase = TurnPhase.Start;
-    }
-
-    /// <summary>
     /// Starts a new turn phase and processes it for the current character.
     /// This method is called automatically after the current turn phase is completed.
     /// </summary>
     public void StartNewTurnPhase()
     {
         CurrentTurnPhase++;
+        if (CurrentTurnPhase > TurnPhase.PostEnd)
+        {
+            CurrentTurnPhase = TurnPhase.Start;
+        }
+
         TurnPhaseProcessed = false;
         TurnLabel.Text = $"Turn {CurrentTurn} - Phase: {CurrentTurnPhase}";
     }
 
     /// <summary>
-    /// Starts a new turn phase from a specific phase.
-    /// It only changes the phase if the provided phase is the current phase.
+    /// Only starts a new turn phase if the provided phase is the current phase.
     /// </summary>
     public void StartNewTurnPhaseFrom(TurnPhase phase)
     {
@@ -121,7 +112,6 @@ public partial class BattleManager : Node
             { GetNode<Character>("Player"), true }
         };
         SpawnRandomEnemy();
-        StartNewTurn();
     }
 
     /// <summary>
@@ -131,7 +121,7 @@ public partial class BattleManager : Node
     private void AdvanceTurnFlow()
     {
         if (TurnPhaseProcessed) return;
-
+        
         ProcessTurnPhase();
         TurnPhaseProcessed = true;
 
@@ -146,6 +136,9 @@ public partial class BattleManager : Node
     /// Processes the current turn phase for the character whose turn it is.
     /// This contains the logic for each phase of the turn.
     /// </summary>
+    /// <remarks>
+    /// Never call StartNewTurnPhase from this method!
+    /// </remarks>
     private void ProcessTurnPhase()
     {
         // Determine the current character based on the turn order.
@@ -157,11 +150,12 @@ public partial class BattleManager : Node
             return;
         }
 
-        var isPlayer = currentCharacter is Player;
+        GD.Print(CurrentTurnPhase);
+
         switch (CurrentTurnPhase)
         {
             case TurnPhase.Start:
-                currentCharacter.StartTurn();
+                StartPhase();
                 break;
             case TurnPhase.Main:
                 MainPhase();
@@ -179,6 +173,19 @@ public partial class BattleManager : Node
     }
 
     /// <summary>
+    /// Processes the start phase of the turn.
+    /// Increases turn counter, resets mana charges and triggers relevant status effects.
+    /// </summary>
+    private void StartPhase()
+    {
+        CurrentTurn++;
+        ManagerRepository.ActionManager.ResetCards();
+
+        var currentCharacter = GetCurrentCharacter();
+        currentCharacter.StartTurn();
+    }
+
+    /// <summary>
     /// Processes the main phase of the turn.
     /// In this phase, characters can queue spells and attacks.
     /// If the current character is not a player, the AI will choose an action.
@@ -192,7 +199,6 @@ public partial class BattleManager : Node
             // Choose the player as the target for the enemy's action.
             // TODO Implement target selection logic for enemies.
             enemy.ChooseAction(Characters.Keys.Where(c => c != enemy).ToList());
-            StartNewTurnPhase();
         }
     }
 
@@ -202,8 +208,13 @@ public partial class BattleManager : Node
     /// </summary>
     private void DamagePhase()
     {
+        if (GetCurrentCharacter() != GetPlayer())
+        {
+            return; // TODO: Make this working for the enemy AI doing damage!
+        }
+
         // Get the current character and their action queue.
-        var currentCharacter = GetCurrentCharacter();
+            var currentCharacter = GetCurrentCharacter();
         if (currentCharacter == null)
         {
             GD.PrintErr("No current character found. Cannot process damage phase.");
@@ -215,12 +226,11 @@ public partial class BattleManager : Node
 
     /// <summary>
     /// This method is called when the current character's turn ends.
-    /// It resets the turn phase and moves to the next character's turn.
+    /// It moves to the next character's turn.
     /// </summary>
     private void EndTurn()
     {
         MoveToNextCharacter();
-        StartNewTurn();
     }
 
     /// <summary>
@@ -238,8 +248,10 @@ public partial class BattleManager : Node
     /// </summary>
     private bool ShouldAutoAdvancePhase(TurnPhase phase)
     {
-        // Only auto-advance phases that are automatic
-        return phase != TurnPhase.Main;
+        var isMain = phase == TurnPhase.Main;
+        var isPlayer = GetCurrentCharacter() == GetPlayer();
+
+        return !(isMain && isPlayer);
     }
 
     /// <summary>
