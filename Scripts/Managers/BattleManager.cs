@@ -214,7 +214,7 @@ public partial class BattleManager : Node
         }
 
         // Get the current character and their action queue.
-            var currentCharacter = GetCurrentCharacter();
+        var currentCharacter = GetCurrentCharacter();
         if (currentCharacter == null)
         {
             GD.PrintErr("No current character found. Cannot process damage phase.");
