@@ -6,13 +6,25 @@ using System.Collections.Generic;
 /// </summary>
 public partial class SpellListManager : Node
 {
+    /// <summary>
+    /// The list of spells that the player can cast.
+    /// </summary>
     public List<Spell> AvailableSpells = [];
 
+    /// <summary>
+    /// A scene that represents a single spell item in the UI.
+    /// </summary>
     [Export]
-    public PackedScene SpellListItemScene;
+    private PackedScene SpellListItemScene;
 
+    /// <summary>
+    /// A preloader that loads spell resources from the project.
+    /// </summary>
     private ResourcePreloader SpellPreloader;
 
+    /// <summary>
+    /// The container that holds the spell list UI elements.
+    /// </summary>
     private VBoxContainer SpellListContainer;
 
     /// <summary>

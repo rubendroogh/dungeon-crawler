@@ -291,6 +291,7 @@ public partial class Character : Node
     public virtual void ResolveQueue()
     {
         // This method should be overridden in derived classes to implement specific action resolution logic.
+        // This placeholder implementation does nothing.
         foreach (var actionQueueEntry in ActionQueue)
         {
             actionQueueEntry.Action.GetBehaviour().Resolve(actionQueueEntry.Action.Data, [actionQueueEntry.Target]);

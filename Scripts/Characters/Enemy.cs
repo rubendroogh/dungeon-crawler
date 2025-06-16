@@ -39,8 +39,8 @@ public partial class Enemy : Character
             return;
         }
 
-        // For simplicity, we will just choose the first available action and target.
-        var selectedAction = AvailableActions.Count > 0 ? AvailableActions[0] : null;
+        // For simplicity, we will just choose a random action from the available actions.
+        var selectedAction = AvailableActions[GD.RandRange(0, AvailableActions.Count - 1)];
 
         var target = ManagerRepository.BattleManager.GetPlayer();
         QueueAction(selectedAction, target);

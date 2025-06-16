@@ -4,12 +4,11 @@ using Godot;
 
 /// <summary>
 /// BattleManager is responsible for managing the battle state and related variables.
+/// It handles the turn phases, character turns, and spawning of enemies.
+/// It also manages the flow of the battle, including starting new turns and processing actions.
 /// </summary>
 public partial class BattleManager : Node
 {
-    [Export]
-    public PackedScene EnemyScene { get; set; }
-
     /// <summary>
     /// The characters involved in the battle.
     /// The key is the character, and the value is a boolean indicating if it's the character's turn.
@@ -17,11 +16,17 @@ public partial class BattleManager : Node
     public Dictionary<Character, bool> Characters { get; set; }
 
     /// <summary>
-    /// Used to determine the current phase of the turn (e.g., Start, Main, Damage, PostCombat, End).
+    /// Used to determine the current phase of the turn (e.g., Start, Main, Damage, End).
     /// Cannot be set directly; it is updated automatically as the turn progresses.
     /// </summary>
     public TurnPhase CurrentTurnPhase { get; private set; } = TurnPhase.Start;
     
+    /// <summary>
+    /// The scene to instantiate for enemies. It contains the enemy character data, sprite, and health bar.
+    /// </summary>
+    [Export]
+    private PackedScene EnemyScene { get; set; }
+
     /// <summary>
     /// Indicates whether the turn phase has been processed.
     /// This is used to ensure that the turn phase is processed only once per turn.

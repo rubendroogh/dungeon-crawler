@@ -44,7 +44,7 @@ public partial class Player : Character
     }
 
     /// <summary>
-    /// 
+    /// Resolve the spell queue, executing all queued spells and applying their effects.
     /// </summary>
     public override void ResolveQueue()
     {

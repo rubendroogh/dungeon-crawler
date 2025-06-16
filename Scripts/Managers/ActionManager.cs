@@ -3,6 +3,8 @@ using System.Collections.Generic;
 
 /// <summary>
 /// Manages casting of spells, handling of actions, and current state of all related variables.
+/// This includes managing selected cards, spells, and targets, as well as emitting signals
+/// for UI updates and game state changes.
 /// </summary>
 public partial class ActionManager : Node
 {
