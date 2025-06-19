@@ -148,8 +148,7 @@ public partial class CardList : Node
 }
 
 /// <summary>
-/// Represents a playing card with a rank and suit.
-/// The rank is an enum that defines the card's value, and the suit is an enum
+/// Represents a playing card with a rank and suit, used to add mana charges to the selected spell.
 /// </summary>
 public class Card
 {
