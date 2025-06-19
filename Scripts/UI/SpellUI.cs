@@ -46,7 +46,7 @@ public partial class SpellUI : PanelContainer
 	{
 		if (@event is InputEventMouseButton mouseEvent && mouseEvent.Pressed && mouseEvent.ButtonIndex == MouseButton.Left)
 		{
-			ManagerRepository.ActionManager.SetSelectedSpell(ActionData);
+			Managers.ActionManager.SetSelectedSpell(ActionData);
 		}
 	}
 
@@ -67,7 +67,7 @@ public partial class SpellUI : PanelContainer
 
 	private void InitializeCustomSignals()
 	{
-		ManagerRepository.ActionManager.SpellSelected += OnSpellSelected;
+		Managers.ActionManager.SpellSelected += OnSpellSelected;
 	}
 
 	private void OnSpellSelected(string spellName)

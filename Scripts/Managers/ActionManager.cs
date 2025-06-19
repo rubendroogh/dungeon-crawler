@@ -93,7 +93,7 @@ public partial class ActionManager : Node
             return;
         }
 
-        var selectedSpell = ManagerRepository.SpellListManager.GetSpell(spellData.Name);
+        var selectedSpell = Managers.SpellListManager.GetSpell(spellData.Name);
         SetSelectedSpell(selectedSpell);
     }
 

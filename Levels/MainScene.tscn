@@ -4,7 +4,7 @@
 [ext_resource type="Script" uid="uid://b40v7nngruesy" path="res://Scripts/UI/AddSpellToQueueButton.cs" id="2_irpm1"]
 [ext_resource type="Script" uid="uid://cpji6emjswl8f" path="res://Scripts/UI/CastSpellButton.cs" id="2_lljjv"]
 [ext_resource type="Script" uid="uid://bb2xw40m0q3sm" path="res://Scripts/Cards/CardDeck.cs" id="3_hvf01"]
-[ext_resource type="Script" uid="uid://c0p2vud0ydmne" path="res://Scripts/Managers/ManagerRepository.cs" id="4_26f67"]
+[ext_resource type="Script" uid="uid://c0p2vud0ydmne" path="res://Scripts/Managers/Managers.cs" id="4_26f67"]
 [ext_resource type="Script" uid="uid://fi2i0pb2xx5u" path="res://Scripts/Managers/ActionManager.cs" id="4_safex"]
 [ext_resource type="Script" uid="uid://burx8xbynydt" path="res://Scripts/Managers/SpellListManager.cs" id="5_26f67"]
 [ext_resource type="PackedScene" uid="uid://csex8h13te3ep" path="res://Scenes/SpellListItem.tscn" id="6_71tao"]

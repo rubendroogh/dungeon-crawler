@@ -9,6 +9,6 @@ public partial class CastSpellButton : Button
 
     public void OnPressed()
     {
-        ManagerRepository.BattleManager.StartNewTurnPhaseFrom(TurnPhase.Main);
+        Managers.BattleManager.StartNewTurnPhaseFrom(TurnPhase.Main);
     }
 }

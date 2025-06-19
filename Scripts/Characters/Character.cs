@@ -330,7 +330,7 @@ public partial class Character : Node
     /// </summary>
     private void Die()
     {
-        ManagerRepository.BattleLogManager.Log($"{CharacterData.Name} has died.");
+        Managers.BattleLogManager.Log($"{CharacterData.Name} has died.");
     }
 
     /// <summary>

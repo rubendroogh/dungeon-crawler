@@ -4,7 +4,7 @@ using Godot;
 /// ManagerRepository is a singleton that holds references to various managers in the game.
 /// It is used to access these managers from anywhere in the game.
 /// </summary>
-public partial class ManagerRepository : Node
+public partial class Managers : Node
 {
     /// <summary>
     /// ActionManager is responsible for managing actions related to casting spells,

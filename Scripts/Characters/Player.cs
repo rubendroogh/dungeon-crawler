@@ -39,7 +39,7 @@ public partial class Player : Character
 
         var entry = new SpellQueueEntry(spell, target, [.. cards]);
         SpellQueue.Add(entry);
-        ManagerRepository.BattleLogManager.Log($"Queued {spell.Data.Name} with {cards.Count} cards for {target.Name}.");
+        Managers.BattleLogManager.Log($"Queued {spell.Data.Name} with {cards.Count} cards for {target.Name}.");
         EmitSignal(SignalName.SpellQueued);
     }
 
@@ -72,8 +72,8 @@ public partial class Player : Character
         // Process each damage packet and log the results.
         foreach (var damagePacket in damagePackets)
         {
-            var totalDamage = ManagerRepository.ActionManager.HandleResolveResult(damagePacket);
-            ManagerRepository.BattleLogManager.Log($"Resolved spell for {totalDamage} damage.");
+            var totalDamage = Managers.ActionManager.HandleResolveResult(damagePacket);
+            Managers.BattleLogManager.Log($"Resolved spell for {totalDamage} damage.");
         }
 
         // Clear the spell queue after resolving.

@@ -36,8 +36,8 @@ public partial class CardUI : TextureRect
     /// </summary>
     private void InitializeCustomSignals()
     {
-        ManagerRepository.ActionManager.CardsReset += OnCardsReset;
-        ManagerRepository.BattleManager.GetPlayer().SpellQueued += OnSpellQueued;
+        Managers.ActionManager.CardsReset += OnCardsReset;
+        Managers.BattleManager.GetPlayer().SpellQueued += OnSpellQueued;
     }
 
     public override void _GuiInput(InputEvent @event)
@@ -49,7 +49,7 @@ public partial class CardUI : TextureRect
                 // Handle click event
                 if (IsSelected)
                 {
-                    var isCardRemoved = ManagerRepository.ActionManager.RemoveCardFromSelection(Card);
+                    var isCardRemoved = Managers.ActionManager.RemoveCardFromSelection(Card);
                     if (isCardRemoved)
                     {
                         IsSelected = false;
@@ -59,7 +59,7 @@ public partial class CardUI : TextureRect
                 }
                 else
                 {
-                    var isCardAdded = ManagerRepository.ActionManager.AddCardToSelection(Card);
+                    var isCardAdded = Managers.ActionManager.AddCardToSelection(Card);
                     if (isCardAdded)
                     {
                         IsSelected = true;
@@ -85,7 +85,7 @@ public partial class CardUI : TextureRect
         SetUsable(false);
 
         // Remove the card from the selection
-        ManagerRepository.ActionManager.RemoveCardFromSelection(Card);
+        Managers.ActionManager.RemoveCardFromSelection(Card);
     }
 
     /// <summary>

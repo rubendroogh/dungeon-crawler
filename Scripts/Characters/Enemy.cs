@@ -41,7 +41,7 @@ public partial class Enemy : Character
         // For simplicity, we will just choose a random action from the available actions.
         var selectedAction = AvailableActions[GD.RandRange(0, AvailableActions.Count - 1)];
 
-        var target = ManagerRepository.BattleManager.GetPlayer();
+        var target = Managers.BattleManager.GetPlayer();
         QueueAction(selectedAction, target);
     }
 
@@ -72,7 +72,7 @@ public partial class Enemy : Character
 
         foreach (var damagePacket in damagePackets)
         {
-            ManagerRepository.ActionManager.HandleResolveResult(damagePacket);
+            Managers.ActionManager.HandleResolveResult(damagePacket);
         }
     }
 
@@ -81,7 +81,7 @@ public partial class Enemy : Character
     /// </summary>
     private void InitializeAvailableActions()
     {
-        // TODO: Load actions from a configuration file or database.
+        // TODO: Load actions dynamically
         AvailableActions.Add(new Action
         (
             new ActionData

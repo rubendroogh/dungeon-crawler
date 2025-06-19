@@ -182,7 +182,7 @@ public partial class BattleManager : Node
     private void StartPhase()
     {
         CurrentTurn++;
-        ManagerRepository.ActionManager.ResetCards();
+        Managers.ActionManager.ResetCards();
 
         var currentCharacter = GetCurrentCharacter();
         currentCharacter.StartTurn();
@@ -319,9 +319,9 @@ public partial class BattleManager : Node
 
         // Set the enemy as the selected target for spell casting
         // TODO We want to add target selection logic later
-        ManagerRepository.ActionManager.SelectedTarget = enemy;
+        Managers.ActionManager.SelectedTarget = enemy;
 
-        ManagerRepository.BattleLogManager.Log($"{enemyData.Name} encountered!");
+        Managers.BattleLogManager.Log($"{enemyData.Name} encountered!");
     }
 }
 
