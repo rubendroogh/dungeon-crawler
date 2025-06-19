@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using Godot;
@@ -335,7 +334,7 @@ public partial class Character : Node
     /// <summary>
     /// Update the health bar to reflect the current health of the character.
     /// </summary>
-    private void UpdateHealthBar()
+    protected virtual void UpdateHealthBar()
     {
         var tween = CreateTween();
         // Animate the rotation smoothly over 0.2 seconds

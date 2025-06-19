@@ -9,9 +9,9 @@ public partial class BrainFreezeBehaviour : DefaultSpellBehaviour
         {
             if (target.HasEffect(StatusEffectType.Frozen))
             {
-                // If the target is frozen, apply the BrainFreeze effect
+                // If the target is frozen, apply the BrainFreeze effect for 1 turn
                 target.ClearEffect(StatusEffectType.Frozen);
-                target.ApplyEffect(StatusEffectType.BrainFreeze, 3);
+                target.ApplyEffect(StatusEffectType.BrainFreeze, 1);
             }
             else
             {

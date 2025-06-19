@@ -31,6 +31,9 @@ public partial class CardUI : TextureRect
         CallDeferred(nameof(InitializeCustomSignals));
     }
 
+    /// <summary>
+    /// Initializes custom signals for the CardUI.
+    /// </summary>
     private void InitializeCustomSignals()
     {
         ManagerRepository.ActionManager.CardsReset += OnCardsReset;

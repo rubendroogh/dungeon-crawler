@@ -1,9 +1,8 @@
 using Godot;
-using System;
 
 /// <summary>
 /// BattleLogManager is responsible for managing the battle log in the game.
-/// It initializes the battle log UI component and provides methods to log messages
+/// It initializes the battle log UI component and provides methods to log messages.
 /// </summary>
 public partial class BattleLogManager : Node
 {

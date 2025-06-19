@@ -1,5 +1,3 @@
-using Godot;
-
 public partial class BrainFreezeStatusEffectBehaviour : BaseStatusEffectBehaviour
 {
     public override void ProcessEffectOnApply(Character target)
