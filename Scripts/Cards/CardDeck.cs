@@ -2,6 +2,12 @@ using Godot;
 using System.Collections.Generic;
 using System.Linq;
 
+/// <summary>
+/// Represents a deck of playing cards.
+/// Initially, it contains only the Two of each suit.
+/// The deck can be expanded to include a full set of 52 cards if needed.
+/// The deck is used to create a UI representation of the cards.
+/// </summary>
 public partial class CardDeck : Node
 {
 	private List<Card> Cards { get; set; } = [];
@@ -9,17 +15,21 @@ public partial class CardDeck : Node
 	public override void _Ready()
 	{
 		base._Ready();
-		// InitializeFullCardDeck();
 		InitializeCustomCardDeck();
 		InitializeCardDeckUI();
 	}
 
+	/// <summary>
+	/// Initializes a full card deck with all 52 cards.
+	/// Probably not used for now, but useful for reference.
+	/// </summary>
 	private void InitializeFullCardDeck()
 	{
 		// Add all Hearts
 		for (int i = 1; i < 14; i++)
 		{
-			Cards.Add(new Card{
+			Cards.Add(new Card
+			{
 				Rank = (Rank)i,
 				Suit = Suit.Hearts
 			});
@@ -28,7 +38,8 @@ public partial class CardDeck : Node
 		// Add all Spades
 		for (int i = 1; i < 14; i++)
 		{
-			Cards.Add(new Card{
+			Cards.Add(new Card
+			{
 				Rank = (Rank)i,
 				Suit = Suit.Spades
 			});
@@ -37,7 +48,8 @@ public partial class CardDeck : Node
 		// Add all Diamonds
 		for (int i = 1; i < 14; i++)
 		{
-			Cards.Add(new Card{
+			Cards.Add(new Card
+			{
 				Rank = (Rank)i,
 				Suit = Suit.Diamonds
 			});
@@ -46,54 +58,59 @@ public partial class CardDeck : Node
 		// Add all Clubs
 		for (int i = 1; i < 14; i++)
 		{
-			Cards.Add(new Card{
+			Cards.Add(new Card
+			{
 				Rank = (Rank)i,
 				Suit = Suit.Clubs
 			});
 		}
 	}
 
+	/// <summary>
+	/// Initializes a custom card deck with only the Two of each suit.
+	/// </summary>
 	private void InitializeCustomCardDeck()
 	{
 		var customDeck = new List<Card>
 		{
 			new Card { Rank = Rank.Two, Suit = Suit.Hearts },
 			new Card { Rank = Rank.Two, Suit = Suit.Spades },
-			new Card { Rank = Rank.Three, Suit = Suit.Hearts },
-			new Card { Rank = Rank.Three, Suit = Suit.Spades },
-			new Card { Rank = Rank.Three, Suit = Suit.Diamonds },
-			new Card { Rank = Rank.Three, Suit = Suit.Clubs },
+			new Card { Rank = Rank.Two, Suit = Suit.Diamonds },
+			new Card { Rank = Rank.Two, Suit = Suit.Clubs },
 		};
 		Cards = customDeck;
 	}
 
+	/// <summary>
+	/// Initializes the UI for the card deck.
+	/// </summary>
 	private void InitializeCardDeckUI()
 	{
 		string containersPath = "CardListPanelContainer/CardListHorizontalContainer/CardList/";
 		Texture2D atlas = GD.Load<Texture2D>("res://Assets/RawImages/Cards.png");
 		Vector2I tileSize = new Vector2I(16, 16);
-		
+
 		var containerHearts = GetNode<VBoxContainer>(containersPath + "CardListHearts");
 		foreach (Card card in Cards.Where(c => c.Suit == Suit.Hearts))
 		{
 			TextureRect cardUI = CreateCardUI(card, atlas, tileSize);
 			containerHearts.AddChild(cardUI);
 		}
-		
+
 		var containerDiamonds = GetNode<VBoxContainer>(containersPath + "CardListDiamonds");
 		foreach (Card card in Cards.Where(c => c.Suit == Suit.Diamonds))
 		{
 			TextureRect cardUI = CreateCardUI(card, atlas, tileSize);
 			containerDiamonds.AddChild(cardUI);
 		}
-		
+
 		var containerSpades = GetNode<VBoxContainer>(containersPath + "CardListSpades");
 		foreach (Card card in Cards.Where(c => c.Suit == Suit.Spades))
 		{
 			TextureRect cardUI = CreateCardUI(card, atlas, tileSize);
 			containerSpades.AddChild(cardUI);
 		}
-		
+
 		var containerClubs = GetNode<VBoxContainer>(containersPath + "CardListClubs");
 		foreach (Card card in Cards.Where(c => c.Suit == Suit.Clubs))
 		{
@@ -102,6 +119,9 @@ public partial class CardDeck : Node
 		}
 	}
 
+	/// <summary>
+	/// Creates a TextureRect UI element for a card using an atlas texture.
+	/// </summary>
 	private TextureRect CreateCardUI(Card card, Texture2D atlasTexture, Vector2I tileSize)
 	{
 		// Create AtlasTexture for the card
@@ -115,27 +135,40 @@ public partial class CardDeck : Node
 		Rect2 region = new Rect2(rankIndex * tileSize.X, suitIndex * tileSize.Y, tileSize.X, tileSize.Y);
 		atlas.Region = region;
 
-        TextureRect cardUI = new CardUI
-        {
-            Card = card,
-            Texture = atlas,
-            CustomMinimumSize = tileSize * 2,
-            ExpandMode = TextureRect.ExpandModeEnum.KeepSize
-        };
+		TextureRect cardUI = new CardUI
+		{
+			Card = card,
+			Texture = atlas,
+			CustomMinimumSize = tileSize * 2,
+			ExpandMode = TextureRect.ExpandModeEnum.KeepSize
+		};
 
-        return cardUI;
+		return cardUI;
 	}
 }
 
-public class Card {
+/// <summary>
+/// Represents a playing card with a rank and suit.
+/// The rank is an enum that defines the card's value, and the suit is an enum
+/// </summary>
+public class Card
+{
 	public Rank Rank { get; set; }
 
 	public Suit Suit { get; set; }
 }
 
+/// <summary>
+/// Represents the rank of a card in a standard deck.
+/// The ranks are ordered from Two (1) to Ace (14).
+/// </summary>
 public enum Rank { Two = 1, Three, Four, Five, Six, Seven, Eight, Nine, Ten, Jack, Queen, King, Ace }
 
-public enum Suit {
+/// <summary>
+/// Represents the suit of a card in a standard deck.
+/// </summary>
+public enum Suit
+{
 	Hearts,
 	Spades,
 	Diamonds,
