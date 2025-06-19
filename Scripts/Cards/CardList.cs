@@ -8,7 +8,7 @@ using System.Linq;
 /// The deck can be expanded to include a full set of 52 cards if needed.
 /// The deck is used to create a UI representation of the cards.
 /// </summary>
-public partial class CardDeck : Node
+public partial class CardList : Node
 {
 	private List<Card> Cards { get; set; } = [];
 

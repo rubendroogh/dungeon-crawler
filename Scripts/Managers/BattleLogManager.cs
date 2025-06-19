@@ -19,7 +19,7 @@ public partial class BattleLogManager : Node
     /// </summary>
     private void InitializeBattleLog()
     {
-        BattleLog = GetNode<RichTextLabel>("../../BattleLogPanelContainer/MarginContainer/BattleLog");
+        BattleLog = GetTree().Root.GetNode<RichTextLabel>("Root/UI/HUD/BattleLogPanelContainer/MarginContainer/BattleLog");
     }
 
     /// <summary>
