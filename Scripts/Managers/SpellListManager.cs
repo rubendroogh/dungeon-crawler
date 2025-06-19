@@ -44,7 +44,7 @@ public partial class SpellListManager : Node
     }
 
     /// <summary>
-    /// Retrieves a spell by its name.
+    /// Retrieves a spell from the available spell list by its name.
     /// </summary>
     public Spell GetSpell(string spellName)
     {
@@ -75,17 +75,15 @@ public partial class SpellListManager : Node
             if (spellBehaviour != null)
             {
                 AvailableSpells.Add(new Spell(spellData, spellBehaviour));
-
-                // Create UI for the spell
-                var spellUI = SpellListItemScene.Instantiate<SpellUI>();
-                spellUI.Setup(spellData);
-                SpellListContainer.AddChild(spellUI);
             }
             else
             {
                 GD.Print("No behavior defined for spell: " + spellData.Name);
             }
         }
+
+        // Update the UI to reflect the available spells
+        UpdateSpellListUI();
     }
 
     /// <summary>
@@ -101,6 +99,30 @@ public partial class SpellListManager : Node
         else
         {
             return new DefaultSpellBehaviour();
+        }
+    }
+
+    /// <summary>
+    /// Updates the spell list UI by clearing existing spell items
+    /// and recreating them based on the current list of available spells.
+    /// </summary>
+    private void UpdateSpellListUI()
+    {
+        // Clear the existing UI elements
+        foreach (var child in SpellListContainer.GetChildren())
+        {
+            if (child is SpellUI spellUI)
+            {
+                spellUI.QueueFree();
+            }
+        }
+
+        // Recreate the UI for each spell
+        foreach (var spell in AvailableSpells)
+        {
+            var spellUI = SpellListItemScene.Instantiate<SpellUI>();
+            spellUI.Setup(spell.Data);
+            SpellListContainer.AddChild(spellUI);
         }
     }
 }
