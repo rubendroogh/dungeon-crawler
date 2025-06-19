@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="SpellData" load_steps=4 format=3 uid="uid://b2obfc8fqqmsx"]
+[gd_resource type="Resource" script_class="ActionData" load_steps=4 format=3 uid="uid://b2obfc8fqqmsx"]
 
 [ext_resource type="Texture2D" uid="uid://csjt8ylrgdkbj" path="res://Resources/Atlasses/TileAtlas.tres" id="1_6jcye"]
 [ext_resource type="Script" uid="uid://d31wkdgrcylv3" path="res://Scripts/Actions/ActionData.cs" id="1_53l01"]

@@ -5,7 +5,7 @@
 [resource]
 script = ExtResource("1_mx4uj")
 Name = "Player"
-MaxHealth = 120.0
+MaxHealth = 70.0
 BaseGenuine = 10
 BaseCharming = 10
 BaseFocused = 10

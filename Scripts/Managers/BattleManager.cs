@@ -155,8 +155,6 @@ public partial class BattleManager : Node
             return;
         }
 
-        GD.Print(CurrentTurnPhase);
-
         switch (CurrentTurnPhase)
         {
             case TurnPhase.Start:
@@ -213,11 +211,6 @@ public partial class BattleManager : Node
     /// </summary>
     private void DamagePhase()
     {
-        if (GetCurrentCharacter() != GetPlayer())
-        {
-            return; // TODO: Make this working for the enemy AI doing damage!
-        }
-
         // Get the current character and their action queue.
         var currentCharacter = GetCurrentCharacter();
         if (currentCharacter == null)

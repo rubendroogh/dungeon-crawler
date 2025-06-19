@@ -81,6 +81,7 @@ public partial class Enemy : Character
     /// </summary>
     private void InitializeAvailableActions()
     {
+        // TODO: Load actions from a configuration file or database.
         AvailableActions.Add(new Action
         (
             new ActionData

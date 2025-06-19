@@ -80,6 +80,15 @@ public partial class Player : Character
         SpellQueue.Clear();
     }
 
+    protected override void UpdateHealthBar()
+    {
+        // We use a label for debugging purposes to display the player's health.
+        // In a real game, this would be replaced with a health bar UI element.
+        // Find the health label node in the scene tree.
+        var healthLabel = GetTree().Root.GetNode<Label>("Root/Debug/VBoxContainer/PlayerStats/Health");
+        healthLabel.Text = $"Health: {CurrentHealth}/{CharacterData.MaxHealth}";
+    }
+
     protected override void UpdateStatusEffectLabel()
     {
         // Keep this empty for now, as the player does not have a status effect label.

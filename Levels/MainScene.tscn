@@ -175,3 +175,36 @@ theme_override_constants/margin_right = 8
 layout_mode = 2
 theme_override_font_sizes/normal_font_size = 24
 scroll_following = true
+
+[node name="Debug" type="PanelContainer" parent="."]
+offset_left = 324.0
+offset_top = 12.0
+offset_right = 545.0
+offset_bottom = 60.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Debug"]
+layout_mode = 2
+
+[node name="SpellQueue" type="VBoxContainer" parent="Debug/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Debug/VBoxContainer/SpellQueue"]
+layout_mode = 2
+text = "Spell queue"
+
+[node name="RichTextLabel" type="RichTextLabel" parent="Debug/VBoxContainer/SpellQueue"]
+layout_mode = 2
+
+[node name="PlayerStats" type="VBoxContainer" parent="Debug/VBoxContainer"]
+layout_mode = 2
+
+[node name="Title" type="Label" parent="Debug/VBoxContainer/PlayerStats"]
+layout_mode = 2
+text = "Player stats"
+
+[node name="Health" type="Label" parent="Debug/VBoxContainer/PlayerStats"]
+layout_mode = 2
+text = "Health: 70/70"
+
+[node name="StatusEffects" type="Label" parent="Debug/VBoxContainer/PlayerStats"]
+layout_mode = 2
