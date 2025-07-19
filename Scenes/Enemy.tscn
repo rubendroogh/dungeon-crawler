@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://dchnspiwg3mmg"]
+[gd_scene load_steps=8 format=3 uid="uid://dchnspiwg3mmg"]
 
 [ext_resource type="Script" uid="uid://bag16jmrm8a4c" path="res://Scripts/Characters/Enemy.cs" id="1_xeo28"]
 [ext_resource type="Texture2D" uid="uid://s2ihy4m3p226" path="res://Assets/RawImages/CreaturesTileMap.png" id="2_xeo28"]
@@ -12,9 +12,12 @@ region = Rect2(192, 0, 32, 32)
 atlas = ExtResource("3_xeo28")
 region = Rect2(663, 255, 16, 16)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_1exfc"]
-atlas = ExtResource("3_xeo28")
-region = Rect2(136, 85, 16, 16)
+[sub_resource type="Gradient" id="Gradient_xeo28"]
+interpolation_mode = 1
+colors = PackedColorArray(0.776471, 0, 0, 1, 1, 1, 1, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_kpr8r"]
+gradient = SubResource("Gradient_xeo28")
 
 [node name="Enemy" type="Node2D"]
 script = ExtResource("1_xeo28")
@@ -35,12 +38,11 @@ stretch_margin_top = 3
 stretch_margin_right = 3
 stretch_margin_bottom = 3
 texture_under = SubResource("AtlasTexture_kpr8r")
-texture_progress = SubResource("AtlasTexture_1exfc")
+texture_progress = SubResource("GradientTexture2D_kpr8r")
 
 [node name="StatusEffectsLabel" type="Label" parent="."]
 offset_left = -71.0
 offset_top = 100.0
 offset_right = 70.0
 offset_bottom = 126.0
-text = " No status effects"
 horizontal_alignment = 1

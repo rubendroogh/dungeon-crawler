@@ -202,7 +202,7 @@ public partial class Character : Node
     /// <param name="damage"></param>
     public int Damage(Damage damage)
     {
-        if (damage.Amount <= 0)
+        if (damage.Amount <= 0 || CurrentHealth <= 0)
         {
             return 0;
         }
@@ -384,7 +384,7 @@ public partial class Character : Node
         StatusEffectLabel.Text = string.Join(", ", StatusEffects.Select(e => $"{e.Type} ({e.Duration})"));
         if (StatusEffects.Count == 0)
         {
-            StatusEffectLabel.Text = "No status effects";
+            StatusEffectLabel.Text = "";
         }
     }
 }

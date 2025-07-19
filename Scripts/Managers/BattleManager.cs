@@ -113,9 +113,10 @@ public partial class BattleManager : Node
     {
         Characters = new Dictionary<Character, bool>
         {
-            { GetNode<Character>("Player"), true }
+            { Managers.PlayerManager.GetPlayer(), true }
         };
         SpawnRandomEnemy();
+        IsBattleInitialized = true;
     }
 
     /// <summary>

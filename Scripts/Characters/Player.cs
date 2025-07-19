@@ -85,7 +85,7 @@ public partial class Player : Character
         // We use a label for debugging purposes to display the player's health.
         // In a real game, this would be replaced with a health bar UI element.
         // Find the health label node in the scene tree.
-        var healthLabel = GetTree().Root.GetNode<Label>("Root/Debug/VBoxContainer/PlayerStats/Health");
+        var healthLabel = GetTree().Root.GetNode<Label>("Root/UI/HUD/Debug/VBoxContainer/PlayerStats/Health");
         healthLabel.Text = $"Health: {CurrentHealth}/{CharacterData.MaxHealth}";
     }
 

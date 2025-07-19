@@ -68,5 +68,9 @@ public partial class TransitionManager : Node
             CharacterCreationNode.Visible = false;
             CharacterCreationNode.SetProcess(false);
         }
+
+        // Temporarily immediately start the battle
+        // This is a placeholder for actual game logic to start the battle
+        Managers.BattleManager.InitializeBattle();
     }
 }
