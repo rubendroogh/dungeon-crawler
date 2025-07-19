@@ -22,7 +22,7 @@ public partial class AddSpellToQueueButton : Button
             return;
         }
 
-        var player = Managers.BattleManager.GetPlayer();
+        var player = Managers.PlayerManager.GetPlayer();
         var selectedSpell = Managers.ActionManager.SelectedSpell;
         var selectedCards = Managers.ActionManager.SelectedCards;
         var target = Managers.ActionManager.SelectedTarget;

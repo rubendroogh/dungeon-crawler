@@ -113,17 +113,44 @@ public partial class Character : Node
     /// <param name="characterData"></param>
     public void Setup(CharacterData characterData)
     {
-        CharacterData = characterData;
-        CurrentHealth = characterData.MaxHealth;
+        SetCharacterData(characterData);
 
         CharacterSprite = GetNode<Sprite2D>("CharacterSprite");
         HealthBar = GetNode<TextureProgressBar>("HealthBar");
         StatusEffectLabel = GetNode<Label>("StatusEffectsLabel");
+
+        if (CharacterSprite == null || HealthBar == null || StatusEffectLabel == null)
+        {
+            GD.PrintErr("CharacterSprite, HealthBar, or StatusEffectLabel is not set up in the scene.");
+            return;
+        }
+
         HealthBar.MaxValue = characterData.MaxHealth;
         HealthBar.Value = CurrentHealth;
         CharacterSprite.Texture = characterData.Image;
 
-        // Set the current damage multipliers to the initial values
+        UpdateHealthBar();
+    }
+
+    /// <summary>
+    /// Set the character data for this character.
+    /// </summary>
+    /// <param name="characterData"></param>
+    public void SetCharacterData(CharacterData characterData)
+    {
+        CharacterData = characterData;
+        CurrentHealth = characterData.MaxHealth;
+
+        // Reset the damage modifiers to the base values
+        PhysicalDamageModifiers.Clear();
+        DarkDamageModifiers.Clear();
+        LightDamageModifiers.Clear();
+        FireDamageModifiers.Clear();
+        IceDamageModifiers.Clear();
+        LightningDamageModifiers.Clear();
+        SanityDamageModifiers.Clear();
+        DiseaseDamageModifiers.Clear();
+
         PhysicalDamageModifiers.Add(new DamageModifier(DamageModifierType.Multiplicative, CharacterData.BasePhysicalDamageMultiplier));
         DarkDamageModifiers.Add(new DamageModifier(DamageModifierType.Multiplicative, CharacterData.BaseDarkDamageMultiplier));
         LightDamageModifiers.Add(new DamageModifier(DamageModifierType.Multiplicative, CharacterData.BaseLightDamageMultiplier));
@@ -132,8 +159,6 @@ public partial class Character : Node
         LightningDamageModifiers.Add(new DamageModifier(DamageModifierType.Multiplicative, CharacterData.BaseLightningDamageMultiplier));
         SanityDamageModifiers.Add(new DamageModifier(DamageModifierType.Multiplicative, CharacterData.BaseSanityDamageMultiplier));
         DiseaseDamageModifiers.Add(new DamageModifier(DamageModifierType.Multiplicative, CharacterData.BaseDiseaseDamageMultiplier));
-
-        UpdateHealthBar();
     }
 
     /// <summary>

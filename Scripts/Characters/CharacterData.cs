@@ -25,34 +25,10 @@ public partial class CharacterData : Resource
     public float MaxHealth { get; set; } = 120;
 
     /// <summary>
-    /// 0-20 the Genuine personality stat.
+    /// 0-20 the Benevolent personality stat.
     /// </summary>
     [Export]
-    public int BaseGenuine { get; set; } = 10;
-
-    /// <summary>
-    /// 0-20 the Charming personality stat.
-    /// </summary>
-    [Export]
-    public int BaseCharming { get; set; } = 10;
-
-    /// <summary>
-    /// 0-20 the Focused personality stat.
-    /// </summary>
-    [Export]
-    public int BaseFocused { get; set; } = 10;
-
-    /// <summary>
-    /// 0-20 the Witty personality stat.
-    /// </summary>
-    [Export]
-    public int BaseWitty { get; set; } = 10;
-
-    /// <summary>
-    /// 0-20 the Optimistic personality stat.
-    /// </summary>
-    [Export]
-    public int BaseOptimistic { get; set; } = 10;
+    public int BaseBenevolent { get; set; } = 10;
 
     /// <summary>
     /// 0-20 the Dominant personality stat.
@@ -61,29 +37,47 @@ public partial class CharacterData : Resource
     public int BaseDominant { get; set; } = 10;
 
     /// <summary>
+    /// 0-20 the Charming personality stat.
+    /// </summary>
+    [Export]
+    public int BaseCharming { get; set; } = 10;
+
+    /// <summary>
+    /// 0-20 the Curious personality stat.
+    /// </summary>
+    [Export]
+    public int BaseCurious { get; set; } = 10;
+
+    /// <summary>
     /// 0-20 the Fearless personality stat.
     /// </summary>
     [Export]
     public int BaseFearless { get; set; } = 10;
 
     /// <summary>
-    /// 0-20 the Benevolent personality stat.
+    /// 0-20 the Focused personality stat.
     /// </summary>
     [Export]
-    public int BaseBenevolent { get; set; } = 10;
+    public int BaseFocused { get; set; } = 10;
 
     /// <summary>
-    /// 0-20 the Intelligent personality stat.
+    /// 0-20 the Genuine personality stat.
     /// </summary>
     [Export]
-    public int BaseIntelligent { get; set; } = 10;
+    public int BaseGenuine { get; set; } = 10;
+
+    /// <summary>
+    /// 0-20 the Optimistic personality stat.
+    /// </summary>
+    [Export]
+    public int BaseOptimistic { get; set; } = 10;
 
     /// <summary>
     /// The base physical damage multiplier.
     /// </summary>
     [Export]
     public float BasePhysicalDamageMultiplier { get; set; } = 1;
-    
+
     /// <summary>
     /// The base dark damage multiplier.
     /// </summary>

@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3 uid="uid://ck8p1eru6l2f4"]
+[gd_scene load_steps=35 format=3 uid="uid://ck8p1eru6l2f4"]
 
 [ext_resource type="Resource" uid="uid://b1jhmr0xq4603" path="res://Resources/Spells/FireBall.tres" id="2_hvf01"]
 [ext_resource type="Script" uid="uid://b40v7nngruesy" path="res://Scripts/UI/AddSpellToQueueButton.cs" id="2_irpm1"]
@@ -14,10 +14,35 @@
 [ext_resource type="Script" uid="uid://ccfu4bppobwlv" path="res://Scripts/Managers/BattleManager.cs" id="8_rc4gq"]
 [ext_resource type="Script" uid="uid://87g108e3say3" path="res://Scripts/Managers/BattleLogManager.cs" id="9_4h6gp"]
 [ext_resource type="PackedScene" uid="uid://dchnspiwg3mmg" path="res://Scenes/Enemy.tscn" id="12_aw745"]
+[ext_resource type="Script" uid="uid://dpayadwmj0w0j" path="res://Scripts/Managers/PlayerManager.cs" id="14_wnt1r"]
 [ext_resource type="Resource" uid="uid://cdn0d7ugm3gse" path="res://Resources/Characters/Player.tres" id="15_aw745"]
+[ext_resource type="Script" uid="uid://qvd64pgadui" path="res://Scripts/Managers/TransitionManager.cs" id="15_g2qkk"]
 [ext_resource type="Script" uid="uid://bc7r5kh0kegqt" path="res://Scripts/Characters/Player.cs" id="15_irpm1"]
+[ext_resource type="Script" uid="uid://cr3tq3ldbn5dl" path="res://Scripts/Managers/CharacterCreationManager.cs" id="17_fvp6m"]
+[ext_resource type="FontFile" uid="uid://cfv06efvogvfl" path="res://Assets/Fonts/m3x6.ttf" id="18_wg3rq"]
+[ext_resource type="Texture2D" uid="uid://exboe6jk0wnb" path="res://Assets/RawImages/FullTileMap.png" id="19_tayw2"]
+[ext_resource type="Script" uid="uid://27ykix11cmr7" path="res://Scripts/UI/PersonalityPointsSpinBox.cs" id="20_sth1w"]
+[ext_resource type="Resource" uid="uid://dv0wsrhnml26l" path="res://Resources/PersonalityTraits/Genuine.tres" id="22_b51k0"]
+[ext_resource type="Resource" uid="uid://d3yuybcptl4st" path="res://Resources/PersonalityTraits/Charming.tres" id="23_txofh"]
+[ext_resource type="Resource" uid="uid://b065frvtwd0kl" path="res://Resources/PersonalityTraits/Focused.tres" id="24_g2qkk"]
+[ext_resource type="Resource" uid="uid://c38ur1an64c5q" path="res://Resources/PersonalityTraits/Curious.tres" id="25_ogsbt"]
+[ext_resource type="Resource" uid="uid://di70yuvrx0ctx" path="res://Resources/PersonalityTraits/Optimistic.tres" id="26_ghvpb"]
+[ext_resource type="Resource" uid="uid://beeo0vmah6vb2" path="res://Resources/PersonalityTraits/Dominant.tres" id="27_n6swl"]
+[ext_resource type="Resource" uid="uid://oqgxyf3f2xim" path="res://Resources/PersonalityTraits/Fearless.tres" id="28_jk3s6"]
+[ext_resource type="Resource" uid="uid://qrbbkyecsjwj" path="res://Resources/PersonalityTraits/Benevolent.tres" id="29_hojmo"]
+[ext_resource type="Script" uid="uid://dphi8b28kelq" path="res://Scripts/UI/CharacterCreationSubmit.cs" id="30_txofh"]
 
 [sub_resource type="Theme" id="Theme_5eubm"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_sth1w"]
+atlas = ExtResource("19_tayw2")
+region = Rect2(663, 169, 16, 17)
+
+[sub_resource type="LabelSettings" id="LabelSettings_tayw2"]
+font = ExtResource("18_wg3rq")
+font_size = 32
+outline_size = 2
+outline_color = Color(0.682353, 0, 1, 1)
 
 [node name="Root" type="Node2D"]
 
@@ -49,10 +74,6 @@ EnemyScene = ExtResource("12_aw745")
 [node name="EnemiesPreloader" type="ResourcePreloader" parent="World/ManagerRepository/BattleManager"]
 resources = [PackedStringArray("BasicEnemy"), [ExtResource("8_5eubm")]]
 
-[node name="Player" type="Node" parent="World/ManagerRepository/BattleManager"]
-script = ExtResource("15_irpm1")
-CharacterData = ExtResource("15_aw745")
-
 [node name="TurnPanelContainer" type="PanelContainer" parent="World/ManagerRepository/BattleManager"]
 offset_left = 376.0
 offset_top = 270.0
@@ -61,6 +82,16 @@ offset_bottom = 319.0
 
 [node name="TurnLabel" type="Label" parent="World/ManagerRepository/BattleManager/TurnPanelContainer"]
 layout_mode = 2
+
+[node name="PlayerManager" type="Node" parent="World/ManagerRepository"]
+script = ExtResource("14_wnt1r")
+
+[node name="Player" type="Node" parent="World/ManagerRepository/PlayerManager"]
+script = ExtResource("15_irpm1")
+CharacterData = ExtResource("15_aw745")
+
+[node name="TransitionManager" type="Node" parent="World/ManagerRepository"]
+script = ExtResource("15_g2qkk")
 
 [node name="UI" type="Control" parent="."]
 layout_mode = 3
@@ -232,34 +263,286 @@ layout_mode = 2
 text = "0/0 mana charges"
 horizontal_alignment = 1
 
-[node name="CharacterCreation" type="PanelContainer" parent="UI"]
-visible = false
-layout_mode = 0
-offset_left = -113.0
-offset_top = -56.0
-offset_right = 117.0
-offset_bottom = 58.0
+[node name="CharacterCreation" type="CenterContainer" parent="UI"]
+z_index = 100
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 
-[node name="MarginContainer" type="MarginContainer" parent="UI/CharacterCreation"]
+[node name="CharacterCreationManager" type="PanelContainer" parent="UI/CharacterCreation"]
 layout_mode = 2
-theme_override_constants/margin_left = 10
-theme_override_constants/margin_top = 10
-theme_override_constants/margin_right = 10
-theme_override_constants/margin_bottom = 10
+script = ExtResource("17_fvp6m")
+MaxTotalPoints = 0
+AvailablePointsTextSingular = "available personality point"
+AvailablePointsTextPlural = "available personality points"
 
-[node name="VBoxContainer" type="VBoxContainer" parent="UI/CharacterCreation/MarginContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="UI/CharacterCreation/CharacterCreationManager"]
+layout_mode = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
+
+[node name="HBoxContainer" type="HBoxContainer" parent="UI/CharacterCreation/CharacterCreationManager/MarginContainer"]
+layout_mode = 2
+
+[node name="Form" type="VBoxContainer" parent="UI/CharacterCreation/CharacterCreationManager/MarginContainer/HBoxContainer"]
 layout_mode = 2
 alignment = 1
 
-[node name="Label" type="Label" parent="UI/CharacterCreation/MarginContainer/VBoxContainer"]
+[node name="CharacterCreationTitleLabel" type="Label" parent="UI/CharacterCreation/CharacterCreationManager/MarginContainer/HBoxContainer/Form"]
 layout_mode = 2
-text = "Who are you?"
+theme_override_font_sizes/font_size = 32
+text = "Please describe yourself."
 
-[node name="LineEdit" type="LineEdit" parent="UI/CharacterCreation/MarginContainer/VBoxContainer"]
+[node name="PlayerNameInput" type="LineEdit" parent="UI/CharacterCreation/CharacterCreationManager/MarginContainer/HBoxContainer/Form"]
 layout_mode = 2
 placeholder_text = "Your name"
 
-[node name="Label2" type="Label" parent="UI/CharacterCreation/MarginContainer/VBoxContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="UI/CharacterCreation/CharacterCreationManager/MarginContainer/HBoxContainer/Form"]
 layout_mode = 2
-text = "Available personality points"
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
+
+[node name="VBoxContainer" type="VBoxContainer" parent="UI/CharacterCreation/CharacterCreationManager/MarginContainer/HBoxContainer/Form/MarginContainer"]
+layout_mode = 2
+
+[node name="Benevolent" type="HBoxContainer" parent="UI/CharacterCreation/CharacterCreationManager/MarginContainer/HBoxContainer/Form/MarginContainer/VBoxContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="TextureRect" type="TextureRect" parent="UI/CharacterCreation/CharacterCreationManager/MarginContainer/HBoxContainer/Form/MarginContainer/VBoxContainer/Benevolent"]
+visible = false
+layout_mode = 2
+size_flags_vertical = 4
+texture = SubResource("AtlasTexture_sth1w")
+stretch_mode = 2
+
+[node name="Label" type="Label" parent="UI/CharacterCreation/CharacterCreationManager/MarginContainer/HBoxContainer/Form/MarginContainer/VBoxContainer/Benevolent"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Benevolent"
+
+[node name="SpinBox" type="SpinBox" parent="UI/CharacterCreation/CharacterCreationManager/MarginContainer/HBoxContainer/Form/MarginContainer/VBoxContainer/Benevolent"]
+layout_mode = 2
+min_value = -10.0
+max_value = 10.0
+rounded = true
+script = ExtResource("20_sth1w")
+Trait = ExtResource("29_hojmo")
+
+[node name="Charming" type="HBoxContainer" parent="UI/CharacterCreation/CharacterCreationManager/MarginContainer/HBoxContainer/Form/MarginContainer/VBoxContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="TextureRect" type="TextureRect" parent="UI/CharacterCreation/CharacterCreationManager/MarginContainer/HBoxContainer/Form/MarginContainer/VBoxContainer/Charming"]
+visible = false
+layout_mode = 2
+size_flags_vertical = 4
+texture = SubResource("AtlasTexture_sth1w")
+stretch_mode = 2
+
+[node name="Label" type="Label" parent="UI/CharacterCreation/CharacterCreationManager/MarginContainer/HBoxContainer/Form/MarginContainer/VBoxContainer/Charming"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Charming"
+
+[node name="SpinBox" type="SpinBox" parent="UI/CharacterCreation/CharacterCreationManager/MarginContainer/HBoxContainer/Form/MarginContainer/VBoxContainer/Charming"]
+layout_mode = 2
+min_value = -10.0
+max_value = 10.0
+rounded = true
+script = ExtResource("20_sth1w")
+Trait = ExtResource("23_txofh")
+
+[node name="Curious" type="HBoxContainer" parent="UI/CharacterCreation/CharacterCreationManager/MarginContainer/HBoxContainer/Form/MarginContainer/VBoxContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="TextureRect" type="TextureRect" parent="UI/CharacterCreation/CharacterCreationManager/MarginContainer/HBoxContainer/Form/MarginContainer/VBoxContainer/Curious"]
+visible = false
+layout_mode = 2
+size_flags_vertical = 4
+texture = SubResource("AtlasTexture_sth1w")
+stretch_mode = 2
+
+[node name="Label" type="Label" parent="UI/CharacterCreation/CharacterCreationManager/MarginContainer/HBoxContainer/Form/MarginContainer/VBoxContainer/Curious"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Curious"
+
+[node name="SpinBox" type="SpinBox" parent="UI/CharacterCreation/CharacterCreationManager/MarginContainer/HBoxContainer/Form/MarginContainer/VBoxContainer/Curious"]
+layout_mode = 2
+min_value = -10.0
+max_value = 10.0
+rounded = true
+script = ExtResource("20_sth1w")
+Trait = ExtResource("25_ogsbt")
+
+[node name="Dominant" type="HBoxContainer" parent="UI/CharacterCreation/CharacterCreationManager/MarginContainer/HBoxContainer/Form/MarginContainer/VBoxContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="TextureRect" type="TextureRect" parent="UI/CharacterCreation/CharacterCreationManager/MarginContainer/HBoxContainer/Form/MarginContainer/VBoxContainer/Dominant"]
+visible = false
+layout_mode = 2
+size_flags_vertical = 4
+texture = SubResource("AtlasTexture_sth1w")
+stretch_mode = 2
+
+[node name="Label" type="Label" parent="UI/CharacterCreation/CharacterCreationManager/MarginContainer/HBoxContainer/Form/MarginContainer/VBoxContainer/Dominant"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Dominant"
+
+[node name="SpinBox" type="SpinBox" parent="UI/CharacterCreation/CharacterCreationManager/MarginContainer/HBoxContainer/Form/MarginContainer/VBoxContainer/Dominant"]
+layout_mode = 2
+min_value = -10.0
+max_value = 10.0
+rounded = true
+script = ExtResource("20_sth1w")
+Trait = ExtResource("27_n6swl")
+
+[node name="Fearless" type="HBoxContainer" parent="UI/CharacterCreation/CharacterCreationManager/MarginContainer/HBoxContainer/Form/MarginContainer/VBoxContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="TextureRect" type="TextureRect" parent="UI/CharacterCreation/CharacterCreationManager/MarginContainer/HBoxContainer/Form/MarginContainer/VBoxContainer/Fearless"]
+visible = false
+layout_mode = 2
+size_flags_vertical = 4
+texture = SubResource("AtlasTexture_sth1w")
+stretch_mode = 2
+
+[node name="Label" type="Label" parent="UI/CharacterCreation/CharacterCreationManager/MarginContainer/HBoxContainer/Form/MarginContainer/VBoxContainer/Fearless"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Fearless"
+
+[node name="SpinBox" type="SpinBox" parent="UI/CharacterCreation/CharacterCreationManager/MarginContainer/HBoxContainer/Form/MarginContainer/VBoxContainer/Fearless"]
+layout_mode = 2
+min_value = -10.0
+max_value = 10.0
+rounded = true
+script = ExtResource("20_sth1w")
+Trait = ExtResource("28_jk3s6")
+
+[node name="Focused" type="HBoxContainer" parent="UI/CharacterCreation/CharacterCreationManager/MarginContainer/HBoxContainer/Form/MarginContainer/VBoxContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="TextureRect" type="TextureRect" parent="UI/CharacterCreation/CharacterCreationManager/MarginContainer/HBoxContainer/Form/MarginContainer/VBoxContainer/Focused"]
+visible = false
+layout_mode = 2
+size_flags_vertical = 4
+texture = SubResource("AtlasTexture_sth1w")
+stretch_mode = 2
+
+[node name="Label" type="Label" parent="UI/CharacterCreation/CharacterCreationManager/MarginContainer/HBoxContainer/Form/MarginContainer/VBoxContainer/Focused"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Focused"
+
+[node name="SpinBox" type="SpinBox" parent="UI/CharacterCreation/CharacterCreationManager/MarginContainer/HBoxContainer/Form/MarginContainer/VBoxContainer/Focused"]
+layout_mode = 2
+min_value = -10.0
+max_value = 10.0
+rounded = true
+script = ExtResource("20_sth1w")
+Trait = ExtResource("24_g2qkk")
+
+[node name="Geniune" type="HBoxContainer" parent="UI/CharacterCreation/CharacterCreationManager/MarginContainer/HBoxContainer/Form/MarginContainer/VBoxContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="TextureRect" type="TextureRect" parent="UI/CharacterCreation/CharacterCreationManager/MarginContainer/HBoxContainer/Form/MarginContainer/VBoxContainer/Geniune"]
+visible = false
+layout_mode = 2
+size_flags_vertical = 4
+texture = SubResource("AtlasTexture_sth1w")
+stretch_mode = 2
+
+[node name="Label" type="Label" parent="UI/CharacterCreation/CharacterCreationManager/MarginContainer/HBoxContainer/Form/MarginContainer/VBoxContainer/Geniune"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Genuine"
+
+[node name="SpinBox" type="SpinBox" parent="UI/CharacterCreation/CharacterCreationManager/MarginContainer/HBoxContainer/Form/MarginContainer/VBoxContainer/Geniune"]
+layout_mode = 2
+min_value = -10.0
+max_value = 10.0
+rounded = true
+script = ExtResource("20_sth1w")
+Trait = ExtResource("22_b51k0")
+
+[node name="Optimistic" type="HBoxContainer" parent="UI/CharacterCreation/CharacterCreationManager/MarginContainer/HBoxContainer/Form/MarginContainer/VBoxContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="TextureRect" type="TextureRect" parent="UI/CharacterCreation/CharacterCreationManager/MarginContainer/HBoxContainer/Form/MarginContainer/VBoxContainer/Optimistic"]
+visible = false
+layout_mode = 2
+size_flags_vertical = 4
+texture = SubResource("AtlasTexture_sth1w")
+stretch_mode = 2
+
+[node name="Label" type="Label" parent="UI/CharacterCreation/CharacterCreationManager/MarginContainer/HBoxContainer/Form/MarginContainer/VBoxContainer/Optimistic"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Optimistic"
+
+[node name="SpinBox" type="SpinBox" parent="UI/CharacterCreation/CharacterCreationManager/MarginContainer/HBoxContainer/Form/MarginContainer/VBoxContainer/Optimistic"]
+layout_mode = 2
+min_value = -10.0
+max_value = 10.0
+rounded = true
+script = ExtResource("20_sth1w")
+Trait = ExtResource("26_ghvpb")
+
+[node name="AvailablePersonalityPoints" type="HBoxContainer" parent="UI/CharacterCreation/CharacterCreationManager/MarginContainer/HBoxContainer/Form/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="UI/CharacterCreation/CharacterCreationManager/MarginContainer/HBoxContainer/Form/MarginContainer/VBoxContainer/AvailablePersonalityPoints"]
+layout_mode = 2
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
+
+[node name="AvailablePointsNumberLabel" type="Label" parent="UI/CharacterCreation/CharacterCreationManager/MarginContainer/HBoxContainer/Form/MarginContainer/VBoxContainer/AvailablePersonalityPoints/MarginContainer"]
+layout_mode = 2
+text = "u"
+label_settings = SubResource("LabelSettings_tayw2")
 horizontal_alignment = 1
+
+[node name="AvailablePointsTextLabel" type="Label" parent="UI/CharacterCreation/CharacterCreationManager/MarginContainer/HBoxContainer/Form/MarginContainer/VBoxContainer/AvailablePersonalityPoints"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "available personality points"
+horizontal_alignment = 1
+
+[node name="SubmitButton" type="Button" parent="UI/CharacterCreation/CharacterCreationManager/MarginContainer/HBoxContainer/Form"]
+layout_mode = 2
+text = "Start game"
+script = ExtResource("30_txofh")
+
+[node name="HelperText" type="VBoxContainer" parent="UI/CharacterCreation/CharacterCreationManager/MarginContainer/HBoxContainer"]
+visible = false
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="UI/CharacterCreation/CharacterCreationManager/MarginContainer/HBoxContainer/HelperText"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/margin_left = 5
+
+[node name="Label" type="Label" parent="UI/CharacterCreation/CharacterCreationManager/MarginContainer/HBoxContainer/HelperText/MarginContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+text = "Test"
+horizontal_alignment = 1
+vertical_alignment = 1

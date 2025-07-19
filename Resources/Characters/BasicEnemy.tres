@@ -20,7 +20,6 @@ BaseOptimistic = 11
 BaseDominant = 8
 BaseFearless = 12
 BaseBenevolent = 5
-BaseIntelligent = 5
 BasePhysicalDamageMultiplier = 1.0
 BaseDarkDamageMultiplier = 1.0
 BaseLightDamageMultiplier = 1.2

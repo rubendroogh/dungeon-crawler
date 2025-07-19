@@ -48,6 +48,11 @@ public partial class BattleManager : Node
     /// </summary>
     private Label TurnLabel;
 
+    /// <summary>
+    /// Indicates whether the battle has been initialized.
+    /// </summary>
+    private bool IsBattleInitialized { get; set; } = false;
+
     public override void _Ready()
     {
         EnemiesPreloader = GetNode<ResourcePreloader>("EnemiesPreloader");
@@ -58,21 +63,15 @@ public partial class BattleManager : Node
             return;
         }
 
-        CallDeferred(nameof(InitializeBattle));
+        // CallDeferred(nameof(InitializeBattle));
     }
 
     public override void _Process(double delta)
     {
-        AdvanceTurnFlow();
-    }
-
-    /// <summary>
-    /// Gets the player character from the scene.
-    /// This method is used to access the player character for actions such as casting spells or attacking.
-    /// </summary>
-    public Player GetPlayer()
-    {
-        return GetNode<Player>("Player");
+        if (IsBattleInitialized)
+        {
+            AdvanceTurnFlow();
+        }
     }
 
     /// <summary>
@@ -110,7 +109,7 @@ public partial class BattleManager : Node
     /// Initializes the battle by setting up the characters and spawning a random enemy.
     /// The battle starts with the player's turn.
     /// </summary>
-    private void InitializeBattle()
+    public void InitializeBattle()
     {
         Characters = new Dictionary<Character, bool>
         {
@@ -247,7 +246,7 @@ public partial class BattleManager : Node
     private bool ShouldAutoAdvancePhase(TurnPhase phase)
     {
         var isMain = phase == TurnPhase.Main;
-        var isPlayer = GetCurrentCharacter() == GetPlayer();
+        var isPlayer = GetCurrentCharacter() == Managers.PlayerManager.GetPlayer();
 
         return !(isMain && isPlayer);
     }

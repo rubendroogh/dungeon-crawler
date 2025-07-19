@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="PersonalityTrait" load_steps=2 format=3 uid="uid://beeo0vmah6vb2"]
+
+[ext_resource type="Script" uid="uid://bt0nlksyoiknr" path="res://Scripts/Characters/PersonalityTrait.cs" id="1_jf8yo"]
+
+[resource]
+script = ExtResource("1_jf8yo")
+Name = "Dominant"
+NegativeName = "Submissive"
+metadata/_custom_type_script = "uid://bt0nlksyoiknr"

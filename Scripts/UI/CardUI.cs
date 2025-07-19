@@ -37,7 +37,7 @@ public partial class CardUI : TextureRect
     private void InitializeCustomSignals()
     {
         Managers.ActionManager.CardsReset += OnCardsReset;
-        Managers.BattleManager.GetPlayer().SpellQueued += OnSpellQueued;
+        Managers.PlayerManager.GetPlayer().SpellQueued += OnSpellQueued;
     }
 
     public override void _GuiInput(InputEvent @event)

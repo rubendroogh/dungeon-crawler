@@ -29,11 +29,25 @@ public partial class Managers : Node
     /// </summary>
     public static BattleManager BattleManager { get; set; }
 
+    /// <summary>
+    /// PlayerManager is responsible for managing the player character and related data.
+    /// It handles player-specific actions, character data, and interactions with the game world.
+    /// </summary>
+    public static PlayerManager PlayerManager { get; set; }
+
+    /// <summary>
+    /// TransitionManager is responsible for managing transitions between different game states,
+    /// such as loading screens, scene transitions, and other visual effects that occur during state changes
+    /// </summary>
+    public static TransitionManager TransitionManager { get; set; }
+
     public override void _Ready()
     {
         ActionManager = GetNode<ActionManager>("ActionManager");
         SpellListManager = GetNode<SpellListManager>("SpellListManager");
         BattleLogManager = GetNode<BattleLogManager>("BattleLogManager");
         BattleManager = GetNode<BattleManager>("BattleManager");
+        PlayerManager = GetNode<PlayerManager>("PlayerManager");
+        TransitionManager = GetNode<TransitionManager>("TransitionManager");
     }
 }
