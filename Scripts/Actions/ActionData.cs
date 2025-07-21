@@ -1,6 +1,9 @@
 using System.Collections.Generic;
 using Godot;
 
+/// <summary>
+/// ActionData is a resource that contains damage types and other properties of an action.
+/// </summary>
 [GlobalClass] // Makes it creatable from the "New Resource" menu
 public partial class ActionData : Resource
 {

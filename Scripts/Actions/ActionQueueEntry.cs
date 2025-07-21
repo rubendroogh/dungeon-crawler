@@ -1,5 +1,5 @@
 /// <summary>
-/// Represents an entry in the spell queue.
+/// Represents an entry in the action queue.
 /// </summary>
 public class ActionQueueEntry
 {

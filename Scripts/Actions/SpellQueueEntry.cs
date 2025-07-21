@@ -1,5 +1,8 @@
 using System.Collections.Generic;
 
+/// <summary>
+/// Represents an entry in the spell queue.
+/// </summary>
 public partial class SpellQueueEntry : ActionQueueEntry
 {
     /// <summary>

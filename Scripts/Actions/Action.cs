@@ -6,8 +6,15 @@ using Godot;
 /// </summary>
 public partial class Action
 {
+    /// <summary>
+    /// Data associated with the action, like damage amount, type, etc.
+    /// </summary>
     public ActionData Data { get; set; }
 
+    /// <summary>
+    /// Behaviour that defines how the action is executed.
+    /// This should implement the IActionBehaviour interface, which contains the logic for executing the action.
+    /// </summary>
     protected IActionBehaviour Behaviour { get; set; }
 
     public Action(ActionData spellData, IActionBehaviour spellBehaviour)

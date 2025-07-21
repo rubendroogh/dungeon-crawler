@@ -59,24 +59,72 @@ public partial class Damage
     }
 }
 
+/// <summary>
+/// Defines the different types of damage that can be dealt by a spell.
+/// </summary>
 public enum DamageType
 {
+    /// <summary>
+    /// Represents physical damage, which is the most common type of damage.
+    /// It is usually dealt by melee attacks or physical spells.
+    /// </summary>
     Physical,
+
+    /// <summary>
+    /// Represents dark damage, which is often associated with curses or shadow magic.
+    /// </summary>
     Dark,
+    /// <summary>
+    /// Represents light damage, which is often associated with holy or radiant magic.
+    /// </summary>
     Light,
+    /// <summary>
+    /// Represents fire damage, which is often associated with explosions or burning effects.
+    /// </summary>
     Fire,
+    /// <summary>
+    /// Represents ice damage, which is often associated with freezing or chilling effects.
+    /// </summary>
     Ice,
+    /// <summary>
+    /// Represents lightning damage, which is rare and usually environmental.
+    /// </summary>
     Lightning,
+    /// <summary>
+    /// Represents sanity damage, which is often associated with mental effects.
+    /// </summary>
     Sanity,
+    /// <summary>
+    /// Represents disease damage, which is often associated with poison or infection.
+    /// </summary>
     Disease,
 }
 
-// TODO: Does nothing for now
+
+/// <summary>
+/// Defines the source of the damage.
+/// This is used to determine how the damage is applied and what effects it may have.
+/// </summary>
 public enum DamageSource
 {
+    /// <summary>
+    /// Represents an unknown source of damage.
+    /// </summary>
     Unknown,
+    /// <summary>
+    /// Represents damage dealt by a spell.
+    /// </summary>
     Spell,
+    /// <summary>
+    /// Represents damage dealt by an item, like a bomb or potion.
+    /// </summary>
     Item,
+    /// <summary>
+    /// Represents damage dealt by the environment, like traps and hazards.
+    /// </summary>
     Environment,
+    /// <summary>
+    /// Represents damage dealt by a character, like an attack or ability.
+    /// </summary>
     Character,
 }

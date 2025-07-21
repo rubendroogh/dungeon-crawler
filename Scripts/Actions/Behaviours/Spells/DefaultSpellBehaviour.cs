@@ -10,6 +10,12 @@ public partial class DefaultSpellBehaviour : ISpellBehaviour
 {
     public virtual DamagePacket Resolve(List<Card> cards, ActionData spellData, List<Character> targets)
     {
+        if (cards == null || cards.Count == 0)
+        {
+            GD.PrintErr("No cards selected.");
+            return new DamagePacket();
+        }
+
         if (targets == null || targets.Count == 0)
         {
             GD.PrintErr("No targets selected.");

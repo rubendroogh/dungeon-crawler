@@ -51,7 +51,9 @@ public partial class StatusEffect
     };
 }
 
-
+/// <summary>
+/// Defines the different types of status effects that can be applied to a character.
+/// </summary>
 public enum StatusEffectType
 {
     None,
