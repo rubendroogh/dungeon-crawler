@@ -41,6 +41,11 @@ public partial class Managers : Node
     /// </summary>
     public static TransitionManager TransitionManager { get; set; }
 
+    /// <summary>
+    /// DebugScreenManager is responsible for showing the correct data in the debug screen.
+    /// </summary>
+    public static DebugScreenManager DebugScreenManager { get; set; }
+
     public override void _Ready()
     {
         ActionManager = GetNode<ActionManager>("ActionManager");
@@ -49,5 +54,6 @@ public partial class Managers : Node
         BattleManager = GetNode<BattleManager>("BattleManager");
         PlayerManager = GetNode<PlayerManager>("PlayerManager");
         TransitionManager = GetNode<TransitionManager>("TransitionManager");
+        DebugScreenManager = GetNode<DebugScreenManager>("DebugScreenManager");
     }
 }
