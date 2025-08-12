@@ -39,7 +39,7 @@ public partial class SpellListManager : Node
     public override void _Ready()
     {
         SpellPreloader = GetNode<ResourcePreloader>("SpellPreloader");
-        SpellListContainer = GetTree().Root.GetNode<VBoxContainer>("Root/UI/HUD/SpellList/SpellListPanelContainer/SpellListHorizontalContainer/SpellList");
+        SpellListContainer = GetTree().Root.GetNode<VBoxContainer>("Root/UI/HUD/SpellList/SpellListPanelContainer/Margin/SpellListHorizontalContainer/SpellList");
         InitializeSpells();
     }
 

@@ -56,7 +56,7 @@ public partial class BattleManager : Node
     public override void _Ready()
     {
         EnemiesPreloader = GetNode<ResourcePreloader>("EnemiesPreloader");
-        TurnLabel = GetNode<Label>("TurnPanelContainer/TurnLabel");
+        TurnLabel = GetTree().Root.GetNode<Label>("Root/UI/HUD/TurnPanelContainer/TurnLabel");
         if (EnemiesPreloader == null)
         {
             GD.PrintErr("EnemiesPreloader not found in the scene.");

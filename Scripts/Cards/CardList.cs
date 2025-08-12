@@ -86,7 +86,7 @@ public partial class CardList : Node
 	/// </summary>
 	private void InitializeCardDeckUI()
 	{
-		string containersPath = "CardListPanelContainer/CardListHorizontalContainer/CardList/";
+		string containersPath = "CardListPanelContainer/Margin/CardListHorizontalContainer/CardList/";
 		Texture2D atlas = GD.Load<Texture2D>("res://Assets/RawImages/Cards.png");
 		Vector2I tileSize = new Vector2I(16, 16);
 

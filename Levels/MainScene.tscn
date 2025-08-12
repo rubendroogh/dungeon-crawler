@@ -1,4 +1,4 @@
-[gd_scene load_steps=35 format=3 uid="uid://ck8p1eru6l2f4"]
+[gd_scene load_steps=36 format=3 uid="uid://ck8p1eru6l2f4"]
 
 [ext_resource type="Resource" uid="uid://b1jhmr0xq4603" path="res://Resources/Spells/FireBall.tres" id="2_hvf01"]
 [ext_resource type="Script" uid="uid://b40v7nngruesy" path="res://Scripts/UI/AddSpellToQueueButton.cs" id="2_irpm1"]
@@ -18,6 +18,7 @@
 [ext_resource type="Resource" uid="uid://cdn0d7ugm3gse" path="res://Resources/Characters/Player.tres" id="15_aw745"]
 [ext_resource type="Script" uid="uid://qvd64pgadui" path="res://Scripts/Managers/TransitionManager.cs" id="15_g2qkk"]
 [ext_resource type="Script" uid="uid://bc7r5kh0kegqt" path="res://Scripts/Characters/Player.cs" id="15_irpm1"]
+[ext_resource type="Script" uid="uid://omqimuu5thub" path="res://Scripts/Managers/DebugScreenManager.cs" id="16_ogsbt"]
 [ext_resource type="Script" uid="uid://cr3tq3ldbn5dl" path="res://Scripts/Managers/CharacterCreationManager.cs" id="17_fvp6m"]
 [ext_resource type="FontFile" uid="uid://cfv06efvogvfl" path="res://Assets/Fonts/m3x6.ttf" id="18_wg3rq"]
 [ext_resource type="Texture2D" uid="uid://exboe6jk0wnb" path="res://Assets/RawImages/FullTileMap.png" id="19_tayw2"]
@@ -55,7 +56,7 @@ script = ExtResource("4_26f67")
 
 [node name="ActionManager" type="Node" parent="World/ManagerRepository" node_paths=PackedStringArray("SelectedCardsLabel")]
 script = ExtResource("4_safex")
-SelectedCardsLabel = NodePath("../../../UI/HUD/CardList/CardListPanelContainer/CardListHorizontalContainer/SelectedCardsLabelContainer/SelectedCardsLabel")
+SelectedCardsLabel = NodePath("../../../UI/HUD/CardList/CardListPanelContainer/Margin/CardListHorizontalContainer/SelectedCardsLabelContainer/SelectedCardsLabel")
 
 [node name="SpellListManager" type="Node" parent="World/ManagerRepository"]
 script = ExtResource("5_26f67")
@@ -74,15 +75,6 @@ EnemyScene = ExtResource("12_aw745")
 [node name="EnemiesPreloader" type="ResourcePreloader" parent="World/ManagerRepository/BattleManager"]
 resources = [PackedStringArray("BasicEnemy"), [ExtResource("8_5eubm")]]
 
-[node name="TurnPanelContainer" type="PanelContainer" parent="World/ManagerRepository/BattleManager"]
-offset_left = 376.0
-offset_top = 270.0
-offset_right = 572.0
-offset_bottom = 319.0
-
-[node name="TurnLabel" type="Label" parent="World/ManagerRepository/BattleManager/TurnPanelContainer"]
-layout_mode = 2
-
 [node name="PlayerManager" type="Node" parent="World/ManagerRepository"]
 script = ExtResource("14_wnt1r")
 
@@ -92,6 +84,9 @@ CharacterData = ExtResource("15_aw745")
 
 [node name="TransitionManager" type="Node" parent="World/ManagerRepository"]
 script = ExtResource("15_g2qkk")
+
+[node name="DebugScreenManager" type="Node" parent="World/ManagerRepository"]
+script = ExtResource("16_ogsbt")
 
 [node name="UI" type="Control" parent="."]
 layout_mode = 3
@@ -106,10 +101,10 @@ offset_bottom = 40.0
 
 [node name="Debug" type="PanelContainer" parent="UI/HUD"]
 layout_mode = 0
-offset_left = 324.0
-offset_top = 12.0
-offset_right = 545.0
-offset_bottom = 132.0
+offset_left = 349.0
+offset_top = 93.0
+offset_right = 570.0
+offset_bottom = 213.0
 
 [node name="VBoxContainer" type="VBoxContainer" parent="UI/HUD/Debug"]
 layout_mode = 2
@@ -123,6 +118,8 @@ text = "Spell queue"
 
 [node name="RichTextLabel" type="RichTextLabel" parent="UI/HUD/Debug/VBoxContainer/SpellQueue"]
 layout_mode = 2
+theme_override_font_sizes/normal_font_size = 16
+fit_content = true
 
 [node name="PlayerStats" type="VBoxContainer" parent="UI/HUD/Debug/VBoxContainer"]
 layout_mode = 2
@@ -133,10 +130,12 @@ text = "Player stats"
 
 [node name="Health" type="Label" parent="UI/HUD/Debug/VBoxContainer/PlayerStats"]
 layout_mode = 2
+theme_override_font_sizes/font_size = 16
 text = "Health: 70/70"
 
 [node name="StatusEffects" type="Label" parent="UI/HUD/Debug/VBoxContainer/PlayerStats"]
 layout_mode = 2
+theme_override_font_sizes/font_size = 16
 
 [node name="BattleLogPanelContainer" type="PanelContainer" parent="UI/HUD"]
 layout_mode = 0
@@ -147,8 +146,10 @@ offset_bottom = 321.0
 
 [node name="MarginContainer" type="MarginContainer" parent="UI/HUD/BattleLogPanelContainer"]
 layout_mode = 2
-theme_override_constants/margin_left = 8
-theme_override_constants/margin_right = 8
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 10
 
 [node name="BattleLog" type="RichTextLabel" parent="UI/HUD/BattleLogPanelContainer/MarginContainer"]
 layout_mode = 2
@@ -191,16 +192,24 @@ offset_right = 532.0
 offset_bottom = -196.0
 grow_horizontal = 0
 
-[node name="SpellListHorizontalContainer" type="VBoxContainer" parent="UI/HUD/SpellList/SpellListPanelContainer"]
+[node name="Margin" type="MarginContainer" parent="UI/HUD/SpellList/SpellListPanelContainer"]
 layout_mode = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
 
-[node name="Label" type="Label" parent="UI/HUD/SpellList/SpellListPanelContainer/SpellListHorizontalContainer"]
+[node name="SpellListHorizontalContainer" type="VBoxContainer" parent="UI/HUD/SpellList/SpellListPanelContainer/Margin"]
 layout_mode = 2
-theme_override_font_sizes/font_size = 48
+theme_override_constants/separation = 10
+
+[node name="Label" type="Label" parent="UI/HUD/SpellList/SpellListPanelContainer/Margin/SpellListHorizontalContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 36
 text = "Spellbook"
 horizontal_alignment = 1
 
-[node name="SpellList" type="VBoxContainer" parent="UI/HUD/SpellList/SpellListPanelContainer/SpellListHorizontalContainer"]
+[node name="SpellList" type="VBoxContainer" parent="UI/HUD/SpellList/SpellListPanelContainer/Margin/SpellListHorizontalContainer"]
 custom_minimum_size = Vector2(0, 10)
 layout_mode = 2
 size_flags_vertical = 3
@@ -218,52 +227,76 @@ offset_top = -320.0
 offset_right = -435.0
 offset_bottom = -238.0
 
-[node name="CardListHorizontalContainer" type="VBoxContainer" parent="UI/HUD/CardList/CardListPanelContainer"]
+[node name="Margin" type="MarginContainer" parent="UI/HUD/CardList/CardListPanelContainer"]
 layout_mode = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
 
-[node name="Label" type="Label" parent="UI/HUD/CardList/CardListPanelContainer/CardListHorizontalContainer"]
+[node name="CardListHorizontalContainer" type="VBoxContainer" parent="UI/HUD/CardList/CardListPanelContainer/Margin"]
 layout_mode = 2
-theme_override_font_sizes/font_size = 48
+theme_override_constants/separation = 10
+
+[node name="Label" type="Label" parent="UI/HUD/CardList/CardListPanelContainer/Margin/CardListHorizontalContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 36
 text = "Your deck"
 horizontal_alignment = 1
 
-[node name="CardList" type="HBoxContainer" parent="UI/HUD/CardList/CardListPanelContainer/CardListHorizontalContainer"]
+[node name="CardList" type="HBoxContainer" parent="UI/HUD/CardList/CardListPanelContainer/Margin/CardListHorizontalContainer"]
 modulate = Color(1, 1, 1, 0.937255)
 layout_mode = 2
 size_flags_vertical = 3
 size_flags_stretch_ratio = 10.63
 theme = SubResource("Theme_5eubm")
 
-[node name="CardListHearts" type="VBoxContainer" parent="UI/HUD/CardList/CardListPanelContainer/CardListHorizontalContainer/CardList"]
+[node name="CardListHearts" type="VBoxContainer" parent="UI/HUD/CardList/CardListPanelContainer/Margin/CardListHorizontalContainer/CardList"]
 custom_minimum_size = Vector2(0, 10)
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="CardListDiamonds" type="VBoxContainer" parent="UI/HUD/CardList/CardListPanelContainer/CardListHorizontalContainer/CardList"]
+[node name="CardListDiamonds" type="VBoxContainer" parent="UI/HUD/CardList/CardListPanelContainer/Margin/CardListHorizontalContainer/CardList"]
 custom_minimum_size = Vector2(0, 10)
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="CardListClubs" type="VBoxContainer" parent="UI/HUD/CardList/CardListPanelContainer/CardListHorizontalContainer/CardList"]
+[node name="CardListClubs" type="VBoxContainer" parent="UI/HUD/CardList/CardListPanelContainer/Margin/CardListHorizontalContainer/CardList"]
 custom_minimum_size = Vector2(0, 10)
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="CardListSpades" type="VBoxContainer" parent="UI/HUD/CardList/CardListPanelContainer/CardListHorizontalContainer/CardList"]
+[node name="CardListSpades" type="VBoxContainer" parent="UI/HUD/CardList/CardListPanelContainer/Margin/CardListHorizontalContainer/CardList"]
 custom_minimum_size = Vector2(0, 10)
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="SelectedCardsLabelContainer" type="HBoxContainer" parent="UI/HUD/CardList/CardListPanelContainer/CardListHorizontalContainer"]
+[node name="SelectedCardsLabelContainer" type="HBoxContainer" parent="UI/HUD/CardList/CardListPanelContainer/Margin/CardListHorizontalContainer"]
 layout_mode = 2
 alignment = 1
 
-[node name="SelectedCardsLabel" type="Label" parent="UI/HUD/CardList/CardListPanelContainer/CardListHorizontalContainer/SelectedCardsLabelContainer"]
+[node name="SelectedCardsLabel" type="Label" parent="UI/HUD/CardList/CardListPanelContainer/Margin/CardListHorizontalContainer/SelectedCardsLabelContainer"]
 layout_mode = 2
 text = "0/0 mana charges"
 horizontal_alignment = 1
 
+[node name="TurnPanelContainer" type="PanelContainer" parent="UI/HUD"]
+offset_left = 376.0
+offset_top = 270.0
+offset_right = 572.0
+offset_bottom = 319.0
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="TurnLabel" type="Label" parent="UI/HUD/TurnPanelContainer"]
+layout_mode = 2
+size_flags_vertical = 1
+text = "Turn 1, Phase: Main"
+horizontal_alignment = 1
+vertical_alignment = 1
+
 [node name="CharacterCreation" type="CenterContainer" parent="UI"]
+visible = false
 z_index = 100
 layout_mode = 1
 anchors_preset = 15
