@@ -37,10 +37,20 @@ public partial class Player : Character
             return;
         }
 
-        var entry = new SpellQueueEntry(spell, target, [.. cards]);
+        // Copy the card list to avoid screwing with the original list.
+        var cardList = new List<Card>(cards);
+        if (cardList.Count == 0)
+        {
+            // TODO: Add animation for hinting at card selection.
+            return;
+        }
+
+        var entry = new SpellQueueEntry(spell, target, cardList);
         SpellQueue.Add(entry);
-        Managers.BattleLogManager.Log($"Queued {spell.Data.Name} with {cards.Count} cards for {target.Name}.");
         EmitSignal(SignalName.SpellQueued);
+        Managers.BattleLogManager.Log($"Queued {spell.Data.Name} with {cardList.Count} cards for {target.Name}.");
+
+        Managers.DebugScreenManager.UpdateSpellQueue();
     }
 
     /// <summary>
@@ -68,7 +78,7 @@ public partial class Player : Character
             var actionDamagePacket = spell.GetBehaviour().Resolve(entry.Cards, spell.Data, [entry.Target]);
             damagePackets.Add(actionDamagePacket);
         }
-        
+
         // Process each damage packet and log the results.
         foreach (var damagePacket in damagePackets)
         {
@@ -78,6 +88,7 @@ public partial class Player : Character
 
         // Clear the spell queue after resolving.
         SpellQueue.Clear();
+        Managers.DebugScreenManager.UpdateSpellQueue();
     }
 
     protected override void UpdateHealthBar()
