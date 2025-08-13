@@ -20,6 +20,7 @@ public partial class SpellListManager : Node
     /// <summary>
     /// A preloader that loads spell resources from the project.
     /// </summary>
+    [Export]
     private ResourcePreloader SpellPreloader;
 
     /// <summary>
@@ -38,7 +39,6 @@ public partial class SpellListManager : Node
 
     public override void _Ready()
     {
-        SpellPreloader = GetNode<ResourcePreloader>("SpellPreloader");
         SpellListContainer = GetTree().Root.GetNode<VBoxContainer>("Root/UI/HUD/SpellList/SpellListPanelContainer/Margin/SpellListHorizontalContainer/SpellList");
         InitializeSpells();
     }

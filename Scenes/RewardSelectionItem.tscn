@@ -1,4 +1,11 @@
-[gd_scene format=3 uid="uid://b064kuj7s5tyq"]
+[gd_scene load_steps=4 format=3 uid="uid://b064kuj7s5tyq"]
+
+[ext_resource type="Script" uid="uid://d0mocfoln8sog" path="res://Scripts/UI/Rewards/RewardUI.cs" id="1_7j4t2"]
+[ext_resource type="Texture2D" uid="uid://ct3vaefq7yd2g" path="res://Assets/RawImages/Cards.png" id="2_e27pk"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_inlnd"]
+atlas = ExtResource("2_e27pk")
+region = Rect2(192, 48, 16, 16)
 
 [node name="Item" type="MarginContainer"]
 custom_minimum_size = Vector2(200, 200)
@@ -20,15 +27,33 @@ theme_override_constants/margin_bottom = 20
 
 [node name="RewardUI" type="PanelContainer" parent="."]
 layout_mode = 2
+script = ExtResource("1_7j4t2")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="RewardUI"]
 layout_mode = 2
 
-[node name="Icon" type="TextureRect" parent="RewardUI/VBoxContainer"]
+[node name="IconMargin" type="MarginContainer" parent="RewardUI/VBoxContainer"]
 layout_mode = 2
+theme_override_constants/margin_left = 40
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 40
+theme_override_constants/margin_bottom = 20
+
+[node name="Icon" type="TextureRect" parent="RewardUI/VBoxContainer/IconMargin"]
+layout_mode = 2
+texture = SubResource("AtlasTexture_inlnd")
+expand_mode = 4
+stretch_mode = 5
 
 [node name="Name" type="Label" parent="RewardUI/VBoxContainer"]
 layout_mode = 2
+theme_override_font_sizes/font_size = 36
+text = "Ace of spades"
+horizontal_alignment = 1
 
 [node name="Description" type="RichTextLabel" parent="RewardUI/VBoxContainer"]
 layout_mode = 2
+theme_override_font_sizes/normal_font_size = 16
+text = "A card to add to your deck."
+fit_content = true
+horizontal_alignment = 1

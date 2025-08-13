@@ -4,18 +4,21 @@ using System;
 public partial class TransitionManager : Node
 {
     private CanvasItem WorldNode { get; set; }
-    
+
     private CanvasItem HUDNode { get; set; }
 
     private CanvasItem CharacterCreationNode { get; set; }
-    
+
+    private CanvasItem RewardSelectionNode { get; set; }
+
     public override void _Ready()
     {
         WorldNode = GetTree().Root.GetNode("Root/World") as CanvasItem;
         HUDNode = GetTree().Root.GetNode("Root/UI/HUD") as CanvasItem;
         CharacterCreationNode = GetTree().Root.GetNode("Root/UI/CharacterCreation") as CanvasItem;
+        RewardSelectionNode = GetTree().Root.GetNode("Root/UI/RewardSelection") as CanvasItem;
     }
-    
+
     /// <summary>
     /// Transitions to the character creation screen by hiding the world and HUD nodes.
     /// </summary>
@@ -40,6 +43,13 @@ public partial class TransitionManager : Node
         {
             CharacterCreationNode.Visible = true;
             CharacterCreationNode.SetProcess(true);
+        }
+
+        // Hide the reward selection UI
+        if (RewardSelectionNode != null)
+        {
+            RewardSelectionNode.Visible = false;
+            RewardSelectionNode.SetProcess(false);
         }
     }
 
@@ -69,8 +79,38 @@ public partial class TransitionManager : Node
             CharacterCreationNode.SetProcess(false);
         }
 
+        // Hide the reward selection UI
+        if (RewardSelectionNode != null)
+        {
+            RewardSelectionNode.Visible = false;
+            RewardSelectionNode.SetProcess(false);
+        }
+
         // Temporarily immediately start the battle
         // This is a placeholder for actual game logic to start the battle
         Managers.BattleManager.InitializeBattle();
+    }
+    
+    public void ToRewardSelection()
+    {
+        // Hide the world and HUD nodes
+        if (WorldNode != null)
+        {
+            WorldNode.Visible = false;
+            WorldNode.SetProcess(false);
+        }
+
+        if (HUDNode != null)
+        {
+            HUDNode.Visible = false;
+            HUDNode.SetProcess(false);
+        }
+
+        // Show the reward selection node
+        if (RewardSelectionNode != null)
+        {
+            RewardSelectionNode.Visible = true;
+            RewardSelectionNode.SetProcess(true);
+        }
     }
 }

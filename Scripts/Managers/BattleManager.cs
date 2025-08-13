@@ -20,7 +20,7 @@ public partial class BattleManager : Node
     /// Cannot be set directly; it is updated automatically as the turn progresses.
     /// </summary>
     public TurnPhase CurrentTurnPhase { get; private set; } = TurnPhase.Start;
-    
+
     /// <summary>
     /// The scene to instantiate for enemies. It contains the enemy character data, sprite, and health bar.
     /// </summary>
@@ -126,7 +126,7 @@ public partial class BattleManager : Node
     private void AdvanceTurnFlow()
     {
         if (TurnPhaseProcessed) return;
-        
+
         ProcessTurnPhase();
         TurnPhaseProcessed = true;
 
@@ -218,7 +218,7 @@ public partial class BattleManager : Node
             GD.PrintErr("No current character found. Cannot process damage phase.");
             return;
         }
-        
+
         currentCharacter.ResolveQueue();
     }
 
@@ -228,6 +228,14 @@ public partial class BattleManager : Node
     /// </summary>
     private void EndTurn()
     {
+        // If all non-player characters are dead, the player is victorious
+        if (Characters.All(c => c.Key.IsDead == !c.Key.IsPlayer))
+        {
+            EndBattleVictory();
+            return;
+        }
+
+        // TODO: Handle player death
         MoveToNextCharacter();
     }
 
@@ -237,7 +245,7 @@ public partial class BattleManager : Node
     private Character GetCurrentCharacter()
     {
         // If no character is currently set, return the first character in the dictionary
-        var currentCharacter = Characters.FirstOrDefault(c => c.Value).Key ?? Characters.FirstOrDefault().Key;        
+        var currentCharacter = Characters.FirstOrDefault(c => c.Value).Key ?? Characters.FirstOrDefault().Key;
         return currentCharacter;
     }
 
@@ -309,12 +317,12 @@ public partial class BattleManager : Node
             GD.PrintErr("Failed to instantiate enemy scene.");
             return;
         }
-        
+
         enemy.Setup(enemyData);
         enemy.Name = enemyData.Name;
-        
+
         // Add enemy at root of the scene
-        GetTree().Root.GetNode("Root").AddChild(enemy);
+        GetTree().Root.GetNode("Root/World").AddChild(enemy);
         Characters.Add(enemy, false);
 
         // Set the enemy as the selected target for spell casting
@@ -322,6 +330,14 @@ public partial class BattleManager : Node
         Managers.ActionManager.SelectedTarget = enemy;
 
         Managers.BattleLogManager.Log($"{enemyData.Name} encountered!");
+    }
+
+    /// <summary>
+    /// Handles the end of the battle when the player is victorious by transitioning to the rewards selection.
+    /// </summary>
+    private void EndBattleVictory()
+    {
+        Managers.TransitionManager.ToRewardSelection();
     }
 }
 

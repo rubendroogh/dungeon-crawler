@@ -26,6 +26,11 @@ public partial class Character : Node
     public bool IsPlayer { get; set; } = false;
 
     /// <summary>
+    /// A boolean indicating if the character is dead.
+    /// </summary>
+    public bool IsDead { get; set; } = false;
+
+    /// <summary>
     /// The current physical damage modifiers.
     /// It is a list of damage modifiers that is applied to the character's physical damage.
     /// </summary>
@@ -178,6 +183,12 @@ public partial class Character : Node
     /// </summary>
     public void EndTurn()
     {
+        // TODO: Fix error in this method
+        if (StatusEffects == null || StatusEffects.Count == 0)
+        {
+            return;
+        }
+
         foreach (var effect in StatusEffects)
         {
             effect.Duration--;
@@ -354,6 +365,9 @@ public partial class Character : Node
     private void Die()
     {
         Managers.BattleLogManager.Log($"{CharacterData.Name} has died.");
+        IsDead = true;
+
+        // TODO: Animation for death
     }
 
     /// <summary>

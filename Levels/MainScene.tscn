@@ -1,4 +1,4 @@
-[gd_scene load_steps=37 format=3 uid="uid://ck8p1eru6l2f4"]
+[gd_scene load_steps=38 format=3 uid="uid://ck8p1eru6l2f4"]
 
 [ext_resource type="Resource" uid="uid://b1jhmr0xq4603" path="res://Resources/Spells/FireBall.tres" id="2_hvf01"]
 [ext_resource type="Script" uid="uid://b40v7nngruesy" path="res://Scripts/UI/AddSpellToQueueButton.cs" id="2_irpm1"]
@@ -33,6 +33,7 @@
 [ext_resource type="Resource" uid="uid://qrbbkyecsjwj" path="res://Resources/PersonalityTraits/Benevolent.tres" id="29_hojmo"]
 [ext_resource type="Script" uid="uid://dphi8b28kelq" path="res://Scripts/UI/CharacterCreationSubmit.cs" id="30_txofh"]
 [ext_resource type="PackedScene" uid="uid://b064kuj7s5tyq" path="res://Scenes/RewardSelectionItem.tscn" id="33_ghvpb"]
+[ext_resource type="Script" uid="uid://can1qqm8mdvlp" path="res://Scripts/Managers/RewardSelectionManager.cs" id="33_n6swl"]
 
 [sub_resource type="Theme" id="Theme_5eubm"]
 
@@ -59,12 +60,13 @@ script = ExtResource("4_26f67")
 script = ExtResource("4_safex")
 SelectedCardsLabel = NodePath("../../../UI/HUD/CardList/CardListPanelContainer/Margin/CardListHorizontalContainer/SelectedCardsLabelContainer/SelectedCardsLabel")
 
-[node name="SpellListManager" type="Node" parent="World/ManagerRepository"]
+[node name="SpellListManager" type="Node" parent="World/ManagerRepository" node_paths=PackedStringArray("SpellPreloader")]
 script = ExtResource("5_26f67")
 SpellListItemScene = ExtResource("6_71tao")
+SpellPreloader = NodePath("StartingSpellPreloader")
 
-[node name="SpellPreloader" type="ResourcePreloader" parent="World/ManagerRepository/SpellListManager"]
-resources = [PackedStringArray("BrainFreeze", "Discombobulate", "FireBall"), [ExtResource("7_71tao"), ExtResource("8_lxbb3"), ExtResource("2_hvf01")]]
+[node name="StartingSpellPreloader" type="ResourcePreloader" parent="World/ManagerRepository/SpellListManager"]
+resources = [PackedStringArray("BrainFreeze", "Discombobulate"), [ExtResource("7_71tao"), ExtResource("8_lxbb3")]]
 
 [node name="BattleLogManager" type="Node" parent="World/ManagerRepository"]
 script = ExtResource("9_4h6gp")
@@ -598,8 +600,11 @@ grow_horizontal = 2
 grow_vertical = 2
 use_top_left = true
 
-[node name="RewardSelectionManager" type="PanelContainer" parent="UI/RewardSelection"]
+[node name="RewardSelectionManager" type="PanelContainer" parent="UI/RewardSelection" node_paths=PackedStringArray("SpellRewardPreloader")]
 layout_mode = 2
+script = ExtResource("33_n6swl")
+RewardItemPackedScene = ExtResource("33_ghvpb")
+SpellRewardPreloader = NodePath("SpellRewardsPreloader")
 
 [node name="MarginContainer" type="MarginContainer" parent="UI/RewardSelection/RewardSelectionManager"]
 layout_mode = 2
@@ -615,11 +620,10 @@ layout_mode = 2
 layout_mode = 2
 theme_override_font_sizes/font_size = 36
 text = "Choose your reward"
+horizontal_alignment = 1
 
-[node name="HBoxContainer" type="HBoxContainer" parent="UI/RewardSelection/RewardSelectionManager/MarginContainer/VBoxContainer"]
-layout_mode = 2
-
-[node name="Item" parent="UI/RewardSelection/RewardSelectionManager/MarginContainer/VBoxContainer/HBoxContainer" instance=ExtResource("33_ghvpb")]
+[node name="RewardContainer" type="HBoxContainer" parent="UI/RewardSelection/RewardSelectionManager/MarginContainer/VBoxContainer"]
 layout_mode = 2
 
 [node name="SpellRewardsPreloader" type="ResourcePreloader" parent="UI/RewardSelection/RewardSelectionManager"]
+resources = [PackedStringArray("BrainFreeze", "Discombobulate", "FireBall"), [ExtResource("7_71tao"), ExtResource("8_lxbb3"), ExtResource("2_hvf01")]]

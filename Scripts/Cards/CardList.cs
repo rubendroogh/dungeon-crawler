@@ -173,6 +173,11 @@ public class Card
 	public Rank Rank { get; set; }
 
 	public Suit Suit { get; set; }
+
+	public Texture2D GetIcon()
+	{
+		return CardList.GetCardIcon(this);
+	}
 }
 
 /// <summary>
@@ -187,7 +192,7 @@ public enum Rank { Two = 1, Three, Four, Five, Six, Seven, Eight, Nine, Ten, Jac
 public enum Suit
 {
 	Hearts,
-	Spades,
 	Diamonds,
 	Clubs,
+	Spades,
 }
