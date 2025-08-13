@@ -12,11 +12,41 @@ public partial class CardList : Node
 {
 	private List<Card> Cards { get; set; } = [];
 
+	private static Vector2I TileSize = new Vector2I(16, 16);
+
 	public override void _Ready()
 	{
 		base._Ready();
 		InitializeCustomCardDeck();
 		InitializeCardDeckUI();
+	}
+
+	/// <summary>
+	/// Gets the icon texture for a specific card based on its rank and suit.
+	/// </summary>
+	/// <returns>A texture representing the card's icon.</returns>
+	public static Texture2D GetCardIcon(Card card)
+	{
+		if (card == null)
+		{
+			GD.PrintErr("Card is null");
+			return null;
+		}
+
+		Texture2D atlas = GD.Load<Texture2D>("res://Assets/RawImages/Cards.png");
+
+		// Create AtlasTexture for the card
+		AtlasTexture iconTexture = new AtlasTexture();
+		iconTexture.Atlas = atlas;
+
+		// Calculate tile position
+		int suitIndex = (int)card.Suit; // row
+		int rankIndex = (int)card.Rank - 1; // column (Ace = 1, so subtract 1)
+
+		Rect2 region = new Rect2(rankIndex * TileSize.X, suitIndex * TileSize.Y, TileSize.X, TileSize.Y);
+		iconTexture.Region = region;
+
+		return iconTexture;
 	}
 
 	/// <summary>
@@ -87,34 +117,32 @@ public partial class CardList : Node
 	private void InitializeCardDeckUI()
 	{
 		string containersPath = "CardListPanelContainer/Margin/CardListHorizontalContainer/CardList/";
-		Texture2D atlas = GD.Load<Texture2D>("res://Assets/RawImages/Cards.png");
-		Vector2I tileSize = new Vector2I(16, 16);
 
 		var containerHearts = GetNode<VBoxContainer>(containersPath + "CardListHearts");
 		foreach (Card card in Cards.Where(c => c.Suit == Suit.Hearts))
 		{
-			TextureRect cardUI = CreateCardUI(card, atlas, tileSize);
+			TextureRect cardUI = CreateCardUI(card);
 			containerHearts.AddChild(cardUI);
 		}
 
 		var containerDiamonds = GetNode<VBoxContainer>(containersPath + "CardListDiamonds");
 		foreach (Card card in Cards.Where(c => c.Suit == Suit.Diamonds))
 		{
-			TextureRect cardUI = CreateCardUI(card, atlas, tileSize);
+			TextureRect cardUI = CreateCardUI(card);
 			containerDiamonds.AddChild(cardUI);
 		}
 
 		var containerSpades = GetNode<VBoxContainer>(containersPath + "CardListSpades");
 		foreach (Card card in Cards.Where(c => c.Suit == Suit.Spades))
 		{
-			TextureRect cardUI = CreateCardUI(card, atlas, tileSize);
+			TextureRect cardUI = CreateCardUI(card);
 			containerSpades.AddChild(cardUI);
 		}
 
 		var containerClubs = GetNode<VBoxContainer>(containersPath + "CardListClubs");
 		foreach (Card card in Cards.Where(c => c.Suit == Suit.Clubs))
 		{
-			TextureRect cardUI = CreateCardUI(card, atlas, tileSize);
+			TextureRect cardUI = CreateCardUI(card);
 			containerClubs.AddChild(cardUI);
 		}
 	}
@@ -122,24 +150,14 @@ public partial class CardList : Node
 	/// <summary>
 	/// Creates a TextureRect UI element for a card using an atlas texture.
 	/// </summary>
-	private TextureRect CreateCardUI(Card card, Texture2D atlasTexture, Vector2I tileSize)
+	private TextureRect CreateCardUI(Card card)
 	{
-		// Create AtlasTexture for the card
-		AtlasTexture atlas = new AtlasTexture();
-		atlas.Atlas = atlasTexture;
-
-		// Calculate tile position
-		int suitIndex = (int)card.Suit; // row
-		int rankIndex = (int)card.Rank - 1; // column (Ace = 1, so subtract 1)
-
-		Rect2 region = new Rect2(rankIndex * tileSize.X, suitIndex * tileSize.Y, tileSize.X, tileSize.Y);
-		atlas.Region = region;
-
+		var texture = GetCardIcon(card);
 		TextureRect cardUI = new CardUI
 		{
 			Card = card,
-			Texture = atlas,
-			CustomMinimumSize = tileSize * 2,
+			Texture = texture,
+			CustomMinimumSize = TileSize * 2,
 			ExpandMode = TextureRect.ExpandModeEnum.KeepSize
 		};
 
