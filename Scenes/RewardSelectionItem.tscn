@@ -1,13 +1,14 @@
-[gd_scene load_steps=4 format=3 uid="uid://b064kuj7s5tyq"]
+[gd_scene load_steps=5 format=3 uid="uid://b064kuj7s5tyq"]
 
 [ext_resource type="Script" uid="uid://d0mocfoln8sog" path="res://Scripts/UI/Rewards/RewardUI.cs" id="1_7j4t2"]
+[ext_resource type="Script" uid="uid://bcg1k7cu7k041" path="res://Scripts/UI/Rewards/RewardButton.cs" id="1_inlnd"]
 [ext_resource type="Texture2D" uid="uid://ct3vaefq7yd2g" path="res://Assets/RawImages/Cards.png" id="2_e27pk"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_inlnd"]
 atlas = ExtResource("2_e27pk")
 region = Rect2(192, 48, 16, 16)
 
-[node name="Item" type="MarginContainer"]
+[node name="Item" type="PanelContainer"]
 custom_minimum_size = Vector2(200, 200)
 anchors_preset = 8
 anchor_left = 0.5
@@ -20,38 +21,48 @@ offset_right = 100.0
 offset_bottom = 100.0
 grow_horizontal = 2
 grow_vertical = 2
+
+[node name="Button" type="Button" parent="."]
+custom_minimum_size = Vector2(200, 200)
+layout_mode = 2
+script = ExtResource("1_inlnd")
+
+[node name="RewardUI" type="MarginContainer" parent="Button"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 theme_override_constants/margin_left = 20
 theme_override_constants/margin_top = 20
 theme_override_constants/margin_right = 20
 theme_override_constants/margin_bottom = 20
-
-[node name="RewardUI" type="PanelContainer" parent="."]
-layout_mode = 2
 script = ExtResource("1_7j4t2")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="RewardUI"]
+[node name="VBoxContainer" type="VBoxContainer" parent="Button/RewardUI"]
 layout_mode = 2
 
-[node name="IconMargin" type="MarginContainer" parent="RewardUI/VBoxContainer"]
+[node name="IconMargin" type="MarginContainer" parent="Button/RewardUI/VBoxContainer"]
 layout_mode = 2
 theme_override_constants/margin_left = 40
 theme_override_constants/margin_top = 20
 theme_override_constants/margin_right = 40
 theme_override_constants/margin_bottom = 20
 
-[node name="Icon" type="TextureRect" parent="RewardUI/VBoxContainer/IconMargin"]
+[node name="Icon" type="TextureRect" parent="Button/RewardUI/VBoxContainer/IconMargin"]
 layout_mode = 2
 texture = SubResource("AtlasTexture_inlnd")
 expand_mode = 4
 stretch_mode = 5
 
-[node name="Name" type="Label" parent="RewardUI/VBoxContainer"]
+[node name="Name" type="Label" parent="Button/RewardUI/VBoxContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 36
 text = "Ace of spades"
 horizontal_alignment = 1
 
-[node name="Description" type="RichTextLabel" parent="RewardUI/VBoxContainer"]
+[node name="Description" type="RichTextLabel" parent="Button/RewardUI/VBoxContainer"]
 layout_mode = 2
 theme_override_font_sizes/normal_font_size = 16
 text = "A card to add to your deck."

@@ -7,6 +7,8 @@ using System.Linq;
 /// Initially, it contains only the Two of each suit.
 /// The deck can be expanded to include a full set of 52 cards if needed.
 /// The deck is used to create a UI representation of the cards.
+/// 
+/// TODO: Make this into a proper manager like the rest.
 /// </summary>
 public partial class CardList : Node
 {
@@ -47,6 +49,21 @@ public partial class CardList : Node
 		iconTexture.Region = region;
 
 		return iconTexture;
+	}
+
+	public void AddCardToDeck(Card card)
+	{
+		if (card == null)
+		{
+			GD.PrintErr("Card is null");
+			return;
+		}
+
+		Cards.Add(card);
+
+		// TODO: This can be a bit cleaner
+		ResetCardUI();
+		InitializeCardDeckUI();
 	}
 
 	/// <summary>
@@ -144,6 +161,38 @@ public partial class CardList : Node
 		{
 			TextureRect cardUI = CreateCardUI(card);
 			containerClubs.AddChild(cardUI);
+		}
+	}
+
+	/// <summary>
+	/// Resets the UI for the card list by clearing all displayed cards.
+	/// </summary>
+	private void ResetCardUI()
+	{
+		string containersPath = "CardListPanelContainer/Margin/CardListHorizontalContainer/CardList/";
+
+		var containerHearts = GetNode<VBoxContainer>(containersPath + "CardListHearts");
+		foreach (var child in containerHearts.GetChildren())
+		{
+			child.QueueFree();
+		}
+
+		var containerDiamonds = GetNode<VBoxContainer>(containersPath + "CardListDiamonds");
+		foreach (var child in containerDiamonds.GetChildren())
+		{
+			child.QueueFree();
+		}
+
+		var containerSpades = GetNode<VBoxContainer>(containersPath + "CardListSpades");
+		foreach (var child in containerSpades.GetChildren())
+		{
+			child.QueueFree();
+		}
+
+		var containerClubs = GetNode<VBoxContainer>(containersPath + "CardListClubs");
+		foreach (var child in containerClubs.GetChildren())
+		{
+			child.QueueFree();
 		}
 	}
 

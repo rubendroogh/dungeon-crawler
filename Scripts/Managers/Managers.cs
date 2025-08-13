@@ -46,6 +46,16 @@ public partial class Managers : Node
     /// </summary>
     public static DebugScreenManager DebugScreenManager { get; set; }
 
+    /// <summary>
+    /// RewardSelectionManager is responsible for managing the selection of rewards for the player.
+    /// </summary>
+    public static RewardSelectionManager RewardSelectionManager { get; set; }
+
+    /// <summary>
+    /// DeckManager is responsible for managing the player's deck of cards in the game.
+    /// </summary>
+    public static CardList DeckManager { get; set; }
+
     public override void _Ready()
     {
         ActionManager = GetNode<ActionManager>("ActionManager");
@@ -55,5 +65,8 @@ public partial class Managers : Node
         PlayerManager = GetNode<PlayerManager>("PlayerManager");
         TransitionManager = GetNode<TransitionManager>("TransitionManager");
         DebugScreenManager = GetNode<DebugScreenManager>("DebugScreenManager");
+
+        RewardSelectionManager = GetTree().Root.GetNode<RewardSelectionManager>("Root/UI/RewardSelection/RewardSelectionManager");
+        DeckManager = GetTree().Root.GetNode<CardList>("Root/UI/HUD/CardList");
     }
 }

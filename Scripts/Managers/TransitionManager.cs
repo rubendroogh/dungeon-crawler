@@ -87,10 +87,10 @@ public partial class TransitionManager : Node
         }
 
         // Temporarily immediately start the battle
-        // This is a placeholder for actual game logic to start the battle
+        // This is a placeholder for actual game logic to start properly in the dungeon
         Managers.BattleManager.InitializeBattle();
     }
-    
+
     public void ToRewardSelection()
     {
         // Hide the world and HUD nodes
@@ -112,5 +112,31 @@ public partial class TransitionManager : Node
             RewardSelectionNode.Visible = true;
             RewardSelectionNode.SetProcess(true);
         }
+    }
+
+    public void RewardSelectionToGame()
+    {
+        // Hide the reward selection UI
+        if (RewardSelectionNode != null)
+        {
+            RewardSelectionNode.Visible = false;
+            RewardSelectionNode.SetProcess(false);
+        }
+
+        // Show the world and HUD nodes
+        if (WorldNode != null)
+        {
+            WorldNode.Visible = true;
+            WorldNode.SetProcess(true);
+        }
+
+        if (HUDNode != null)
+        {
+            HUDNode.Visible = true;
+            HUDNode.SetProcess(true);
+        }
+
+        // Temporarily immediately start the battle\
+        Managers.BattleManager.InitializeBattle();
     }
 }

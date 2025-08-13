@@ -61,6 +61,23 @@ public partial class SpellListManager : Node
     }
 
     /// <summary>
+    /// Adds a spell to the list of available spells.
+    /// </summary>
+    public void AddSpell(ActionData spellData)
+    {
+        var spellBehaviour = GetSpellBehaviour(spellData.Name);
+        if (spellBehaviour != null)
+        {
+            AvailableSpells.Add(new Spell(spellData, spellBehaviour));
+            UpdateSpellListUI();
+        }
+        else
+        {
+            GD.PrintErr("No behavior defined for spell: " + spellData.Name);
+        }
+    }
+
+    /// <summary>
     /// Initializes the spells by loading them from the preloader and setting up their UI.
     /// This method iterates through the available spells, retrieves their data and behavior,
     /// and creates UI elements for each spell.

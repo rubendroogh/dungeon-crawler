@@ -20,9 +20,19 @@ public partial class RewardSelectionManager : Node
     public ResourcePreloader SpellRewardPreloader { get; set; }
 
     /// <summary>
+    /// The currently selected reward.
+    /// </summary>
+    public Reward SelectedReward { get; set; }
+
+    /// <summary>
     /// The node to place the reward items in.
     /// </summary>
     private Node RewardContainer { get; set; }
+
+    /// <summary>
+    /// The button to confirm the reward selection.
+    /// </summary>
+    private Button ConfirmSelectionButton { get; set; }
 
     public override void _Ready()
     {
@@ -33,10 +43,56 @@ public partial class RewardSelectionManager : Node
         }
 
         RewardContainer = GetNode("MarginContainer/VBoxContainer/RewardContainer");
+        ConfirmSelectionButton = GetNode<Button>("MarginContainer/VBoxContainer/ConfirmSelectionButton");
 
         GenerateSingleReward();
         GenerateSingleReward();
         GenerateSingleReward();
+    }
+
+    /// <summary>
+    /// Sets the currently selected reward.
+    /// </summary>
+    public void SetSelectedReward(Reward reward)
+    {
+        if (reward == null)
+        {
+            GD.PrintErr("Attempted to set a null reward.");
+            return;
+        }
+
+        SelectedReward = reward;
+        ConfirmSelectionButton.Disabled = false;
+    }
+
+    /// <summary>
+    /// Confirms the selection of the currently selected reward by adding it to the player's inventory.
+    /// </summary>
+    public void ConfirmSelection()
+    {
+        if (SelectedReward == null)
+        {
+            GD.PrintErr("No reward selected.");
+            return;
+        }
+
+        // Add the selected reward to the appropriate managerX
+        if (SelectedReward.Type == RewardType.Card)
+        {
+            Managers.DeckManager.AddCardToDeck(SelectedReward.CardReward);
+        }
+        else if (SelectedReward.Type == RewardType.Spell)
+        {
+            Managers.SpellListManager.AddSpell(SelectedReward.SpellReward);
+        }
+
+        // Clear the selection and reset the UI
+        SelectedReward = null;
+        var rewardNodes = RewardContainer.GetChildren();
+        foreach (var node in rewardNodes)
+        {
+            node.QueueFree();
+        }
     }
 
     /// <summary>
@@ -46,7 +102,7 @@ public partial class RewardSelectionManager : Node
     private void GenerateSingleReward()
     {
         var rewardItem = RewardItemPackedScene.Instantiate();
-        var rewardUI = rewardItem.GetChild<RewardUI>(0);
+        var rewardUI = rewardItem.GetChild(0).GetChild<RewardUI>(0); // This is disgusting
         RewardContainer.AddChild(rewardItem);
 
         // 50/50 chance to select a card or a spell

@@ -62,8 +62,6 @@ public partial class BattleManager : Node
             GD.PrintErr("EnemiesPreloader not found in the scene.");
             return;
         }
-
-        // CallDeferred(nameof(InitializeBattle));
     }
 
     public override void _Process(double delta)
@@ -321,7 +319,7 @@ public partial class BattleManager : Node
         enemy.Setup(enemyData);
         enemy.Name = enemyData.Name;
 
-        // Add enemy at root of the scene
+        // Add enemy at root of the world node
         GetTree().Root.GetNode("Root/World").AddChild(enemy);
         Characters.Add(enemy, false);
 
@@ -338,6 +336,7 @@ public partial class BattleManager : Node
     private void EndBattleVictory()
     {
         Managers.TransitionManager.ToRewardSelection();
+        IsBattleInitialized = false;
     }
 }
 
