@@ -5,10 +5,19 @@ using Godot;
 /// </summary>
 public partial class DebugScreenManager : Node
 {
+    /// <summary>
+    /// Indicates whether the debug screen is currently active.
+    /// </summary>
     private bool DebugMode = true;
 
+    /// <summary>
+    /// The root node of the debug screen.
+    /// </summary>
     private Control DebugRootNode;
 
+    /// <summary>
+    /// The label that displays the current spell queue.
+    /// </summary>
     private RichTextLabel SpellQueueLabel;
 
     public override void _Ready()
@@ -22,22 +31,20 @@ public partial class DebugScreenManager : Node
         }
     }
 
+    /// <summary>
+    /// Updates the spell queue display in the debug screen based on the player's spell queue.
+    /// </summary>
     public void UpdateSpellQueue()
     {
-        // Update the spell queue display in the debug screen
         if (SpellQueueLabel == null)
         {
             GD.PrintErr("SpellQueueLabel is not initialized.");
             return;
         }
 
-        // Clear the current text
+        // Loop through the spell queue and display each entry.
         SpellQueueLabel.Clear();
-
-        // Get the current spell queue from the battle manager
         var spellQueue = Managers.PlayerManager.GetPlayer().SpellQueue;
-
-        // Display the current spell queue
         foreach (var entry in spellQueue)
         {
             SpellQueueLabel.AddText($"Spell: {entry.Action.Data.Name}, Target: {entry.Target.Name}, Cards: {entry.Cards.Count}\n");

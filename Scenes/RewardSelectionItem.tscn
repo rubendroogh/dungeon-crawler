@@ -1,0 +1,34 @@
+[gd_scene format=3 uid="uid://b064kuj7s5tyq"]
+
+[node name="Item" type="MarginContainer"]
+custom_minimum_size = Vector2(200, 200)
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -100.0
+offset_top = -100.0
+offset_right = 100.0
+offset_bottom = 100.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
+
+[node name="RewardUI" type="PanelContainer" parent="."]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="RewardUI"]
+layout_mode = 2
+
+[node name="Icon" type="TextureRect" parent="RewardUI/VBoxContainer"]
+layout_mode = 2
+
+[node name="Name" type="Label" parent="RewardUI/VBoxContainer"]
+layout_mode = 2
+
+[node name="Description" type="RichTextLabel" parent="RewardUI/VBoxContainer"]
+layout_mode = 2
