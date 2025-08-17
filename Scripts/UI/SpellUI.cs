@@ -44,12 +44,16 @@ public partial class SpellUI : PanelContainer
 
 	public override void _GuiInput(InputEvent @event)
 	{
+		// Handle mouse input for selecting the spell
 		if (@event is InputEventMouseButton mouseEvent && mouseEvent.Pressed && mouseEvent.ButtonIndex == MouseButton.Left)
 		{
 			Managers.ActionManager.SetSelectedSpell(ActionData);
 		}
 	}
 
+	/// <summary>
+	/// Sets up the SpellUI with the given ActionData to show the spell's information.
+	/// </summary>
 	public void Setup(ActionData actionData)
 	{
 		if (actionData == null)
@@ -65,11 +69,17 @@ public partial class SpellUI : PanelContainer
 		SpellIcon.Texture = actionData.Image;
 	}
 
+	/// <summary>
+	/// Wires up the custom signals for the spell UI.
+	/// </summary>
 	private void InitializeCustomSignals()
 	{
 		Managers.ActionManager.SpellSelected += OnSpellSelected;
 	}
 
+	/// <summary>
+	/// Handles the selection of a spell by updating the UI.
+	/// </summary>
 	private void OnSpellSelected(string spellName)
 	{
 		IsSelected = ActionData.Name == spellName;
