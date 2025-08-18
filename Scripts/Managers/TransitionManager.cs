@@ -111,6 +111,7 @@ public partial class TransitionManager : Node
         {
             RewardSelectionNode.Visible = true;
             RewardSelectionNode.SetProcess(true);
+            Managers.RewardSelectionManager.GenerateRewards(3);
         }
     }
 

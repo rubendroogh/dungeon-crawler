@@ -30,6 +30,12 @@ public partial class CardUI : TextureRect
 
         CallDeferred(nameof(InitializeCustomSignals));
     }
+    
+    public override void _ExitTree()
+    {
+        Managers.ActionManager.CardsReset -= OnCardsReset;
+        Managers.PlayerManager.GetPlayer().SpellQueued -= OnSpellQueued;
+    }
 
     /// <summary>
     /// Initializes custom signals for the CardUI.

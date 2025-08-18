@@ -42,6 +42,11 @@ public partial class SpellUI : PanelContainer
 		CallDeferred(nameof(InitializeCustomSignals));
 	}
 
+	public override void _ExitTree()
+	{
+		Managers.ActionManager.SpellSelected -= OnSpellSelected;
+	}
+
 	public override void _GuiInput(InputEvent @event)
 	{
 		// Handle mouse input for selecting the spell

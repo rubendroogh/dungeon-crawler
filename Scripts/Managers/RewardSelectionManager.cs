@@ -44,10 +44,17 @@ public partial class RewardSelectionManager : Node
 
         RewardContainer = GetNode("MarginContainer/VBoxContainer/RewardContainer");
         ConfirmSelectionButton = GetNode<Button>("MarginContainer/VBoxContainer/ConfirmSelectionButton");
+    }
 
-        GenerateSingleReward();
-        GenerateSingleReward();
-        GenerateSingleReward();
+    /// <summary>
+    /// Generates a specified number of reward items.
+    /// </summary>
+    public void GenerateRewards(int count)
+    {
+        for (int i = 0; i < count; i++)
+        {
+            GenerateSingleReward();
+        }
     }
 
     /// <summary>
