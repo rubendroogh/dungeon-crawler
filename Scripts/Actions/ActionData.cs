@@ -47,6 +47,13 @@ public partial class ActionData : Resource
     public float ModifierMultiplier = 1.01f;
 
     /// <summary>
+    /// A value between 1 and 5 that indicates the rarity of the spell.
+    /// Signifies both power, potential, and complexity.
+    /// </summary>
+    [Export]
+    public int Rarity = 1;
+
+    /// <summary>
     /// A list of all the damage types that this spell can deal.
     /// </summary>
     public DamageType[] DamageTypes { get {

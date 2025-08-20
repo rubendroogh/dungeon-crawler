@@ -223,7 +223,7 @@ public class Card
 
 	public Suit Suit { get; set; }
 
-	public Texture2D GetIcon()
+    public Texture2D GetIcon()
 	{
 		return CardList.GetCardIcon(this);
 	}
