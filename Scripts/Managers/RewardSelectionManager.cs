@@ -36,6 +36,11 @@ public partial class RewardSelectionManager : Node
     private Button ConfirmSelectionButton { get; set; }
 
     /// <summary>
+    /// The container for displaying a message when there are no possible rewards.
+    /// </summary>
+    private Container NoPossibleRewardsContainer { get; set; }
+
+    /// <summary>
     /// The list of currently selected card rewards. Used to prevent duplicate selections.
     /// </summary>
     private List<Card> SelectedCardRewards = new List<Card>();
@@ -65,6 +70,10 @@ public partial class RewardSelectionManager : Node
 
         RewardContainer = GetNode("MarginContainer/VBoxContainer/RewardContainer");
         ConfirmSelectionButton = GetNode<Button>("MarginContainer/VBoxContainer/ConfirmSelectionButton");
+        NoPossibleRewardsContainer = GetNode<Container>("MarginContainer/VBoxContainer/RewardContainer/NoPossibleRewardsMessage");
+
+        // Disable the no rewards message container initially
+        NoPossibleRewardsContainer.Visible = false;
     }
 
     /// <summary>
@@ -72,13 +81,17 @@ public partial class RewardSelectionManager : Node
     /// </summary>
     public void GenerateRewards(int count)
     {
-        var selectedCardRewards = new List<Card>();
-        var selectedSpellRewards = new List<ActionData>();
+        if (NoPossibleRewardsContainer == null || RewardContainer == null)
+        {
+            GD.PrintErr("RewardContainer or NoPossibleRewardsContainer is not set.");
+            return;
+        }
+
         for (int i = 0; i < count; i++)
         {
             if (PossibleCardRewardsCount == 0 && PossibleSpellRewardsCount == 0)
             {
-                DisplayNoMoreRewards();
+                DisplayNoMoreRewardsMessage();
                 break;
             }
 
@@ -95,7 +108,7 @@ public partial class RewardSelectionManager : Node
                 var cardReward = GetCardReward();
                 if (cardReward != null)
                 {
-                    selectedCardRewards.Add(cardReward);
+                    SelectedCardRewards.Add(cardReward);
                     rewardUI.Setup(cardReward);
                 }
             }
@@ -104,11 +117,14 @@ public partial class RewardSelectionManager : Node
                 var spellChosen = GetSpellReward();
                 if (spellChosen != null)
                 {
-                    selectedSpellRewards.Add(spellChosen);
+                    SelectedSpellRewards.Add(spellChosen);
                     rewardUI.Setup(spellChosen);
                 }
             }
         }
+
+        SelectedCardRewards.Clear();
+        SelectedSpellRewards.Clear();
     }
 
     /// <summary>
@@ -242,10 +258,9 @@ public partial class RewardSelectionManager : Node
 
     /// <summary>
     /// Displays a message indicating that there are no more rewards available.
-    /// TODO: Implement UI feedback for no more rewards.
     /// </summary>
-    private void DisplayNoMoreRewards()
+    private void DisplayNoMoreRewardsMessage()
     {
-        GD.Print("No more rewards available to select.");
+        NoPossibleRewardsContainer.Visible = true;
     }
 }
