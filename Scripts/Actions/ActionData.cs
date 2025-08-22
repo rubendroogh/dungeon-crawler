@@ -43,12 +43,16 @@ public partial class ActionData : Resource
     [Export]
     public int MaxManaCharges { get; set; } = 4;
 
+    /// <summary>
+    /// This multiplier affects the effect of mana power (the card rank) on the spell damage.
+    /// </summary>
     [Export]
     public float ModifierMultiplier = 1.01f;
 
     /// <summary>
     /// A value between 1 and 5 that indicates the rarity of the spell.
     /// Signifies both power, potential, and complexity.
+    /// TODO: Not implemented yet.
     /// </summary>
     [Export]
     public int Rarity = 1;

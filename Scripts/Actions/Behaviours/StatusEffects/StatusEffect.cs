@@ -22,7 +22,7 @@ public partial class StatusEffect
     public StatusEffectType Type { get; set; }
 
     /// <summary>
-    /// The current turn of the status effect.
+    /// The related behaviour of the effect. This is where the actual logic takes place.
     /// </summary>
     public IStatusEffectBehaviour Behaviour { get {
         if (StatusEffectBehaviours.TryGetValue(Type, out var behaviour))
