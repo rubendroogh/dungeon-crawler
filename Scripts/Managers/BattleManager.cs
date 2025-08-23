@@ -141,10 +141,8 @@ public partial class BattleManager : Node
     /// </summary>
     private async Task AdvanceTurnFlow()
     {
-        GD.Print($"Starting turn phase {CurrentTurnPhase}.");
         await ProcessTurnPhase();
         TurnPhaseProcessed = true;
-        GD.Print($"Turn phase {CurrentTurnPhase} processed.");
 
         // If phase requires immediate progression, handle it here.
         if (ShouldAutoAdvancePhase(CurrentTurnPhase))

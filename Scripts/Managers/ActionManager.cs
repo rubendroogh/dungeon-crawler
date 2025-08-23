@@ -133,7 +133,7 @@ public partial class ActionManager : Node
         var totalDamage = 0f;
         foreach (var damage in damagePacket.Damages)
         {
-            totalDamage += await damage.Apply();
+            totalDamage += await damage.Apply(); // TODO: Instead of await damage.Apply(), we should batch apply all damages at once.
         }
 
         return totalDamage;
