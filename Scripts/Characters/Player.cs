@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Godot;
 
 public partial class Player : Character
@@ -57,7 +58,7 @@ public partial class Player : Character
     /// <summary>
     /// Resolve the spell queue, executing all queued spells and applying their effects.
     /// </summary>
-    public override void ResolveQueue()
+    public override async Task ResolveQueue()
     {
         if (SpellQueue.Count == 0)
         {
@@ -83,7 +84,7 @@ public partial class Player : Character
         // Process each damage packet and log the results.
         foreach (var damagePacket in damagePackets)
         {
-            var totalDamage = Managers.ActionManager.HandleResolveResult(damagePacket);
+            var totalDamage = await Managers.ActionManager.HandleResolveResult(damagePacket);
             Managers.BattleLogManager.Log($"Resolved spell for {totalDamage} damage.");
         }
 
@@ -92,7 +93,7 @@ public partial class Player : Character
         Managers.DebugScreenManager.UpdateSpellQueue();
     }
 
-    protected override void UpdateHealthBar()
+    protected override async Task UpdateHealthBar()
     {
         // We use a label for debugging purposes to display the player's health.
         // In a real game, this would be replaced with a health bar UI element.

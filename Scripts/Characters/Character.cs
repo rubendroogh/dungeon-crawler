@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Godot;
 
 /// <summary>
@@ -87,7 +88,7 @@ public partial class Character : Node
     /// <summary>
     /// The sprite that represents the character.
     /// </summary>
-    private Sprite2D CharacterSprite { get; set; }
+    protected Sprite2D CharacterSprite { get; set; }
 
     /// <summary>
     /// A progress bar that represents the character's health.
@@ -116,7 +117,7 @@ public partial class Character : Node
     /// This method initializes the character's health, sprite, and health bar.
     /// </summary>
     /// <param name="characterData"></param>
-    public void Setup(CharacterData characterData)
+    public async Task Setup(CharacterData characterData)
     {
         SetCharacterData(characterData);
 
@@ -134,7 +135,7 @@ public partial class Character : Node
         HealthBar.Value = CurrentHealth;
         CharacterSprite.Texture = characterData.Image;
 
-        UpdateHealthBar();
+        await UpdateHealthBar();
     }
 
     /// <summary>
@@ -208,10 +209,10 @@ public partial class Character : Node
     }
 
     /// <summary>
-    /// Damage the character. Take into account the weaknesses and resistances of the character.
+    /// Damage the character. Takes into account the weaknesses and resistances of the character.
     /// </summary>
     /// <param name="damage"></param>
-    public int Damage(Damage damage)
+    public async Task<int> Damage(Damage damage)
     {
         if (damage.Amount <= 0 || CurrentHealth <= 0)
         {
@@ -251,12 +252,15 @@ public partial class Character : Node
 
         // Apply the total damage to the character's health
         CurrentHealth -= totalDamage;
+        await PlayDamageAnimation();
 
-        UpdateHealthBar();
+        await UpdateHealthBar();
         if (CurrentHealth <= 0)
         {
-            Die();
+            await Die();
         }
+
+        // Do animation
 
         return (int)totalDamage;
     }
@@ -265,7 +269,7 @@ public partial class Character : Node
     /// Heal the character.
     /// </summary>
     /// <param name="amount"></param>
-    public void Heal(float amount)
+    public async Task Heal(float amount)
     {
         CurrentHealth += amount;
         if (CurrentHealth > CharacterData.MaxHealth)
@@ -273,7 +277,7 @@ public partial class Character : Node
             CurrentHealth = CharacterData.MaxHealth;
         }
 
-        UpdateHealthBar();
+        await UpdateHealthBar();
     }
 
     /// <summary>
@@ -325,7 +329,7 @@ public partial class Character : Node
     /// Resolves the actions in the character's action queue and returns the resulting damage packet.
     /// </summary>
     /// <returns>The damage packets containing the results of the resolved actions.</returns>
-    public virtual void ResolveQueue()
+    public async virtual Task ResolveQueue()
     {
         foreach (var actionQueueEntry in ActionQueue)
         {
@@ -362,24 +366,42 @@ public partial class Character : Node
     /// Kill the character.
     /// This method should be called when the character's health reaches 0 or when some instant death effect is applied.
     /// </summary>
-    private void Die()
+    protected async virtual Task Die()
     {
         Managers.BattleLogManager.Log($"{CharacterData.Name} has died.");
         IsDead = true;
 
-        // TODO: Animation for death
+        await PlayDeathAnimation();
+    }
+
+    /// <summary>
+    /// Plays the damage animation for the character.
+    /// </summary>
+    protected async virtual Task PlayDamageAnimation()
+    {
+        // Damage animation should be handled in derived classes
+    }
+
+    /// <summary>
+    /// Plays the death animation for the character.
+    /// </summary>
+    protected async virtual Task PlayDeathAnimation()
+    {
+        // Death animation should be handled in derived classes
     }
 
     /// <summary>
     /// Update the health bar to reflect the current health of the character.
     /// </summary>
-    protected virtual void UpdateHealthBar()
+    protected virtual async Task UpdateHealthBar()
     {
         var tween = CreateTween();
         // Animate the rotation smoothly over 0.2 seconds
         tween.TweenProperty(HealthBar, "value", CurrentHealth, .2f)
             .SetTrans(Tween.TransitionType.Cubic)
             .SetEase(Tween.EaseType.InOut);
+
+        await ToSignal(tween, "finished");
     }
 
     /// <summary>

@@ -1,3 +1,6 @@
+using System.Threading.Tasks;
+
+
 /// <summary>
 /// Damage is a class that represents the damage dealt by a spell to a target.
 /// </summary>
@@ -47,7 +50,7 @@ public partial class Damage
     /// <summary>
     /// Applies the damage to the target.
     /// </summary>
-    public int Apply()
+    public async Task<int> Apply()
     {
         if (StatusEffect != StatusEffectType.None)
         {
@@ -55,7 +58,7 @@ public partial class Damage
             Target.ApplyEffect(StatusEffect, 2);
         }
 
-        return Target.Damage(this);
+        return await Target.Damage(this);
     }
 }
 

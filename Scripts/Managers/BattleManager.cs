@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Godot;
 
 /// <summary>
@@ -64,13 +65,13 @@ public partial class BattleManager : Node
         }
     }
 
-    public override void _Process(double delta)
-    {
-        if (IsBattleInitialized)
-        {
-            AdvanceTurnFlow();
-        }
-    }
+    // public override void _Process(double delta)
+    // {
+    //     if (IsBattleInitialized && !TurnPhaseProcessed)
+    //     {
+    //         _ = AdvanceTurnFlow();
+    //     }
+    // }
 
     /// <summary>
     /// Starts a new turn phase and processes it for the current character.
@@ -84,7 +85,6 @@ public partial class BattleManager : Node
             CurrentTurnPhase = TurnPhase.Start;
         }
 
-        TurnPhaseProcessed = false;
         TurnLabel.Text = $"Turn {CurrentTurn} - Phase: {CurrentTurnPhase}";
     }
 
@@ -115,18 +115,36 @@ public partial class BattleManager : Node
         };
         SpawnRandomEnemy();
         IsBattleInitialized = true;
+
+        // Kick off the battle loop
+        _ = RunBattleLoop();
+    }
+
+    /// <summary>
+    /// Runs the main battle loop, processing turns until the battle is over.
+    /// </summary>
+    /// <returns></returns>
+    private async Task RunBattleLoop()
+    {
+        while (IsBattleInitialized)
+        {
+            TurnPhaseProcessed = false;
+            await AdvanceTurnFlow();
+
+            await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
+        }
     }
 
     /// <summary>
     /// Advances the turn flow by processing the current turn phase and then starting the next one.
-    /// Sets a flag to ensure turns are not 
+    /// Sets a flag to ensure turns are not processed multiple times.
     /// </summary>
-    private void AdvanceTurnFlow()
+    private async Task AdvanceTurnFlow()
     {
-        if (TurnPhaseProcessed) return;
-
-        ProcessTurnPhase();
+        GD.Print($"Starting turn phase {CurrentTurnPhase}.");
+        await ProcessTurnPhase();
         TurnPhaseProcessed = true;
+        GD.Print($"Turn phase {CurrentTurnPhase} processed.");
 
         // If phase requires immediate progression, handle it here.
         if (ShouldAutoAdvancePhase(CurrentTurnPhase))
@@ -142,7 +160,7 @@ public partial class BattleManager : Node
     /// <remarks>
     /// Never call StartNewTurnPhase from this method!
     /// </remarks>
-    private void ProcessTurnPhase()
+    private async Task ProcessTurnPhase()
     {
         // Determine the current character based on the turn order.
         // Determine the character type, and process the turn accordingly.
@@ -162,7 +180,7 @@ public partial class BattleManager : Node
                 MainPhase();
                 break;
             case TurnPhase.Damage:
-                DamagePhase();
+                await DamagePhase();
                 break;
             case TurnPhase.End:
                 currentCharacter.EndTurn();
@@ -207,7 +225,7 @@ public partial class BattleManager : Node
     /// Processes the damage phase. It executes logic from queued spells or attacks
     /// and makes sure the state is correctly preserved.
     /// </summary>
-    private void DamagePhase()
+    private async Task DamagePhase()
     {
         // Get the current character and their action queue.
         var currentCharacter = GetCurrentCharacter();
@@ -217,7 +235,7 @@ public partial class BattleManager : Node
             return;
         }
 
-        currentCharacter.ResolveQueue();
+        await currentCharacter.ResolveQueue();
     }
 
     /// <summary>

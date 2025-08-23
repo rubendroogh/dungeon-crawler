@@ -1,5 +1,6 @@
 using Godot;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 /// <summary>
 /// Manages casting of spells, handling of actions, and current state of all related variables.
@@ -121,7 +122,7 @@ public partial class ActionManager : Node
     /// This method applies all damages and heals in the packet and returns the total damage dealt.
     /// </summary>
     /// <returns>The total damage dealt by the action.</returns>
-    public float HandleResolveResult(DamagePacket damagePacket)
+    public async Task<float> HandleResolveResult(DamagePacket damagePacket)
     {
         if (damagePacket == null)
         {
@@ -132,7 +133,7 @@ public partial class ActionManager : Node
         var totalDamage = 0f;
         foreach (var damage in damagePacket.Damages)
         {
-            totalDamage += damage.Apply();
+            totalDamage += await damage.Apply();
         }
 
         return totalDamage;

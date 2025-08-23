@@ -22,4 +22,5 @@ BaseSanityDamage = 0.0
 BaseDiseaseDamage = 0.0
 MaxManaCharges = 4
 ModifierMultiplier = 1.1
+Rarity = 1
 metadata/_custom_type_script = "uid://d31wkdgrcylv3"

@@ -1,5 +1,6 @@
 using Godot;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 public partial class Enemy : Character
 {
@@ -16,6 +17,11 @@ public partial class Enemy : Character
     public delegate void EnemyActionEventHandler();
 
     /// <summary>
+    /// The sprite that shows when the character gets damaged.
+    /// </summary>
+    private Sprite2D DamageAnimationSprite { get; set; }
+
+    /// <summary>
     /// The queue of actions for the enemy to perform.
     /// This is used to manage actions that are queued for the enemy, allowing for multiple actions to be performed in a single turn.
     /// </summary>
@@ -25,6 +31,9 @@ public partial class Enemy : Character
     {
         base._Ready();
         InitializeAvailableActions();
+
+        DamageAnimationSprite = GetNode<Sprite2D>("DamageSprite");
+        DamageAnimationSprite.Visible = false;
     }
 
     /// <summary>
@@ -48,7 +57,7 @@ public partial class Enemy : Character
     /// <summary>
     /// Resolve the action queue for the enemy, executing all queued actions.
     /// </summary>
-    public override void ResolveQueue()
+    public override async Task ResolveQueue()
     {
         if (ActionQueue.Count == 0)
         {
@@ -72,8 +81,47 @@ public partial class Enemy : Character
 
         foreach (var damagePacket in damagePackets)
         {
-            Managers.ActionManager.HandleResolveResult(damagePacket);
+            await Managers.ActionManager.HandleResolveResult(damagePacket);
         }
+    }
+
+    /// <summary>
+    /// Plays the damage animation for the enemy.
+    /// </summary>
+    protected async override Task PlayDamageAnimation()
+    {
+        float flickerDuration = 2f;
+        int flickerCount = 5;
+
+        float interval = flickerDuration / (flickerCount * 2);
+
+        for (int i = 0; i < flickerCount; i++)
+        {
+            DamageAnimationSprite.Visible = false;
+            await this.Delay((int)(interval * 1000));
+            DamageAnimationSprite.Visible = true;
+            await this.Delay((int)(interval * 1000));
+        }
+
+        DamageAnimationSprite.Visible = false; // Hide the sprite after flickering
+        await this.Delay(1000);
+    }
+
+    /// <summary>
+    /// Plays the death animation for the enemy.
+    /// </summary>
+    protected override async Task PlayDeathAnimation()
+    {
+        await this.Delay(1000);
+
+        // Create a fade out animation for the enemy
+        var tween = CreateTween();
+        tween.TweenProperty(CharacterSprite, "modulate:a", 0f, 2f)
+            .SetTrans(Tween.TransitionType.Cubic)
+            .SetEase(Tween.EaseType.Out);
+
+        await ToSignal(tween, "finished");
+        await this.Delay(1000);
     }
 
     /// <summary>
