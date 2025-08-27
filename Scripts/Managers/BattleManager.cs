@@ -65,14 +65,6 @@ public partial class BattleManager : Node
         }
     }
 
-    // public override void _Process(double delta)
-    // {
-    //     if (IsBattleInitialized && !TurnPhaseProcessed)
-    //     {
-    //         _ = AdvanceTurnFlow();
-    //     }
-    // }
-
     /// <summary>
     /// Starts a new turn phase and processes it for the current character.
     /// This method is called automatically after the current turn phase is completed.

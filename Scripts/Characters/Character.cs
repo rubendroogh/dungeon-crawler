@@ -190,16 +190,23 @@ public partial class Character : Node
             return;
         }
 
+        var expiredStatusEffects = new List<StatusEffect>();
         foreach (var effect in StatusEffects)
         {
             effect.Duration--;
             if (effect.Duration <= 0)
             {
-                ClearEffect(effect.Type);
+                expiredStatusEffects.Add(effect);
             }
         }
 
+        foreach (var effect in expiredStatusEffects)
+        {
+            ClearEffect(effect.Type);
+        }
+
         // Process the effects at the end of the turn
+        // Maybe move this up?
         foreach (var effect in StatusEffects)
         {
             effect.Behaviour.ProcessEffectEndTurn(this);
