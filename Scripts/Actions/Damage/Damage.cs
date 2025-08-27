@@ -12,11 +12,6 @@ public partial class Damage
     public float Amount { get; set; }
 
     /// <summary>
-    /// The target of the damage. This is the character that will receive the damage.
-    /// </summary>
-    public Character Target { get; set; }
-
-    /// <summary>
     /// The type of damage dealt by the spell. This is used to determine how the damage is calculated.
     /// </summary>
     public DamageType Type { get; set; }
@@ -31,34 +26,18 @@ public partial class Damage
     /// </summary>
     public StatusEffectType StatusEffect { get; set; }
     
-    public Damage(float damageAmount, DamageType damageType, Character target)
+    public Damage(float damageAmount, DamageType damageType)
     {
         Amount = damageAmount;
         Type = damageType;
-        Target = target;
         Source = DamageSource.Unknown;
     }
 
-    public Damage(float damageAmount, DamageType damageType, Character target, DamageSource damageSource)
+    public Damage(float damageAmount, DamageType damageType, DamageSource damageSource)
     {
         Amount = damageAmount;
         Type = damageType;
-        Target = target;
         Source = damageSource;
-    }
-
-    /// <summary>
-    /// Applies the damage to the target.
-    /// </summary>
-    public async Task<int> Apply()
-    {
-        if (StatusEffect != StatusEffectType.None)
-        {
-            // TODO: This is 2 turns for now, but it should be the duration of the effect
-            Target.ApplyEffect(StatusEffect, 2);
-        }
-
-        return await Target.Damage(this);
     }
 }
 

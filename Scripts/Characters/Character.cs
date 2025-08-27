@@ -211,43 +211,23 @@ public partial class Character : Node
     /// <summary>
     /// Damage the character. Takes into account the weaknesses and resistances of the character.
     /// </summary>
-    /// <param name="damage"></param>
-    public async Task<int> Damage(Damage damage)
+    /// <param name="damage">The damage to apply.</param>
+    public async Task<int> Damage(DamagePacket damage)
     {
-        if (damage.Amount <= 0 || CurrentHealth <= 0)
+        if (damage.TotalBaseAmount <= 0 || CurrentHealth <= 0)
         {
             return 0;
         }
 
         var totalDamage = 0f;
-
-        // TODO: make this more dynamic
-        switch (damage.Type)
+        foreach (var dmg in damage.Damages)
         {
-            case DamageType.Physical:
-                totalDamage += CalculateModifiedDamage(damage.Amount, PhysicalDamageModifiers);
-                break;
-            case DamageType.Dark:
-                totalDamage += CalculateModifiedDamage(damage.Amount, DarkDamageModifiers);
-                break;
-            case DamageType.Light:
-                totalDamage += CalculateModifiedDamage(damage.Amount, LightDamageModifiers);
-                break;
-            case DamageType.Fire:
-                totalDamage += CalculateModifiedDamage(damage.Amount, FireDamageModifiers);
-                break;
-            case DamageType.Ice:
-                totalDamage += CalculateModifiedDamage(damage.Amount, IceDamageModifiers);
-                break;
-            case DamageType.Lightning:
-                totalDamage += CalculateModifiedDamage(damage.Amount, LightningDamageModifiers);
-                break;
-            case DamageType.Sanity:
-                totalDamage += CalculateModifiedDamage(damage.Amount, SanityDamageModifiers);
-                break;
-            case DamageType.Disease:
-                totalDamage += CalculateModifiedDamage(damage.Amount, DiseaseDamageModifiers);
-                break;
+            if (dmg.StatusEffect != StatusEffectType.None)
+            {
+                ApplyEffect(dmg.StatusEffect, 2);
+            }
+
+            totalDamage += GetModifiedDamage(dmg);
         }
 
         // Apply the total damage to the character's health
@@ -259,8 +239,6 @@ public partial class Character : Node
         {
             await Die();
         }
-
-        // Do animation
 
         return (int)totalDamage;
     }
@@ -334,6 +312,43 @@ public partial class Character : Node
         foreach (var actionQueueEntry in ActionQueue)
         {
             actionQueueEntry.Action.GetBehaviour().Resolve(actionQueueEntry.Action.Data, [actionQueueEntry.Target]);
+        }
+    }
+
+    /// <summary>
+    /// Get the modified damage for a specific damage type.
+    /// </summary>
+    public float GetModifiedDamage(Damage baseDamage)
+    {
+        if (baseDamage == null)
+        {
+            GD.PrintErr("BaseDamage is null");
+            return 0f;
+        }
+
+        // Get damage type and modifiers for that damage
+        var damageType = baseDamage.Type;
+        switch (damageType)
+        {
+            case DamageType.Physical:
+                return CalculateModifiedDamage(baseDamage.Amount, PhysicalDamageModifiers);
+            case DamageType.Dark:
+                return CalculateModifiedDamage(baseDamage.Amount, DarkDamageModifiers);
+            case DamageType.Light:
+                return CalculateModifiedDamage(baseDamage.Amount, LightDamageModifiers);
+            case DamageType.Fire:
+                return CalculateModifiedDamage(baseDamage.Amount, FireDamageModifiers);
+            case DamageType.Ice:
+                return CalculateModifiedDamage(baseDamage.Amount, IceDamageModifiers);
+            case DamageType.Lightning:
+                return CalculateModifiedDamage(baseDamage.Amount, LightningDamageModifiers);
+            case DamageType.Sanity:
+                return CalculateModifiedDamage(baseDamage.Amount, SanityDamageModifiers);
+            case DamageType.Disease:
+                return CalculateModifiedDamage(baseDamage.Amount, DiseaseDamageModifiers);
+            default:
+                GD.PrintErr($"Unhandled damage type: {damageType}");
+                return baseDamage.Amount;
         }
     }
 

@@ -34,12 +34,13 @@ public partial class DefaultSpellBehaviour : ISpellBehaviour
         foreach (var damageType in spellData.DamageTypes)
         {
             float damage = CalculateDamage(damageType, modifier, spellData);
-            damages.Add(new Damage(damage, damageType, targets.First()));
+            damages.Add(new Damage(damage, damageType));
         }
 
         return new DamagePacket
         {
             Damages = damages,
+            Target = targets.First()
         };
     }
 

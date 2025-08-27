@@ -27,12 +27,13 @@ public partial class DefaultActionBehaviour : IActionBehaviour
         foreach (var damageType in actionData.DamageTypes)
         {
             float damage = GetDamage(damageType, actionData);
-            damages.Add(new Damage(damage, damageType, targets.First()));
+            damages.Add(new Damage(damage, damageType));
         }
 
         return new DamagePacket
         {
             Damages = damages,
+            Target = targets.First()
         };
     }
 
