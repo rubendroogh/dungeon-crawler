@@ -1,0 +1,52 @@
+[gd_scene load_steps=7 format=3 uid="uid://cyspg83j1xpfk"]
+
+[ext_resource type="Texture2D" uid="uid://c62yrpshepv8m" path="res://icon.svg" id="1_i8k43"]
+[ext_resource type="Script" uid="uid://bxc3vq4yspq4" path="res://Scripts/Actions/Behaviours/SpellEffects/BaseEffect.cs" id="2_u5hye"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ta5ip"]
+atlas = ExtResource("1_i8k43")
+
+[sub_resource type="Animation" id="Animation_dp6va"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+
+[sub_resource type="Animation" id="Animation_q56sv"]
+resource_name = "cast"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0.333333, 0.733334),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [1.309, 3.73675]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_tb3lc"]
+_data = {
+&"RESET": SubResource("Animation_dp6va"),
+&"cast": SubResource("Animation_q56sv")
+}
+
+[node name="BaseEffect" type="Sprite2D"]
+texture = SubResource("AtlasTexture_ta5ip")
+script = ExtResource("2_u5hye")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_tb3lc")
+}

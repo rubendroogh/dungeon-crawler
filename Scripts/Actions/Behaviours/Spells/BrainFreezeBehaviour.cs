@@ -2,7 +2,7 @@ using System.Collections.Generic;
 
 public partial class BrainFreezeBehaviour : DefaultSpellBehaviour
 {
-    public override DamagePacket Resolve(List<Card> cards, ActionData spellData, List<Character> targets)
+    public override ResolveResult Resolve(List<Card> cards, ActionData spellData, List<Character> targets)
     {
         // Check if the target is frozen
         foreach (var target in targets)

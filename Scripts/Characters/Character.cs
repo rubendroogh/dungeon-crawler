@@ -219,7 +219,7 @@ public partial class Character : Node
     /// Damage the character. Takes into account the weaknesses and resistances of the character.
     /// </summary>
     /// <param name="damage">The damage to apply.</param>
-    public async Task<int> Damage(DamagePacket damage)
+    public async Task<int> Damage(ResolveResult damage)
     {
         if (damage.TotalBaseAmount <= 0 || CurrentHealth <= 0)
         {
@@ -239,7 +239,6 @@ public partial class Character : Node
 
         // Apply the total damage to the character's health
         CurrentHealth -= totalDamage;
-        await PlayDamageAnimation();
 
         await UpdateHealthBar();
         if (CurrentHealth <= 0)

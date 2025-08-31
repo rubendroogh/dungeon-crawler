@@ -4,36 +4,69 @@ using Godot;
 [GlobalClass] // Makes it creatable from the "New Resource" menu
 public partial class ActionData : Resource
 {
+    /// <summary>
+    /// The name of the spell.
+    /// </summary>
     [Export]
     public string Name { get; set; } = "Default spell";
 
+    /// <summary>
+    /// The description of the spell in the spellbook.
+    /// </summary>
     [Export]
     public string Description { get; set; } = "You forgot to fill this in!";
 
+    /// <summary>
+    /// The image representing the spell in the spellbook.
+    /// </summary>
     [Export]
     public Texture2D Image { get; set; }
 
+    /// <summary>
+    /// The base physical damage dealt by the spell.
+    /// </summary>
     [Export]
     public float BasePhysicalDamage { get; set; } = 100;
     
+    /// <summary>
+    /// The base dark damage dealt by the spell.
+    /// </summary>
     [Export]
     public float BaseDarkDamage { get; set; } = 0;
 
+    /// <summary>
+    /// The base light damage dealt by the spell.
+    /// </summary>
     [Export]
     public float BaseLightDamage { get; set; } = 0;
 
+    /// <summary>
+    /// The base fire damage dealt by the spell.
+    /// </summary>
     [Export]
     public float BaseFireDamage { get; set; } = 0;
 
+    /// <summary>
+    /// The base ice damage dealt by the spell.
+    /// </summary>
     [Export]
     public float BaseIceDamage { get; set; } = 0;
 
+    /// <summary>
+    /// The base lightning damage dealt by the spell.
+    /// </summary>
     [Export]
     public float BaseLightningDamage { get; set; } = 0;
 
+    /// <summary>
+    /// The base sanity damage dealt by the spell.
+    /// </summary>
     [Export]
     public float BaseSanityDamage { get; set; } = 0;
 
+    /// <summary>
+    /// The base disease damage dealt by the spell.
+    /// </summary>
     [Export]
     public float BaseDiseaseDamage { get; set; } = 0;
 
@@ -48,6 +81,12 @@ public partial class ActionData : Resource
     /// </summary>
     [Export]
     public float ModifierMultiplier = 1.01f;
+
+    /// <summary>
+    /// The scene containing the animation played when the spell is cast.
+    /// </summary>
+    [Export]
+    public PackedScene CastEffectScene { get; set; }
 
     /// <summary>
     /// A value between 1 and 5 that indicates the rarity of the spell.

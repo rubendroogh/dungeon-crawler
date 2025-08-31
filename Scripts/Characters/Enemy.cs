@@ -65,7 +65,6 @@ public partial class Enemy : Character
             return;
         }
 
-        var damagePackets = new List<DamagePacket>();
         foreach (var entry in ActionQueue)
         {
             if (entry.Action == null || entry.Target == null)
@@ -74,14 +73,15 @@ public partial class Enemy : Character
                 continue;
             }
 
-            // Resolve the action and add the resulting damage packet to the list.
-            var actionDamagePacket = entry.Action.GetBehaviour().Resolve(entry.Action.Data, [entry.Target]);
-            damagePackets.Add(actionDamagePacket);
-        }
+            // Resolve the action and add the resulting resolve result to the list.
+            var actionBehaviour = entry.Action.GetBehaviour();
+            var resolveResult = actionBehaviour.Resolve(entry.Action.Data, [entry.Target]);
 
-        foreach (var damagePacket in damagePackets)
-        {
-            await Managers.ActionManager.HandleResolveResult(damagePacket);
+            await this.Delay(250);
+            await actionBehaviour.AnimateSpellCast(entry.Action.Data, [entry.Target]);
+            await this.Delay(250);
+            
+            await Managers.ActionManager.HandleResolveResult(resolveResult);
         }
     }
 

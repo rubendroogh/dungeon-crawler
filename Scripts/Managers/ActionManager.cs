@@ -122,16 +122,16 @@ public partial class ActionManager : Node
     /// This method applies all damages and heals in the packet and returns the total damage dealt.
     /// </summary>
     /// <returns>The total damage dealt by the action.</returns>
-    public async Task<float> HandleResolveResult(DamagePacket damagePacket)
+    public async Task<float> HandleResolveResult(ResolveResult resolveResult)
     {
-        if (damagePacket == null)
+        if (resolveResult == null)
         {
-            GD.PrintErr("DamagePacket is null");
+            GD.PrintErr("ResolveResult is null");
             return 0f;
         }
 
-        await damagePacket.Target.Damage(damagePacket);
-        return damagePacket.TotalModifiedAmount;
+        await resolveResult.Target.Damage(resolveResult);
+        return resolveResult.TotalModifiedAmount;
     }
 
     /// <summary>

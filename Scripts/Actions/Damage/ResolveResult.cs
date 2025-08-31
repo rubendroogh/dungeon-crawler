@@ -5,7 +5,7 @@ using System.Linq;
 /// DamagePacket is a class that represents the result of an action resolving.
 /// A DamagePacket only targets one character.
 /// </summary>
-public partial class DamagePacket
+public partial class ResolveResult
 {
     /// <summary>
     /// The list of damages dealt by the action.

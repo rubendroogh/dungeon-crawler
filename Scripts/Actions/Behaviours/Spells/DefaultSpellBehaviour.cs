@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Godot;
 
 /// <summary>
@@ -8,18 +9,18 @@ using Godot;
 /// </summary>
 public partial class DefaultSpellBehaviour : ISpellBehaviour
 {
-    public virtual DamagePacket Resolve(List<Card> cards, ActionData spellData, List<Character> targets)
+    public virtual ResolveResult Resolve(List<Card> cards, ActionData spellData, List<Character> targets)
     {
         if (cards == null || cards.Count == 0)
         {
             GD.PrintErr("No cards selected.");
-            return new DamagePacket();
+            return new ResolveResult();
         }
 
         if (targets == null || targets.Count == 0)
         {
             GD.PrintErr("No targets selected.");
-            return new DamagePacket();
+            return new ResolveResult();
         }
 
         // Calculate the modifier based on the cards selected
@@ -37,16 +38,27 @@ public partial class DefaultSpellBehaviour : ISpellBehaviour
             damages.Add(new Damage(damage, damageType));
         }
 
-        return new DamagePacket
+        return new ResolveResult
         {
             Damages = damages,
             Target = targets.First()
         };
     }
 
-    public DamagePacket Resolve(ActionData actionData, List<Character> targets)
+    public ResolveResult Resolve(ActionData actionData, List<Character> targets)
     {
         return Resolve(new List<Card>(), actionData, targets);
+    }
+
+    public async Task AnimateSpellCast(ActionData spellData, List<Character> targets)
+    {
+        GD.Print("Animating spell cast in DefaultSpellBehaviour.");
+        if (spellData.CastEffectScene != null)
+        {
+            var effectInstance = spellData.CastEffectScene.Instantiate<BaseEffect>();
+            targets.First().AddChild(effectInstance); // TODO: Support multiple enemies
+            await effectInstance.Play(targets);
+        }
     }
 
     /// <summary>
@@ -68,4 +80,3 @@ public partial class DefaultSpellBehaviour : ISpellBehaviour
         };
     }
 }
-

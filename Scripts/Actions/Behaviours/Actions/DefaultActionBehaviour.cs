@@ -1,6 +1,7 @@
 using Godot;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 /// <summary>
 /// DefaultActionBehaviour is a default implementation of the IActionBehaviour interface.
@@ -14,12 +15,12 @@ public partial class DefaultActionBehaviour : IActionBehaviour
     /// <param name="actionData">The action data containing the spell and target.</param>
     /// <param name="targets">The list of targets for the action.</param>
     /// <returns>A damage packet representing the result of the action.</returns>
-    public DamagePacket Resolve(ActionData actionData, List<Character> targets)
+    public ResolveResult Resolve(ActionData actionData, List<Character> targets)
     {
         if (targets == null || targets.Count == 0)
         {
             GD.PrintErr("No targets selected.");
-            return new DamagePacket();
+            return new ResolveResult();
         }
 
         // Add all damage types together
@@ -30,11 +31,25 @@ public partial class DefaultActionBehaviour : IActionBehaviour
             damages.Add(new Damage(damage, damageType));
         }
 
-        return new DamagePacket
+        return new ResolveResult
         {
             Damages = damages,
             Target = targets.First()
         };
+    }
+
+    /// <summary>
+    /// Animates the spell cast for the given targets.
+    /// </summary>
+    public async Task AnimateSpellCast(ActionData spellData, List<Character> targets)
+    {
+        // If this method is called from a spell, it will get overridden in DefaultSpellBehaviour
+        // So for now we can just assume the target is the player since an action can only be cast by an AI.
+        foreach (var target in targets)
+        {
+            // TODO: Play spell animation for hitting the player
+            await Task.CompletedTask;
+        }
     }
 
     /// <summary>

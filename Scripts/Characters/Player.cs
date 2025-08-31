@@ -56,7 +56,7 @@ public partial class Player : Character
     }
 
     /// <summary>
-    /// Resolve the spell queue, executing all queued spells and applying their effects.
+    /// Resolve the spell queue, executing all queued spells, applying their effects, and showing animations.
     /// </summary>
     public override async Task ResolveQueue()
     {
@@ -66,7 +66,6 @@ public partial class Player : Character
             return;
         }
 
-        var damagePackets = new List<DamagePacket>();
         foreach (var entry in SpellQueue)
         {
             if (entry.Action == null || entry.Target == null)
@@ -75,16 +74,16 @@ public partial class Player : Character
                 continue;
             }
 
-            // Resolve the spell and add the resulting damage packet to the list.
+            // Resolve the spell and play the animation
             var spell = entry.Action as Spell;
-            var actionDamagePacket = spell.GetBehaviour().Resolve(entry.Cards, spell.Data, [entry.Target]);
-            damagePackets.Add(actionDamagePacket);
-        }
+            var spellBehaviour = spell.GetBehaviour();
+            var spellResolveResult = spellBehaviour.Resolve(entry.Cards, spell.Data, [entry.Target]);
 
-        // Process each damage packet and log the results.
-        foreach (var damagePacket in damagePackets)
-        {
-            var totalDamage = await Managers.ActionManager.HandleResolveResult(damagePacket);
+            await this.Delay(500);
+            await spellBehaviour.AnimateSpellCast(spell.Data, [entry.Target]);
+            await this.Delay(500);
+
+            var totalDamage = await Managers.ActionManager.HandleResolveResult(spellResolveResult);
             Managers.BattleLogManager.Log($"Resolved spell for {totalDamage} damage.");
         }
 
@@ -100,6 +99,8 @@ public partial class Player : Character
         // Find the health label node in the scene tree.
         var healthLabel = GetTree().Root.GetNode<Label>("Root/UI/HUD/Debug/VBoxContainer/PlayerStats/Health");
         healthLabel.Text = $"Health: {CurrentHealth}/{CharacterData.MaxHealth}";
+
+        await Task.CompletedTask;
     }
 
     protected override void UpdateStatusEffectLabel()
