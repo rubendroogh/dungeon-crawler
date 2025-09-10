@@ -13,12 +13,12 @@ region = Rect2(192, 0, 32, 32)
 atlas = ExtResource("3_xeo28")
 region = Rect2(663, 255, 16, 16)
 
-[sub_resource type="Gradient" id="Gradient_xeo28"]
+[sub_resource type="Gradient" id="Gradient_kpr8r"]
 interpolation_mode = 1
 colors = PackedColorArray(0.776471, 0, 0, 1, 1, 1, 1, 1)
 
 [sub_resource type="GradientTexture2D" id="GradientTexture2D_kpr8r"]
-gradient = SubResource("Gradient_xeo28")
+gradient = SubResource("Gradient_kpr8r")
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_1exfc"]
 atlas = ExtResource("4_kpr8r")

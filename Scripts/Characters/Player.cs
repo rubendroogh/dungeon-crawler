@@ -92,15 +92,18 @@ public partial class Player : Character
         Managers.DebugScreenManager.UpdateSpellQueue();
     }
 
-    protected override async Task UpdateHealthBar()
+    protected override void InitializeNodes(CharacterData characterData)
     {
-        // We use a label for debugging purposes to display the player's health.
-        // In a real game, this would be replaced with a health bar UI element.
-        // Find the health label node in the scene tree.
-        var healthLabel = GetTree().Root.GetNode<Label>("Root/UI/HUD/Debug/VBoxContainer/PlayerStats/Health");
-        healthLabel.Text = $"Health: {CurrentHealth}/{CharacterData.MaxHealth}";
+        HealthBar = GetTree().Root.GetNode<TextureProgressBar>("Root/UI/HUD/Debug/VBoxContainer/PlayerStats/HealthBar");
 
-        await Task.CompletedTask;
+        if (HealthBar == null)
+        {
+            GD.PrintErr("Player HealthBar is not set up in the scene.");
+            return;
+        }
+
+        HealthBar.MaxValue = characterData.MaxHealth;
+        HealthBar.Value = CurrentHealth;
     }
 
     protected override void UpdateStatusEffectLabel()

@@ -37,7 +37,7 @@ public partial class PlayerManager : Node
     {
         if (PlayerCharacter != null)
         {
-            PlayerCharacter.SetCharacterData(characterData);
+            _ = PlayerCharacter.Setup(characterData);
         }
         else
         {

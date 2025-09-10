@@ -1,4 +1,4 @@
-[gd_scene load_steps=40 format=3 uid="uid://ck8p1eru6l2f4"]
+[gd_scene load_steps=44 format=3 uid="uid://ck8p1eru6l2f4"]
 
 [ext_resource type="Script" uid="uid://di2h8gf1377s5" path="res://Scripts/UI/CameraShake.cs" id="1_hojmo"]
 [ext_resource type="Resource" uid="uid://b1jhmr0xq4603" path="res://Resources/Spells/FireBall.tres" id="2_hvf01"]
@@ -20,6 +20,7 @@
 [ext_resource type="Script" uid="uid://qvd64pgadui" path="res://Scripts/Managers/TransitionManager.cs" id="15_g2qkk"]
 [ext_resource type="Script" uid="uid://bc7r5kh0kegqt" path="res://Scripts/Characters/Player.cs" id="15_irpm1"]
 [ext_resource type="Script" uid="uid://omqimuu5thub" path="res://Scripts/Managers/DebugScreenManager.cs" id="16_ogsbt"]
+[ext_resource type="Texture2D" uid="uid://csjt8ylrgdkbj" path="res://Resources/Atlasses/TileAtlas.tres" id="17_cltpb"]
 [ext_resource type="Script" uid="uid://cr3tq3ldbn5dl" path="res://Scripts/Managers/CharacterCreationManager.cs" id="17_fvp6m"]
 [ext_resource type="FontFile" uid="uid://cfv06efvogvfl" path="res://Assets/Fonts/m3x6.ttf" id="18_wg3rq"]
 [ext_resource type="Texture2D" uid="uid://exboe6jk0wnb" path="res://Assets/RawImages/FullTileMap.png" id="19_tayw2"]
@@ -36,6 +37,17 @@
 [ext_resource type="PackedScene" uid="uid://b064kuj7s5tyq" path="res://Scenes/RewardSelectionItem.tscn" id="33_ghvpb"]
 [ext_resource type="Script" uid="uid://can1qqm8mdvlp" path="res://Scripts/Managers/RewardSelectionManager.cs" id="33_n6swl"]
 [ext_resource type="Script" uid="uid://dc7fgp7xs3q51" path="res://Scripts/UI/Rewards/ConfirmSelectionButton.cs" id="34_jk3s6"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_udxv6"]
+atlas = ExtResource("17_cltpb")
+region = Rect2(663, 255, 16, 16)
+
+[sub_resource type="Gradient" id="Gradient_xeo28"]
+interpolation_mode = 1
+colors = PackedColorArray(0.776471, 0, 0, 1, 1, 1, 1, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_21fen"]
+gradient = SubResource("Gradient_xeo28")
 
 [sub_resource type="Theme" id="Theme_5eubm"]
 
@@ -101,7 +113,6 @@ offset_right = 40.0
 offset_bottom = 40.0
 
 [node name="HUD" type="Control" parent="UI"]
-visible = false
 anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
@@ -135,14 +146,20 @@ layout_mode = 2
 layout_mode = 2
 text = "Player stats"
 
-[node name="Health" type="Label" parent="UI/HUD/Debug/VBoxContainer/PlayerStats"]
-layout_mode = 2
-theme_override_font_sizes/font_size = 16
-text = "Health: 70/70"
-
 [node name="StatusEffects" type="Label" parent="UI/HUD/Debug/VBoxContainer/PlayerStats"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 16
+
+[node name="HealthBar" type="TextureProgressBar" parent="UI/HUD/Debug/VBoxContainer/PlayerStats"]
+layout_mode = 2
+value = 100.0
+nine_patch_stretch = true
+stretch_margin_left = 3
+stretch_margin_top = 3
+stretch_margin_right = 3
+stretch_margin_bottom = 3
+texture_under = SubResource("AtlasTexture_udxv6")
+texture_progress = SubResource("GradientTexture2D_21fen")
 
 [node name="BattleLogPanelContainer" type="PanelContainer" parent="UI/HUD"]
 layout_mode = 0
@@ -589,6 +606,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="RewardSelection" type="CenterContainer" parent="UI"]
+visible = false
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5

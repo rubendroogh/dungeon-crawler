@@ -93,7 +93,7 @@ public partial class Character : Node
     /// <summary>
     /// A progress bar that represents the character's health.
     /// </summary>
-    private TextureProgressBar HealthBar { get; set; }
+    protected TextureProgressBar HealthBar { get; set; }
 
     /// <summary>
     /// A label that shows the status effects applied to the character.
@@ -120,51 +120,8 @@ public partial class Character : Node
     public async Task Setup(CharacterData characterData)
     {
         SetCharacterData(characterData);
-
-        CharacterSprite = GetNode<Sprite2D>("CharacterSprite");
-        HealthBar = GetNode<TextureProgressBar>("HealthBar");
-        StatusEffectLabel = GetNode<Label>("StatusEffectsLabel");
-
-        if (CharacterSprite == null || HealthBar == null || StatusEffectLabel == null)
-        {
-            GD.PrintErr("CharacterSprite, HealthBar, or StatusEffectLabel is not set up in the scene.");
-            return;
-        }
-
-        HealthBar.MaxValue = characterData.MaxHealth;
-        HealthBar.Value = CurrentHealth;
-        CharacterSprite.Texture = characterData.Image;
-
+        InitializeNodes(characterData);
         await UpdateHealthBar();
-    }
-
-    /// <summary>
-    /// Set the character data for this character.
-    /// </summary>
-    /// <param name="characterData"></param>
-    public void SetCharacterData(CharacterData characterData)
-    {
-        CharacterData = characterData;
-        CurrentHealth = characterData.MaxHealth;
-
-        // Reset the damage modifiers to the base values
-        PhysicalDamageModifiers.Clear();
-        DarkDamageModifiers.Clear();
-        LightDamageModifiers.Clear();
-        FireDamageModifiers.Clear();
-        IceDamageModifiers.Clear();
-        LightningDamageModifiers.Clear();
-        SanityDamageModifiers.Clear();
-        DiseaseDamageModifiers.Clear();
-
-        PhysicalDamageModifiers.Add(new DamageModifier(DamageModifierType.Multiplicative, CharacterData.BasePhysicalDamageMultiplier));
-        DarkDamageModifiers.Add(new DamageModifier(DamageModifierType.Multiplicative, CharacterData.BaseDarkDamageMultiplier));
-        LightDamageModifiers.Add(new DamageModifier(DamageModifierType.Multiplicative, CharacterData.BaseLightDamageMultiplier));
-        FireDamageModifiers.Add(new DamageModifier(DamageModifierType.Multiplicative, CharacterData.BaseFireDamageMultiplier));
-        IceDamageModifiers.Add(new DamageModifier(DamageModifierType.Multiplicative, CharacterData.BaseIceDamageMultiplier));
-        LightningDamageModifiers.Add(new DamageModifier(DamageModifierType.Multiplicative, CharacterData.BaseLightningDamageMultiplier));
-        SanityDamageModifiers.Add(new DamageModifier(DamageModifierType.Multiplicative, CharacterData.BaseSanityDamageMultiplier));
-        DiseaseDamageModifiers.Add(new DamageModifier(DamageModifierType.Multiplicative, CharacterData.BaseDiseaseDamageMultiplier));
     }
 
     /// <summary>
@@ -239,6 +196,8 @@ public partial class Character : Node
 
         // Apply the total damage to the character's health
         CurrentHealth -= totalDamage;
+
+        GD.Print($"{CharacterData.Name} takes {totalDamage} damage. Current health: {CurrentHealth}/{CharacterData.MaxHealth}");
 
         await UpdateHealthBar();
         if (CurrentHealth <= 0)
@@ -359,28 +318,23 @@ public partial class Character : Node
     }
 
     /// <summary>
-    /// Calculate the modified damage based on the base damage and the list of damage modifiers.
+    /// Sets up the character's sprite, health bar, and status effect label.
     /// </summary>
-    private float CalculateModifiedDamage(float baseDamage, List<DamageModifier> modifiers)
+    protected virtual void InitializeNodes(CharacterData characterData)
     {
-        float modifiedDamage = baseDamage;
-        foreach (var modifier in modifiers)
+        CharacterSprite = GetNode<Sprite2D>("CharacterSprite");
+        HealthBar = GetNode<TextureProgressBar>("HealthBar");
+        StatusEffectLabel = GetNode<Label>("StatusEffectsLabel");
+
+        if (CharacterSprite == null || HealthBar == null || StatusEffectLabel == null)
         {
-            switch (modifier.Type)
-            {
-                case DamageModifierType.Additive:
-                    modifiedDamage += modifier.Value;
-                    break;
-                case DamageModifierType.Multiplicative:
-                    modifiedDamage *= modifier.Value;
-                    break;
-                case DamageModifierType.Percentage:
-                    modifiedDamage *= 1 + modifier.Value / 100f;
-                    break;
-            }
+            GD.PrintErr("CharacterSprite, HealthBar, or StatusEffectLabel is not set up in the scene.");
+            return;
         }
 
-        return modifiedDamage;
+        HealthBar.MaxValue = characterData.MaxHealth;
+        HealthBar.Value = CurrentHealth;
+        CharacterSprite.Texture = characterData.Image;
     }
 
     /// <summary>
@@ -441,5 +395,59 @@ public partial class Character : Node
         {
             StatusEffectLabel.Text = "";
         }
+    }
+
+    /// <summary>
+    /// Calculate the modified damage based on the base damage and the list of damage modifiers.
+    /// </summary>
+    private float CalculateModifiedDamage(float baseDamage, List<DamageModifier> modifiers)
+    {
+        float modifiedDamage = baseDamage;
+        foreach (var modifier in modifiers)
+        {
+            switch (modifier.Type)
+            {
+                case DamageModifierType.Additive:
+                    modifiedDamage += modifier.Value;
+                    break;
+                case DamageModifierType.Multiplicative:
+                    modifiedDamage *= modifier.Value;
+                    break;
+                case DamageModifierType.Percentage:
+                    modifiedDamage *= 1 + modifier.Value / 100f;
+                    break;
+            }
+        }
+
+        return modifiedDamage;
+    }
+
+    /// <summary>
+    /// Set the character data for this character.
+    /// </summary>
+    /// <param name="characterData"></param>
+    private void SetCharacterData(CharacterData characterData)
+    {
+        CharacterData = characterData;
+        CurrentHealth = characterData.MaxHealth;
+
+        // Reset the damage modifiers to the base values
+        PhysicalDamageModifiers.Clear();
+        DarkDamageModifiers.Clear();
+        LightDamageModifiers.Clear();
+        FireDamageModifiers.Clear();
+        IceDamageModifiers.Clear();
+        LightningDamageModifiers.Clear();
+        SanityDamageModifiers.Clear();
+        DiseaseDamageModifiers.Clear();
+
+        PhysicalDamageModifiers.Add(new DamageModifier(DamageModifierType.Multiplicative, CharacterData.BasePhysicalDamageMultiplier));
+        DarkDamageModifiers.Add(new DamageModifier(DamageModifierType.Multiplicative, CharacterData.BaseDarkDamageMultiplier));
+        LightDamageModifiers.Add(new DamageModifier(DamageModifierType.Multiplicative, CharacterData.BaseLightDamageMultiplier));
+        FireDamageModifiers.Add(new DamageModifier(DamageModifierType.Multiplicative, CharacterData.BaseFireDamageMultiplier));
+        IceDamageModifiers.Add(new DamageModifier(DamageModifierType.Multiplicative, CharacterData.BaseIceDamageMultiplier));
+        LightningDamageModifiers.Add(new DamageModifier(DamageModifierType.Multiplicative, CharacterData.BaseLightningDamageMultiplier));
+        SanityDamageModifiers.Add(new DamageModifier(DamageModifierType.Multiplicative, CharacterData.BaseSanityDamageMultiplier));
+        DiseaseDamageModifiers.Add(new DamageModifier(DamageModifierType.Multiplicative, CharacterData.BaseDiseaseDamageMultiplier));
     }
 }
