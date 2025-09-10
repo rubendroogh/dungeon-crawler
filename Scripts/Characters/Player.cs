@@ -77,12 +77,12 @@ public partial class Player : Character
 			// Resolve the spell and play the animation
 			var spell = entry.Action as Spell;
 			var spellBehaviour = spell.GetBehaviour();
-			var spellResolveResult = spellBehaviour.Resolve(entry.Cards, spell.Data, [entry.Target]);
+			var spellResolveResult = spellBehaviour.Resolve(entry.Cards, spell.Data, entry.Target);
 
 			await this.Delay(300);
-			await spellBehaviour.AnimateSpellCast(spell.Data, [entry.Target]);
+			await spellBehaviour.AnimateSpellCast(spell.Data, entry.Target);
 			await entry.Target.PlayDamageAnimation();
-			int totalDamage = (int)await Managers.ActionManager.HandleResolveResult(spellResolveResult);
+			int totalDamage = (int)await Managers.ActionManager.ApplyResolveResult(spellResolveResult);
 			Managers.BattleLogManager.Log($"Resolved spell for {totalDamage} damage.");
 			await this.Delay(300);
 		}

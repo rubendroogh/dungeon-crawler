@@ -12,5 +12,5 @@ public interface ISpellBehaviour : IActionBehaviour
     /// <param name="spellData"></param>
     /// <param name="target"></param>
     /// <returns>The result of the spellcast, a list of damages, healing, and status effects.</returns>
-    public ResolveResult Resolve(List<Card> cards, ActionData spellData, List<Character> targets);
+    public ResolveResult Resolve(List<Card> cards, ActionData spellData, Character target);
 }

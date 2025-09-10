@@ -15,7 +15,7 @@ public partial class BaseEffect : Sprite2D
     /// <summary>
     /// Override this to add custom effect logic (multi-strikes, etc).
     /// </summary>
-    protected virtual Task OnEffect(List<Character> targets)
+    protected virtual Task OnEffect(Character target)
     {
         // Default: do nothing
         return Task.CompletedTask;
@@ -24,7 +24,7 @@ public partial class BaseEffect : Sprite2D
     /// <summary>
     /// Plays the effect animation and applies its effect to targets.
     /// </summary>
-    public virtual async Task Play(List<Character> targets)
+    public virtual async Task Play(Character target)
     {
         AnimationPlayer animationPlayer = GetNodeOrNull<AnimationPlayer>("AnimationPlayer");
         if (animationPlayer != null && animationPlayer.HasAnimation("cast"))
@@ -33,7 +33,7 @@ public partial class BaseEffect : Sprite2D
             await ToSignal(animationPlayer, AnimationMixer.SignalName.AnimationFinished);
         }
 
-        await OnEffect(targets);
+        await OnEffect(target);
 
         QueueFree(); // cleanup when finished
     }

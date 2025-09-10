@@ -274,7 +274,7 @@ public partial class Character : Node2D
     {
         foreach (var actionQueueEntry in ActionQueue)
         {
-            actionQueueEntry.Action.GetBehaviour().Resolve(actionQueueEntry.Action.Data, [actionQueueEntry.Target]);
+            actionQueueEntry.Action.GetBehaviour().Resolve(actionQueueEntry.Action.Data, actionQueueEntry.Target);
         }
     }
 

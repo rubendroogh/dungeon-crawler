@@ -9,7 +9,7 @@ using Godot;
 /// </summary>
 public partial class DefaultSpellBehaviour : ISpellBehaviour
 {
-    public virtual ResolveResult Resolve(List<Card> cards, ActionData spellData, List<Character> targets)
+    public virtual ResolveResult Resolve(List<Card> cards, ActionData spellData, Character target)
     {
         if (cards == null || cards.Count == 0)
         {
@@ -17,9 +17,9 @@ public partial class DefaultSpellBehaviour : ISpellBehaviour
             return new ResolveResult();
         }
 
-        if (targets == null || targets.Count == 0)
+        if (target == null || target.IsDead)
         {
-            GD.PrintErr("No targets selected.");
+            GD.PrintErr($"No legal target for spell {spellData.Name}.");
             return new ResolveResult();
         }
 
@@ -41,16 +41,16 @@ public partial class DefaultSpellBehaviour : ISpellBehaviour
         return new ResolveResult
         {
             Damages = damages,
-            Target = targets.First()
+            Target = target
         };
     }
 
-    public ResolveResult Resolve(ActionData actionData, List<Character> targets)
+    public ResolveResult Resolve(ActionData actionData, Character target)
     {
-        return Resolve(new List<Card>(), actionData, targets);
+        return Resolve(new List<Card>(), actionData, target);
     }
 
-    public async Task AnimateSpellCast(ActionData spellData, List<Character> targets, Character caster = null)
+    public async Task AnimateSpellCast(ActionData spellData, Character target, Character caster = null)
     {
         if (spellData.CastEffectScene != null)
         {
@@ -60,8 +60,8 @@ public partial class DefaultSpellBehaviour : ISpellBehaviour
                 effectInstance.SetSprite(spellData.DefaultCastEffectTexture);
             }
 
-            targets.First().AddChild(effectInstance); // TODO: Support multiple enemies
-            await effectInstance.Play(targets);
+            target.AddChild(effectInstance);
+            await effectInstance.Play(target);
         }
         else
         {

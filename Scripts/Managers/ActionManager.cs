@@ -122,11 +122,16 @@ public partial class ActionManager : Node
     /// This method applies all damages and heals in the packet and returns the total damage dealt.
     /// </summary>
     /// <returns>The total damage dealt by the action.</returns>
-    public async Task<float> HandleResolveResult(ResolveResult resolveResult)
+    public async Task<float> ApplyResolveResult(ResolveResult resolveResult)
     {
         if (resolveResult == null)
         {
             GD.PrintErr("ResolveResult is null");
+            return 0f;
+        }
+
+        if (resolveResult.Target.IsDead)
+        {
             return 0f;
         }
 

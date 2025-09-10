@@ -23,6 +23,11 @@ public partial class BattleManager : Node
     public TurnPhase CurrentTurnPhase { get; private set; } = TurnPhase.Start;
 
     /// <summary>
+    /// The number of spells cast this turn by any character. The spells must be fully resolved.
+    /// </summary>
+    public int CastSpellsThisTurn { get; set; } = 0;
+
+    /// <summary>
     /// The scene to instantiate for enemies. It contains the enemy character data, sprite, and health bar.
     /// </summary>
     [Export]
@@ -69,7 +74,7 @@ public partial class BattleManager : Node
     /// Starts a new turn phase and processes it for the current character.
     /// This method is called automatically after the current turn phase is completed.
     /// </summary>
-    public void StartNewTurnPhase()
+    public async Task StartNewTurnPhase()
     {
         CurrentTurnPhase++;
         if (CurrentTurnPhase > TurnPhase.PostEnd)
@@ -78,12 +83,13 @@ public partial class BattleManager : Node
         }
 
         // Get the amount of turns that have passed for the player
-        float playerTurnCount = (float)CurrentTurn / (float)Characters.Count;
+        float displayTurnCount = (float)CurrentTurn / (float)Characters.Count;
 
         // Round up
-        playerTurnCount = Mathf.Ceil(playerTurnCount);
+        displayTurnCount = Mathf.Ceil(displayTurnCount);
 
-        TurnLabel.Text = $"Turn {playerTurnCount} - Phase: {CurrentTurnPhase}";
+        await this.Delay(300);
+        TurnLabel.Text = $"Turn {displayTurnCount} - Phase: {CurrentTurnPhase}";
     }
 
     /// <summary>
@@ -248,6 +254,7 @@ public partial class BattleManager : Node
         }
 
         // TODO: Handle player death
+        CastSpellsThisTurn = 0;
         MoveToNextCharacter();
     }
 
@@ -330,7 +337,7 @@ public partial class BattleManager : Node
             return;
         }
 
-        enemy.Setup(enemyData);
+        _ = enemy.Setup(enemyData);
         enemy.Name = enemyData.Name;
 
         // Add enemy at root of the world node

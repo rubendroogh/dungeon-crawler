@@ -15,11 +15,11 @@ public partial class DefaultActionBehaviour : IActionBehaviour
     /// <param name="actionData">The action data containing the spell and target.</param>
     /// <param name="targets">The list of targets for the action.</param>
     /// <returns>A damage packet representing the result of the action.</returns>
-    public ResolveResult Resolve(ActionData actionData, List<Character> targets)
+    public ResolveResult Resolve(ActionData actionData, Character target)
     {
-        if (targets == null || targets.Count == 0)
+        if (target == null || target.IsDead)
         {
-            GD.PrintErr("No targets selected.");
+            GD.PrintErr("No legal target for action.");
             return new ResolveResult();
         }
 
@@ -34,42 +34,44 @@ public partial class DefaultActionBehaviour : IActionBehaviour
         return new ResolveResult
         {
             Damages = damages,
-            Target = targets.First()
+            Target = target
         };
     }
 
     /// <summary>
-    /// Animates the spell cast for the given targets.
+    /// Animates the spell cast for the given target.
     /// </summary>
-    public virtual async Task AnimateSpellCast(ActionData spellData, List<Character> targets, Character caster = null)
+    public virtual async Task AnimateSpellCast(ActionData spellData, Character target, Character caster = null)
     {
         // If this method is called from a spell, it will get overridden in DefaultSpellBehaviour
         // So for now we can just assume the target is the player since an action can only be cast by an AI.
-        foreach (var target in targets)
+        if (target == null || target.IsDead)
         {
-            // Do a kind of dash
-            if (caster == null)
-            {
-                return;
-            }
-            
-            await caster.Delay(300);
-
-            var originalPosition = caster.Position;
-            var targetPosition = originalPosition + new Vector2(0, 10);
-
-            var tween = caster.CreateTween();
-            tween.TweenProperty(caster, "position", targetPosition, 0.1f)
-                .SetTrans(Tween.TransitionType.Sine)
-                .SetEase(Tween.EaseType.Out);
-
-            tween.TweenProperty(caster, "position", originalPosition, 0.1f)
-                .SetTrans(Tween.TransitionType.Sine)
-                .SetEase(Tween.EaseType.In);
-
-            await caster.ToSignal(tween, "finished");
-            await caster.Delay(300);
+            GD.PrintErr("No legal target for action.");
+            return;
         }
+
+        if (caster == null)
+        {
+            return;
+        }
+            
+        await caster.Delay(300);
+
+        var originalPosition = caster.Position;
+        var targetPosition = originalPosition + new Vector2(0, 10);
+
+        var tween = caster.CreateTween();
+        tween.TweenProperty(caster, "position", targetPosition, 0.1f)
+            .SetTrans(Tween.TransitionType.Sine)
+            .SetEase(Tween.EaseType.Out);
+
+        tween.TweenProperty(caster, "position", originalPosition, 0.1f)
+            .SetTrans(Tween.TransitionType.Sine)
+            .SetEase(Tween.EaseType.In);
+
+        await caster.ToSignal(tween, "finished");
+        await caster.Delay(300);
     }
 
     /// <summary>

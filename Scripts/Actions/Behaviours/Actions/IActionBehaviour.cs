@@ -7,13 +7,13 @@ using System.Threading.Tasks;
 public interface IActionBehaviour
 {
     /// <summary>
-    /// Resolves the action using the selected targets and the action data. Does not actually apply the effect to the target.
+    /// Resolves the action using the selected target and the action data. Does not actually apply the effect to the target.
     /// </summary>
     /// <returns>The result of the action, a list of damages, healing, and status effects.</returns>
-    public ResolveResult Resolve(ActionData actionData, List<Character> targets);
+    public ResolveResult Resolve(ActionData actionData, Character target);
 
     /// <summary>
-    /// Animates the spell cast for the given targets.
+    /// Animates the spell cast for the given target.
     /// </summary>
-    public Task AnimateSpellCast(ActionData spellData, List<Character> targets, Character caster = null);
+    public Task AnimateSpellCast(ActionData spellData, Character target, Character caster = null);
 }

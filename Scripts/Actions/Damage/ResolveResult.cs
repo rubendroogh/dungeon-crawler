@@ -23,6 +23,11 @@ public partial class ResolveResult
     public Character Target { get; set; }
 
     /// <summary>
+    /// Whether the action has been fully resolved and applied to the target.
+    /// </summary>
+    public bool HasResolved { get; set; }
+    
+    /// <summary>
     /// The total damage dealt by the action.
     /// </summary>
     public float TotalBaseAmount => Damages.Sum(d => d.Amount) - Heals.Sum(d => d.Amount);
