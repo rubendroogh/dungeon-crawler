@@ -79,17 +79,31 @@ public partial class Player : Character
             var spellBehaviour = spell.GetBehaviour();
             var spellResolveResult = spellBehaviour.Resolve(entry.Cards, spell.Data, [entry.Target]);
 
-            await this.Delay(500);
+            await this.Delay(300);
             await spellBehaviour.AnimateSpellCast(spell.Data, [entry.Target]);
-            await this.Delay(500);
+            await this.Delay(300);
+            await entry.Target.PlayDamageAnimation();
 
-            var totalDamage = await Managers.ActionManager.HandleResolveResult(spellResolveResult);
+            int totalDamage = (int)await Managers.ActionManager.HandleResolveResult(spellResolveResult);
             Managers.BattleLogManager.Log($"Resolved spell for {totalDamage} damage.");
         }
 
         // Clear the spell queue after resolving.
         SpellQueue.Clear();
         Managers.DebugScreenManager.UpdateSpellQueue();
+    }
+
+    public override async Task PlayDamageAnimation()
+    {
+        await Task.Delay(300);
+
+        var camera = Managers.PlayerManager.GetCamera() as CameraShake;
+        if (camera != null)
+        {
+            await camera.StartShake(1.2f, 10f);
+        }
+
+        await Task.Delay(300);
     }
 
     protected override void InitializeNodes(CharacterData characterData)

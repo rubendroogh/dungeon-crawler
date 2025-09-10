@@ -50,15 +50,6 @@ public partial class DefaultActionBehaviour : IActionBehaviour
             // Do a screen shake
             // TODO: Move screen shake to player class, since it's the player that reacts to the spell cast
             // We can use this place to do the enemy's animation
-            await Task.Delay(300);
-
-            var camera = Managers.PlayerManager.GetCamera() as CameraShake;
-            if (camera != null)
-            {
-                await camera.StartShake(1.2f, 10f);
-            }
-
-            await Task.Delay(300);
         }
     }
 

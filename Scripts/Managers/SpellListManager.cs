@@ -95,7 +95,7 @@ public partial class SpellListManager : Node
             }
             else
             {
-                GD.Print("No behavior defined for spell: " + spellData.Name);
+                GD.PrintErr("No behavior defined for spell: " + spellData.Name);
             }
         }
 

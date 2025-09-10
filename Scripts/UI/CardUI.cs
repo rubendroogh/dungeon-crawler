@@ -113,7 +113,6 @@ public partial class CardUI : TextureRect
         if (shouldBeUsable)
         {
             IsUsed = false;
-            // GD.Print("Should be usable");
 
             // Enable mouse input
             MouseFilter = MouseFilterEnum.Stop;
@@ -126,7 +125,6 @@ public partial class CardUI : TextureRect
             IsUsed = true;
             IsSelected = false;
             AnimateRotation(0);
-            // GD.Print("Should not be usable");
 
             // Grey out the card
             Modulate = new Color(0.5f, 0.5f, 0.5f, 1);

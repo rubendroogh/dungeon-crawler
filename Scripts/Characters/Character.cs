@@ -197,8 +197,6 @@ public partial class Character : Node
         // Apply the total damage to the character's health
         CurrentHealth -= totalDamage;
 
-        GD.Print($"{CharacterData.Name} takes {totalDamage} damage. Current health: {CurrentHealth}/{CharacterData.MaxHealth}");
-
         await UpdateHealthBar();
         if (CurrentHealth <= 0)
         {
@@ -318,6 +316,14 @@ public partial class Character : Node
     }
 
     /// <summary>
+    /// Plays the damage animation for the character.
+    /// </summary>
+    public async virtual Task PlayDamageAnimation()
+    {
+        // Damage animation should be handled in derived classes
+    }
+    
+    /// <summary>
     /// Sets up the character's sprite, health bar, and status effect label.
     /// </summary>
     protected virtual void InitializeNodes(CharacterData characterData)
@@ -347,14 +353,6 @@ public partial class Character : Node
         IsDead = true;
 
         await PlayDeathAnimation();
-    }
-
-    /// <summary>
-    /// Plays the damage animation for the character.
-    /// </summary>
-    protected async virtual Task PlayDamageAnimation()
-    {
-        // Damage animation should be handled in derived classes
     }
 
     /// <summary>

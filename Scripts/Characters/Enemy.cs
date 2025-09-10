@@ -79,6 +79,7 @@ public partial class Enemy : Character
 
             await this.Delay(250);
             await actionBehaviour.AnimateSpellCast(entry.Action.Data, [entry.Target]);
+            await entry.Target.PlayDamageAnimation();
             await Managers.ActionManager.HandleResolveResult(resolveResult);
             await this.Delay(250);
         }
@@ -87,22 +88,22 @@ public partial class Enemy : Character
     /// <summary>
     /// Plays the damage animation for the enemy.
     /// </summary>
-    protected async override Task PlayDamageAnimation()
+    public async override Task PlayDamageAnimation()
     {
-        float flickerDuration = 2f;
-        int flickerCount = 5;
+        float flickerDuration = 1.1f;
+        int flickerCount = 4;
 
         float interval = flickerDuration / (flickerCount * 2);
 
         for (int i = 0; i < flickerCount; i++)
         {
-            DamageAnimationSprite.Visible = false;
+            CharacterSprite.Visible = false;
             await this.Delay((int)(interval * 1000));
-            DamageAnimationSprite.Visible = true;
+            CharacterSprite.Visible = true;
             await this.Delay((int)(interval * 1000));
         }
 
-        DamageAnimationSprite.Visible = false; // Hide the sprite after flickering
+        CharacterSprite.Visible = true; // Hide the sprite after flickering
         await this.Delay(1000);
     }
 
