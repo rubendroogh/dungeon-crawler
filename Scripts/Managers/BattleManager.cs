@@ -77,7 +77,13 @@ public partial class BattleManager : Node
             CurrentTurnPhase = TurnPhase.Start;
         }
 
-        TurnLabel.Text = $"Turn {CurrentTurn} - Phase: {CurrentTurnPhase}";
+        // Get the amount of turns that have passed for the player
+        float playerTurnCount = (float)CurrentTurn / (float)Characters.Count;
+
+        // Round up
+        playerTurnCount = Mathf.Ceil(playerTurnCount);
+
+        TurnLabel.Text = $"Turn {playerTurnCount} - Phase: {CurrentTurnPhase}";
     }
 
     /// <summary>

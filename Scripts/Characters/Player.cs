@@ -81,11 +81,10 @@ public partial class Player : Character
 
 			await this.Delay(300);
 			await spellBehaviour.AnimateSpellCast(spell.Data, [entry.Target]);
-			await this.Delay(300);
 			await entry.Target.PlayDamageAnimation();
-
 			int totalDamage = (int)await Managers.ActionManager.HandleResolveResult(spellResolveResult);
 			Managers.BattleLogManager.Log($"Resolved spell for {totalDamage} damage.");
+			await this.Delay(300);
 		}
 
 		// Clear the spell queue after resolving.

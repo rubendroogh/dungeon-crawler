@@ -83,6 +83,9 @@ public partial class Enemy : Character
             await Managers.ActionManager.HandleResolveResult(resolveResult);
             await this.Delay(300);
         }
+
+        // Clear the action queue after resolving.
+        ActionQueue.Clear();
     }
 
     /// <summary>
