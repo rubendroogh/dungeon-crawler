@@ -58,6 +58,7 @@ public partial class CardUI : TextureRect
                     var isCardRemoved = Managers.ActionManager.RemoveCardFromSelection(Card);
                     if (isCardRemoved)
                     {
+                        Managers.SoundEffectManager.PlayButtonClick();
                         IsSelected = false;
                         AnimateRotation(0);
                         return;
@@ -68,6 +69,7 @@ public partial class CardUI : TextureRect
                     var isCardAdded = Managers.ActionManager.AddCardToSelection(Card);
                     if (isCardAdded)
                     {
+			            Managers.SoundEffectManager.PlayButtonClick();
                         IsSelected = true;
                         AnimateRotation(HoverRotation);
                         return;

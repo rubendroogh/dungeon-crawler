@@ -56,6 +56,11 @@ public partial class Managers : Node
     /// </summary>
     public static DeckManager DeckManager { get; set; }
 
+    /// <summary>
+    /// SoundEffectManager is responsible for managing sound effects in the game.
+    /// </summary>
+    public static SoundEffectManager SoundEffectManager { get; set; }
+
     public override void _Ready()
     {
         ActionManager = GetNode<ActionManager>("ActionManager");
@@ -65,6 +70,7 @@ public partial class Managers : Node
         PlayerManager = GetNode<PlayerManager>("PlayerManager");
         TransitionManager = GetNode<TransitionManager>("TransitionManager");
         DebugScreenManager = GetNode<DebugScreenManager>("DebugScreenManager");
+        SoundEffectManager = GetNode<SoundEffectManager>("SoundEffectManager");
 
         RewardSelectionManager = GetTree().Root.GetNode<RewardSelectionManager>("Root/UI/RewardSelection/RewardSelectionManager");
         DeckManager = GetTree().Root.GetNode<DeckManager>("Root/UI/HUD/CardList");

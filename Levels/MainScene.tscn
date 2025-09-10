@@ -1,4 +1,4 @@
-[gd_scene load_steps=44 format=3 uid="uid://ck8p1eru6l2f4"]
+[gd_scene load_steps=46 format=3 uid="uid://ck8p1eru6l2f4"]
 
 [ext_resource type="Script" uid="uid://di2h8gf1377s5" path="res://Scripts/UI/CameraShake.cs" id="1_hojmo"]
 [ext_resource type="Resource" uid="uid://b1jhmr0xq4603" path="res://Resources/Spells/FireBall.tres" id="2_hvf01"]
@@ -22,6 +22,8 @@
 [ext_resource type="Script" uid="uid://omqimuu5thub" path="res://Scripts/Managers/DebugScreenManager.cs" id="16_ogsbt"]
 [ext_resource type="Texture2D" uid="uid://csjt8ylrgdkbj" path="res://Resources/Atlasses/TileAtlas.tres" id="17_cltpb"]
 [ext_resource type="Script" uid="uid://cr3tq3ldbn5dl" path="res://Scripts/Managers/CharacterCreationManager.cs" id="17_fvp6m"]
+[ext_resource type="Script" uid="uid://do64s87kejasc" path="res://Scripts/Managers/SoundEffectManager.cs" id="17_udxv6"]
+[ext_resource type="AudioStream" uid="uid://28xaykhomefb" path="res://Assets/Sound/click.wav" id="18_21fen"]
 [ext_resource type="FontFile" uid="uid://cfv06efvogvfl" path="res://Assets/Fonts/m3x6.ttf" id="18_wg3rq"]
 [ext_resource type="Texture2D" uid="uid://exboe6jk0wnb" path="res://Assets/RawImages/FullTileMap.png" id="19_tayw2"]
 [ext_resource type="Script" uid="uid://27ykix11cmr7" path="res://Scripts/UI/PersonalityPointsSpinBox.cs" id="20_sth1w"]
@@ -105,6 +107,14 @@ script = ExtResource("15_g2qkk")
 
 [node name="DebugScreenManager" type="Node" parent="World/ManagerRepository"]
 script = ExtResource("16_ogsbt")
+
+[node name="SoundEffectManager" type="Node" parent="World/ManagerRepository"]
+script = ExtResource("17_udxv6")
+ButtonClickSound = ExtResource("18_21fen")
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="World/ManagerRepository/SoundEffectManager"]
+volume_db = -27.17
+pitch_scale = 0.62
 
 [node name="UI" type="Control" parent="."]
 layout_mode = 3

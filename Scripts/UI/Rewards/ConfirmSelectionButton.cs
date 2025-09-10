@@ -18,6 +18,7 @@ public partial class ConfirmSelectionButton : Button
             return;
         }
 
+        Managers.SoundEffectManager.PlayButtonClick();
         Managers.RewardSelectionManager.ConfirmSelection();
         Managers.TransitionManager.RewardSelectionToGame();
     }

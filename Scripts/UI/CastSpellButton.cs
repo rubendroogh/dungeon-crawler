@@ -9,6 +9,7 @@ public partial class CastSpellButton : Button
 
     public void OnPressed()
     {
+        Managers.SoundEffectManager.PlayButtonClick();
         Managers.BattleManager.StartNewTurnPhaseFrom(TurnPhase.Main);
     }
 }

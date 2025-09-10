@@ -52,6 +52,7 @@ public partial class SpellUI : PanelContainer
 		// Handle mouse input for selecting the spell
 		if (@event is InputEventMouseButton mouseEvent && mouseEvent.Pressed && mouseEvent.ButtonIndex == MouseButton.Left)
 		{
+			Managers.SoundEffectManager.PlayButtonClick();
 			Managers.ActionManager.SetSelectedSpell(ActionData);
 		}
 	}

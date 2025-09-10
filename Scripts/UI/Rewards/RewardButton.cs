@@ -12,6 +12,7 @@ public partial class RewardButton : Button
         var reward = GetChild<RewardUI>(0)?.Reward;
         if (reward != null)
         {
+			Managers.SoundEffectManager.PlayButtonClick();
             Managers.RewardSelectionManager.SetSelectedReward(reward);
         }
     }

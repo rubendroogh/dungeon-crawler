@@ -27,6 +27,7 @@ public partial class AddSpellToQueueButton : Button
         var selectedCards = Managers.ActionManager.SelectedCards;
         var target = Managers.ActionManager.SelectedTarget;
 
+        Managers.SoundEffectManager.PlayButtonClick();
         player.QueueAction(selectedSpell, target, selectedCards);
     }
 }
