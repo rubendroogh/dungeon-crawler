@@ -77,11 +77,11 @@ public partial class Enemy : Character
             var actionBehaviour = entry.Action.GetBehaviour();
             var resolveResult = actionBehaviour.Resolve(entry.Action.Data, [entry.Target]);
 
-            await this.Delay(250);
-            await actionBehaviour.AnimateSpellCast(entry.Action.Data, [entry.Target]);
+            await this.Delay(300);
+            await actionBehaviour.AnimateSpellCast(entry.Action.Data, [entry.Target], this);
             await entry.Target.PlayDamageAnimation();
             await Managers.ActionManager.HandleResolveResult(resolveResult);
-            await this.Delay(250);
+            await this.Delay(300);
         }
     }
 

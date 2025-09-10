@@ -6,7 +6,7 @@ using Godot;
 /// <summary>
 /// An entity that is a participant in a battle on either side.
 /// </summary>
-public partial class Character : Node
+public partial class Character : Node2D
 {
     /// <summary>
     /// The current health of the character.
@@ -322,7 +322,7 @@ public partial class Character : Node
     {
         // Damage animation should be handled in derived classes
     }
-    
+
     /// <summary>
     /// Sets up the character's sprite, health bar, and status effect label.
     /// </summary>

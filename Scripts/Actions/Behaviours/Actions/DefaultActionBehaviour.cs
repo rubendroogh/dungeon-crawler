@@ -41,15 +41,34 @@ public partial class DefaultActionBehaviour : IActionBehaviour
     /// <summary>
     /// Animates the spell cast for the given targets.
     /// </summary>
-    public async Task AnimateSpellCast(ActionData spellData, List<Character> targets)
+    public virtual async Task AnimateSpellCast(ActionData spellData, List<Character> targets, Character caster = null)
     {
         // If this method is called from a spell, it will get overridden in DefaultSpellBehaviour
         // So for now we can just assume the target is the player since an action can only be cast by an AI.
         foreach (var target in targets)
         {
-            // Do a screen shake
-            // TODO: Move screen shake to player class, since it's the player that reacts to the spell cast
-            // We can use this place to do the enemy's animation
+            // Do a kind of dash
+            if (caster == null)
+            {
+                return;
+            }
+            
+            await caster.Delay(300);
+
+            var originalPosition = caster.Position;
+            var targetPosition = originalPosition + new Vector2(0, 10);
+
+            var tween = caster.CreateTween();
+            tween.TweenProperty(caster, "position", targetPosition, 0.1f)
+                .SetTrans(Tween.TransitionType.Sine)
+                .SetEase(Tween.EaseType.Out);
+
+            tween.TweenProperty(caster, "position", originalPosition, 0.1f)
+                .SetTrans(Tween.TransitionType.Sine)
+                .SetEase(Tween.EaseType.In);
+
+            await caster.ToSignal(tween, "finished");
+            await caster.Delay(300);
         }
     }
 

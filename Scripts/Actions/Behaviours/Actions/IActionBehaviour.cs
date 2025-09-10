@@ -15,5 +15,5 @@ public interface IActionBehaviour
     /// <summary>
     /// Animates the spell cast for the given targets.
     /// </summary>
-    public Task AnimateSpellCast(ActionData spellData, List<Character> targets);
+    public Task AnimateSpellCast(ActionData spellData, List<Character> targets, Character caster = null);
 }

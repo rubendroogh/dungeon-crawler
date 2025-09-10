@@ -96,7 +96,7 @@ resources = [PackedStringArray("BasicEnemy"), [ExtResource("8_5eubm")]]
 [node name="PlayerManager" type="Node" parent="World/ManagerRepository"]
 script = ExtResource("14_wnt1r")
 
-[node name="Player" type="Node" parent="World/ManagerRepository/PlayerManager"]
+[node name="Player" type="Node2D" parent="World/ManagerRepository/PlayerManager"]
 script = ExtResource("15_irpm1")
 CharacterData = ExtResource("15_aw745")
 
