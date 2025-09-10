@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using System.Threading.Tasks;
 
 /// <summary>
@@ -13,7 +12,7 @@ public interface IActionBehaviour
     public ResolveResult Resolve(ActionData actionData, Character target);
 
     /// <summary>
-    /// Animates the spell cast for the given target.
+    /// Animates the action being applied to the given target.
     /// </summary>
-    public Task AnimateSpellCast(ActionData spellData, Character target, Character caster = null);
+    public Task AnimateAction(ActionData actionData, Character target, Character performer = null);
 }

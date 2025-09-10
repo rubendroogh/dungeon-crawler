@@ -11,11 +11,6 @@ public partial class Player : Character
 	public string PlayerName { get; set; } = "Player";
 
 	/// <summary>
-	/// The queue of actions for the player to perform.
-	/// </summary>
-	public List<SpellQueueEntry> SpellQueue { get; } = new List<SpellQueueEntry>();
-
-	/// <summary>
 	/// Signal that is emitted when a spell is queued.
 	/// </summary>
 	[Signal]
@@ -47,61 +42,11 @@ public partial class Player : Character
 			return;
 		}
 
-		var entry = new SpellQueueEntry(spell, target, cardList);
-		SpellQueue.Add(entry);
+		var entry = new ActionQueueEntry(spell, target, cardList);
+		ActionQueue.Add(entry);
 		EmitSignal(SignalName.SpellQueued);
 		Managers.BattleLogManager.Log($"Queued {spell.Data.Name} with {cardList.Count} cards for {target.Name}.");
 
-		Managers.DebugScreenManager.UpdateSpellQueue();
-	}
-
-	/// <summary>
-	/// Resolve the spell queue, executing all queued spells, applying their effects, and showing animations.
-	/// TODO: Possibly change the List to a Queue to support interruptions, cancellations, and reordering.
-	/// </summary>
-	public override async Task ResolveQueue()
-	{
-		if (SpellQueue.Count == 0)
-		{
-			GD.PrintErr("No spells in queue to resolve.");
-			return;
-		}
-
-		Managers.ActionManager.KeywordContext.ResetKeywordContext();
-
-		// Process each spell in the queue in order.
-		foreach (var entry in SpellQueue)
-		{
-			if (entry.Action == null || entry.Target == null)
-			{
-				GD.PrintErr("Invalid spell or target in spell queue.");
-				continue;
-			}
-
-			var spell = entry.Action as Spell;
-
-			// Update the keyword context for this spell cast.
-			Managers.ActionManager.KeywordContext.UpdateKeywordContext(entry.Action, this, entry.Target);
-
-			// Resolve the spell
-			await this.Delay(300);
-			var spellBehaviour = spell.GetBehaviour();
-			var spellResolveResult = spellBehaviour.Resolve(entry.Cards, spell.Data, entry.Target);
-
-			// Animate the spell cast and target damage
-			await spellBehaviour.AnimateSpellCast(spell.Data, entry.Target);
-			await entry.Target.PlayDamageAnimation();
-
-			// Apply the resolve result (damage, healing, status effects, etc.)
-			int totalDamage = (int)await Managers.ActionManager.ApplyResolveResult(spellResolveResult);
-			Managers.BattleLogManager.Log($"Resolved spell for {totalDamage} damage.");
-			await this.Delay(300);
-			
-			Managers.BattleManager.CastSpellsThisTurn++;
-		}
-
-		// Clear the spell queue after resolving.
-		SpellQueue.Clear();
 		Managers.DebugScreenManager.UpdateSpellQueue();
 	}
 

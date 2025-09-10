@@ -267,15 +267,25 @@ public partial class Character : Node2D
     }
 
     /// <summary>
-    /// Resolves the actions in the character's action queue and returns the resulting damage packet.
+    /// Resolves the actions in the character's action queue, executing all queued actions, applying their effects, and showing animations.
     /// </summary>
-    /// <returns>The damage packets containing the results of the resolved actions.</returns>
     public async virtual Task ResolveQueue()
     {
-        foreach (var actionQueueEntry in ActionQueue)
+        if (ActionQueue.Count == 0)
         {
-            actionQueueEntry.Action.GetBehaviour().Resolve(actionQueueEntry.Action.Data, actionQueueEntry.Target);
+            GD.PrintErr("No actions in queue to resolve.");
+            return;
         }
+
+		Managers.ActionManager.KeywordContext.ResetKeywordContext();
+
+        foreach (var entry in ActionQueue)
+        {
+            await ResolveQueueEntry(entry);
+        }
+
+        // Clear the action queue after resolving.
+        ActionQueue.Clear();
     }
 
     /// <summary>
@@ -321,6 +331,7 @@ public partial class Character : Node2D
     public async virtual Task PlayDamageAnimation()
     {
         // Damage animation should be handled in derived classes
+        throw new System.NotImplementedException();
     }
 
     /// <summary>
@@ -361,6 +372,7 @@ public partial class Character : Node2D
     protected async virtual Task PlayDeathAnimation()
     {
         // Death animation should be handled in derived classes
+        throw new System.NotImplementedException();
     }
 
     /// <summary>
@@ -393,6 +405,44 @@ public partial class Character : Node2D
         {
             StatusEffectLabel.Text = "";
         }
+    }
+
+    protected async Task ResolveQueueEntry(ActionQueueEntry entry)
+    {
+        if (entry.Action == null || entry.Target == null)
+        {
+            GD.PrintErr("Invalid action or target in action queue.");
+            return;
+        }
+
+        // Update the keyword context for this action.
+        Managers.ActionManager.KeywordContext.UpdateKeywordContext(entry.Action, this, entry.Target);
+
+        await this.Delay(300);
+        ResolveResult actionResolveResult;
+        IActionBehaviour actionBehaviour;
+
+        // Resolve the spell or action
+        if (entry.Action is Spell spell)
+        {
+            actionBehaviour = spell.GetBehaviour();
+            actionResolveResult = (actionBehaviour as ISpellBehaviour).Resolve(entry.Cards, spell.Data, entry.Target);
+        }
+        else
+        {
+            actionBehaviour = entry.Action.GetBehaviour();
+            actionResolveResult = actionBehaviour.Resolve(entry.Action.Data, entry.Target);
+        }
+
+        // Animate the action and target damage
+        await actionBehaviour.AnimateAction(entry.Action.Data, entry.Target, this);
+        await entry.Target.PlayDamageAnimation();
+
+        // Apply the resolve result (damage, healing, status effects, etc.)
+        await Managers.ActionManager.ApplyResolveResult(actionResolveResult);
+        await this.Delay(300);
+        
+        Managers.BattleManager.CastSpellsThisTurn++;
     }
 
     /// <summary>

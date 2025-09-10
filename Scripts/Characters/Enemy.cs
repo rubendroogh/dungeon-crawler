@@ -55,41 +55,6 @@ public partial class Enemy : Character
     }
 
     /// <summary>
-    /// Resolve the action queue for the enemy, executing all queued actions.
-    /// TODO: Move common logic to Character base class.
-    /// </summary>
-    public override async Task ResolveQueue()
-    {
-        if (ActionQueue.Count == 0)
-        {
-            GD.PrintErr("No actions in queue to resolve.");
-            return;
-        }
-
-        foreach (var entry in ActionQueue)
-        {
-            if (entry.Action == null || entry.Target == null)
-            {
-                GD.PrintErr("Invalid action or target in action queue.");
-                continue;
-            }
-
-            // Resolve the action and add the resulting resolve result to the list.
-            var actionBehaviour = entry.Action.GetBehaviour();
-            var resolveResult = actionBehaviour.Resolve(entry.Action.Data, entry.Target);
-
-            await this.Delay(300);
-            await actionBehaviour.AnimateSpellCast(entry.Action.Data, entry.Target, this);
-            await entry.Target.PlayDamageAnimation();
-            await Managers.ActionManager.ApplyResolveResult(resolveResult);
-            await this.Delay(300);
-        }
-
-        // Clear the action queue after resolving.
-        ActionQueue.Clear();
-    }
-
-    /// <summary>
     /// Plays the damage animation for the enemy.
     /// </summary>
     public async override Task PlayDamageAnimation()

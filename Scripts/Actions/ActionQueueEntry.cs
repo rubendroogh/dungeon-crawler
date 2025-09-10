@@ -1,5 +1,7 @@
+using System.Collections.Generic;
+
 /// <summary>
-/// Represents an entry in the spell queue.
+/// Represents an entry in the action queue.
 /// </summary>
 public class ActionQueueEntry
 {
@@ -13,9 +15,19 @@ public class ActionQueueEntry
     /// </summary>
     public Character Target { get; }
 
-    public ActionQueueEntry(Action action, Character target)
+    /// <summary>
+    /// If the action represents a spell, the cards used in the spell cast.
+    /// </summary>
+    public List<Card> Cards { get; } = new List<Card>();
+
+    public ActionQueueEntry(Action action, Character target, List<Card> cards = null)
     {
         Action = action;
         Target = target;
+        
+        if (cards != null)
+        {
+            Cards = cards;
+        }
     }
 }

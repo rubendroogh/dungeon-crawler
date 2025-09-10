@@ -44,7 +44,7 @@ public partial class DebugScreenManager : Node
 
         // Loop through the spell queue and display each entry.
         SpellQueueLabel.Clear();
-        var spellQueue = Managers.PlayerManager.GetPlayer().SpellQueue;
+        var spellQueue = Managers.PlayerManager.GetPlayer().ActionQueue;
         foreach (var entry in spellQueue)
         {
             SpellQueueLabel.AddText($"Spell: {entry.Action.Data.Name}, Target: {entry.Target.Name}, Cards: {entry.Cards.Count}\n");

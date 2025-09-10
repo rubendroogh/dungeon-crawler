@@ -61,7 +61,7 @@ public partial class DefaultSpellBehaviour : ISpellBehaviour
         return Resolve(new List<Card>(), actionData, target);
     }
 
-    public async Task AnimateSpellCast(ActionData spellData, Character target, Character caster = null)
+    public async Task AnimateAction(ActionData spellData, Character target, Character caster = null)
     {
         if (spellData.CastEffectScene != null)
         {

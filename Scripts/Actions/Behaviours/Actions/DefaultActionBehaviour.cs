@@ -52,7 +52,7 @@ public partial class DefaultActionBehaviour : IActionBehaviour
     /// <summary>
     /// Animates the spell cast for the given target.
     /// </summary>
-    public virtual async Task AnimateSpellCast(ActionData spellData, Character target, Character caster = null)
+    public virtual async Task AnimateAction(ActionData spellData, Character target, Character caster = null)
     {
         // If this method is called from a spell, it will get overridden in DefaultSpellBehaviour
         // So for now we can just assume the target is the player since an action can only be cast by an AI.
