@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using Godot;
 using Godot.Collections;
 
@@ -104,6 +105,12 @@ public partial class SpellUI : PanelContainer
 		{
 			var keywordName = keyword.ToString();
 			keywordList.Add($"[color=violet]{keywordName}[/color]");
+		}
+
+		if (keywordList.Count == 0)
+		{
+			SpellDescription.Text = description;
+			return;
 		}
 
         string fullDescription = string.Join(", ", keywordList) + " " + description;

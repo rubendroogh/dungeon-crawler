@@ -9,12 +9,13 @@ public partial class ActionData : Resource
     /// The name of the spell.
     /// </summary>
     [Export]
+    [ExportGroup("Basic spell info")]
     public string Name { get; set; } = "Default spell";
 
     /// <summary>
     /// The description of the spell in the spellbook.
     /// </summary>
-    [Export]
+    [Export(PropertyHint.MultilineText)]
     public string Description { get; set; } = "You forgot to fill this in!";
 
     /// <summary>
@@ -24,9 +25,16 @@ public partial class ActionData : Resource
     public Texture2D Image { get; set; }
 
     /// <summary>
+    /// The max amount of mana charges this spell can have.
+    /// </summary>
+    [Export]
+    public int MaxManaCharges { get; set; } = 4;
+
+    /// <summary>
     /// The base physical damage dealt by the spell.
     /// </summary>
     [Export]
+    [ExportGroup("Spell damage info")]
     public float BasePhysicalDamage { get; set; } = 100;
     
     /// <summary>
@@ -72,15 +80,10 @@ public partial class ActionData : Resource
     public float BaseDiseaseDamage { get; set; } = 0;
 
     /// <summary>
-    /// The max amount of mana charges this spell can have.
-    /// </summary>
-    [Export]
-    public int MaxManaCharges { get; set; } = 4;
-
-    /// <summary>
     /// A list of keywords that modify the behavior of the spell.
     /// </summary>
     [Export]
+    [ExportGroup("Advanced spell info")]
     public Array<Keyword> Keywords { get; set; } = new Array<Keyword>();
 
     /// <summary>
