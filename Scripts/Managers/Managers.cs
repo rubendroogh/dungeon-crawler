@@ -54,7 +54,7 @@ public partial class Managers : Node
     /// <summary>
     /// DeckManager is responsible for managing the player's deck of cards in the game.
     /// </summary>
-    public static CardList DeckManager { get; set; }
+    public static DeckManager DeckManager { get; set; }
 
     public override void _Ready()
     {
@@ -67,6 +67,6 @@ public partial class Managers : Node
         DebugScreenManager = GetNode<DebugScreenManager>("DebugScreenManager");
 
         RewardSelectionManager = GetTree().Root.GetNode<RewardSelectionManager>("Root/UI/RewardSelection/RewardSelectionManager");
-        DeckManager = GetTree().Root.GetNode<CardList>("Root/UI/HUD/CardList");
+        DeckManager = GetTree().Root.GetNode<DeckManager>("Root/UI/HUD/CardList");
     }
 }

@@ -10,7 +10,7 @@ using System.Linq;
 /// 
 /// TODO: Make this into a proper manager like the rest.
 /// </summary>
-public partial class CardList : Node
+public partial class DeckManager : Node
 {
 	private List<Card> Cards { get; set; } = [];
 
@@ -225,7 +225,7 @@ public class Card
 
     public Texture2D GetIcon()
 	{
-		return CardList.GetCardIcon(this);
+		return DeckManager.GetCardIcon(this);
 	}
 }
 
