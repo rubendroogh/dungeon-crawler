@@ -43,7 +43,7 @@ public partial class Player : Character
 		}
 
 		var entry = new ActionQueueEntry(spell, target, cardList);
-		ActionQueue.Add(entry);
+		ActionQueue.Enqueue(entry);
 		EmitSignal(SignalName.SpellQueued);
 		Managers.BattleLogManager.Log($"Queued {spell.Data.Name} with {cardList.Count} cards for {target.Name}.");
 

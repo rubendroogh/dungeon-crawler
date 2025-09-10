@@ -83,7 +83,7 @@ public partial class Character : Node2D
     /// The action queue for the character.
     /// This queue contains the actions that the character will perform in the next damage phase.
     /// </summary>
-    public List<ActionQueueEntry> ActionQueue { get; set; } = new();
+    public Queue<ActionQueueEntry> ActionQueue { get; set; } = new();
 
     /// <summary>
     /// The sprite that represents the character.
@@ -269,7 +269,7 @@ public partial class Character : Node2D
     /// <summary>
     /// Resolves the actions in the character's action queue, executing all queued actions, applying their effects, and showing animations.
     /// </summary>
-    public async virtual Task ResolveQueue()
+    public async Task ResolveQueue()
     {
         if (ActionQueue.Count == 0)
         {
@@ -279,9 +279,13 @@ public partial class Character : Node2D
 
 		Managers.ActionManager.KeywordContext.ResetKeywordContext();
 
-        foreach (var entry in ActionQueue)
+        // Process each action in the queue in order.
+        while (ActionQueue.Count > 0)
         {
+            var entry = ActionQueue.Dequeue();
             await ResolveQueueEntry(entry);
+            
+		    Managers.DebugScreenManager.UpdateSpellQueue();
         }
 
         // Clear the action queue after resolving.

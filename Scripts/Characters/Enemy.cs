@@ -122,7 +122,7 @@ public partial class Enemy : Character
         }
 
         var entry = new ActionQueueEntry(action, target);
-        ActionQueue.Add(entry);
+        ActionQueue.Enqueue(entry);
         EmitSignal(SignalName.EnemyAction);
     }
 }
