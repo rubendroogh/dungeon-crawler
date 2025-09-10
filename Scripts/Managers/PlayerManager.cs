@@ -44,4 +44,9 @@ public partial class PlayerManager : Node
             GD.PrintErr("PlayerCharacter is not initialized. Please set the player character before setting data.");
         }
     }
+
+    public Camera2D GetCamera()
+    {
+        return GetTree().Root.GetNode<Camera2D>("Root/World/Camera2D");
+    }
 }

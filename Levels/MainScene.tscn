@@ -1,5 +1,6 @@
-[gd_scene load_steps=39 format=3 uid="uid://ck8p1eru6l2f4"]
+[gd_scene load_steps=40 format=3 uid="uid://ck8p1eru6l2f4"]
 
+[ext_resource type="Script" uid="uid://di2h8gf1377s5" path="res://Scripts/UI/CameraShake.cs" id="1_hojmo"]
 [ext_resource type="Resource" uid="uid://b1jhmr0xq4603" path="res://Resources/Spells/FireBall.tres" id="2_hvf01"]
 [ext_resource type="Script" uid="uid://b40v7nngruesy" path="res://Scripts/UI/AddSpellToQueueButton.cs" id="2_irpm1"]
 [ext_resource type="Script" uid="uid://cpji6emjswl8f" path="res://Scripts/UI/CastSpellButton.cs" id="2_lljjv"]
@@ -53,6 +54,7 @@ outline_color = Color(0.682353, 0, 1, 1)
 [node name="World" type="Node2D" parent="."]
 
 [node name="Camera2D" type="Camera2D" parent="World"]
+script = ExtResource("1_hojmo")
 
 [node name="ManagerRepository" type="Node" parent="World"]
 script = ExtResource("4_26f67")

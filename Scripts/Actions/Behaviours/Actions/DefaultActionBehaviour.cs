@@ -47,9 +47,18 @@ public partial class DefaultActionBehaviour : IActionBehaviour
         // So for now we can just assume the target is the player since an action can only be cast by an AI.
         foreach (var target in targets)
         {
-            // TODO: Play spell animation for hitting the player
-            // Maybe a lil screen shake
-            await Task.CompletedTask;
+            // Do a screen shake
+            // TODO: Move screen shake to player class, since it's the player that reacts to the spell cast
+            // We can use this place to do the enemy's animation
+            await Task.Delay(300);
+
+            var camera = Managers.PlayerManager.GetCamera() as CameraShake;
+            if (camera != null)
+            {
+                await camera.StartShake(1.2f, 10f);
+            }
+
+            await Task.Delay(300);
         }
     }
 
