@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 ///   - Apply a default effect (no-op by default)
 ///   - Cleanup
 /// </summary>
-public partial class BaseEffect : Node2D
+public partial class BaseEffect : Sprite2D
 {
     /// <summary>
     /// Override this to add custom effect logic (multi-strikes, etc).
@@ -36,5 +36,13 @@ public partial class BaseEffect : Node2D
         await OnEffect(targets);
 
         QueueFree(); // cleanup when finished
+    }
+
+    /// <summary>
+    /// Sets the sprite texture for the effect.
+    /// </summary>
+    public void SetSprite(Texture2D texture)
+    {
+        Texture = texture;
     }
 }

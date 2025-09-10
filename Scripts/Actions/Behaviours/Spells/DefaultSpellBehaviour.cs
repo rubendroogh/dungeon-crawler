@@ -52,12 +52,20 @@ public partial class DefaultSpellBehaviour : ISpellBehaviour
 
     public async Task AnimateSpellCast(ActionData spellData, List<Character> targets)
     {
-        GD.Print("Animating spell cast in DefaultSpellBehaviour.");
         if (spellData.CastEffectScene != null)
         {
             var effectInstance = spellData.CastEffectScene.Instantiate<BaseEffect>();
+            if (spellData.DefaultCastEffectTexture != null)
+            {
+                effectInstance.SetSprite(spellData.DefaultCastEffectTexture);
+            }
+
             targets.First().AddChild(effectInstance); // TODO: Support multiple enemies
             await effectInstance.Play(targets);
+        }
+        else
+        {
+            GD.PushWarning($"No cast effect scene defined for spell {spellData.Name}.");
         }
     }
 

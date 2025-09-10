@@ -48,6 +48,7 @@ public partial class DefaultActionBehaviour : IActionBehaviour
         foreach (var target in targets)
         {
             // TODO: Play spell animation for hitting the player
+            // Maybe a lil screen shake
             await Task.CompletedTask;
         }
     }

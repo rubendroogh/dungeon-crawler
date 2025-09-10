@@ -89,6 +89,12 @@ public partial class ActionData : Resource
     public PackedScene CastEffectScene { get; set; }
 
     /// <summary>
+    /// If <see cref="CastEffectScene"/> is not set, this texture will override the cast effect sprite.
+    /// </summary>
+    [Export]
+    public Texture2D DefaultCastEffectTexture { get; set; }
+
+    /// <summary>
     /// A value between 1 and 5 that indicates the rarity of the spell.
     /// Signifies both power, potential, and complexity.
     /// TODO: Not implemented yet.

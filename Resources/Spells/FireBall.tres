@@ -1,8 +1,12 @@
-[gd_resource type="Resource" script_class="ActionData" load_steps=5 format=3 uid="uid://b1jhmr0xq4603"]
+[gd_resource type="Resource" script_class="ActionData" load_steps=6 format=3 uid="uid://b1jhmr0xq4603"]
 
 [ext_resource type="PackedScene" uid="uid://cyspg83j1xpfk" path="res://Scenes/SpellCastEffects/BaseEffect.tscn" id="1_17jqw"]
 [ext_resource type="Script" uid="uid://d31wkdgrcylv3" path="res://Scripts/Actions/ActionData.cs" id="1_h30us"]
 [ext_resource type="Texture2D" uid="uid://exboe6jk0wnb" path="res://Assets/RawImages/FullTileMap.png" id="1_l5vw1"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bgbwx"]
+atlas = ExtResource("1_l5vw1")
+region = Rect2(255, 170, 16, 16)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_17jqw"]
 atlas = ExtResource("1_l5vw1")
@@ -24,5 +28,6 @@ BaseDiseaseDamage = 0.0
 MaxManaCharges = 4
 ModifierMultiplier = 1.1
 CastEffectScene = ExtResource("1_17jqw")
+DefaultCastEffectTexture = SubResource("AtlasTexture_bgbwx")
 Rarity = 1
 metadata/_custom_type_script = "uid://d31wkdgrcylv3"
