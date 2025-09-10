@@ -56,6 +56,7 @@ public partial class Enemy : Character
 
     /// <summary>
     /// Resolve the action queue for the enemy, executing all queued actions.
+    /// TODO: Move common logic to Character base class.
     /// </summary>
     public override async Task ResolveQueue()
     {

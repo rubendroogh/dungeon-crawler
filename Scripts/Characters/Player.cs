@@ -57,6 +57,7 @@ public partial class Player : Character
 
 	/// <summary>
 	/// Resolve the spell queue, executing all queued spells, applying their effects, and showing animations.
+	/// TODO: Possibly change the List to a Queue to support interruptions, cancellations, and reordering.
 	/// </summary>
 	public override async Task ResolveQueue()
 	{
@@ -66,6 +67,9 @@ public partial class Player : Character
 			return;
 		}
 
+		Managers.ActionManager.KeywordContext.ResetKeywordContext();
+
+		// Process each spell in the queue in order.
 		foreach (var entry in SpellQueue)
 		{
 			if (entry.Action == null || entry.Target == null)
@@ -74,17 +78,26 @@ public partial class Player : Character
 				continue;
 			}
 
-			// Resolve the spell and play the animation
 			var spell = entry.Action as Spell;
+
+			// Update the keyword context for this spell cast.
+			Managers.ActionManager.KeywordContext.UpdateKeywordContext(entry.Action, this, entry.Target);
+
+			// Resolve the spell
+			await this.Delay(300);
 			var spellBehaviour = spell.GetBehaviour();
 			var spellResolveResult = spellBehaviour.Resolve(entry.Cards, spell.Data, entry.Target);
 
-			await this.Delay(300);
+			// Animate the spell cast and target damage
 			await spellBehaviour.AnimateSpellCast(spell.Data, entry.Target);
 			await entry.Target.PlayDamageAnimation();
+
+			// Apply the resolve result (damage, healing, status effects, etc.)
 			int totalDamage = (int)await Managers.ActionManager.ApplyResolveResult(spellResolveResult);
 			Managers.BattleLogManager.Log($"Resolved spell for {totalDamage} damage.");
 			await this.Delay(300);
+			
+			Managers.BattleManager.CastSpellsThisTurn++;
 		}
 
 		// Clear the spell queue after resolving.
@@ -121,8 +134,7 @@ public partial class Player : Character
 
 	protected override void UpdateStatusEffectLabel()
 	{
-		// Keep this empty for now, as the player does not have a status effect label.
+		// We should implement a status effect label for the player later in the UI.
 		// This method is overridden to prevent the base class from trying to update a non-existent label.
-		// We can implement a status effect label for the player later in the UI.
 	}
 }

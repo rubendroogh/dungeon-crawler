@@ -49,6 +49,11 @@ public partial class ActionManager : Node
     public Character SelectedTarget { get; set; }
 
     /// <summary>
+    /// The context for keyword effects.
+    /// </summary>
+    public KeywordContext KeywordContext { get; } = new KeywordContext();
+
+    /// <summary>
     /// Mark the card as selected and ready to cast a spell with and updates the label.
     /// </summary>
     /// <param name="card">The card to add.</param>

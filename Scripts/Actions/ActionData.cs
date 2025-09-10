@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Godot;
+using Godot.Collections;
 
 [GlobalClass] // Makes it creatable from the "New Resource" menu
 public partial class ActionData : Resource
@@ -75,6 +76,12 @@ public partial class ActionData : Resource
     /// </summary>
     [Export]
     public int MaxManaCharges { get; set; } = 4;
+
+    /// <summary>
+    /// A list of keywords that modify the behavior of the spell.
+    /// </summary>
+    [Export]
+    public Array<Keyword> Keywords { get; set; } = new Array<Keyword>();
 
     /// <summary>
     /// This multiplier affects the effect of mana power (the card rank) on the spell damage.

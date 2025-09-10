@@ -31,6 +31,17 @@ public partial class DefaultActionBehaviour : IActionBehaviour
             damages.Add(new Damage(damage, damageType));
         }
 
+        // Process keywords
+        foreach (var keyword in actionData.Keywords)
+        {
+            // Apply keyword effects
+            var keywordEffect = Keywords.GetKeywordBehaviour(keyword);
+            if (keywordEffect != null)
+            {
+                _ = keywordEffect.OnCast(); // TODO: Handle async properly
+            }
+        }
+
         return new ResolveResult
         {
             Damages = damages,

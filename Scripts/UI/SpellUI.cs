@@ -1,8 +1,10 @@
 using System.Collections.Generic;
 using Godot;
+using Godot.Collections;
 
 /// <summary>
 /// SpellUI is a user interface element that displays information about a spell.
+/// TODO: Add documentation for the properties.
 /// </summary>
 public partial class SpellUI : PanelContainer
 {
@@ -25,7 +27,7 @@ public partial class SpellUI : PanelContainer
 
 	private bool IsSelected { get; set; }
 
-	private Dictionary<DamageType, Color> DamageTypeColors = new()
+	private System.Collections.Generic.Dictionary<DamageType, Color> DamageTypeColors = new()
 	{
 		{ DamageType.Physical, new Color(.1f, .1f, .1f, .1f) }, // Gray
 		{ DamageType.Fire, new Color(1, 0, 0, .1f) }, // Red
@@ -71,7 +73,7 @@ public partial class SpellUI : PanelContainer
 		ActionData = actionData;
 
 		SpellName.Text = actionData.Name;
-		SpellDescription.Text = actionData.Description;
+		SetSpellDescription(actionData.Description, actionData.Keywords);
 		SpellIcon.Texture = actionData.Image;
 	}
 
@@ -93,6 +95,22 @@ public partial class SpellUI : PanelContainer
 	}
 
 	/// <summary>
+	/// Formats the spell description with keywords and sets it to the description label.
+	/// </summary>
+	private void SetSpellDescription(string description, Array<Keyword> keywords)
+	{
+        var keywordList = new List<string>();
+		foreach (var keyword in keywords)
+		{
+			var keywordName = keyword.ToString();
+			keywordList.Add($"[color=violet]{keywordName}[/color]");
+		}
+
+        string fullDescription = string.Join(", ", keywordList) + " " + description;
+        SpellDescription.Text = fullDescription;
+	}
+
+	/// <summary>
 	/// Draws the gradient background for the spell UI based on the damage types of the spell.
 	/// </summary>
 	public override void _Draw()
@@ -103,7 +121,7 @@ public partial class SpellUI : PanelContainer
 		for (int i = 0; i < ActionData.DamageTypes.Length; i++)
 		{
 			var color = DamageTypeColors.TryGetValue(ActionData.DamageTypes[i], out var damageColor) ? damageColor : new Color(1, 0, 0);
-			
+
 			// Get the position of the color in the gradient
 			float position = (float)i / (ActionData.DamageTypes.Length - 1f);
 			offsets.Add(position);
@@ -114,9 +132,9 @@ public partial class SpellUI : PanelContainer
 		// I can't seem to remove the default colours either.
 		gradient.Offsets = offsets.ToArray();
 		gradient.Colors = colors.ToArray();
-		
+
 		var gradientTexture = new GradientTexture1D();
-        gradientTexture.Gradient = gradient;
+		gradientTexture.Gradient = gradient;
 
 		DrawTextureRect(gradientTexture, new Rect2(Vector2.Zero, Size), false);
 	}
