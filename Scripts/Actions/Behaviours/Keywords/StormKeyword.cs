@@ -14,8 +14,7 @@ public class StormKeyword : KeywordBase
     
         // First get the spell queue for the current caster.
         var caster = context.Caster;
-        var spell = context.Action as Spell;
-        if (caster == null || spell == null)
+        if (caster == null || context.Action is not Spell spell)
         {
             GD.PrintErr("StormKeyword: Invalid caster or spell in keyword context.");
             return;

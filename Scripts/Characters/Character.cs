@@ -283,6 +283,13 @@ public partial class Character : Node2D
         while (ActionQueue.Count > 0)
         {
             var entry = ActionQueue.Dequeue();
+            if (entry.Target.IsDead)
+            {
+                GD.Print("Target is dead, ending queue.");
+                ActionQueue.Clear();
+                break;
+            }
+
             await ResolveQueueEntry(entry);
             
 		    Managers.DebugScreenManager.UpdateSpellQueue();

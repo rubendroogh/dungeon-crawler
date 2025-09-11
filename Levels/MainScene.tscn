@@ -1,4 +1,4 @@
-[gd_scene load_steps=46 format=3 uid="uid://ck8p1eru6l2f4"]
+[gd_scene load_steps=47 format=3 uid="uid://ck8p1eru6l2f4"]
 
 [ext_resource type="Script" uid="uid://di2h8gf1377s5" path="res://Scripts/UI/CameraShake.cs" id="1_hojmo"]
 [ext_resource type="Resource" uid="uid://b1jhmr0xq4603" path="res://Resources/Spells/FireBall.tres" id="2_hvf01"]
@@ -39,6 +39,7 @@
 [ext_resource type="PackedScene" uid="uid://b064kuj7s5tyq" path="res://Scenes/RewardSelectionItem.tscn" id="33_ghvpb"]
 [ext_resource type="Script" uid="uid://can1qqm8mdvlp" path="res://Scripts/Managers/RewardSelectionManager.cs" id="33_n6swl"]
 [ext_resource type="Script" uid="uid://dc7fgp7xs3q51" path="res://Scripts/UI/Rewards/ConfirmSelectionButton.cs" id="34_jk3s6"]
+[ext_resource type="Resource" uid="uid://3f5dt78r8pmf" path="res://Resources/Spells/Echo.tres" id="39_jtd1x"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_udxv6"]
 atlas = ExtResource("17_cltpb")
@@ -674,4 +675,4 @@ text = "Select reward"
 script = ExtResource("34_jk3s6")
 
 [node name="SpellRewardsPreloader" type="ResourcePreloader" parent="UI/RewardSelection/RewardSelectionManager"]
-resources = [PackedStringArray("BrainFreeze", "Discombobulate", "FireBall"), [ExtResource("7_71tao"), ExtResource("8_lxbb3"), ExtResource("2_hvf01")]]
+resources = [PackedStringArray("BrainFreeze", "Discombobulate", "Echo", "FireBall"), [ExtResource("7_71tao"), ExtResource("8_lxbb3"), ExtResource("39_jtd1x"), ExtResource("2_hvf01")]]

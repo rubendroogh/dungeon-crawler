@@ -1,0 +1,29 @@
+[gd_resource type="Resource" script_class="ActionData" load_steps=5 format=3 uid="uid://3f5dt78r8pmf"]
+
+[ext_resource type="PackedScene" uid="uid://cyspg83j1xpfk" path="res://Scenes/SpellCastEffects/BaseEffect.tscn" id="1_3it2k"]
+[ext_resource type="Texture2D" uid="uid://exboe6jk0wnb" path="res://Assets/RawImages/FullTileMap.png" id="2_xhltp"]
+[ext_resource type="Script" uid="uid://d31wkdgrcylv3" path="res://Scripts/Actions/ActionData.cs" id="3_w3v31"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_s6pnq"]
+atlas = ExtResource("2_xhltp")
+region = Rect2(34, 289, 16, 16)
+
+[resource]
+script = ExtResource("3_w3v31")
+Name = "Echo"
+Description = "Uses the leyline energy trailing from your spell casts to repeatedly hit the target. "
+Image = SubResource("AtlasTexture_s6pnq")
+MaxManaCharges = 1
+BasePhysicalDamage = 0.0
+BaseDarkDamage = 15.0
+BaseLightDamage = 0.0
+BaseFireDamage = 0.0
+BaseIceDamage = 0.0
+BaseLightningDamage = 0.0
+BaseSanityDamage = 0.0
+BaseDiseaseDamage = 0.0
+Keywords = Array[int]([0])
+ModifierMultiplier = 1.01
+CastEffectScene = ExtResource("1_3it2k")
+Rarity = 1
+metadata/_custom_type_script = "uid://d31wkdgrcylv3"
