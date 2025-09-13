@@ -6,4 +6,5 @@
 script = ExtResource("1_jf8yo")
 Name = "Dominant"
 NegativeName = "Submissive"
+TraitType = 2
 metadata/_custom_type_script = "uid://bt0nlksyoiknr"

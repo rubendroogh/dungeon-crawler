@@ -11,7 +11,7 @@ public partial class CharacterData : Resource
     /// </summary>
     [Export]
     public string Name { get; set; } = "Default character";
-    
+
     /// <summary>
     /// The sprite to show in combat.
     /// </summary>
@@ -83,31 +83,31 @@ public partial class CharacterData : Resource
     /// </summary>
     [Export]
     public float BaseDarkDamageMultiplier { get; set; } = 1;
-    
+
     /// <summary>
     /// The base light damage multiplier.
     /// </summary>
     [Export]
-   public float BaseLightDamageMultiplier { get; set; } = 1;
-   
+    public float BaseLightDamageMultiplier { get; set; } = 1;
+
     /// <summary>
     /// The base fire damage multiplier.
     /// </summary>
     [Export]
     public float BaseFireDamageMultiplier { get; set; } = 1;
-    
+
     /// <summary>
     /// The base ice damage multiplier.
     /// </summary>
     [Export]
     public float BaseIceDamageMultiplier { get; set; } = 1;
-    
+
     /// <summary>
     /// The base lightning damage multiplier.
     /// </summary>
     [Export]
     public float BaseLightningDamageMultiplier { get; set; } = 1;
-    
+
     /// <summary>
     /// The base sanity damage multiplier.
     /// </summary>
@@ -119,4 +119,23 @@ public partial class CharacterData : Resource
     /// </summary>
     [Export]
     public float BaseDiseaseDamageMultiplier { get; set; } = 1;
+    
+    /// <summary>
+    /// Get the base value for a given personality trait type.
+    /// </summary>
+    public int GetBasePersonalityTraitValue(PersonalityTraitType traitType)
+    {
+        return traitType switch
+        {
+            PersonalityTraitType.Benevolent => BaseBenevolent,
+            PersonalityTraitType.Dominant => BaseDominant,
+            PersonalityTraitType.Charming => BaseCharming,
+            PersonalityTraitType.Curious => BaseCurious,
+            PersonalityTraitType.Fearless => BaseFearless,
+            PersonalityTraitType.Focused => BaseFocused,
+            PersonalityTraitType.Genuine => BaseGenuine,
+            PersonalityTraitType.Optimistic => BaseOptimistic,
+            _ => 0,
+        };
+    }
 }

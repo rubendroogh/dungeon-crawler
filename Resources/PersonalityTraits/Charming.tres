@@ -6,4 +6,5 @@
 script = ExtResource("1_3wwn1")
 Name = "Charming"
 NegativeName = "Repulsive"
+TraitType = 3
 metadata/_custom_type_script = "uid://bt0nlksyoiknr"

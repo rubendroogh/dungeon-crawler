@@ -13,4 +13,20 @@ public partial class PersonalityTrait : Resource
 
     [Export]
     public string NegativeName { get; set; } = "Negative Trait";
+
+    [Export]
+    public PersonalityTraitType TraitType { get; set; } = PersonalityTraitType.None;
+}
+
+public enum PersonalityTraitType
+{
+    None,
+    Benevolent,
+    Dominant,
+    Charming,
+    Curious,
+    Fearless,
+    Focused,
+    Genuine,
+    Optimistic,
 }

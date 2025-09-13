@@ -6,4 +6,5 @@
 script = ExtResource("1_mdlwm")
 Name = "Fearless"
 NegativeName = "Paranoid"
+TraitType = 5
 metadata/_custom_type_script = "uid://bt0nlksyoiknr"

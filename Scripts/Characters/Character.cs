@@ -83,7 +83,22 @@ public partial class Character : Node2D
     /// The action queue for the character.
     /// This queue contains the actions that the character will perform in the next damage phase.
     /// </summary>
-    public Queue<ActionQueueEntry> ActionQueue { get; set; } = new();
+    public Queue<ActionQueueEntry> ActionQueue { get; protected set; } = new();
+
+    /// <summary>
+    /// Checks if the character has the value for the given personality trait.
+    /// </summary>
+    public bool CheckPersonalityTrait(int valueToCheck, PersonalityTraitType trait)
+    {
+        if (CharacterData == null)
+        {
+            return false;
+        }
+
+        // TODO: Add support for less than checks.
+        // TODO: Add support for temporary trait modifiers.
+        return CharacterData.GetBasePersonalityTraitValue(trait) >= valueToCheck;
+    }
 
     /// <summary>
     /// The sprite that represents the character.

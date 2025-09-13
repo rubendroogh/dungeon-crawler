@@ -6,4 +6,5 @@
 script = ExtResource("1_uahex")
 Name = "Genuine"
 NegativeName = "Devious"
+TraitType = 7
 metadata/_custom_type_script = "uid://bt0nlksyoiknr"

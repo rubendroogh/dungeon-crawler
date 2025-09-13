@@ -6,4 +6,5 @@
 script = ExtResource("1_717al")
 Name = "Focused"
 NegativeName = "Scattered"
+TraitType = 6
 metadata/_custom_type_script = "uid://bt0nlksyoiknr"
