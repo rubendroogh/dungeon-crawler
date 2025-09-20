@@ -1,0 +1,17 @@
+[gd_resource type="StyleBoxTexture" load_steps=3 format=3 uid="uid://cbl7laqf3biow"]
+
+[ext_resource type="Texture2D" uid="uid://bjieh1fppisut" path="res://Assets/RawImages/PatternsOutlinesTileMap.png" id="1_svf6w"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_igtbs"]
+atlas = ExtResource("1_svf6w")
+region = Rect2(440, 352, 32, 32)
+margin = Rect2(-1, -1, -2, -2)
+
+[resource]
+texture = SubResource("AtlasTexture_igtbs")
+texture_margin_left = 8.0
+texture_margin_top = 8.0
+texture_margin_right = 8.0
+texture_margin_bottom = 8.0
+axis_stretch_horizontal = 2
+axis_stretch_vertical = 2
