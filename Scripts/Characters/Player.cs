@@ -65,7 +65,7 @@ public partial class Player : Character
 
 	protected override void InitializeNodes(CharacterData characterData)
 	{
-		HealthBar = GetTree().Root.GetNode<TextureProgressBar>("Root/UI/HUD/Debug/VBoxContainer/PlayerStats/HealthBar");
+		HealthBar = GetTree().Root.GetNode<TextureProgressBar>("Root/UI/HUD/BottomContainer/HealthBar");
 
 		if (HealthBar == null)
 		{
