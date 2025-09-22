@@ -11,13 +11,18 @@ public class KeywordBase
     *   Keywords should be simple and understandable on a glance.
     *   They should be reusable and not tied to specific spells or actions.
     */
-    
+
     public async virtual Task OnCast()
     {
         // Default implementation does nothing
     }
 
     public async virtual Task OnHit()
+    {
+        // Default implementation does nothing
+    }
+
+    public async virtual Task OnQueue()
     {
         // Default implementation does nothing
     }

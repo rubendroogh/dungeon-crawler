@@ -1,4 +1,6 @@
+using System.Collections.Generic;
 using System.Threading.Tasks;
+using Godot;
 
 
 /// <summary>
@@ -25,7 +27,7 @@ public partial class Damage
     /// The status effect applied by the damage.
     /// </summary>
     public StatusEffectType StatusEffect { get; set; }
-    
+
     public Damage(float damageAmount, DamageType damageType)
     {
         Amount = damageAmount;
@@ -38,6 +40,39 @@ public partial class Damage
         Amount = damageAmount;
         Type = damageType;
         Source = damageSource;
+    }
+
+    /// <summary>
+    /// Applies a single damage modifier to this damage instance.
+    /// </summary>
+    public void ApplyModifier(DamageModifier modifier)
+    {
+        switch (modifier.Type)
+        {
+            case DamageModifierType.Additive:
+                Amount += modifier.Value;
+                break;
+            case DamageModifierType.Multiplicative:
+                Amount *= modifier.Value;
+                break;
+            case DamageModifierType.Override:
+                Amount = modifier.Value;
+                break;
+            default:
+                GD.PrintErr($"Unknown damage modifier type: {modifier.Type}");
+                break;
+        }
+    }
+    
+    /// <summary>
+    /// Applies a list of damage modifiers to this damage instance.
+    /// </summary>
+    public void ApplyModifiers(List<DamageModifier> modifiers)
+    {
+        foreach (var modifier in modifiers)
+        {
+            ApplyModifier(modifier);
+        }
     }
 }
 

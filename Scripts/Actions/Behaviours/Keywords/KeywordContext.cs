@@ -1,3 +1,6 @@
+using System.Collections.Generic;
+
+
 /// <summary>
 /// KeywordContext provides all necessary context for executing keyword effects.
 /// This can be expanded as needed to include more information.
@@ -25,6 +28,7 @@ public class KeywordContext
         Caster = null;
         Target = null;
         StormProcessed = false;
+        DamageModifiers.Clear();
     }
 
     /// <summary>
@@ -58,4 +62,9 @@ public class KeywordContext
             return Managers.BattleManager.CastSpellsThisTurn;
         }
     }
+
+    /// <summary>
+    /// The damage modifier applied by keywords. This can be modified by keywords like Cruel.
+    /// </summary>
+    public List<DamageModifier> DamageModifiers { get; } = new List<DamageModifier>();
 }

@@ -32,4 +32,8 @@ public enum DamageModifierType
     /// Applies a percentage increase or decrease to the damage.
     /// </summary>
     Percentage,
+    /// <summary>
+    /// Overrides the damage to a fixed value.
+    /// </summary>
+    Override,
 }

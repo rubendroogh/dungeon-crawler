@@ -74,7 +74,7 @@ public partial class Player : Character
 		}
 
 		HealthBar.MaxValue = characterData.MaxHealth;
-		HealthBar.Value = CurrentHealth;
+		HealthBar.Value = Health;
 	}
 
 	protected override void UpdateStatusEffectLabel()

@@ -49,6 +49,15 @@ public partial class DefaultSpellBehaviour : ISpellBehaviour
             }
         }
 
+        // Apply damage modifiers from keywords
+        foreach (var keywordModifier in Managers.ActionManager.KeywordContext.DamageModifiers)
+        {
+            foreach (var damage in damages)
+            {
+                damage.ApplyModifier(keywordModifier);
+            }
+        }
+
         return new ResolveResult
         {
             Damages = damages,

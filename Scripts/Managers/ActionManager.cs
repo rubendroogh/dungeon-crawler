@@ -141,7 +141,7 @@ public partial class ActionManager : Node
         }
 
         await resolveResult.Target.Damage(resolveResult);
-        return resolveResult.TotalModifiedAmount;
+        return resolveResult.TotalDamageAmount;
     }
 
     /// <summary>

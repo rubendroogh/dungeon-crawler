@@ -12,7 +12,7 @@ public partial class Character : Node2D
     /// The current health of the character.
     /// This value is between 0 and the max health of the character.
     /// </summary>
-    public float CurrentHealth { get; private set; }
+    public float Health { get; private set; }
 
     /// <summary>
     /// The character data associated with this character.
@@ -124,7 +124,7 @@ public partial class Character : Node2D
     public override void _Ready()
     {
         base._Ready();
-        CurrentHealth = CharacterData.MaxHealth;
+        Health = CharacterData.MaxHealth;
     }
 
     /// <summary>
@@ -193,7 +193,7 @@ public partial class Character : Node2D
     /// <param name="damage">The damage to apply.</param>
     public async Task<int> Damage(ResolveResult damage)
     {
-        if (damage.TotalBaseAmount <= 0 || CurrentHealth <= 0)
+        if (damage.TotalDamageAmount <= 0 || Health <= 0)
         {
             return 0;
         }
@@ -206,14 +206,15 @@ public partial class Character : Node2D
                 ApplyEffect(dmg.StatusEffect, 2);
             }
 
-            totalDamage += GetModifiedDamage(dmg);
+            ApplyModifiedDamage(dmg);
+            totalDamage += dmg.Amount;
         }
 
         // Apply the total damage to the character's health
-        CurrentHealth -= totalDamage;
+        Health -= totalDamage;
 
         await UpdateHealthBar();
-        if (CurrentHealth <= 0)
+        if (Health <= 0)
         {
             await Die();
         }
@@ -227,10 +228,10 @@ public partial class Character : Node2D
     /// <param name="amount"></param>
     public async Task Heal(float amount)
     {
-        CurrentHealth += amount;
-        if (CurrentHealth > CharacterData.MaxHealth)
+        Health += amount;
+        if (Health > CharacterData.MaxHealth)
         {
-            CurrentHealth = CharacterData.MaxHealth;
+            Health = CharacterData.MaxHealth;
         }
 
         await UpdateHealthBar();
@@ -315,14 +316,14 @@ public partial class Character : Node2D
     }
 
     /// <summary>
-    /// Get the modified damage for a specific damage type.
+    /// Uses the current active damage modifiers to calculate the modified damage for the given base damage.
     /// </summary>
-    public float GetModifiedDamage(Damage baseDamage)
+    public void ApplyModifiedDamage(Damage baseDamage)
     {
         if (baseDamage == null)
         {
             GD.PrintErr("BaseDamage is null");
-            return 0f;
+            return;
         }
 
         // Get damage type and modifiers for that damage
@@ -330,24 +331,32 @@ public partial class Character : Node2D
         switch (damageType)
         {
             case DamageType.Physical:
-                return CalculateModifiedDamage(baseDamage.Amount, PhysicalDamageModifiers);
+                baseDamage.ApplyModifiers(PhysicalDamageModifiers);
+                break;
             case DamageType.Dark:
-                return CalculateModifiedDamage(baseDamage.Amount, DarkDamageModifiers);
+                baseDamage.ApplyModifiers(DarkDamageModifiers);
+                break;
             case DamageType.Light:
-                return CalculateModifiedDamage(baseDamage.Amount, LightDamageModifiers);
+                baseDamage.ApplyModifiers(LightDamageModifiers);
+                break;
             case DamageType.Fire:
-                return CalculateModifiedDamage(baseDamage.Amount, FireDamageModifiers);
+                baseDamage.ApplyModifiers(FireDamageModifiers);
+                break;
             case DamageType.Ice:
-                return CalculateModifiedDamage(baseDamage.Amount, IceDamageModifiers);
+                baseDamage.ApplyModifiers(IceDamageModifiers);
+                break;
             case DamageType.Lightning:
-                return CalculateModifiedDamage(baseDamage.Amount, LightningDamageModifiers);
+                baseDamage.ApplyModifiers(LightningDamageModifiers);
+                break;
             case DamageType.Sanity:
-                return CalculateModifiedDamage(baseDamage.Amount, SanityDamageModifiers);
+                baseDamage.ApplyModifiers(SanityDamageModifiers);
+                break;
             case DamageType.Disease:
-                return CalculateModifiedDamage(baseDamage.Amount, DiseaseDamageModifiers);
+                baseDamage.ApplyModifiers(DiseaseDamageModifiers);
+                break;
             default:
                 GD.PrintErr($"Unhandled damage type: {damageType}");
-                return baseDamage.Amount;
+                break;
         }
     }
 
@@ -376,7 +385,7 @@ public partial class Character : Node2D
         }
 
         HealthBar.MaxValue = characterData.MaxHealth;
-        HealthBar.Value = CurrentHealth;
+        HealthBar.Value = Health;
         CharacterSprite.Texture = characterData.Image;
     }
 
@@ -408,7 +417,7 @@ public partial class Character : Node2D
     {
         var tween = CreateTween();
         // Animate the rotation smoothly over 0.2 seconds
-        tween.TweenProperty(HealthBar, "value", CurrentHealth, .2f)
+        tween.TweenProperty(HealthBar, "value", Health, .2f)
             .SetTrans(Tween.TransitionType.Cubic)
             .SetEase(Tween.EaseType.InOut);
 
@@ -503,7 +512,7 @@ public partial class Character : Node2D
     private void SetCharacterData(CharacterData characterData)
     {
         CharacterData = characterData;
-        CurrentHealth = characterData.MaxHealth;
+        Health = characterData.MaxHealth;
 
         // Reset the damage modifiers to the base values
         PhysicalDamageModifiers.Clear();
