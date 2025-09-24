@@ -133,7 +133,7 @@ public partial class DeckManager : Node
 	/// </summary>
 	private void InitializeCardDeckUI()
 	{
-		string containersPath = "CardListPanelContainer/Margin/CardListHorizontalContainer/CardList/";
+		string containersPath = "Margin/CardListHorizontalContainer/CardList/";
 
 		var containerHearts = GetNode<VBoxContainer>(containersPath + "CardListHearts");
 		foreach (Card card in Cards.Where(c => c.Suit == Suit.Hearts))
@@ -169,7 +169,7 @@ public partial class DeckManager : Node
 	/// </summary>
 	private void ResetCardUI()
 	{
-		string containersPath = "CardListPanelContainer/Margin/CardListHorizontalContainer/CardList/";
+		string containersPath = "Margin/CardListHorizontalContainer/CardList/";
 
 		var containerHearts = GetNode<VBoxContainer>(containersPath + "CardListHearts");
 		foreach (var child in containerHearts.GetChildren())
@@ -207,7 +207,8 @@ public partial class DeckManager : Node
 			Card = card,
 			Texture = texture,
 			CustomMinimumSize = TileSize * 2,
-			ExpandMode = TextureRect.ExpandModeEnum.KeepSize
+			ExpandMode = TextureRect.ExpandModeEnum.KeepSize,
+			Scale = new Vector2(2, 2)
 		};
 
 		return cardUI;

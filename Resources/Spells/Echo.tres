@@ -23,6 +23,7 @@ BaseLightningDamage = 0.0
 BaseSanityDamage = 0.0
 BaseDiseaseDamage = 0.0
 Keywords = Array[int]([0])
+StatusEffects = Array[int]([])
 ModifierMultiplier = 1.01
 CastEffectScene = ExtResource("1_3it2k")
 Rarity = 1

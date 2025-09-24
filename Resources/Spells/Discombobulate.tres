@@ -28,6 +28,7 @@ BaseLightningDamage = 0.0
 BaseSanityDamage = 8.0
 BaseDiseaseDamage = 0.0
 Keywords = Array[int]([])
+StatusEffects = Array[int]([])
 ModifierMultiplier = 1.1
 CastEffectScene = ExtResource("1_26e8r")
 DefaultCastEffectTexture = SubResource("AtlasTexture_f5s5v")

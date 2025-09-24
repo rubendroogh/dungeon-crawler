@@ -1,11 +1,11 @@
 [gd_resource type="Theme" load_steps=3 format=3 uid="uid://cstpy6v4nd287"]
 
 [ext_resource type="StyleBox" uid="uid://ginbulb641wh" path="res://Resources/StyleBoxes/Brick/BrickBackgroundPanel.tres" id="1_pl7al"]
-[ext_resource type="FontFile" uid="uid://cfv06efvogvfl" path="res://Assets/Fonts/m3x6.ttf" id="2_owrpy"]
+[ext_resource type="FontFile" uid="uid://cof0f7f688od4" path="res://Assets/Fonts/dpcomic.ttf" id="2_pl7al"]
 
 [resource]
-default_font = ExtResource("2_owrpy")
-default_font_size = 32
+default_font = ExtResource("2_pl7al")
+default_font_size = 24
 Label/colors/font_color = Color(1, 1, 1, 1)
 Label/colors/font_outline_color = Color(0, 0, 0, 1)
 PanelContainer/styles/panel = ExtResource("1_pl7al")

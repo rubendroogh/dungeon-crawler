@@ -22,8 +22,8 @@ public partial class DebugScreenManager : Node
 
     public override void _Ready()
     {
-        DebugRootNode = GetTree().Root.GetNode<Control>("Root/UI/HUD/Debug");
-        SpellQueueLabel = DebugRootNode.GetNode<RichTextLabel>("VBoxContainer/MarginContainer/SpellQueue/RichTextLabel");
+        DebugRootNode = GetTree().Root.GetNode<Control>("Root/UI/HUD/Spells/SpellQueue/MarginContainer");
+        SpellQueueLabel = DebugRootNode.GetNode<RichTextLabel>("SpellQueue/RichTextLabel");
 
         if (!DebugMode)
         {
