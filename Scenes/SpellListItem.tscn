@@ -1,73 +1,91 @@
-[gd_scene load_steps=5 format=3 uid="uid://csex8h13te3ep"]
+[gd_scene load_steps=7 format=3 uid="uid://csex8h13te3ep"]
 
 [ext_resource type="Texture2D" uid="uid://csjt8ylrgdkbj" path="res://Resources/Atlasses/TileAtlas.tres" id="1_ct5uf"]
-[ext_resource type="Script" uid="uid://xhe4kyv0hanb" path="res://Scripts/UI/SpellUI.cs" id="1_vj5hk"]
+[ext_resource type="Script" uid="uid://xhe4kyv0hanb" path="res://Scripts/UI/Spells/SpellUI.cs" id="1_vj5hk"]
 [ext_resource type="StyleBox" uid="uid://dlabjtbbiahju" path="res://Resources/StyleBoxes/Default/SpellSelected.tres" id="2_usfsc"]
 [ext_resource type="StyleBox" uid="uid://di1t0g1fgt6r5" path="res://Resources/StyleBoxes/Default/SpellDefault.tres" id="3_usfsc"]
+[ext_resource type="PackedScene" uid="uid://bv8nhr1hmgpwv" path="res://Scenes/StatusEffectIcon.tscn" id="4_027s2"]
+[ext_resource type="StyleBox" uid="uid://chxd4xyjuxd3j" path="res://Resources/StyleBoxes/Default/SpellInner.tres" id="4_a4m7i"]
 
-[node name="PanelContainer" type="PanelContainer" node_paths=PackedStringArray("SpellName", "SpellDescription", "SpellIcon")]
+[node name="PanelContainer" type="PanelContainer" node_paths=PackedStringArray("SpellName", "SpellDescription", "SpellIcon", "StatusEffectsContainer")]
 offset_right = 291.0
 offset_bottom = 57.0
 mouse_default_cursor_shape = 2
+theme_override_styles/panel = ExtResource("3_usfsc")
 script = ExtResource("1_vj5hk")
-SpellName = NodePath("HBoxContainer/VBoxContainer/MarginContainer/RichTextLabel")
-SpellDescription = NodePath("HBoxContainer/VBoxContainer/MarginContainer2/RichTextLabel")
-SpellIcon = NodePath("HBoxContainer/MarginContainer/TextureRect")
+SpellName = NodePath("MarginContainer/PanelContainer/HBoxContainer/VBoxContainer/MarginContainer/RichTextLabel")
+SpellDescription = NodePath("MarginContainer/PanelContainer/HBoxContainer/VBoxContainer/MarginContainer2/RichTextLabel")
+SpellIcon = NodePath("MarginContainer/PanelContainer/HBoxContainer/TextureRect")
+StatusEffectsContainer = NodePath("MarginContainer/PanelContainer/HBoxContainer/StatusEffectsContainer")
 SelectedStyle = ExtResource("2_usfsc")
 DefaultStyle = ExtResource("3_usfsc")
+StatusEffectIconScene = ExtResource("4_027s2")
 
-[node name="HBoxContainer" type="HBoxContainer" parent="."]
-layout_mode = 2
-
-[node name="MarginContainer" type="MarginContainer" parent="HBoxContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="."]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 4
 size_flags_stretch_ratio = 0.25
-theme_override_constants/margin_left = 5
-theme_override_constants/margin_top = 5
-theme_override_constants/margin_right = 5
-theme_override_constants/margin_bottom = 5
+theme_override_constants/margin_left = 1
+theme_override_constants/margin_top = 1
+theme_override_constants/margin_right = 1
+theme_override_constants/margin_bottom = 1
 
-[node name="TextureRect" type="TextureRect" parent="HBoxContainer/MarginContainer"]
+[node name="PanelContainer" type="PanelContainer" parent="MarginContainer"]
 layout_mode = 2
-size_flags_horizontal = 3
+mouse_filter = 2
+theme_override_styles/panel = ExtResource("4_a4m7i")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/PanelContainer"]
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="MarginContainer/PanelContainer/HBoxContainer"]
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 2
+size_flags_horizontal = 2
 size_flags_stretch_ratio = 0.25
 texture = ExtResource("1_ct5uf")
-expand_mode = 4
+expand_mode = 5
 
-[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/PanelContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
+theme_override_constants/separation = 0
 
-[node name="MarginContainer" type="MarginContainer" parent="HBoxContainer/VBoxContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/PanelContainer/HBoxContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
 size_flags_stretch_ratio = 0.8
 theme_override_constants/margin_left = 0
-theme_override_constants/margin_top = 4
 theme_override_constants/margin_right = 6
 theme_override_constants/margin_bottom = 0
 
-[node name="RichTextLabel" type="RichTextLabel" parent="HBoxContainer/VBoxContainer/MarginContainer"]
+[node name="RichTextLabel" type="RichTextLabel" parent="MarginContainer/PanelContainer/HBoxContainer/VBoxContainer/MarginContainer"]
 layout_mode = 2
 mouse_filter = 1
 theme_override_font_sizes/normal_font_size = 24
 text = "tekst"
 scroll_active = false
 
-[node name="MarginContainer2" type="MarginContainer" parent="HBoxContainer/VBoxContainer"]
+[node name="MarginContainer2" type="MarginContainer" parent="MarginContainer/PanelContainer/HBoxContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_constants/margin_left = 0
 theme_override_constants/margin_top = 0
-theme_override_constants/margin_right = 5
+theme_override_constants/margin_right = 0
 theme_override_constants/margin_bottom = 5
 
-[node name="RichTextLabel" type="RichTextLabel" parent="HBoxContainer/VBoxContainer/MarginContainer2"]
+[node name="RichTextLabel" type="RichTextLabel" parent="MarginContainer/PanelContainer/HBoxContainer/VBoxContainer/MarginContainer2"]
 layout_mode = 2
 mouse_filter = 1
 theme_override_font_sizes/normal_font_size = 16
 bbcode_enabled = true
 text = "test"
 scroll_active = false
+
+[node name="StatusEffectsContainer" type="VBoxContainer" parent="MarginContainer/PanelContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 10
+size_flags_vertical = 0
+size_flags_stretch_ratio = 0.0
+theme_override_constants/separation = 2

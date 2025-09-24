@@ -19,10 +19,16 @@ public partial class SpellUI : PanelContainer
 	public TextureRect SpellIcon { get; set; }
 
 	[Export]
+	public Node StatusEffectsContainer { get; set; }
+
+	[Export]
 	public StyleBox SelectedStyle { get; set; }
 
 	[Export]
 	public StyleBox DefaultStyle { get; set; }
+
+	[Export]
+	public PackedScene StatusEffectIconScene { get; set; }
 
 	private ActionData ActionData { get; set; }
 
@@ -30,18 +36,19 @@ public partial class SpellUI : PanelContainer
 
 	private System.Collections.Generic.Dictionary<DamageType, Color> DamageTypeColors = new()
 	{
-		{ DamageType.Physical, new Color(.1f, .1f, .1f, .1f) }, // Gray
-		{ DamageType.Fire, new Color(1, 0, 0, .1f) }, // Red
-		{ DamageType.Ice, new Color(0, 0, 1, .1f) }, // Blue
-		{ DamageType.Lightning, new Color(1, 1, 0, .1f) }, // Yellow
-		{ DamageType.Dark, new Color(0, 0, 0, .1f) }, // Black
-		{ DamageType.Light, new Color(1, 1, 1, .1f) }, // White
-		{ DamageType.Sanity, new Color(.5f, 0, .5f, .1f) }, // Purple
-		{ DamageType.Disease, new Color(.5f, .25f, .25f, .1f) }, // Brown
+		{ DamageType.Physical, new Color(.1f, .1f, .1f, .25f) }, // Gray
+		{ DamageType.Fire, new Color(1, 0, 0, .25f) }, // Red
+		{ DamageType.Ice, new Color(0, 0, 1, .25f) }, // Blue
+		{ DamageType.Lightning, new Color(1, 1, 0, .25f) }, // Yellow
+		{ DamageType.Dark, new Color(0, 0, 0, .25f) }, // Black
+		{ DamageType.Light, new Color(1, 1, 1, .25f) }, // White
+		{ DamageType.Sanity, new Color(.5f, 0, .5f, .25f) }, // Purple
+		{ DamageType.Disease, new Color(.5f, .25f, .25f, .25f) }, // Brown
 	};
 
 	public override void _Ready()
 	{
+		UpdateStyle();
 		CallDeferred(nameof(InitializeCustomSignals));
 	}
 
@@ -76,6 +83,14 @@ public partial class SpellUI : PanelContainer
 		SpellName.Text = actionData.Name;
 		SetSpellDescription(actionData.Description, actionData.Keywords);
 		SpellIcon.Texture = actionData.Image;
+
+		// Fill list of status effect icons
+		foreach (var statusEffect in ActionData.StatusEffects)
+		{
+			var iconInstance = StatusEffectIconScene.Instantiate<StatusEffectIcon>();
+			StatusEffectsContainer.AddChild(iconInstance);
+			iconInstance.Setup(statusEffect);
+		}
 	}
 
 	/// <summary>
