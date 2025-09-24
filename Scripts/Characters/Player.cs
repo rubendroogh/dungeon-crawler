@@ -55,7 +55,6 @@ public partial class Player : Character
 	public override async Task PlayDamageAnimation()
 	{
 		await Task.Delay(300);
-		GD.Print(CharacterData.HitSound);
 		Managers.SoundEffectManager.PlaySoundEffect(CharacterData.HitSound);
 
 		var camera = Managers.PlayerManager.GetCamera() as CameraShake;
