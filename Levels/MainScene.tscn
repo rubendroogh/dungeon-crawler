@@ -2,8 +2,8 @@
 
 [ext_resource type="Script" uid="uid://di2h8gf1377s5" path="res://Scripts/UI/CameraShake.cs" id="1_hojmo"]
 [ext_resource type="Resource" uid="uid://b1jhmr0xq4603" path="res://Resources/Spells/FireBall.tres" id="2_hvf01"]
-[ext_resource type="Script" uid="uid://b40v7nngruesy" path="res://Scripts/UI/AddSpellToQueueButton.cs" id="2_irpm1"]
-[ext_resource type="Script" uid="uid://cpji6emjswl8f" path="res://Scripts/UI/CastSpellButton.cs" id="2_lljjv"]
+[ext_resource type="Script" uid="uid://b40v7nngruesy" path="res://Scripts/UI/Spells/AddSpellToQueueButton.cs" id="2_irpm1"]
+[ext_resource type="Script" uid="uid://cpji6emjswl8f" path="res://Scripts/UI/Spells/CastSpellButton.cs" id="2_lljjv"]
 [ext_resource type="Script" uid="uid://bb2xw40m0q3sm" path="res://Scripts/Managers/DeckManager.cs" id="3_hvf01"]
 [ext_resource type="Script" uid="uid://c0p2vud0ydmne" path="res://Scripts/Managers/Managers.cs" id="4_26f67"]
 [ext_resource type="Script" uid="uid://fi2i0pb2xx5u" path="res://Scripts/Managers/ActionManager.cs" id="4_safex"]
@@ -27,7 +27,7 @@
 [ext_resource type="FontFile" uid="uid://cfv06efvogvfl" path="res://Assets/Fonts/m3x6.ttf" id="18_wg3rq"]
 [ext_resource type="AudioStream" uid="uid://dwu2yk120ey8n" path="res://Assets/Sound/Mountain Emperor.mp3" id="19_8287p"]
 [ext_resource type="Texture2D" uid="uid://exboe6jk0wnb" path="res://Assets/RawImages/FullTileMap.png" id="19_tayw2"]
-[ext_resource type="Script" uid="uid://27ykix11cmr7" path="res://Scripts/UI/PersonalityPointsSpinBox.cs" id="20_sth1w"]
+[ext_resource type="Script" uid="uid://27ykix11cmr7" path="res://Scripts/UI/CharacterCreation/PersonalityPointsSpinBox.cs" id="20_sth1w"]
 [ext_resource type="Resource" uid="uid://dv0wsrhnml26l" path="res://Resources/PersonalityTraits/Genuine.tres" id="22_b51k0"]
 [ext_resource type="Theme" uid="uid://cstpy6v4nd287" path="res://Resources/Themes/BrickTheme.tres" id="23_2dbf0"]
 [ext_resource type="Resource" uid="uid://d3yuybcptl4st" path="res://Resources/PersonalityTraits/Charming.tres" id="23_txofh"]
@@ -37,7 +37,7 @@
 [ext_resource type="Resource" uid="uid://beeo0vmah6vb2" path="res://Resources/PersonalityTraits/Dominant.tres" id="27_n6swl"]
 [ext_resource type="Resource" uid="uid://oqgxyf3f2xim" path="res://Resources/PersonalityTraits/Fearless.tres" id="28_jk3s6"]
 [ext_resource type="Resource" uid="uid://qrbbkyecsjwj" path="res://Resources/PersonalityTraits/Benevolent.tres" id="29_hojmo"]
-[ext_resource type="Script" uid="uid://dphi8b28kelq" path="res://Scripts/UI/CharacterCreationSubmit.cs" id="30_txofh"]
+[ext_resource type="Script" uid="uid://dphi8b28kelq" path="res://Scripts/UI/CharacterCreation/CharacterCreationSubmit.cs" id="30_txofh"]
 [ext_resource type="PackedScene" uid="uid://b064kuj7s5tyq" path="res://Scenes/RewardSelectionItem.tscn" id="33_ghvpb"]
 [ext_resource type="Script" uid="uid://can1qqm8mdvlp" path="res://Scripts/Managers/RewardSelectionManager.cs" id="33_n6swl"]
 [ext_resource type="Script" uid="uid://dc7fgp7xs3q51" path="res://Scripts/UI/Rewards/ConfirmSelectionButton.cs" id="34_jk3s6"]
@@ -147,22 +147,25 @@ anchors_preset = 2
 anchor_top = 1.0
 anchor_bottom = 1.0
 offset_left = -568.0
-offset_top = 158.0
+offset_top = 150.0
 offset_right = -347.0
-offset_bottom = 240.0
+offset_bottom = 232.0
 grow_vertical = 0
 
 [node name="VBoxContainer" type="VBoxContainer" parent="UI/HUD/Debug"]
 layout_mode = 2
 
-[node name="SpellQueue" type="VBoxContainer" parent="UI/HUD/Debug/VBoxContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="UI/HUD/Debug/VBoxContainer"]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="UI/HUD/Debug/VBoxContainer/SpellQueue"]
+[node name="SpellQueue" type="VBoxContainer" parent="UI/HUD/Debug/VBoxContainer/MarginContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="UI/HUD/Debug/VBoxContainer/MarginContainer/SpellQueue"]
 layout_mode = 2
 text = "Spell queue"
 
-[node name="RichTextLabel" type="RichTextLabel" parent="UI/HUD/Debug/VBoxContainer/SpellQueue"]
+[node name="RichTextLabel" type="RichTextLabel" parent="UI/HUD/Debug/VBoxContainer/MarginContainer/SpellQueue"]
 layout_mode = 2
 theme_override_font_sizes/normal_font_size = 16
 fit_content = true
@@ -175,9 +178,9 @@ anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
 offset_left = -249.0
-offset_top = 165.0
+offset_top = 157.0
 offset_right = 225.0
-offset_bottom = 240.0
+offset_bottom = 232.0
 grow_horizontal = 2
 grow_vertical = 0
 
@@ -205,43 +208,42 @@ script = ExtResource("2_lljjv")
 
 [node name="AddSpellToQueue" type="Button" parent="UI/HUD"]
 layout_mode = 0
-offset_left = 368.0
-offset_top = -101.0
-offset_right = 604.0
-offset_bottom = -55.0
+offset_left = 330.0
+offset_top = -106.0
+offset_right = 566.0
+offset_bottom = -60.0
 theme_override_font_sizes/font_size = 48
 text = "Add to queue"
 script = ExtResource("2_irpm1")
 
-[node name="SpellListPanelContainer" type="PanelContainer" parent="UI/HUD"]
+[node name="SpellList" type="PanelContainer" parent="UI/HUD"]
 layout_mode = 1
 anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
-offset_left = 197.0
+offset_left = 195.0
 offset_top = -316.0
-offset_right = 538.0
+offset_right = 528.0
 offset_bottom = -114.0
 grow_horizontal = 0
 
-[node name="Margin" type="MarginContainer" parent="UI/HUD/SpellListPanelContainer"]
-layout_mode = 2
-theme_override_constants/margin_left = 10
-theme_override_constants/margin_top = 10
-theme_override_constants/margin_right = 10
-theme_override_constants/margin_bottom = 10
-
-[node name="SpellListHorizontalContainer" type="VBoxContainer" parent="UI/HUD/SpellListPanelContainer/Margin"]
+[node name="SpellListHorizontalContainer" type="VBoxContainer" parent="UI/HUD/SpellList"]
 layout_mode = 2
 theme_override_constants/separation = 10
 
-[node name="Label" type="Label" parent="UI/HUD/SpellListPanelContainer/Margin/SpellListHorizontalContainer"]
+[node name="Margin" type="MarginContainer" parent="UI/HUD/SpellList/SpellListHorizontalContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 0
+theme_override_constants/margin_right = 0
+theme_override_constants/margin_bottom = 0
+
+[node name="Label" type="Label" parent="UI/HUD/SpellList/SpellListHorizontalContainer/Margin"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 36
 text = "Spellbook"
-horizontal_alignment = 1
 
-[node name="SpellList" type="VBoxContainer" parent="UI/HUD/SpellListPanelContainer/Margin/SpellListHorizontalContainer"]
+[node name="SpellList" type="VBoxContainer" parent="UI/HUD/SpellList/SpellListHorizontalContainer"]
 custom_minimum_size = Vector2(0, 10)
 layout_mode = 2
 size_flags_vertical = 3
@@ -266,10 +268,10 @@ anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -174.0
-offset_top = -125.0
-offset_right = -2.0
-offset_bottom = -4.0
+offset_left = -182.0
+offset_top = -133.0
+offset_right = -10.0
+offset_bottom = -11.0
 grow_horizontal = 0
 grow_vertical = 0
 

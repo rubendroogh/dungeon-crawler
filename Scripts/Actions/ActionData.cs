@@ -87,6 +87,12 @@ public partial class ActionData : Resource
     public Array<Keyword> Keywords { get; set; } = new Array<Keyword>();
 
     /// <summary>
+    /// A list of status effects that the action can inflict.
+    /// </summary>
+    [Export]
+    public Array<StatusEffectType> StatusEffects { get; set; } = new Array<StatusEffectType>();
+
+    /// <summary>
     /// This multiplier affects the effect of mana power (the card rank) on the spell damage.
     /// </summary>
     [Export]
