@@ -15,6 +15,12 @@ public class Keywords
 
 public enum Keyword
 {
-    Storm, // Repeats the spell for each spell previously cast this turn.
-    Cruel, // Deals double damage if the target is below half health.
+    /// <summary>
+    /// Repeats the spell for each spell previously cast this turn.
+    /// </summary>
+    Storm,
+    /// <summary>
+    /// Deals double damage if the target is below half health.
+    /// </summary>
+    Cruel,
 }
