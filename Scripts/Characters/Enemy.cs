@@ -59,7 +59,8 @@ public partial class Enemy : Character
     /// </summary>
     public async override Task PlayDamageAnimation()
     {
-        float flickerDuration = 1.1f;
+        Managers.SoundEffectManager.PlaySoundEffect(CharacterData.HitSound);
+        float flickerDuration = 0.6f;
         int flickerCount = 4;
 
         float interval = flickerDuration / (flickerCount * 2);

@@ -1,5 +1,6 @@
-[gd_resource type="Resource" script_class="CharacterData" load_steps=4 format=3 uid="uid://cfekhne75nmml"]
+[gd_resource type="Resource" script_class="CharacterData" load_steps=5 format=3 uid="uid://cfekhne75nmml"]
 
+[ext_resource type="AudioStream" uid="uid://c7ljlcnl60lgg" path="res://Assets/Sound/hit.wav" id="1_kftp3"]
 [ext_resource type="Script" uid="uid://bu8g8lcrmtl0e" path="res://Scripts/Characters/CharacterData.cs" id="1_kk36p"]
 [ext_resource type="Texture2D" uid="uid://s2ihy4m3p226" path="res://Assets/RawImages/CreaturesTileMap.png" id="1_rb05q"]
 
@@ -10,6 +11,7 @@ region = Rect2(0, 0, 32, 32)
 [resource]
 script = ExtResource("1_kk36p")
 Name = "Undead Squid"
+HitSound = ExtResource("1_kftp3")
 Image = SubResource("AtlasTexture_kftp3")
 MaxHealth = 150.0
 BaseBenevolent = 5

@@ -1,4 +1,6 @@
+using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Threading.Tasks;
 using Godot;
 
@@ -53,11 +55,13 @@ public partial class Player : Character
 	public override async Task PlayDamageAnimation()
 	{
 		await Task.Delay(300);
+		GD.Print(CharacterData.HitSound);
+		Managers.SoundEffectManager.PlaySoundEffect(CharacterData.HitSound);
 
 		var camera = Managers.PlayerManager.GetCamera() as CameraShake;
 		if (camera != null)
 		{
-			await camera.StartShake(1.2f, 10f);
+			await camera.StartShake(0.7f, 10f);
 		}
 
 		await Task.Delay(300);
