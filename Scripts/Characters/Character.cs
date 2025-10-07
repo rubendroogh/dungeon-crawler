@@ -442,6 +442,9 @@ public partial class Character : Node2D
         }
     }
 
+    /// <summary>
+    /// Resolve a single entry in the action queue, executing the action, applying its effects, and showing animations.
+    /// </summary>
     protected async Task ResolveQueueEntry(ActionQueueEntry entry)
     {
         if (entry.Action == null || entry.Target == null)
@@ -476,33 +479,8 @@ public partial class Character : Node2D
         // Apply the resolve result (damage, healing, status effects, etc.)
         await Managers.ActionManager.ApplyResolveResult(actionResolveResult);
         await this.Delay(300);
-        
+
         Managers.BattleManager.CastSpellsThisTurn++;
-    }
-
-    /// <summary>
-    /// Calculate the modified damage based on the base damage and the list of damage modifiers.
-    /// </summary>
-    private float CalculateModifiedDamage(float baseDamage, List<DamageModifier> modifiers)
-    {
-        float modifiedDamage = baseDamage;
-        foreach (var modifier in modifiers)
-        {
-            switch (modifier.Type)
-            {
-                case DamageModifierType.Additive:
-                    modifiedDamage += modifier.Value;
-                    break;
-                case DamageModifierType.Multiplicative:
-                    modifiedDamage *= modifier.Value;
-                    break;
-                case DamageModifierType.Percentage:
-                    modifiedDamage *= 1 + modifier.Value / 100f;
-                    break;
-            }
-        }
-
-        return modifiedDamage;
     }
 
     /// <summary>

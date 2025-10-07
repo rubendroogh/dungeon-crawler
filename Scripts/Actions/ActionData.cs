@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Godot;
 using Godot.Collections;
@@ -25,9 +26,17 @@ public partial class ActionData : Resource
     public Texture2D Image { get; set; }
 
     /// <summary>
+    /// An expression defining the mana cost of the spell.
+    /// This is a string that can be parsed to determine the mana cost dynamically.
+    /// </summary>
+    [Export]
+    private string SpellCostExpression { get; set; }
+
+    /// <summary>
     /// The max amount of mana charges this spell can have.
     /// </summary>
     [Export]
+    [Obsolete("Mana charges are no longer used in the game as we move to a mana pool system.")]
     public int MaxManaCharges { get; set; } = 4;
 
     /// <summary>
@@ -117,6 +126,11 @@ public partial class ActionData : Resource
     /// </summary>
     [Export]
     public int Rarity = 1;
+
+    /// <summary>
+    /// The mana cost to cast the spell.
+    /// </summary>
+    public SpellCost Cost { get; } = new SpellCost();
 
     /// <summary>
     /// A list of all the damage types that this spell can deal.

@@ -89,6 +89,41 @@ public partial class DefaultSpellBehaviour : ISpellBehaviour
         }
     }
 
+    public bool CanCast(Character caster, Spell spell, List<Card> cards)
+    {
+        if (caster == null || spell == null || cards == null)
+        {
+            GD.PrintErr("Invalid parameters for CanCast.");
+            return false;
+        }
+
+        // Add up the mana from the selected cards
+        var manaCounts = new Dictionary<Suit, int>();
+        foreach (var card in cards)
+        {
+            if (manaCounts.ContainsKey(card.Suit))
+            {
+                manaCounts[card.Suit]++;
+            }
+            else
+            {
+                manaCounts[card.Suit] = 1;
+            }
+        }
+
+        // Check if all costs are covered
+        foreach (var cost in spell.Data.Cost.Costs)
+        {
+            if (!manaCounts.ContainsKey(cost.Type) || manaCounts[cost.Type] < cost.Amount)
+            {
+                GD.PrintErr($"Not enough {cost.Type} mana to cast spell {spell.Data.Name}. Required: {cost.Amount}, available: {(manaCounts.ContainsKey(cost.Type) ? manaCounts[cost.Type] : 0)}.");
+                return false;
+            }
+        }
+
+        return true;
+    }
+
     /// <summary>
     /// Calculates the damage dealt by the spell based on the damage type, modifier, and spell data.
     /// </summary>

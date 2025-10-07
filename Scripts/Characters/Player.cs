@@ -44,6 +44,13 @@ public partial class Player : Character
 			return;
 		}
 
+		// Check if the spell can be cast with the selected cards.
+		if (!spell.CanCast(this, cardList))
+		{
+			GD.PrintErr("Spell cannot be cast with the selected cards.");
+			return;
+		}
+
 		var entry = new ActionQueueEntry(spell, target, cardList);
 		ActionQueue.Enqueue(entry);
 		EmitSignal(SignalName.SpellQueued);
