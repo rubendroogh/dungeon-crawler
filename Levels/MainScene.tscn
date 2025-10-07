@@ -126,6 +126,7 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="HUD" type="Control" parent="UI"]
+visible = false
 anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
@@ -408,7 +409,6 @@ script = ExtResource("34_jk3s6")
 resources = [PackedStringArray("BrainFreeze", "Discombobulate", "Echo", "FireBall"), [ExtResource("7_71tao"), ExtResource("8_lxbb3"), ExtResource("39_jtd1x"), ExtResource("2_hvf01")]]
 
 [node name="CharacterCreation" type="Control" parent="UI"]
-visible = false
 anchors_preset = 0
 offset_left = -576.0
 offset_top = -320.0
@@ -462,6 +462,11 @@ alignment = 1
 layout_mode = 2
 theme_override_font_sizes/font_size = 36
 text = "Please describe yourself."
+
+[node name="Line" type="Panel" parent="UI/CharacterCreation/CharacterCreationCenter/CharacterCreationManager/MarginContainer/HBoxContainer/Form"]
+modulate = Color(0, 0, 0, 0.643137)
+custom_minimum_size = Vector2(0, 3)
+layout_mode = 2
 
 [node name="PlayerNameInput" type="LineEdit" parent="UI/CharacterCreation/CharacterCreationCenter/CharacterCreationManager/MarginContainer/HBoxContainer/Form"]
 layout_mode = 2
