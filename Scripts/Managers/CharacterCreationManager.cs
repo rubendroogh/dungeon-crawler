@@ -133,18 +133,19 @@ public partial class CharacterCreationManager : Control
 			.ToDictionary(spinbox => spinbox.Trait.Name, spinbox => (int)spinbox.Value)
 			.ToList();
 
-		return new CharacterData
-		{
-			Name = PlayerNameInput.Text,
-			BaseBenevolent = traitValues.FirstOrDefault(t => t.Key == "Benevolent").Value,
-			BaseCurious = traitValues.FirstOrDefault(t => t.Key == "Curious").Value,
-			BaseCharming = traitValues.FirstOrDefault(t => t.Key == "Charming").Value,
-			BaseDominant = traitValues.FirstOrDefault(t => t.Key == "Dominant").Value,
-			BaseFearless = traitValues.FirstOrDefault(t => t.Key == "Fearless").Value,
-			BaseFocused = traitValues.FirstOrDefault(t => t.Key == "Focused").Value,
-			BaseGenuine = traitValues.FirstOrDefault(t => t.Key == "Genuine").Value,
-			BaseOptimistic = traitValues.FirstOrDefault(t => t.Key == "Optimistic").Value,
-		};
+		CharacterData characterData = Managers.PlayerManager.GetPlayer().CharacterData;
+
+		characterData.Name = PlayerNameInput.Text;
+		characterData.BaseBenevolent = traitValues.FirstOrDefault(t => t.Key == "Benevolent").Value;
+		characterData.BaseCurious = traitValues.FirstOrDefault(t => t.Key == "Curious").Value;
+		characterData.BaseCharming = traitValues.FirstOrDefault(t => t.Key == "Charming").Value;
+		characterData.BaseDominant = traitValues.FirstOrDefault(t => t.Key == "Dominant").Value;
+		characterData.BaseFearless = traitValues.FirstOrDefault(t => t.Key == "Fearless").Value;
+		characterData.BaseFocused = traitValues.FirstOrDefault(t => t.Key == "Focused").Value;
+		characterData.BaseGenuine = traitValues.FirstOrDefault(t => t.Key == "Genuine").Value;
+		characterData.BaseOptimistic = traitValues.FirstOrDefault(t => t.Key == "Optimistic").Value;
+		
+		return characterData;
 	}
 
 	/// <summary>

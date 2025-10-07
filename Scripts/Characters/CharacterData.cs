@@ -11,6 +11,12 @@ public partial class CharacterData : Resource
     /// </summary>
     [Export]
     public string Name { get; set; } = "Default character";
+    
+    /// <summary>
+    /// Sound played on getting hit.
+    /// </summary>
+    [Export]
+    public AudioStream HitSound { get; set; }
 
     /// <summary>
     /// The sprite to show in combat.

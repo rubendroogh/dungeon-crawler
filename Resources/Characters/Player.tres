@@ -1,20 +1,21 @@
-[gd_resource type="Resource" script_class="CharacterData" load_steps=2 format=3 uid="uid://cdn0d7ugm3gse"]
+[gd_resource type="Resource" script_class="CharacterData" load_steps=3 format=3 uid="uid://cdn0d7ugm3gse"]
 
 [ext_resource type="Script" uid="uid://bu8g8lcrmtl0e" path="res://Scripts/Characters/CharacterData.cs" id="1_mx4uj"]
+[ext_resource type="AudioStream" uid="uid://b4m7vgwigswxj" path="res://Assets/Sound/oof.wav" id="1_yklq2"]
 
 [resource]
 script = ExtResource("1_mx4uj")
 Name = "Player"
+HitSound = ExtResource("1_yklq2")
 MaxHealth = 70.0
-BaseGenuine = 10
-BaseCharming = 10
-BaseFocused = 10
-BaseWitty = 10
-BaseOptimistic = 10
-BaseDominant = 10
-BaseFearless = 10
 BaseBenevolent = 10
-BaseIntelligent = 10
+BaseDominant = 10
+BaseCharming = 10
+BaseCurious = 10
+BaseFearless = 10
+BaseFocused = 10
+BaseGenuine = 10
+BaseOptimistic = 10
 BasePhysicalDamageMultiplier = 1.0
 BaseDarkDamageMultiplier = 1.0
 BaseLightDamageMultiplier = 1.0

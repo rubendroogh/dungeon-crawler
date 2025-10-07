@@ -1,4 +1,4 @@
-[gd_scene load_steps=48 format=3 uid="uid://ck8p1eru6l2f4"]
+[gd_scene load_steps=49 format=3 uid="uid://ck8p1eru6l2f4"]
 
 [ext_resource type="Script" uid="uid://di2h8gf1377s5" path="res://Scripts/UI/CameraShake.cs" id="1_hojmo"]
 [ext_resource type="Resource" uid="uid://b1jhmr0xq4603" path="res://Resources/Spells/FireBall.tres" id="2_hvf01"]
@@ -24,6 +24,7 @@
 [ext_resource type="Script" uid="uid://cr3tq3ldbn5dl" path="res://Scripts/Managers/CharacterCreationManager.cs" id="17_fvp6m"]
 [ext_resource type="Script" uid="uid://do64s87kejasc" path="res://Scripts/Managers/SoundEffectManager.cs" id="17_udxv6"]
 [ext_resource type="AudioStream" uid="uid://28xaykhomefb" path="res://Assets/Sound/click.wav" id="18_21fen"]
+[ext_resource type="AudioStream" uid="uid://dwu2yk120ey8n" path="res://Assets/Sound/Mountain Emperor.mp3" id="19_8287p"]
 [ext_resource type="Texture2D" uid="uid://exboe6jk0wnb" path="res://Assets/RawImages/FullTileMap.png" id="19_tayw2"]
 [ext_resource type="Script" uid="uid://27ykix11cmr7" path="res://Scripts/UI/CharacterCreation/PersonalityPointsSpinBox.cs" id="20_sth1w"]
 [ext_resource type="Resource" uid="uid://dv0wsrhnml26l" path="res://Resources/PersonalityTraits/Genuine.tres" id="22_b51k0"]
@@ -117,6 +118,14 @@ ButtonClickSound = ExtResource("18_21fen")
 volume_db = -27.17
 pitch_scale = 0.62
 
+[node name="MusicManager" type="Node" parent="World/ManagerRepository"]
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="World/ManagerRepository/MusicManager"]
+stream = ExtResource("19_8287p")
+volume_db = -19.676
+autoplay = true
+parameters/looping = true
+
 [node name="UI" type="Control" parent="."]
 layout_mode = 3
 anchors_preset = 15
@@ -126,7 +135,6 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="HUD" type="Control" parent="UI"]
-visible = false
 anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
@@ -409,6 +417,7 @@ script = ExtResource("34_jk3s6")
 resources = [PackedStringArray("BrainFreeze", "Discombobulate", "Echo", "FireBall"), [ExtResource("7_71tao"), ExtResource("8_lxbb3"), ExtResource("39_jtd1x"), ExtResource("2_hvf01")]]
 
 [node name="CharacterCreation" type="Control" parent="UI"]
+visible = false
 anchors_preset = 0
 offset_left = -576.0
 offset_top = -320.0
