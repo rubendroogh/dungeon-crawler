@@ -2,7 +2,7 @@ using System.Collections.Generic;
 
 public partial class BrainFreezeBehaviour : DefaultSpellBehaviour
 {
-    public override ResolveResult Resolve(List<Card> cards, ActionData spellData, Character target)
+    public override ResolveResult Resolve(List<Blessing> cards, ActionData spellData, Character target)
     {
         // Check if the target is frozen
         if (target.HasEffect(StatusEffectType.Frozen))

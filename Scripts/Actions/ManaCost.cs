@@ -3,12 +3,12 @@ using System.Collections.Generic;
 /// <summary>
 /// Represents the mana cost of an action or spell.
 /// </summary>
-public class ManaCost(Suit type, int amount)
+public class ManaCost(Domain type, int amount)
 {
     /// <summary>
     /// The type of mana required.
     /// </summary>
-    public Suit Type { get; set; } = type;
+    public Domain Type { get; set; } = type;
 
     /// <summary>
     /// The amount of mana required.
@@ -45,7 +45,7 @@ public class SpellCost
     /// <summary>
     /// Adds a new mana cost to the spell.
     /// </summary>
-    public void AddCost(Suit type, int amount)
+    public void AddCost(Domain type, int amount)
     {
         Costs.Add(new ManaCost(type, amount));
     }
@@ -53,7 +53,7 @@ public class SpellCost
     /// <summary>
     /// Removes a mana cost of a specific type from the spell.
     /// </summary>
-    public void RemoveCost(Suit type)
+    public void RemoveCost(Domain type)
     {
         Costs.RemoveAll(c => c.Type == type);
     }
@@ -73,5 +73,27 @@ public class SpellCost
     public bool HasCosts()
     {
         return Costs.Count > 0;
+    }
+
+    /// <summary>
+    /// Parses a string expression to define the mana costs.
+    /// </summary>
+    public void ParseExpression(string expression)
+    {
+        // Example expression: "[C:2][H:1]"
+        Costs.Clear();
+
+        var parts = expression.Split(new char[] { '[', ']' }, System.StringSplitOptions.RemoveEmptyEntries);
+        foreach (var part in parts)
+        {
+            var subParts = part.Split(':');
+            if (subParts.Length == 2 && int.TryParse(subParts[1], out int amount) && amount > 0)
+            {
+                if (System.Enum.TryParse<Domain>(subParts[0], out var domain))
+                {
+                    AddCost(domain, amount);
+                }
+            }
+        }
     }
 }

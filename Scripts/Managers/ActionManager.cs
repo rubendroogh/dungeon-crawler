@@ -24,7 +24,7 @@ public partial class ActionManager : Node
     /// <summary>
     /// The currently selected cards.
     /// </summary>
-    public List<Card> SelectedCards { get; } = [];
+    public List<Blessing> SelectedCards { get; } = [];
 
     /// <summary>
     /// The currently selected spell.
@@ -58,7 +58,7 @@ public partial class ActionManager : Node
     /// </summary>
     /// <param name="card">The card to add.</param>
     /// <returns>True if the card was added, false if the maximum number of cards is reached.</returns>
-    public bool AddCardToSelection(Card card)
+    public bool AddCardToSelection(Blessing card)
     {
         if (SelectedCards.Count >= MaxSelectedCards)
         {
@@ -75,7 +75,7 @@ public partial class ActionManager : Node
     /// </summary>
     /// <param name="card">The card to remove.</param>
     /// <returns>True if the card was removed, false if the card was not in the selection.</returns>
-    public bool RemoveCardFromSelection(Card card)
+    public bool RemoveCardFromSelection(Blessing card)
     {
         if (!SelectedCards.Contains(card))
         {

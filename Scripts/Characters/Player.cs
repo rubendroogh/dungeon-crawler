@@ -28,7 +28,7 @@ public partial class Player : Character
 	/// Queue an action for the character to perform in the next damage phase.
 	/// </summary>
 	/// <param name="action">The action to queue.</param>
-	public void QueueAction(Spell spell, Character target, List<Card> cards = null)
+	public void QueueAction(Spell spell, Character target, List<Blessing> cards = null)
 	{
 		if (spell == null || cards == null || target == null)
 		{
@@ -37,7 +37,7 @@ public partial class Player : Character
 		}
 
 		// Copy the card list to avoid screwing with the original list.
-		var cardList = new List<Card>(cards);
+		var cardList = new List<Blessing>(cards);
 		if (cardList.Count == 0)
 		{
 			// TODO: Add animation for hinting at card selection.

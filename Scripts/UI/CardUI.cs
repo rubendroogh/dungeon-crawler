@@ -8,7 +8,7 @@ public partial class CardUI : TextureRect
     [Export]
     public bool IsUsed { get; set; } = false;
 
-    public Card Card { get; init; }
+    public Blessing Card { get; init; }
 
     private float HoverRotation = Mathf.DegToRad(35);
 

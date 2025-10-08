@@ -3,16 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 
 /// <summary>
-/// Represents a deck of playing cards.
-/// Initially, it contains only the Two of each suit.
-/// The deck can be expanded to include a full set of 52 cards if needed.
-/// The deck is used to create a UI representation of the cards.
+/// Represents a deck of blessings. These blessings are used to cast spells in the game.
+/// Initially, it contains only the Two of each domain.
 /// 
 /// TODO: Make this into a proper manager like the rest.
 /// </summary>
 public partial class DeckManager : Node
 {
-	private List<Card> Cards { get; set; } = [];
+	private List<Blessing> Cards { get; set; } = [];
 
 	private static Vector2I TileSize = new Vector2I(16, 16);
 
@@ -27,7 +25,7 @@ public partial class DeckManager : Node
 	/// Gets the icon texture for a specific card based on its rank and suit.
 	/// </summary>
 	/// <returns>A texture representing the card's icon.</returns>
-	public static Texture2D GetCardIcon(Card card)
+	public static Texture2D GetCardIcon(Blessing card)
 	{
 		if (card == null)
 		{
@@ -42,7 +40,7 @@ public partial class DeckManager : Node
 		iconTexture.Atlas = atlas;
 
 		// Calculate tile position
-		int suitIndex = (int)card.Suit; // row
+		int suitIndex = (int)card.Domain; // row
 		int rankIndex = (int)card.Rank - 1; // column (Ace = 1, so subtract 1)
 
 		Rect2 region = new Rect2(rankIndex * TileSize.X, suitIndex * TileSize.Y, TileSize.X, TileSize.Y);
@@ -51,7 +49,7 @@ public partial class DeckManager : Node
 		return iconTexture;
 	}
 
-	public void AddCardToDeck(Card card)
+	public void AddCardToDeck(Blessing card)
 	{
 		if (card == null)
 		{
@@ -72,43 +70,43 @@ public partial class DeckManager : Node
 	/// </summary>
 	private void InitializeFullCardDeck()
 	{
-		// Add all Hearts
+		// Add all Zer
 		for (int i = 1; i < 14; i++)
 		{
-			Cards.Add(new Card
+			Cards.Add(new Blessing
 			{
 				Rank = (Rank)i,
-				Suit = Suit.Hearts
+				Domain = Domain.Zer
 			});
 		}
 
-		// Add all Spades
+		// Add all Hamin
 		for (int i = 1; i < 14; i++)
 		{
-			Cards.Add(new Card
+			Cards.Add(new Blessing
 			{
 				Rank = (Rank)i,
-				Suit = Suit.Spades
+				Domain = Domain.Hamin
 			});
 		}
 
-		// Add all Diamonds
+		// Add all Calina
 		for (int i = 1; i < 14; i++)
 		{
-			Cards.Add(new Card
+			Cards.Add(new Blessing
 			{
 				Rank = (Rank)i,
-				Suit = Suit.Diamonds
+				Domain = Domain.Calina
 			});
 		}
 
-		// Add all Clubs
+		// Add all Jaddis
 		for (int i = 1; i < 14; i++)
 		{
-			Cards.Add(new Card
+			Cards.Add(new Blessing
 			{
 				Rank = (Rank)i,
-				Suit = Suit.Clubs
+				Domain = Domain.Jaddis
 			});
 		}
 	}
@@ -118,12 +116,12 @@ public partial class DeckManager : Node
 	/// </summary>
 	private void InitializeCustomCardDeck()
 	{
-		var customDeck = new List<Card>
+		var customDeck = new List<Blessing>
 		{
-			new Card { Rank = Rank.Two, Suit = Suit.Hearts },
-			new Card { Rank = Rank.Two, Suit = Suit.Spades },
-			new Card { Rank = Rank.Two, Suit = Suit.Diamonds },
-			new Card { Rank = Rank.Two, Suit = Suit.Clubs },
+			new Blessing { Rank = Rank.Two, Domain = Domain.Calina },
+			new Blessing { Rank = Rank.Two, Domain = Domain.Hamin },
+			new Blessing { Rank = Rank.Two, Domain = Domain.Jaddis },
+			new Blessing { Rank = Rank.Two, Domain = Domain.Zer },
 		};
 		Cards = customDeck;
 	}
@@ -136,28 +134,28 @@ public partial class DeckManager : Node
 		string containersPath = "Margin/CardListHorizontalContainer/CardList/";
 
 		var containerHearts = GetNode<VBoxContainer>(containersPath + "CardListHearts");
-		foreach (Card card in Cards.Where(c => c.Suit == Suit.Hearts))
+		foreach (Blessing card in Cards.Where(c => c.Domain == Domain.Calina))
 		{
 			TextureRect cardUI = CreateCardUI(card);
 			containerHearts.AddChild(cardUI);
 		}
 
 		var containerDiamonds = GetNode<VBoxContainer>(containersPath + "CardListDiamonds");
-		foreach (Card card in Cards.Where(c => c.Suit == Suit.Diamonds))
+		foreach (Blessing card in Cards.Where(c => c.Domain == Domain.Hamin))
 		{
 			TextureRect cardUI = CreateCardUI(card);
 			containerDiamonds.AddChild(cardUI);
 		}
 
 		var containerSpades = GetNode<VBoxContainer>(containersPath + "CardListSpades");
-		foreach (Card card in Cards.Where(c => c.Suit == Suit.Spades))
+		foreach (Blessing card in Cards.Where(c => c.Domain == Domain.Jaddis))
 		{
 			TextureRect cardUI = CreateCardUI(card);
 			containerSpades.AddChild(cardUI);
 		}
 
 		var containerClubs = GetNode<VBoxContainer>(containersPath + "CardListClubs");
-		foreach (Card card in Cards.Where(c => c.Suit == Suit.Clubs))
+		foreach (Blessing card in Cards.Where(c => c.Domain == Domain.Zer))
 		{
 			TextureRect cardUI = CreateCardUI(card);
 			containerClubs.AddChild(cardUI);
@@ -199,7 +197,7 @@ public partial class DeckManager : Node
 	/// <summary>
 	/// Creates a TextureRect UI element for a card using an atlas texture.
 	/// </summary>
-	private TextureRect CreateCardUI(Card card)
+	private TextureRect CreateCardUI(Blessing card)
 	{
 		var texture = GetCardIcon(card);
 		TextureRect cardUI = new CardUI
@@ -216,13 +214,14 @@ public partial class DeckManager : Node
 }
 
 /// <summary>
-/// Represents a playing card with a rank and suit, used to add mana charges to the selected spell.
+/// Represents a blessing card with a rank and domain (which is its type).
+/// This is used to cast spells in the game.
 /// </summary>
-public class Card
+public class Blessing
 {
 	public Rank Rank { get; set; }
 
-	public Suit Suit { get; set; }
+	public Domain Domain { get; set; }
 
     public Texture2D GetIcon()
 	{
@@ -237,12 +236,27 @@ public class Card
 public enum Rank { Two = 1, Three, Four, Five, Six, Seven, Eight, Nine, Ten, Jack, Queen, King, Ace }
 
 /// <summary>
-/// Represents the suit of a card in a standard deck.
+/// Represents the type of a blessing in a standard deck.
 /// </summary>
-public enum Suit
+public enum Domain
 {
-	Hearts,
-	Diamonds,
-	Clubs,
-	Spades,
+	/// <summary>
+	/// Focused on power and resilience.
+	/// </summary>
+	Calina,
+	
+	/// <summary>
+	/// Focused on wisdom and calm.
+	/// </summary>
+	Hamin,
+
+	/// <summary>
+	/// Focused on the element of surprise and deception.
+	/// </summary>
+	Jaddis,
+
+	/// <summary>
+	/// Focused on pest and decay.
+	/// </summary>
+	Zer,
 }

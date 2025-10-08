@@ -26,8 +26,9 @@ public partial class ActionData : Resource
     public Texture2D Image { get; set; }
 
     /// <summary>
-    /// An expression defining the mana cost of the spell.
-    /// This is a string that can be parsed to determine the mana cost dynamically.
+    /// A string that can be parsed to determine the mana cost dynamically.
+    /// Example expression: "[C:2][H:1]"
+    /// C = Calina, H = Hamin, J = Jaddis, Z = Zer
     /// </summary>
     [Export]
     private string SpellCostExpression { get; set; }
@@ -126,6 +127,11 @@ public partial class ActionData : Resource
     /// </summary>
     [Export]
     public int Rarity = 1;
+
+    public ActionData()
+    {
+        Cost.ParseExpression(SpellCostExpression);
+    }
 
     /// <summary>
     /// The mana cost to cast the spell.

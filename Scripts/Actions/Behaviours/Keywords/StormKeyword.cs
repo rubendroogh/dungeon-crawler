@@ -40,10 +40,10 @@ public class StormKeyword : KeywordBase
         for (int i = 0; i < spellsCastThisTurn; i++)
         {
             // Queue the spell again with the same target and one card.
-            var syntheticCard = new Card
+            var syntheticCard = new Blessing
             {
                 Rank = Rank.Two,
-                Suit = Suit.Clubs
+                Domain = Domain.Clubs
             };
 
             spellQueue.Enqueue(new ActionQueueEntry(spell, context.Target, [syntheticCard]));

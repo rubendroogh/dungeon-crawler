@@ -9,11 +9,11 @@ public interface ISpellBehaviour : IActionBehaviour
     /// Casts the spell using the selected cards and the spell data. Does not apply the damage to the target.
     /// </summary>
     /// <returns>The result of the spellcast, a list of damages, healing, and status effects.</returns>
-    public ResolveResult Resolve(List<Card> cards, ActionData spellData, Character target);
+    public ResolveResult Resolve(List<Blessing> cards, ActionData spellData, Character target);
 
     /// <summary>
     /// Checks if the spell can be cast by the given character with the provided cards and abilities.
     /// </summary>
     /// <returns>Whether the spell can be cast.</returns>
-    public bool CanCast(Character caster, Spell spell, List<Card> cards);
+    public bool CanCast(Character caster, Spell spell, List<Blessing> cards);
 }

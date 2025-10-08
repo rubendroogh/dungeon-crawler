@@ -27,9 +27,9 @@ public partial class RewardUI : Container
 	/// <summary>
 	/// Sets up the reward UI for a card.
 	/// </summary>
-	public void Setup(Card card)
+	public void Setup(Blessing card)
 	{
-		NameLabel.Text = $"{card.Rank} of {card.Suit}";
+		NameLabel.Text = $"{card.Rank} of {card.Domain}";
 		DescriptionLabel.Text = "An additional card for your deck.";
 		Icon.Texture = card.GetIcon();
 
@@ -61,11 +61,11 @@ public class Reward
 {
 	public RewardType Type { get; set; }
 
-	internal Card CardReward { get; init; }
+	internal Blessing CardReward { get; init; }
 
 	internal ActionData SpellReward { get; init; }
 
-	public Card GetCardReward()
+	public Blessing GetCardReward()
 	{
 		return CardReward;
 	}

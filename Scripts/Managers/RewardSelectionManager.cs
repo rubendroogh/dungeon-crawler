@@ -43,7 +43,7 @@ public partial class RewardSelectionManager : Node
     /// <summary>
     /// The list of currently selected card rewards. Used to prevent duplicate selections.
     /// </summary>
-    private List<Card> SelectedCardRewards = new List<Card>();
+    private List<Blessing> SelectedCardRewards = new List<Blessing>();
 
     /// <summary>
     /// The list of currently selected spell rewards. Used to prevent duplicate selections.
@@ -175,7 +175,7 @@ public partial class RewardSelectionManager : Node
     /// <summary>
     /// Generates a card reward.
     /// </summary>
-    private Card GetCardReward()
+    private Blessing GetCardReward()
     {
         var possibleRewards = GetPossibleCardRewards();
         if (possibleRewards.Count > 0)
@@ -221,14 +221,14 @@ public partial class RewardSelectionManager : Node
     /// <summary>
     /// Get every possible card reward. This is a list of all unique card rewards that can be obtained.
     /// </summary>
-    private List<Card> GetPossibleCardRewards()
+    private List<Blessing> GetPossibleCardRewards()
     {
-        var possibleRewards = new List<Card>();
+        var possibleRewards = new List<Blessing>();
         for (int rank = 1; rank <= 13; rank++)
         {
             for (int suit = 0; suit < 4; suit++)
             {
-                var card = new Card { Rank = (Rank)rank, Suit = (Suit)suit };
+                var card = new Blessing { Rank = (Rank)rank, Domain = (Domain)suit };
                 if (!SelectedCardRewards.Contains(card))
                 {
                     possibleRewards.Add(card);

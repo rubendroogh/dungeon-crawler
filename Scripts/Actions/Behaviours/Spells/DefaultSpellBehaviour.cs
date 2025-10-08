@@ -9,7 +9,7 @@ using Godot;
 /// </summary>
 public partial class DefaultSpellBehaviour : ISpellBehaviour
 {
-    public virtual ResolveResult Resolve(List<Card> cards, ActionData spellData, Character target)
+    public virtual ResolveResult Resolve(List<Blessing> cards, ActionData spellData, Character target)
     {
         if (cards == null || cards.Count == 0)
         {
@@ -67,7 +67,7 @@ public partial class DefaultSpellBehaviour : ISpellBehaviour
 
     public ResolveResult Resolve(ActionData actionData, Character target)
     {
-        return Resolve(new List<Card>(), actionData, target);
+        return Resolve(new List<Blessing>(), actionData, target);
     }
 
     public async Task AnimateAction(ActionData spellData, Character target, Character caster = null)
@@ -89,7 +89,7 @@ public partial class DefaultSpellBehaviour : ISpellBehaviour
         }
     }
 
-    public bool CanCast(Character caster, Spell spell, List<Card> cards)
+    public bool CanCast(Character caster, Spell spell, List<Blessing> cards)
     {
         if (caster == null || spell == null || cards == null)
         {
@@ -98,16 +98,16 @@ public partial class DefaultSpellBehaviour : ISpellBehaviour
         }
 
         // Add up the mana from the selected cards
-        var manaCounts = new Dictionary<Suit, int>();
+        var manaCounts = new Dictionary<Domain, int>();
         foreach (var card in cards)
         {
-            if (manaCounts.ContainsKey(card.Suit))
+            if (manaCounts.ContainsKey(card.Domain))
             {
-                manaCounts[card.Suit]++;
+                manaCounts[card.Domain]++;
             }
             else
             {
-                manaCounts[card.Suit] = 1;
+                manaCounts[card.Domain] = 1;
             }
         }
 
