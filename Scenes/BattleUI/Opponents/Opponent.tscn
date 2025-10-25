@@ -1,5 +1,6 @@
-[gd_scene load_steps=10 format=3 uid="uid://dchnspiwg3mmg"]
+[gd_scene load_steps=11 format=3 uid="uid://dchnspiwg3mmg"]
 
+[ext_resource type="Script" uid="uid://dfeopkvw7y6i3" path="res://Scripts/UI/Components/ComponentExposer.cs" id="1_dxxnc"]
 [ext_resource type="Script" uid="uid://bag16jmrm8a4c" path="res://Scripts/Characters/Enemy.cs" id="1_xeo28"]
 [ext_resource type="Texture2D" uid="uid://s2ihy4m3p226" path="res://Assets/RawImages/CreaturesTileMap.png" id="2_xeo28"]
 [ext_resource type="Texture2D" uid="uid://csjt8ylrgdkbj" path="res://Resources/Atlasses/TileAtlas.tres" id="3_xeo28"]
@@ -24,14 +25,19 @@ gradient = SubResource("Gradient_kpr8r")
 atlas = ExtResource("4_kpr8r")
 region = Rect2(612, 187, 16, 16)
 
-[node name="Enemy" type="Node2D"]
+[node name="Opponent" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+script = ExtResource("1_dxxnc")
+
+[node name="CharacterData" type="Node2D" parent="."]
 script = ExtResource("1_xeo28")
 
-[node name="CharacterSprite" type="Sprite2D" parent="."]
+[node name="CharacterSprite" type="Sprite2D" parent="CharacterData"]
 scale = Vector2(4, 4)
 texture = SubResource("AtlasTexture_mo1ky")
 
-[node name="HealthBar" type="TextureProgressBar" parent="."]
+[node name="HealthBar" type="TextureProgressBar" parent="CharacterData"]
 offset_left = -106.0
 offset_top = 72.0
 offset_right = 106.0
@@ -45,13 +51,13 @@ stretch_margin_bottom = 3
 texture_under = SubResource("AtlasTexture_kpr8r")
 texture_progress = SubResource("GradientTexture2D_kpr8r")
 
-[node name="StatusEffectsLabel" type="Label" parent="."]
+[node name="StatusEffectsLabel" type="Label" parent="CharacterData"]
 offset_left = -71.0
 offset_top = 100.0
 offset_right = 70.0
 offset_bottom = 126.0
 horizontal_alignment = 1
 
-[node name="DamageSprite" type="Sprite2D" parent="."]
+[node name="DamageSprite" type="Sprite2D" parent="CharacterData"]
 scale = Vector2(6.4375, 6.4375)
 texture = SubResource("AtlasTexture_1exfc")

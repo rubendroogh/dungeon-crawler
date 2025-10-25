@@ -12,10 +12,16 @@ public partial class ComponentExposer : Node
     private Dictionary<string, Node> Components = [];
 
     /// <summary>
-    /// Exposes a child node of the scene by its name.
+    /// Exposes a node of the scene by its name.
     /// </summary>
     public T GetComponent<T>(string componentName) where T : Node
     {
+        // Check if the component is this component, thus the root node
+        if (componentName == Name && this is T selfComponent)
+        {
+            return selfComponent;
+        }
+
         // Check if the component is already cached
         if (Components.TryGetValue(componentName, out Node value))
         {

@@ -62,10 +62,9 @@ public partial class Managers : Node
     public static SoundEffectManager SoundEffectManager { get; set; }
 
     /// <summary>
-    /// The ComponentExposer that exposes the reward selection components.
+    /// OpponentManager is responsible for displaying and managing opponents in the game.
     /// </summary>
-    [Export]
-    private ComponentExposer RewardSelectionExposer;
+    public static OpponentManager OpponentManager { get; set; }
 
     public override void _Ready()
     {
@@ -78,7 +77,9 @@ public partial class Managers : Node
         DebugScreenManager = GetNode<DebugScreenManager>("DebugScreenManager");
         SoundEffectManager = GetNode<SoundEffectManager>("SoundEffectManager");
         ManaSourceManager = GetNode<ManaSourceManager>("ManaSourceManager");
+        OpponentManager = GetNode<OpponentManager>("OpponentManager");
 
+        // TODO: Find a better way to get this manager
         RewardSelectionManager = GetTree().Root.GetNode<RewardSelectionManager>("Root/UI/RewardSelection/RewardSelectionManager");
     }
 }

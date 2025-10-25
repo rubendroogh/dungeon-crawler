@@ -45,11 +45,6 @@ public partial class BattleManager : Node
     private int CurrentTurn { get; set; } = 0;
 
     /// <summary>
-    /// The resource preloader for enemies.
-    /// </summary>
-    private ResourcePreloader EnemiesPreloader;
-
-    /// <summary>
     /// The ComponentExposer that exposes the turn indication components.
     /// </summary>
     [Export]
@@ -64,16 +59,6 @@ public partial class BattleManager : Node
     /// Indicates whether the battle has been initialized.
     /// </summary>
     private bool IsBattleInitialized { get; set; } = false;
-
-    public override void _Ready()
-    {
-        EnemiesPreloader = GetNode<ResourcePreloader>("EnemiesPreloader");
-        if (EnemiesPreloader == null)
-        {
-            GD.PrintErr("EnemiesPreloader not found in the scene.");
-            return;
-        }
-    }
 
     /// <summary>
     /// Starts a new turn phase and processes it for the current character.
@@ -122,7 +107,7 @@ public partial class BattleManager : Node
         {
             { Managers.PlayerManager.GetPlayer(), true }
         };
-        SpawnRandomEnemy();
+        Managers.OpponentManager.SpawnRandomOpponent();
         IsBattleInitialized = true;
 
         // Kick off the battle loop
@@ -309,51 +294,6 @@ public partial class BattleManager : Node
         }
 
         Characters[nextCharacter] = true;
-    }
-
-    /// <summary>
-    /// Spawns a random enemy from the preloaded resources.
-    /// </summary>
-    private void SpawnRandomEnemy()
-    {
-        var resourceList = EnemiesPreloader.GetResourceList();
-        var enemyResource = resourceList[GD.Randi() % resourceList.Length];
-
-        CharacterData enemyData = EnemiesPreloader.GetResource(enemyResource) as CharacterData;
-        if (enemyData == null)
-        {
-            GD.PrintErr("Failed to load enemy data.");
-            return;
-        }
-
-        SpawnEnemy(enemyData);
-    }
-
-    /// <summary>
-    /// Spawns an enemy in the battle.
-    /// </summary>
-    /// <param name="enemyData">The character data.</param>
-    private void SpawnEnemy(CharacterData enemyData)
-    {
-        var enemy = EnemyScene.Instantiate<Character>();
-        if (enemy == null)
-        {
-            GD.PrintErr("Failed to instantiate enemy scene.");
-            return;
-        }
-
-        _ = enemy.Setup(enemyData);
-        enemy.Name = enemyData.Name;
-
-        // Add enemy at root of the world node
-        GetTree().Root.GetNode("Root/World").AddChild(enemy);
-        Characters.Add(enemy, false);
-
-        // Set the enemy as the selected target for spell casting
-        // TODO We want to add target selection logic later
-        Managers.ActionManager.SelectedTarget = enemy;
-
-        Managers.BattleLogManager.Log($"{enemyData.Name} encountered!");
     }
 
     /// <summary>

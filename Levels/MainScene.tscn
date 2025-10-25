@@ -1,4 +1,4 @@
-[gd_scene load_steps=34 format=3 uid="uid://ck8p1eru6l2f4"]
+[gd_scene load_steps=36 format=3 uid="uid://ck8p1eru6l2f4"]
 
 [ext_resource type="Script" uid="uid://di2h8gf1377s5" path="res://Scripts/UI/CameraShake.cs" id="1_hojmo"]
 [ext_resource type="Script" uid="uid://bb2xw40m0q3sm" path="res://Scripts/Managers/ManaSourceManager.cs" id="3_hvf01"]
@@ -11,7 +11,7 @@
 [ext_resource type="Resource" uid="uid://b2obfc8fqqmsx" path="res://Resources/Spells/Discombobulate.tres" id="8_lxbb3"]
 [ext_resource type="Script" uid="uid://ccfu4bppobwlv" path="res://Scripts/Managers/BattleManager.cs" id="8_rc4gq"]
 [ext_resource type="Script" uid="uid://87g108e3say3" path="res://Scripts/Managers/BattleLogManager.cs" id="9_4h6gp"]
-[ext_resource type="PackedScene" uid="uid://dchnspiwg3mmg" path="res://Scenes/Enemy.tscn" id="12_aw745"]
+[ext_resource type="PackedScene" uid="uid://dchnspiwg3mmg" path="res://Scenes/BattleUI/Opponents/Opponent.tscn" id="12_aw745"]
 [ext_resource type="Script" uid="uid://dpayadwmj0w0j" path="res://Scripts/Managers/PlayerManager.cs" id="14_wnt1r"]
 [ext_resource type="Resource" uid="uid://cdn0d7ugm3gse" path="res://Resources/Characters/Player.tres" id="15_aw745"]
 [ext_resource type="Script" uid="uid://qvd64pgadui" path="res://Scripts/Managers/TransitionManager.cs" id="15_g2qkk"]
@@ -23,7 +23,9 @@
 [ext_resource type="AudioStream" uid="uid://dwu2yk120ey8n" path="res://Assets/Sound/Mountain Emperor.mp3" id="19_8287p"]
 [ext_resource type="PackedScene" uid="uid://c52h746nogb6c" path="res://Scenes/BattleUI/SpellBook/SpellBook.tscn" id="20_2dbf0"]
 [ext_resource type="PackedScene" uid="uid://c0ol2s1uon0x3" path="res://Scenes/BattleUI/SpellBook/SpellQueue.tscn" id="21_2dbf0"]
+[ext_resource type="Script" uid="uid://p81ss845glea" path="res://Scripts/Managers/OpponentManager.cs" id="21_g2qkk"]
 [ext_resource type="PackedScene" uid="uid://da86qewhcsw42" path="res://Scenes/BattleUI/BattleLog/BattleLog.tscn" id="22_8287p"]
+[ext_resource type="PackedScene" uid="uid://brrg2g58puw3q" path="res://Scenes/BattleUI/Opponents/OpponentScreen.tscn" id="22_ogsbt"]
 [ext_resource type="PackedScene" uid="uid://csxpifkpyb2j3" path="res://Scenes/BattleUI/ManaSource/ManaSource.tscn" id="23_8287p"]
 [ext_resource type="PackedScene" uid="uid://bobl0cvnecl4s" path="res://Scenes/BattleUI/TurnIndication/TurnIndicationPanel.tscn" id="25_b51k0"]
 [ext_resource type="PackedScene" uid="uid://din1s2uojtxq0" path="res://Scenes/RewardSelectionUI/RewardSelectionPanel.tscn" id="27_aj24y"]
@@ -73,9 +75,6 @@ script = ExtResource("8_rc4gq")
 EnemyScene = ExtResource("12_aw745")
 TurnIndicationExposer = NodePath("../../../UI/HUD/Bottom/TurnIndicationPanel")
 
-[node name="EnemiesPreloader" type="ResourcePreloader" parent="World/ManagerRepository/BattleManager"]
-resources = [PackedStringArray("BasicEnemy"), [ExtResource("8_5eubm")]]
-
 [node name="PlayerManager" type="Node" parent="World/ManagerRepository"]
 script = ExtResource("14_wnt1r")
 
@@ -100,6 +99,15 @@ pitch_scale = 0.62
 
 [node name="ManaSourceManager" type="Node" parent="World/ManagerRepository"]
 script = ExtResource("3_hvf01")
+
+[node name="OpponentManager" type="Node" parent="World/ManagerRepository" node_paths=PackedStringArray("OpponentExposer", "OpponentsPreloader")]
+script = ExtResource("21_g2qkk")
+OpponentExposer = NodePath("../../../UI/HUD/BattleAndResources/Battle/Opponents")
+OpponentScene = ExtResource("12_aw745")
+OpponentsPreloader = NodePath("OpponentsPreloader")
+
+[node name="OpponentsPreloader" type="ResourcePreloader" parent="World/ManagerRepository/OpponentManager"]
+resources = [PackedStringArray("BasicEnemy"), [ExtResource("8_5eubm")]]
 
 [node name="MusicManager" type="Node" parent="World/ManagerRepository"]
 
@@ -138,9 +146,8 @@ size_flags_vertical = 3
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="Enemies" type="CenterContainer" parent="UI/HUD/BattleAndResources/Battle"]
+[node name="Opponents" parent="UI/HUD/BattleAndResources/Battle" instance=ExtResource("22_ogsbt")]
 layout_mode = 2
-size_flags_vertical = 3
 
 [node name="BattleLog" parent="UI/HUD/BattleAndResources/Battle" instance=ExtResource("22_8287p")]
 custom_minimum_size = Vector2(0, 250)
