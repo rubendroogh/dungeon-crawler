@@ -59,7 +59,7 @@ script = ExtResource("4_safex")
 script = ExtResource("5_26f67")
 SpellListItemScene = ExtResource("6_71tao")
 SpellPreloader = NodePath("StartingSpellPreloader")
-SpellBookExposer = NodePath("../../../UI/HUD/BattleAndResources/Resources/ResourcesInner/Spells/SpellBook")
+SpellBookExposer = NodePath("../../../UI/HUD/BattleAndResources/Resources/Spells/SpellSelection/SpellBook")
 
 [node name="StartingSpellPreloader" type="ResourcePreloader" parent="World/ManagerRepository/SpellListManager"]
 resources = [PackedStringArray("BrainFreeze", "Discombobulate"), [ExtResource("7_71tao"), ExtResource("8_lxbb3")]]
@@ -88,7 +88,7 @@ script = ExtResource("15_g2qkk")
 
 [node name="DebugScreenManager" type="Node" parent="World/ManagerRepository" node_paths=PackedStringArray("SpellQueueExposer")]
 script = ExtResource("16_ogsbt")
-SpellQueueExposer = NodePath("../../../UI/HUD/BattleAndResources/Resources/ResourcesInner/Spells/SpellQueue")
+SpellQueueExposer = NodePath("../../../UI/HUD/BattleAndResources/Resources/Spells/SpellSelection/SpellQueue")
 
 [node name="SoundEffectManager" type="Node" parent="World/ManagerRepository"]
 script = ExtResource("17_udxv6")
@@ -147,26 +147,54 @@ custom_minimum_size = Vector2(0, 250)
 layout_mode = 2
 
 [node name="Resources" type="TabContainer" parent="UI/HUD/BattleAndResources"]
+custom_minimum_size = Vector2(425, 0)
 layout_mode = 2
 current_tab = 0
 
-[node name="ResourcesInner" type="VBoxContainer" parent="UI/HUD/BattleAndResources/Resources"]
+[node name="Spells" type="VBoxContainer" parent="UI/HUD/BattleAndResources/Resources"]
 layout_mode = 2
+theme_override_constants/separation = 20
 metadata/_tab_index = 0
 
-[node name="Spells" type="VBoxContainer" parent="UI/HUD/BattleAndResources/Resources/ResourcesInner"]
-custom_minimum_size = Vector2(450, 0)
+[node name="SpellSelection" type="VBoxContainer" parent="UI/HUD/BattleAndResources/Resources/Spells"]
 layout_mode = 2
 theme_override_constants/separation = 10
 
-[node name="SpellBook" parent="UI/HUD/BattleAndResources/Resources/ResourcesInner/Spells" instance=ExtResource("20_2dbf0")]
+[node name="SpellBook" parent="UI/HUD/BattleAndResources/Resources/Spells/SpellSelection" instance=ExtResource("20_2dbf0")]
 layout_mode = 2
 
-[node name="SpellQueue" parent="UI/HUD/BattleAndResources/Resources/ResourcesInner/Spells" instance=ExtResource("21_2dbf0")]
+[node name="SpellQueue" parent="UI/HUD/BattleAndResources/Resources/Spells/SpellSelection" instance=ExtResource("21_2dbf0")]
 layout_mode = 2
 
-[node name="ManaSource" parent="UI/HUD/BattleAndResources/Resources/ResourcesInner" instance=ExtResource("23_8287p")]
+[node name="ManaSource" parent="UI/HUD/BattleAndResources/Resources/Spells" instance=ExtResource("23_8287p")]
 layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Inventory" type="VBoxContainer" parent="UI/HUD/BattleAndResources/Resources"]
+visible = false
+layout_mode = 2
+metadata/_tab_index = 1
+
+[node name="CenterContainer" type="CenterContainer" parent="UI/HUD/BattleAndResources/Resources/Inventory"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Label" type="Label" parent="UI/HUD/BattleAndResources/Resources/Inventory/CenterContainer"]
+layout_mode = 2
+text = "Feature not implemented yet!"
+
+[node name="Map" type="VBoxContainer" parent="UI/HUD/BattleAndResources/Resources"]
+visible = false
+layout_mode = 2
+metadata/_tab_index = 2
+
+[node name="CenterContainer" type="CenterContainer" parent="UI/HUD/BattleAndResources/Resources/Map"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Label" type="Label" parent="UI/HUD/BattleAndResources/Resources/Map/CenterContainer"]
+layout_mode = 2
+text = "Feature not implemented yet!"
 
 [node name="Bottom" type="HBoxContainer" parent="UI/HUD"]
 custom_minimum_size = Vector2(0, 50)

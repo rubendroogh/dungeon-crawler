@@ -21,6 +21,7 @@ script = ExtResource("1_ogtq6")
 [node name="Margin" type="MarginContainer" parent="."]
 layout_mode = 2
 theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
 theme_override_constants/margin_bottom = 10
 
 [node name="CardListHorizontalContainer" type="VBoxContainer" parent="Margin"]
@@ -30,7 +31,7 @@ theme_override_constants/separation = 10
 [node name="Label" type="Label" parent="Margin/CardListHorizontalContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 24
-text = "Your deck"
+text = "Your blessings"
 
 [node name="CardList" type="HBoxContainer" parent="Margin/CardListHorizontalContainer"]
 modulate = Color(1, 1, 1, 0.937255)
