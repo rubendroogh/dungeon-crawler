@@ -1,6 +1,9 @@
 using Godot;
 
-public partial class CardUI : TextureRect
+/// <summary>
+/// UI element representing a blessing card.
+/// </summary>
+public partial class BlessingUI : TextureRect
 {
     [Export]
     public bool IsSelected { get; set; } = false;
@@ -30,7 +33,7 @@ public partial class CardUI : TextureRect
 
         CallDeferred(nameof(InitializeCustomSignals));
     }
-    
+
     public override void _ExitTree()
     {
         Managers.ActionManager.CardsReset -= OnCardsReset;
@@ -69,7 +72,7 @@ public partial class CardUI : TextureRect
                     var isCardAdded = Managers.ActionManager.AddCardToSelection(Card);
                     if (isCardAdded)
                     {
-			            Managers.SoundEffectManager.PlayButtonClick();
+                        Managers.SoundEffectManager.PlayButtonClick();
                         IsSelected = true;
                         AnimateRotation(HoverRotation);
                         return;
@@ -140,7 +143,7 @@ public partial class CardUI : TextureRect
     {
         PivotOffset = Size / 2;
     }
-    
+
     private void OnMouseEntered()
     {
         if (!IsSelected)

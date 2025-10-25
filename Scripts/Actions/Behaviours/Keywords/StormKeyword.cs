@@ -43,7 +43,7 @@ public class StormKeyword : KeywordBase
             var syntheticCard = new Blessing
             {
                 Rank = Rank.Two,
-                Domain = Domain.Clubs
+                Domain = Domain.Zer
             };
 
             spellQueue.Enqueue(new ActionQueueEntry(spell, context.Target, [syntheticCard]));

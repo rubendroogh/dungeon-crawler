@@ -156,7 +156,7 @@ public partial class RewardSelectionManager : Node
         // Add the selected reward to the appropriate managerX
         if (SelectedReward.Type == RewardType.Card)
         {
-            Managers.DeckManager.AddCardToDeck(SelectedReward.CardReward);
+            Managers.DeckManager.AddBlessing(SelectedReward.CardReward);
         }
         else if (SelectedReward.Type == RewardType.Spell)
         {

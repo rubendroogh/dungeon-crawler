@@ -17,7 +17,7 @@ public partial class DeckManager : Node
 	public override void _Ready()
 	{
 		base._Ready();
-		InitializeCustomCardDeck();
+		InitializeCustomBlessingDeck();
 		InitializeCardDeckUI();
 	}
 
@@ -49,18 +49,21 @@ public partial class DeckManager : Node
 		return iconTexture;
 	}
 
-	public void AddCardToDeck(Blessing card)
+	/// <summary>
+	/// Adds a blessing to the deck and updates the UI.
+	/// </summary>
+	public void AddBlessing(Blessing blessing)
 	{
-		if (card == null)
+		if (blessing == null)
 		{
 			GD.PrintErr("Card is null");
 			return;
 		}
 
-		Cards.Add(card);
+		Cards.Add(blessing);
 
 		// TODO: This can be a bit cleaner
-		ResetCardUI();
+		ResetBlessingUI();
 		InitializeCardDeckUI();
 	}
 
@@ -112,9 +115,9 @@ public partial class DeckManager : Node
 	}
 
 	/// <summary>
-	/// Initializes a custom card deck with only the Two of each suit.
+	/// Initializes a custom blessing deck with only the Two of each domain.
 	/// </summary>
-	private void InitializeCustomCardDeck()
+	private void InitializeCustomBlessingDeck()
 	{
 		var customDeck = new List<Blessing>
 		{
@@ -136,36 +139,36 @@ public partial class DeckManager : Node
 		var containerHearts = GetNode<VBoxContainer>(containersPath + "CardListHearts");
 		foreach (Blessing card in Cards.Where(c => c.Domain == Domain.Calina))
 		{
-			TextureRect cardUI = CreateCardUI(card);
+			TextureRect cardUI = CreateBlessingUI(card);
 			containerHearts.AddChild(cardUI);
 		}
 
 		var containerDiamonds = GetNode<VBoxContainer>(containersPath + "CardListDiamonds");
 		foreach (Blessing card in Cards.Where(c => c.Domain == Domain.Hamin))
 		{
-			TextureRect cardUI = CreateCardUI(card);
+			TextureRect cardUI = CreateBlessingUI(card);
 			containerDiamonds.AddChild(cardUI);
 		}
 
 		var containerSpades = GetNode<VBoxContainer>(containersPath + "CardListSpades");
 		foreach (Blessing card in Cards.Where(c => c.Domain == Domain.Jaddis))
 		{
-			TextureRect cardUI = CreateCardUI(card);
+			TextureRect cardUI = CreateBlessingUI(card);
 			containerSpades.AddChild(cardUI);
 		}
 
 		var containerClubs = GetNode<VBoxContainer>(containersPath + "CardListClubs");
 		foreach (Blessing card in Cards.Where(c => c.Domain == Domain.Zer))
 		{
-			TextureRect cardUI = CreateCardUI(card);
+			TextureRect cardUI = CreateBlessingUI(card);
 			containerClubs.AddChild(cardUI);
 		}
 	}
 
 	/// <summary>
-	/// Resets the UI for the card list by clearing all displayed cards.
+	/// Resets the UI for the blessing list by clearing all displayed blessings.
 	/// </summary>
-	private void ResetCardUI()
+	private void ResetBlessingUI()
 	{
 		string containersPath = "Margin/CardListHorizontalContainer/CardList/";
 
@@ -195,21 +198,21 @@ public partial class DeckManager : Node
 	}
 
 	/// <summary>
-	/// Creates a TextureRect UI element for a card using an atlas texture.
+	/// Creates a TextureRect UI element for a blessing using an atlas texture.
 	/// </summary>
-	private TextureRect CreateCardUI(Blessing card)
+	private TextureRect CreateBlessingUI(Blessing blessing)
 	{
-		var texture = GetCardIcon(card);
-		TextureRect cardUI = new CardUI
+		var texture = GetCardIcon(blessing);
+		TextureRect blessingUI = new BlessingUI
 		{
-			Card = card,
+			Card = blessing,
 			Texture = texture,
 			CustomMinimumSize = TileSize * 2,
 			ExpandMode = TextureRect.ExpandModeEnum.KeepSize,
 			Scale = new Vector2(2, 2)
 		};
 
-		return cardUI;
+		return blessingUI;
 	}
 }
 
