@@ -83,7 +83,12 @@ public class SpellCost
         // Example expression: "[C:2][H:1]"
         Costs.Clear();
 
-        var parts = expression.Split(new char[] { '[', ']' }, System.StringSplitOptions.RemoveEmptyEntries);
+        if (string.IsNullOrEmpty(expression))
+        {
+            return;
+        }
+
+        var parts = expression.Split(['[', ']'], System.StringSplitOptions.RemoveEmptyEntries);
         foreach (var part in parts)
         {
             var subParts = part.Split(':');
