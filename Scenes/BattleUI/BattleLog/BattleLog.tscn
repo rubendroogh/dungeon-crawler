@@ -1,0 +1,29 @@
+[gd_scene load_steps=2 format=3 uid="uid://da86qewhcsw42"]
+
+[ext_resource type="Script" uid="uid://dfeopkvw7y6i3" path="res://Scripts/UI/Components/ComponentExposer.cs" id="1_umrha"]
+
+[node name="BattleLog" type="PanelContainer"]
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -286.0
+offset_top = 341.0
+offset_right = 252.0
+offset_bottom = 444.0
+grow_horizontal = 2
+grow_vertical = 0
+script = ExtResource("1_umrha")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 4
+
+[node name="BattleLog" type="RichTextLabel" parent="MarginContainer"]
+layout_mode = 2
+theme_override_font_sizes/normal_font_size = 18
+scroll_following = true

@@ -52,14 +52,20 @@ public partial class Managers : Node
     public static RewardSelectionManager RewardSelectionManager { get; set; }
 
     /// <summary>
-    /// DeckManager is responsible for managing the player's deck of cards in the game.
+    /// ManaSourceManager is responsible for managing the deck of blessings used to cast spells.
     /// </summary>
-    public static DeckManager DeckManager { get; set; }
+    public static ManaSourceManager ManaSourceManager { get; set; }
 
     /// <summary>
     /// SoundEffectManager is responsible for managing sound effects in the game.
     /// </summary>
     public static SoundEffectManager SoundEffectManager { get; set; }
+
+    /// <summary>
+    /// The ComponentExposer that exposes the reward selection components.
+    /// </summary>
+    [Export]
+    private ComponentExposer RewardSelectionExposer;
 
     public override void _Ready()
     {
@@ -71,8 +77,8 @@ public partial class Managers : Node
         TransitionManager = GetNode<TransitionManager>("TransitionManager");
         DebugScreenManager = GetNode<DebugScreenManager>("DebugScreenManager");
         SoundEffectManager = GetNode<SoundEffectManager>("SoundEffectManager");
+        ManaSourceManager = GetNode<ManaSourceManager>("ManaSourceManager");
 
         RewardSelectionManager = GetTree().Root.GetNode<RewardSelectionManager>("Root/UI/RewardSelection/RewardSelectionManager");
-        DeckManager = GetTree().Root.GetNode<DeckManager>("Root/UI/HUD/CardList");
     }
 }

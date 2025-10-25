@@ -6,21 +6,16 @@ using Godot;
 /// </summary>
 public partial class BattleLogManager : Node
 {
-    public override void _Ready()
-    {
-        base._Ready();
-        InitializeBattleLog();
-    }
-
-    private RichTextLabel BattleLog { get; set; }
+    /// <summary>
+    /// The ComponentExposer that exposes the battle log components.
+    /// </summary>
+    [Export]
+    private ComponentExposer BattleLogExposer;
 
     /// <summary>
-    /// Initializes the battle log by retrieving the RichTextLabel node from the scene tree.
+    /// The RichTextLabel that displays the battle log messages.
     /// </summary>
-    private void InitializeBattleLog()
-    {
-        BattleLog = GetTree().Root.GetNode<RichTextLabel>("Root/UI/HUD/BattleLog/MarginContainer/BattleLog");
-    }
+    private RichTextLabel BattleLog => BattleLogExposer.GetComponent<RichTextLabel>(Components.BattleLog);
 
     /// <summary>
     /// Logs a message to the battle log.

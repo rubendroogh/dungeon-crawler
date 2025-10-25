@@ -4,7 +4,7 @@
 [ext_resource type="Script" uid="uid://xhe4kyv0hanb" path="res://Scripts/UI/Spells/SpellUI.cs" id="1_vj5hk"]
 [ext_resource type="StyleBox" uid="uid://dlabjtbbiahju" path="res://Resources/StyleBoxes/Default/SpellSelected.tres" id="2_usfsc"]
 [ext_resource type="StyleBox" uid="uid://di1t0g1fgt6r5" path="res://Resources/StyleBoxes/Default/SpellDefault.tres" id="3_usfsc"]
-[ext_resource type="PackedScene" uid="uid://bv8nhr1hmgpwv" path="res://Scenes/StatusEffectIcon.tscn" id="4_027s2"]
+[ext_resource type="PackedScene" uid="uid://bv8nhr1hmgpwv" path="res://Scenes/BattleUI/SpellBook/StatusEffectIcon.tscn" id="4_027s2"]
 [ext_resource type="StyleBox" uid="uid://chxd4xyjuxd3j" path="res://Resources/StyleBoxes/Default/SpellInner.tres" id="4_a4m7i"]
 
 [node name="PanelContainer" type="PanelContainer" node_paths=PackedStringArray("SpellName", "SpellDescription", "SpellIcon", "StatusEffectsContainer")]

@@ -2,6 +2,7 @@ using Godot;
 
 /// <summary>
 /// Responsible for showing the correct data in the debug screen.
+/// TODO: This has de facto become the Spell Queue Manager. Will rename.
 /// </summary>
 public partial class DebugScreenManager : Node
 {
@@ -11,20 +12,23 @@ public partial class DebugScreenManager : Node
     private bool DebugMode = true;
 
     /// <summary>
+    /// The ComponentExposer that exposes the spell queue components.
+    /// </summary>
+    [Export]
+    private ComponentExposer SpellQueueExposer;
+
+    /// <summary>
     /// The root node of the debug screen.
     /// </summary>
-    private Control DebugRootNode;
+    private Control DebugRootNode => SpellQueueExposer.GetComponent<Control>(Components.SpellQueueRoot);
 
     /// <summary>
     /// The label that displays the current spell queue.
     /// </summary>
-    private RichTextLabel SpellQueueLabel;
+    private RichTextLabel SpellQueueLabel => DebugRootNode.GetNode<RichTextLabel>(Components.SpellQueueLabel);
 
     public override void _Ready()
     {
-        DebugRootNode = GetTree().Root.GetNode<Control>("Root/UI/HUD/Spells/SpellQueue/MarginContainer");
-        SpellQueueLabel = DebugRootNode.GetNode<RichTextLabel>("SpellQueue/RichTextLabel");
-
         if (!DebugMode)
         {
             DebugRootNode.Visible = false;

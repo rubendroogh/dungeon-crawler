@@ -13,6 +13,7 @@ script = ExtResource("3_w3v31")
 Name = "Echo"
 Description = "Uses the leyline energy trailing from your spell casts to repeatedly hit the target. "
 Image = SubResource("AtlasTexture_s6pnq")
+SpellCostExpression = "[C:1][J:1]"
 MaxManaCharges = 1
 BasePhysicalDamage = 0.0
 BaseDarkDamage = 15.0

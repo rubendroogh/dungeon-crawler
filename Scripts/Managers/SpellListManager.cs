@@ -24,9 +24,15 @@ public partial class SpellListManager : Node
     private ResourcePreloader SpellPreloader;
 
     /// <summary>
+    /// The ComponentExposer that exposes the spell book components.
+    /// </summary>
+    [Export]
+    private ComponentExposer SpellBookExposer;
+
+    /// <summary>
     /// The container that holds the spell list UI elements.
     /// </summary>
-    private VBoxContainer SpellListContainer;
+    private Node SpellListContainer => SpellBookExposer.GetComponent<Node>(Components.SpellListContainer);
 
     /// <summary>
     /// A dictionary that maps spell names to their respective behaviors.
@@ -39,7 +45,6 @@ public partial class SpellListManager : Node
 
     public override void _Ready()
     {
-        SpellListContainer = GetTree().Root.GetNode<VBoxContainer>("Root/UI/HUD/Spells/SpellBook/MarginContainer/HBoxContainer/SpellBookList");
         InitializeSpells();
     }
 

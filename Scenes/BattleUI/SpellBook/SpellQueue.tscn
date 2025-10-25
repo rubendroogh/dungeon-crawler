@@ -1,0 +1,35 @@
+[gd_scene load_steps=3 format=3 uid="uid://c0ol2s1uon0x3"]
+
+[ext_resource type="Script" uid="uid://dfeopkvw7y6i3" path="res://Scripts/UI/Components/ComponentExposer.cs" id="1_pf0a5"]
+[ext_resource type="Script" uid="uid://cpji6emjswl8f" path="res://Scripts/UI/Spells/CastSpellButton.cs" id="1_ste01"]
+
+[node name="SpellQueue" type="PanelContainer"]
+script = ExtResource("1_pf0a5")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 2
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="SpellQueue" type="VBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/SpellQueue"]
+layout_mode = 2
+theme_override_constants/margin_left = 10
+
+[node name="Label" type="Label" parent="MarginContainer/SpellQueue/MarginContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "Spell queue"
+
+[node name="RichTextLabel" type="RichTextLabel" parent="MarginContainer/SpellQueue"]
+layout_mode = 2
+theme_override_font_sizes/normal_font_size = 16
+fit_content = true
+
+[node name="CastSpell" type="Button" parent="MarginContainer/SpellQueue"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "Cast queue"
+script = ExtResource("1_ste01")

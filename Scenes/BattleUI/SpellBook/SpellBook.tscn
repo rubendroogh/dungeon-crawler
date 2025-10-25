@@ -1,0 +1,39 @@
+[gd_scene load_steps=3 format=3 uid="uid://c52h746nogb6c"]
+
+[ext_resource type="Script" uid="uid://dfeopkvw7y6i3" path="res://Scripts/UI/Components/ComponentExposer.cs" id="1_343mg"]
+[ext_resource type="Script" uid="uid://b40v7nngruesy" path="res://Scripts/UI/Spells/AddSpellToQueueButton.cs" id="1_rd12s"]
+
+[node name="SpellBook" type="PanelContainer"]
+script = ExtResource("1_343mg")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 2
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="HBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="LabelMargin" type="MarginContainer" parent="MarginContainer/HBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 0
+theme_override_constants/margin_right = 0
+theme_override_constants/margin_bottom = 0
+
+[node name="Label" type="Label" parent="MarginContainer/HBoxContainer/LabelMargin"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "Spellbook"
+
+[node name="SpellBookList" type="VBoxContainer" parent="MarginContainer/HBoxContainer"]
+custom_minimum_size = Vector2(0, 10)
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="AddSpellToQueue" type="Button" parent="MarginContainer/HBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "Add to queue"
+script = ExtResource("1_rd12s")

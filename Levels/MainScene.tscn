@@ -1,14 +1,11 @@
-[gd_scene load_steps=49 format=3 uid="uid://ck8p1eru6l2f4"]
+[gd_scene load_steps=34 format=3 uid="uid://ck8p1eru6l2f4"]
 
 [ext_resource type="Script" uid="uid://di2h8gf1377s5" path="res://Scripts/UI/CameraShake.cs" id="1_hojmo"]
-[ext_resource type="Resource" uid="uid://b1jhmr0xq4603" path="res://Resources/Spells/FireBall.tres" id="2_hvf01"]
-[ext_resource type="Script" uid="uid://b40v7nngruesy" path="res://Scripts/UI/Spells/AddSpellToQueueButton.cs" id="2_irpm1"]
-[ext_resource type="Script" uid="uid://cpji6emjswl8f" path="res://Scripts/UI/Spells/CastSpellButton.cs" id="2_lljjv"]
-[ext_resource type="Script" uid="uid://bb2xw40m0q3sm" path="res://Scripts/Managers/DeckManager.cs" id="3_hvf01"]
+[ext_resource type="Script" uid="uid://bb2xw40m0q3sm" path="res://Scripts/Managers/ManaSourceManager.cs" id="3_hvf01"]
 [ext_resource type="Script" uid="uid://c0p2vud0ydmne" path="res://Scripts/Managers/Managers.cs" id="4_26f67"]
 [ext_resource type="Script" uid="uid://fi2i0pb2xx5u" path="res://Scripts/Managers/ActionManager.cs" id="4_safex"]
 [ext_resource type="Script" uid="uid://burx8xbynydt" path="res://Scripts/Managers/SpellListManager.cs" id="5_26f67"]
-[ext_resource type="PackedScene" uid="uid://csex8h13te3ep" path="res://Scenes/SpellListItem.tscn" id="6_71tao"]
+[ext_resource type="PackedScene" uid="uid://csex8h13te3ep" path="res://Scenes/BattleUI/SpellBook/SpellListItem.tscn" id="6_71tao"]
 [ext_resource type="Resource" uid="uid://cn6ie7edpvr5j" path="res://Resources/Spells/BrainFreeze.tres" id="7_71tao"]
 [ext_resource type="Resource" uid="uid://cfekhne75nmml" path="res://Resources/Characters/BasicEnemy.tres" id="8_5eubm"]
 [ext_resource type="Resource" uid="uid://b2obfc8fqqmsx" path="res://Resources/Spells/Discombobulate.tres" id="8_lxbb3"]
@@ -21,29 +18,18 @@
 [ext_resource type="Script" uid="uid://bc7r5kh0kegqt" path="res://Scripts/Characters/Player.cs" id="15_irpm1"]
 [ext_resource type="Script" uid="uid://omqimuu5thub" path="res://Scripts/Managers/DebugScreenManager.cs" id="16_ogsbt"]
 [ext_resource type="Texture2D" uid="uid://csjt8ylrgdkbj" path="res://Resources/Atlasses/TileAtlas.tres" id="17_cltpb"]
-[ext_resource type="Script" uid="uid://cr3tq3ldbn5dl" path="res://Scripts/Managers/CharacterCreationManager.cs" id="17_fvp6m"]
 [ext_resource type="Script" uid="uid://do64s87kejasc" path="res://Scripts/Managers/SoundEffectManager.cs" id="17_udxv6"]
 [ext_resource type="AudioStream" uid="uid://28xaykhomefb" path="res://Assets/Sound/click.wav" id="18_21fen"]
 [ext_resource type="AudioStream" uid="uid://dwu2yk120ey8n" path="res://Assets/Sound/Mountain Emperor.mp3" id="19_8287p"]
-[ext_resource type="Texture2D" uid="uid://exboe6jk0wnb" path="res://Assets/RawImages/FullTileMap.png" id="19_tayw2"]
-[ext_resource type="Script" uid="uid://27ykix11cmr7" path="res://Scripts/UI/CharacterCreation/PersonalityPointsSpinBox.cs" id="20_sth1w"]
-[ext_resource type="Resource" uid="uid://dv0wsrhnml26l" path="res://Resources/PersonalityTraits/Genuine.tres" id="22_b51k0"]
-[ext_resource type="Theme" uid="uid://cstpy6v4nd287" path="res://Resources/Themes/BrickTheme.tres" id="23_2dbf0"]
-[ext_resource type="Resource" uid="uid://d3yuybcptl4st" path="res://Resources/PersonalityTraits/Charming.tres" id="23_txofh"]
-[ext_resource type="Resource" uid="uid://b065frvtwd0kl" path="res://Resources/PersonalityTraits/Focused.tres" id="24_g2qkk"]
-[ext_resource type="Resource" uid="uid://c38ur1an64c5q" path="res://Resources/PersonalityTraits/Curious.tres" id="25_ogsbt"]
-[ext_resource type="Resource" uid="uid://di70yuvrx0ctx" path="res://Resources/PersonalityTraits/Optimistic.tres" id="26_ghvpb"]
-[ext_resource type="Resource" uid="uid://beeo0vmah6vb2" path="res://Resources/PersonalityTraits/Dominant.tres" id="27_n6swl"]
-[ext_resource type="Resource" uid="uid://oqgxyf3f2xim" path="res://Resources/PersonalityTraits/Fearless.tres" id="28_jk3s6"]
-[ext_resource type="Resource" uid="uid://qrbbkyecsjwj" path="res://Resources/PersonalityTraits/Benevolent.tres" id="29_hojmo"]
-[ext_resource type="Script" uid="uid://dphi8b28kelq" path="res://Scripts/UI/CharacterCreation/CharacterCreationSubmit.cs" id="30_txofh"]
-[ext_resource type="PackedScene" uid="uid://b064kuj7s5tyq" path="res://Scenes/RewardSelectionItem.tscn" id="33_ghvpb"]
-[ext_resource type="Script" uid="uid://can1qqm8mdvlp" path="res://Scripts/Managers/RewardSelectionManager.cs" id="33_n6swl"]
-[ext_resource type="Script" uid="uid://dc7fgp7xs3q51" path="res://Scripts/UI/Rewards/ConfirmSelectionButton.cs" id="34_jk3s6"]
-[ext_resource type="Resource" uid="uid://3f5dt78r8pmf" path="res://Resources/Spells/Echo.tres" id="39_jtd1x"]
-[ext_resource type="Texture2D" uid="uid://djui78yeg84nj" path="res://Assets/RawImages/StoneTile.png" id="41_5a8hb"]
-
-[sub_resource type="Theme" id="Theme_5eubm"]
+[ext_resource type="PackedScene" uid="uid://c52h746nogb6c" path="res://Scenes/BattleUI/SpellBook/SpellBook.tscn" id="20_2dbf0"]
+[ext_resource type="PackedScene" uid="uid://c0ol2s1uon0x3" path="res://Scenes/BattleUI/SpellBook/SpellQueue.tscn" id="21_2dbf0"]
+[ext_resource type="PackedScene" uid="uid://da86qewhcsw42" path="res://Scenes/BattleUI/BattleLog/BattleLog.tscn" id="22_8287p"]
+[ext_resource type="PackedScene" uid="uid://csxpifkpyb2j3" path="res://Scenes/BattleUI/ManaSource/ManaSource.tscn" id="23_8287p"]
+[ext_resource type="PackedScene" uid="uid://bobl0cvnecl4s" path="res://Scenes/BattleUI/TurnIndication/TurnIndicationPanel.tscn" id="25_b51k0"]
+[ext_resource type="PackedScene" uid="uid://din1s2uojtxq0" path="res://Scenes/RewardSelectionUI/RewardSelectionPanel.tscn" id="27_aj24y"]
+[ext_resource type="PackedScene" uid="uid://ixikavep8rh3" path="res://Scenes/RewardSelectionUI/RewardSelectionBackground.tscn" id="27_b51k0"]
+[ext_resource type="PackedScene" uid="uid://2drx4r22f0mk" path="res://Scenes/CharacterCreationUI/CharacterCreationBackground.tscn" id="31_ogsbt"]
+[ext_resource type="PackedScene" uid="uid://c6c50r7e37xs6" path="res://Scenes/CharacterCreationUI/CharacterCreationPanel.tscn" id="32_ogsbt"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_udxv6"]
 atlas = ExtResource("17_cltpb")
@@ -56,15 +42,6 @@ colors = PackedColorArray(0.776471, 0, 0, 1, 1, 1, 1, 1)
 [sub_resource type="GradientTexture2D" id="GradientTexture2D_21fen"]
 gradient = SubResource("Gradient_xeo28")
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_sth1w"]
-atlas = ExtResource("19_tayw2")
-region = Rect2(663, 169, 16, 17)
-
-[sub_resource type="LabelSettings" id="LabelSettings_tayw2"]
-font_size = 24
-outline_size = 2
-outline_color = Color(0.682353, 0, 1, 1)
-
 [node name="Root" type="Node2D"]
 
 [node name="World" type="Node2D" parent="."]
@@ -75,24 +52,26 @@ script = ExtResource("1_hojmo")
 [node name="ManagerRepository" type="Node" parent="World"]
 script = ExtResource("4_26f67")
 
-[node name="ActionManager" type="Node" parent="World/ManagerRepository" node_paths=PackedStringArray("SelectedCardsLabel")]
+[node name="ActionManager" type="Node" parent="World/ManagerRepository"]
 script = ExtResource("4_safex")
-SelectedCardsLabel = NodePath("../../../UI/HUD/CardList/Margin/CardListHorizontalContainer/SelectedCardsLabelContainer/SelectedCardsLabel")
 
-[node name="SpellListManager" type="Node" parent="World/ManagerRepository" node_paths=PackedStringArray("SpellPreloader")]
+[node name="SpellListManager" type="Node" parent="World/ManagerRepository" node_paths=PackedStringArray("SpellPreloader", "SpellBookExposer")]
 script = ExtResource("5_26f67")
 SpellListItemScene = ExtResource("6_71tao")
 SpellPreloader = NodePath("StartingSpellPreloader")
+SpellBookExposer = NodePath("../../../UI/HUD/BattleAndResources/Resources/ResourcesInner/Spells/SpellBook")
 
 [node name="StartingSpellPreloader" type="ResourcePreloader" parent="World/ManagerRepository/SpellListManager"]
 resources = [PackedStringArray("BrainFreeze", "Discombobulate"), [ExtResource("7_71tao"), ExtResource("8_lxbb3")]]
 
-[node name="BattleLogManager" type="Node" parent="World/ManagerRepository"]
+[node name="BattleLogManager" type="Node" parent="World/ManagerRepository" node_paths=PackedStringArray("BattleLogExposer")]
 script = ExtResource("9_4h6gp")
+BattleLogExposer = NodePath("../../../UI/HUD/BattleAndResources/Battle/BattleLog")
 
-[node name="BattleManager" type="Node" parent="World/ManagerRepository"]
+[node name="BattleManager" type="Node" parent="World/ManagerRepository" node_paths=PackedStringArray("TurnIndicationExposer")]
 script = ExtResource("8_rc4gq")
 EnemyScene = ExtResource("12_aw745")
+TurnIndicationExposer = NodePath("../../../UI/HUD/Bottom/TurnIndicationPanel")
 
 [node name="EnemiesPreloader" type="ResourcePreloader" parent="World/ManagerRepository/BattleManager"]
 resources = [PackedStringArray("BasicEnemy"), [ExtResource("8_5eubm")]]
@@ -107,8 +86,9 @@ CharacterData = ExtResource("15_aw745")
 [node name="TransitionManager" type="Node" parent="World/ManagerRepository"]
 script = ExtResource("15_g2qkk")
 
-[node name="DebugScreenManager" type="Node" parent="World/ManagerRepository"]
+[node name="DebugScreenManager" type="Node" parent="World/ManagerRepository" node_paths=PackedStringArray("SpellQueueExposer")]
 script = ExtResource("16_ogsbt")
+SpellQueueExposer = NodePath("../../../UI/HUD/BattleAndResources/Resources/ResourcesInner/Spells/SpellQueue")
 
 [node name="SoundEffectManager" type="Node" parent="World/ManagerRepository"]
 script = ExtResource("17_udxv6")
@@ -117,6 +97,9 @@ ButtonClickSound = ExtResource("18_21fen")
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="World/ManagerRepository/SoundEffectManager"]
 volume_db = -27.17
 pitch_scale = 0.62
+
+[node name="ManaSourceManager" type="Node" parent="World/ManagerRepository"]
+script = ExtResource("3_hvf01")
 
 [node name="MusicManager" type="Node" parent="World/ManagerRepository"]
 
@@ -134,197 +117,63 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="HUD" type="Control" parent="UI"]
-anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
-
-[node name="Spells" type="VBoxContainer" parent="UI/HUD"]
-custom_minimum_size = Vector2(450, 0)
+[node name="HUD" type="VBoxContainer" parent="UI"]
 layout_mode = 1
-anchors_preset = 1
-anchor_left = 1.0
+anchors_preset = 15
 anchor_right = 1.0
-offset_left = 730.0
-offset_top = -524.0
-offset_right = 904.0
-offset_bottom = -295.0
-grow_horizontal = 0
-theme_override_constants/separation = 10
+anchor_bottom = 1.0
+offset_left = -960.0
+offset_top = -540.0
+offset_right = 960.0
+offset_bottom = 540.0
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
 
-[node name="SpellBook" type="PanelContainer" parent="UI/HUD/Spells"]
-layout_mode = 2
-
-[node name="MarginContainer" type="MarginContainer" parent="UI/HUD/Spells/SpellBook"]
-layout_mode = 2
-theme_override_constants/margin_top = 10
-theme_override_constants/margin_bottom = 10
-
-[node name="HBoxContainer" type="VBoxContainer" parent="UI/HUD/Spells/SpellBook/MarginContainer"]
-layout_mode = 2
-theme_override_constants/separation = 10
-
-[node name="LabelMargin" type="MarginContainer" parent="UI/HUD/Spells/SpellBook/MarginContainer/HBoxContainer"]
-layout_mode = 2
-theme_override_constants/margin_left = 10
-theme_override_constants/margin_top = 0
-theme_override_constants/margin_right = 0
-theme_override_constants/margin_bottom = 0
-
-[node name="Label" type="Label" parent="UI/HUD/Spells/SpellBook/MarginContainer/HBoxContainer/LabelMargin"]
-layout_mode = 2
-theme_override_font_sizes/font_size = 24
-text = "Spellbook"
-
-[node name="SpellBookList" type="VBoxContainer" parent="UI/HUD/Spells/SpellBook/MarginContainer/HBoxContainer"]
-custom_minimum_size = Vector2(0, 10)
+[node name="BattleAndResources" type="HBoxContainer" parent="UI/HUD"]
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="AddSpellToQueue" type="Button" parent="UI/HUD/Spells/SpellBook/MarginContainer/HBoxContainer"]
+[node name="Battle" type="VBoxContainer" parent="UI/HUD/BattleAndResources"]
 layout_mode = 2
-theme_override_font_sizes/font_size = 24
-text = "Add to queue"
-script = ExtResource("2_irpm1")
+size_flags_horizontal = 3
 
-[node name="SpellQueue" type="PanelContainer" parent="UI/HUD/Spells"]
+[node name="Enemies" type="CenterContainer" parent="UI/HUD/BattleAndResources/Battle"]
 layout_mode = 2
+size_flags_vertical = 3
 
-[node name="MarginContainer" type="MarginContainer" parent="UI/HUD/Spells/SpellQueue"]
-layout_mode = 2
-theme_override_constants/margin_top = 10
-theme_override_constants/margin_bottom = 10
-
-[node name="SpellQueue" type="VBoxContainer" parent="UI/HUD/Spells/SpellQueue/MarginContainer"]
+[node name="BattleLog" parent="UI/HUD/BattleAndResources/Battle" instance=ExtResource("22_8287p")]
+custom_minimum_size = Vector2(0, 250)
 layout_mode = 2
 
-[node name="MarginContainer" type="MarginContainer" parent="UI/HUD/Spells/SpellQueue/MarginContainer/SpellQueue"]
+[node name="Resources" type="TabContainer" parent="UI/HUD/BattleAndResources"]
 layout_mode = 2
-theme_override_constants/margin_left = 10
+current_tab = 0
 
-[node name="Label" type="Label" parent="UI/HUD/Spells/SpellQueue/MarginContainer/SpellQueue/MarginContainer"]
+[node name="ResourcesInner" type="VBoxContainer" parent="UI/HUD/BattleAndResources/Resources"]
 layout_mode = 2
-theme_override_font_sizes/font_size = 24
-text = "Spell queue"
+metadata/_tab_index = 0
 
-[node name="RichTextLabel" type="RichTextLabel" parent="UI/HUD/Spells/SpellQueue/MarginContainer/SpellQueue"]
-layout_mode = 2
-theme_override_font_sizes/normal_font_size = 16
-fit_content = true
-
-[node name="CastSpell" type="Button" parent="UI/HUD/Spells/SpellQueue/MarginContainer/SpellQueue"]
-layout_mode = 2
-theme_override_font_sizes/font_size = 24
-text = "Cast queue"
-script = ExtResource("2_lljjv")
-
-[node name="BattleLog" type="PanelContainer" parent="UI/HUD"]
-layout_mode = 1
-anchors_preset = 7
-anchor_left = 0.5
-anchor_top = 1.0
-anchor_right = 0.5
-anchor_bottom = 1.0
-offset_left = -286.0
-offset_top = 341.0
-offset_right = 252.0
-offset_bottom = 444.0
-grow_horizontal = 2
-grow_vertical = 0
-
-[node name="MarginContainer" type="MarginContainer" parent="UI/HUD/BattleLog"]
-layout_mode = 2
-theme_override_constants/margin_left = 4
-theme_override_constants/margin_top = 4
-theme_override_constants/margin_right = 4
-theme_override_constants/margin_bottom = 4
-
-[node name="BattleLog" type="RichTextLabel" parent="UI/HUD/BattleLog/MarginContainer"]
-layout_mode = 2
-theme_override_font_sizes/normal_font_size = 18
-scroll_following = true
-
-[node name="CardList" type="PanelContainer" parent="UI/HUD"]
-layout_mode = 1
-anchors_preset = 3
-anchor_left = 1.0
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = 715.0
-offset_top = 300.0
-offset_right = 904.0
-offset_bottom = 443.0
-grow_horizontal = 0
-grow_vertical = 0
-script = ExtResource("3_hvf01")
-
-[node name="Margin" type="MarginContainer" parent="UI/HUD/CardList"]
-layout_mode = 2
-theme_override_constants/margin_left = 10
-theme_override_constants/margin_bottom = 10
-
-[node name="CardListHorizontalContainer" type="VBoxContainer" parent="UI/HUD/CardList/Margin"]
+[node name="Spells" type="VBoxContainer" parent="UI/HUD/BattleAndResources/Resources/ResourcesInner"]
+custom_minimum_size = Vector2(450, 0)
 layout_mode = 2
 theme_override_constants/separation = 10
 
-[node name="Label" type="Label" parent="UI/HUD/CardList/Margin/CardListHorizontalContainer"]
+[node name="SpellBook" parent="UI/HUD/BattleAndResources/Resources/ResourcesInner/Spells" instance=ExtResource("20_2dbf0")]
 layout_mode = 2
-theme_override_font_sizes/font_size = 24
-text = "Your deck"
 
-[node name="CardList" type="HBoxContainer" parent="UI/HUD/CardList/Margin/CardListHorizontalContainer"]
-modulate = Color(1, 1, 1, 0.937255)
+[node name="SpellQueue" parent="UI/HUD/BattleAndResources/Resources/ResourcesInner/Spells" instance=ExtResource("21_2dbf0")]
 layout_mode = 2
-size_flags_stretch_ratio = 10.63
-theme = SubResource("Theme_5eubm")
 
-[node name="CardListHearts" type="VBoxContainer" parent="UI/HUD/CardList/Margin/CardListHorizontalContainer/CardList"]
-custom_minimum_size = Vector2(0, 10)
+[node name="ManaSource" parent="UI/HUD/BattleAndResources/Resources/ResourcesInner" instance=ExtResource("23_8287p")]
 layout_mode = 2
-size_flags_horizontal = 3
 
-[node name="CardListDiamonds" type="VBoxContainer" parent="UI/HUD/CardList/Margin/CardListHorizontalContainer/CardList"]
-custom_minimum_size = Vector2(0, 10)
+[node name="Bottom" type="HBoxContainer" parent="UI/HUD"]
+custom_minimum_size = Vector2(0, 50)
 layout_mode = 2
-size_flags_horizontal = 3
-
-[node name="CardListClubs" type="VBoxContainer" parent="UI/HUD/CardList/Margin/CardListHorizontalContainer/CardList"]
-custom_minimum_size = Vector2(0, 10)
-layout_mode = 2
-size_flags_horizontal = 3
-
-[node name="CardListSpades" type="VBoxContainer" parent="UI/HUD/CardList/Margin/CardListHorizontalContainer/CardList"]
-custom_minimum_size = Vector2(0, 10)
-layout_mode = 2
-size_flags_horizontal = 3
-
-[node name="SelectedCardsLabelContainer" type="HBoxContainer" parent="UI/HUD/CardList/Margin/CardListHorizontalContainer"]
-layout_mode = 2
-size_flags_stretch_ratio = 0.0
-alignment = 1
-
-[node name="SelectedCardsLabel" type="Label" parent="UI/HUD/CardList/Margin/CardListHorizontalContainer/SelectedCardsLabelContainer"]
-layout_mode = 2
-theme_override_font_sizes/font_size = 16
-text = "0/0 mana charges"
-
-[node name="BottomContainer" type="HBoxContainer" parent="UI/HUD"]
-layout_mode = 1
-anchors_preset = 7
-anchor_left = 0.5
-anchor_top = 1.0
-anchor_right = 0.5
-anchor_bottom = 1.0
-offset_left = -980.0
-offset_top = 460.0
-offset_right = 940.0
-offset_bottom = 500.0
-grow_horizontal = 2
-grow_vertical = 0
 theme_override_constants/separation = 0
 
-[node name="HealthBar" type="TextureProgressBar" parent="UI/HUD/BottomContainer"]
+[node name="HealthBar" type="TextureProgressBar" parent="UI/HUD/Bottom"]
 layout_mode = 2
 size_flags_horizontal = 3
 value = 100.0
@@ -336,394 +185,57 @@ stretch_margin_bottom = 3
 texture_under = SubResource("AtlasTexture_udxv6")
 texture_progress = SubResource("GradientTexture2D_21fen")
 
-[node name="TurnIndicationPanel" type="PanelContainer" parent="UI/HUD/BottomContainer"]
+[node name="TurnIndicationPanel" parent="UI/HUD/Bottom" instance=ExtResource("25_b51k0")]
 layout_mode = 2
-theme = ExtResource("23_2dbf0")
 
-[node name="TurnIndicationMargin" type="MarginContainer" parent="UI/HUD/BottomContainer/TurnIndicationPanel"]
-layout_mode = 2
-theme_override_constants/margin_left = 15
-theme_override_constants/margin_top = 1
-theme_override_constants/margin_right = 15
-theme_override_constants/margin_bottom = 0
-
-[node name="TurnLabel" type="Label" parent="UI/HUD/BottomContainer/TurnIndicationPanel/TurnIndicationMargin"]
-layout_mode = 2
-size_flags_vertical = 1
-theme_override_font_sizes/font_size = 20
-text = "Turn 1, Phase: Main"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="RewardSelection" type="CenterContainer" parent="UI"]
+[node name="RewardSelection" type="Control" parent="UI"]
 visible = false
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -20.0
-offset_top = -20.0
-offset_right = 172.0
-offset_bottom = 50.0
-grow_horizontal = 2
-grow_vertical = 2
-use_top_left = true
-
-[node name="RewardSelectionManager" type="PanelContainer" parent="UI/RewardSelection" node_paths=PackedStringArray("SpellRewardPreloader")]
-layout_mode = 2
-script = ExtResource("33_n6swl")
-RewardItemPackedScene = ExtResource("33_ghvpb")
-SpellRewardPreloader = NodePath("SpellRewardsPreloader")
-
-[node name="MarginContainer" type="MarginContainer" parent="UI/RewardSelection/RewardSelectionManager"]
-layout_mode = 2
-theme_override_constants/margin_left = 20
-theme_override_constants/margin_top = 20
-theme_override_constants/margin_right = 20
-theme_override_constants/margin_bottom = 20
-
-[node name="VBoxContainer" type="VBoxContainer" parent="UI/RewardSelection/RewardSelectionManager/MarginContainer"]
-layout_mode = 2
-
-[node name="Label" type="Label" parent="UI/RewardSelection/RewardSelectionManager/MarginContainer/VBoxContainer"]
-layout_mode = 2
-theme_override_font_sizes/font_size = 36
-text = "Choose your reward"
-horizontal_alignment = 1
-
-[node name="RewardContainer" type="HBoxContainer" parent="UI/RewardSelection/RewardSelectionManager/MarginContainer/VBoxContainer"]
-layout_mode = 2
-
-[node name="NoPossibleRewardsMessage" type="MarginContainer" parent="UI/RewardSelection/RewardSelectionManager/MarginContainer/VBoxContainer/RewardContainer"]
-custom_minimum_size = Vector2(600, 200)
-layout_mode = 2
-
-[node name="Label" type="Label" parent="UI/RewardSelection/RewardSelectionManager/MarginContainer/VBoxContainer/RewardContainer/NoPossibleRewardsMessage"]
-layout_mode = 2
-theme_override_colors/font_color = Color(0.756863, 0.756863, 0.756863, 1)
-text = "There are no more possible rewards to choose from."
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="ConfirmSelectionButton" type="Button" parent="UI/RewardSelection/RewardSelectionManager/MarginContainer/VBoxContainer"]
-layout_mode = 2
-disabled = true
-text = "Select reward"
-script = ExtResource("34_jk3s6")
-
-[node name="SpellRewardsPreloader" type="ResourcePreloader" parent="UI/RewardSelection/RewardSelectionManager"]
-resources = [PackedStringArray("BrainFreeze", "Discombobulate", "Echo", "FireBall"), [ExtResource("7_71tao"), ExtResource("8_lxbb3"), ExtResource("39_jtd1x"), ExtResource("2_hvf01")]]
-
-[node name="CharacterCreation" type="Control" parent="UI"]
-visible = false
-anchors_preset = 0
-offset_left = -576.0
-offset_top = -320.0
-offset_right = 580.0
-offset_bottom = 328.0
-
-[node name="CharacterCreationBackground" type="TextureRect" parent="UI/CharacterCreation"]
-modulate = Color(0.20871, 0.20871, 0.20871, 1)
-layout_mode = 2
-offset_left = -384.0
-offset_top = -220.0
-offset_right = 96.0
-offset_bottom = 50.0
-scale = Vector2(4, 4)
-texture = ExtResource("41_5a8hb")
-stretch_mode = 1
-
-[node name="CharacterCreationCenter" type="CenterContainer" parent="UI/CharacterCreation"]
-z_index = 100
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_top = 1.0
+offset_left = -960.0
+offset_top = -539.0
+offset_right = 960.0
+offset_bottom = 540.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="CharacterCreationManager" type="PanelContainer" parent="UI/CharacterCreation/CharacterCreationCenter"]
+[node name="CharacterCreationBackground" parent="UI/RewardSelection" instance=ExtResource("27_b51k0")]
 layout_mode = 2
-script = ExtResource("17_fvp6m")
-MaxTotalPoints = 0
-AvailablePointsTextSingular = "available personality point"
-AvailablePointsTextPlural = "available personality points"
+offset_left = -8.0
+offset_top = -8.0
+offset_right = 470.0
+offset_bottom = 264.0
 
-[node name="MarginContainer" type="MarginContainer" parent="UI/CharacterCreation/CharacterCreationCenter/CharacterCreationManager"]
+[node name="RewardSelectionManager" parent="UI/RewardSelection" instance=ExtResource("27_aj24y")]
 layout_mode = 2
-theme_override_constants/margin_left = 20
-theme_override_constants/margin_top = 20
-theme_override_constants/margin_right = 30
-theme_override_constants/margin_bottom = 15
+offset_left = 647.0
+offset_top = 387.0
+offset_right = 1303.0
+offset_bottom = 715.0
 
-[node name="HBoxContainer" type="HBoxContainer" parent="UI/CharacterCreation/CharacterCreationCenter/CharacterCreationManager/MarginContainer"]
-layout_mode = 2
-
-[node name="Form" type="VBoxContainer" parent="UI/CharacterCreation/CharacterCreationCenter/CharacterCreationManager/MarginContainer/HBoxContainer"]
-layout_mode = 2
-theme_override_constants/separation = 12
-alignment = 1
-
-[node name="CharacterCreationTitleLabel" type="Label" parent="UI/CharacterCreation/CharacterCreationCenter/CharacterCreationManager/MarginContainer/HBoxContainer/Form"]
-layout_mode = 2
-theme_override_font_sizes/font_size = 36
-text = "Please describe yourself."
-
-[node name="Line" type="Panel" parent="UI/CharacterCreation/CharacterCreationCenter/CharacterCreationManager/MarginContainer/HBoxContainer/Form"]
-modulate = Color(0, 0, 0, 0.643137)
-custom_minimum_size = Vector2(0, 3)
-layout_mode = 2
-
-[node name="PlayerNameInput" type="LineEdit" parent="UI/CharacterCreation/CharacterCreationCenter/CharacterCreationManager/MarginContainer/HBoxContainer/Form"]
-layout_mode = 2
-placeholder_text = "Your name"
-
-[node name="MarginContainer" type="MarginContainer" parent="UI/CharacterCreation/CharacterCreationCenter/CharacterCreationManager/MarginContainer/HBoxContainer/Form"]
-layout_mode = 2
-theme_override_constants/margin_left = 5
-theme_override_constants/margin_top = 5
-theme_override_constants/margin_right = 5
-theme_override_constants/margin_bottom = 5
-
-[node name="VBoxContainer" type="VBoxContainer" parent="UI/CharacterCreation/CharacterCreationCenter/CharacterCreationManager/MarginContainer/HBoxContainer/Form/MarginContainer"]
-layout_mode = 2
-theme_override_constants/separation = 12
-
-[node name="Benevolent" type="HBoxContainer" parent="UI/CharacterCreation/CharacterCreationCenter/CharacterCreationManager/MarginContainer/HBoxContainer/Form/MarginContainer/VBoxContainer"]
-layout_mode = 2
-alignment = 1
-
-[node name="TextureRect" type="TextureRect" parent="UI/CharacterCreation/CharacterCreationCenter/CharacterCreationManager/MarginContainer/HBoxContainer/Form/MarginContainer/VBoxContainer/Benevolent"]
+[node name="CharacterCreation" type="Control" parent="UI"]
 visible = false
-layout_mode = 2
-size_flags_vertical = 4
-texture = SubResource("AtlasTexture_sth1w")
-stretch_mode = 2
+anchors_preset = 0
+offset_left = -960.0
+offset_top = -540.0
+offset_right = 960.0
+offset_bottom = 540.0
 
-[node name="Label" type="Label" parent="UI/CharacterCreation/CharacterCreationCenter/CharacterCreationManager/MarginContainer/HBoxContainer/Form/MarginContainer/VBoxContainer/Benevolent"]
-layout_mode = 2
-size_flags_horizontal = 3
-text = "Benevolent"
+[node name="CharacterCreationBackground" parent="UI/CharacterCreation" instance=ExtResource("31_ogsbt")]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 0.0
+offset_top = 0.0
+offset_right = -1440.0
+offset_bottom = -810.0
+grow_horizontal = 2
+grow_vertical = 2
 
-[node name="SpinBox" type="SpinBox" parent="UI/CharacterCreation/CharacterCreationCenter/CharacterCreationManager/MarginContainer/HBoxContainer/Form/MarginContainer/VBoxContainer/Benevolent"]
-layout_mode = 2
-min_value = -10.0
-max_value = 10.0
-rounded = true
-script = ExtResource("20_sth1w")
-Trait = ExtResource("29_hojmo")
-
-[node name="Charming" type="HBoxContainer" parent="UI/CharacterCreation/CharacterCreationCenter/CharacterCreationManager/MarginContainer/HBoxContainer/Form/MarginContainer/VBoxContainer"]
-layout_mode = 2
-alignment = 1
-
-[node name="TextureRect" type="TextureRect" parent="UI/CharacterCreation/CharacterCreationCenter/CharacterCreationManager/MarginContainer/HBoxContainer/Form/MarginContainer/VBoxContainer/Charming"]
-visible = false
-layout_mode = 2
-size_flags_vertical = 4
-texture = SubResource("AtlasTexture_sth1w")
-stretch_mode = 2
-
-[node name="Label" type="Label" parent="UI/CharacterCreation/CharacterCreationCenter/CharacterCreationManager/MarginContainer/HBoxContainer/Form/MarginContainer/VBoxContainer/Charming"]
-layout_mode = 2
-size_flags_horizontal = 3
-text = "Charming"
-
-[node name="SpinBox" type="SpinBox" parent="UI/CharacterCreation/CharacterCreationCenter/CharacterCreationManager/MarginContainer/HBoxContainer/Form/MarginContainer/VBoxContainer/Charming"]
-layout_mode = 2
-min_value = -10.0
-max_value = 10.0
-rounded = true
-script = ExtResource("20_sth1w")
-Trait = ExtResource("23_txofh")
-
-[node name="Curious" type="HBoxContainer" parent="UI/CharacterCreation/CharacterCreationCenter/CharacterCreationManager/MarginContainer/HBoxContainer/Form/MarginContainer/VBoxContainer"]
-layout_mode = 2
-alignment = 1
-
-[node name="TextureRect" type="TextureRect" parent="UI/CharacterCreation/CharacterCreationCenter/CharacterCreationManager/MarginContainer/HBoxContainer/Form/MarginContainer/VBoxContainer/Curious"]
-visible = false
-layout_mode = 2
-size_flags_vertical = 4
-texture = SubResource("AtlasTexture_sth1w")
-stretch_mode = 2
-
-[node name="Label" type="Label" parent="UI/CharacterCreation/CharacterCreationCenter/CharacterCreationManager/MarginContainer/HBoxContainer/Form/MarginContainer/VBoxContainer/Curious"]
-layout_mode = 2
-size_flags_horizontal = 3
-text = "Curious"
-
-[node name="SpinBox" type="SpinBox" parent="UI/CharacterCreation/CharacterCreationCenter/CharacterCreationManager/MarginContainer/HBoxContainer/Form/MarginContainer/VBoxContainer/Curious"]
-layout_mode = 2
-min_value = -10.0
-max_value = 10.0
-rounded = true
-script = ExtResource("20_sth1w")
-Trait = ExtResource("25_ogsbt")
-
-[node name="Dominant" type="HBoxContainer" parent="UI/CharacterCreation/CharacterCreationCenter/CharacterCreationManager/MarginContainer/HBoxContainer/Form/MarginContainer/VBoxContainer"]
-layout_mode = 2
-alignment = 1
-
-[node name="TextureRect" type="TextureRect" parent="UI/CharacterCreation/CharacterCreationCenter/CharacterCreationManager/MarginContainer/HBoxContainer/Form/MarginContainer/VBoxContainer/Dominant"]
-visible = false
-layout_mode = 2
-size_flags_vertical = 4
-texture = SubResource("AtlasTexture_sth1w")
-stretch_mode = 2
-
-[node name="Label" type="Label" parent="UI/CharacterCreation/CharacterCreationCenter/CharacterCreationManager/MarginContainer/HBoxContainer/Form/MarginContainer/VBoxContainer/Dominant"]
-layout_mode = 2
-size_flags_horizontal = 3
-text = "Dominant"
-
-[node name="SpinBox" type="SpinBox" parent="UI/CharacterCreation/CharacterCreationCenter/CharacterCreationManager/MarginContainer/HBoxContainer/Form/MarginContainer/VBoxContainer/Dominant"]
-layout_mode = 2
-min_value = -10.0
-max_value = 10.0
-rounded = true
-script = ExtResource("20_sth1w")
-Trait = ExtResource("27_n6swl")
-
-[node name="Fearless" type="HBoxContainer" parent="UI/CharacterCreation/CharacterCreationCenter/CharacterCreationManager/MarginContainer/HBoxContainer/Form/MarginContainer/VBoxContainer"]
-layout_mode = 2
-alignment = 1
-
-[node name="TextureRect" type="TextureRect" parent="UI/CharacterCreation/CharacterCreationCenter/CharacterCreationManager/MarginContainer/HBoxContainer/Form/MarginContainer/VBoxContainer/Fearless"]
-visible = false
-layout_mode = 2
-size_flags_vertical = 4
-texture = SubResource("AtlasTexture_sth1w")
-stretch_mode = 2
-
-[node name="Label" type="Label" parent="UI/CharacterCreation/CharacterCreationCenter/CharacterCreationManager/MarginContainer/HBoxContainer/Form/MarginContainer/VBoxContainer/Fearless"]
-layout_mode = 2
-size_flags_horizontal = 3
-text = "Fearless"
-
-[node name="SpinBox" type="SpinBox" parent="UI/CharacterCreation/CharacterCreationCenter/CharacterCreationManager/MarginContainer/HBoxContainer/Form/MarginContainer/VBoxContainer/Fearless"]
-layout_mode = 2
-min_value = -10.0
-max_value = 10.0
-rounded = true
-script = ExtResource("20_sth1w")
-Trait = ExtResource("28_jk3s6")
-
-[node name="Focused" type="HBoxContainer" parent="UI/CharacterCreation/CharacterCreationCenter/CharacterCreationManager/MarginContainer/HBoxContainer/Form/MarginContainer/VBoxContainer"]
-layout_mode = 2
-alignment = 1
-
-[node name="TextureRect" type="TextureRect" parent="UI/CharacterCreation/CharacterCreationCenter/CharacterCreationManager/MarginContainer/HBoxContainer/Form/MarginContainer/VBoxContainer/Focused"]
-visible = false
-layout_mode = 2
-size_flags_vertical = 4
-texture = SubResource("AtlasTexture_sth1w")
-stretch_mode = 2
-
-[node name="Label" type="Label" parent="UI/CharacterCreation/CharacterCreationCenter/CharacterCreationManager/MarginContainer/HBoxContainer/Form/MarginContainer/VBoxContainer/Focused"]
-layout_mode = 2
-size_flags_horizontal = 3
-text = "Focused"
-
-[node name="SpinBox" type="SpinBox" parent="UI/CharacterCreation/CharacterCreationCenter/CharacterCreationManager/MarginContainer/HBoxContainer/Form/MarginContainer/VBoxContainer/Focused"]
-layout_mode = 2
-min_value = -10.0
-max_value = 10.0
-rounded = true
-script = ExtResource("20_sth1w")
-Trait = ExtResource("24_g2qkk")
-
-[node name="Geniune" type="HBoxContainer" parent="UI/CharacterCreation/CharacterCreationCenter/CharacterCreationManager/MarginContainer/HBoxContainer/Form/MarginContainer/VBoxContainer"]
-layout_mode = 2
-alignment = 1
-
-[node name="TextureRect" type="TextureRect" parent="UI/CharacterCreation/CharacterCreationCenter/CharacterCreationManager/MarginContainer/HBoxContainer/Form/MarginContainer/VBoxContainer/Geniune"]
-visible = false
-layout_mode = 2
-size_flags_vertical = 4
-texture = SubResource("AtlasTexture_sth1w")
-stretch_mode = 2
-
-[node name="Label" type="Label" parent="UI/CharacterCreation/CharacterCreationCenter/CharacterCreationManager/MarginContainer/HBoxContainer/Form/MarginContainer/VBoxContainer/Geniune"]
-layout_mode = 2
-size_flags_horizontal = 3
-text = "Genuine"
-
-[node name="SpinBox" type="SpinBox" parent="UI/CharacterCreation/CharacterCreationCenter/CharacterCreationManager/MarginContainer/HBoxContainer/Form/MarginContainer/VBoxContainer/Geniune"]
-layout_mode = 2
-min_value = -10.0
-max_value = 10.0
-rounded = true
-script = ExtResource("20_sth1w")
-Trait = ExtResource("22_b51k0")
-
-[node name="Optimistic" type="HBoxContainer" parent="UI/CharacterCreation/CharacterCreationCenter/CharacterCreationManager/MarginContainer/HBoxContainer/Form/MarginContainer/VBoxContainer"]
-layout_mode = 2
-alignment = 1
-
-[node name="TextureRect" type="TextureRect" parent="UI/CharacterCreation/CharacterCreationCenter/CharacterCreationManager/MarginContainer/HBoxContainer/Form/MarginContainer/VBoxContainer/Optimistic"]
-visible = false
-layout_mode = 2
-size_flags_vertical = 4
-texture = SubResource("AtlasTexture_sth1w")
-stretch_mode = 2
-
-[node name="Label" type="Label" parent="UI/CharacterCreation/CharacterCreationCenter/CharacterCreationManager/MarginContainer/HBoxContainer/Form/MarginContainer/VBoxContainer/Optimistic"]
-layout_mode = 2
-size_flags_horizontal = 3
-text = "Optimistic"
-
-[node name="SpinBox" type="SpinBox" parent="UI/CharacterCreation/CharacterCreationCenter/CharacterCreationManager/MarginContainer/HBoxContainer/Form/MarginContainer/VBoxContainer/Optimistic"]
-layout_mode = 2
-min_value = -10.0
-max_value = 10.0
-rounded = true
-script = ExtResource("20_sth1w")
-Trait = ExtResource("26_ghvpb")
-
-[node name="AvailablePersonalityPoints" type="HBoxContainer" parent="UI/CharacterCreation/CharacterCreationCenter/CharacterCreationManager/MarginContainer/HBoxContainer/Form/MarginContainer/VBoxContainer"]
-layout_mode = 2
-
-[node name="MarginContainer" type="MarginContainer" parent="UI/CharacterCreation/CharacterCreationCenter/CharacterCreationManager/MarginContainer/HBoxContainer/Form/MarginContainer/VBoxContainer/AvailablePersonalityPoints"]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_stretch_ratio = 0.0
-theme_override_constants/margin_left = 5
-theme_override_constants/margin_top = 5
-theme_override_constants/margin_right = 5
-theme_override_constants/margin_bottom = 5
-
-[node name="AvailablePointsNumberLabel" type="Label" parent="UI/CharacterCreation/CharacterCreationCenter/CharacterCreationManager/MarginContainer/HBoxContainer/Form/MarginContainer/VBoxContainer/AvailablePersonalityPoints/MarginContainer"]
-layout_mode = 2
-text = "0"
-label_settings = SubResource("LabelSettings_tayw2")
-horizontal_alignment = 1
-
-[node name="AvailablePointsTextLabel" type="Label" parent="UI/CharacterCreation/CharacterCreationCenter/CharacterCreationManager/MarginContainer/HBoxContainer/Form/MarginContainer/VBoxContainer/AvailablePersonalityPoints"]
-layout_mode = 2
-text = "available personality points"
-horizontal_alignment = 1
-
-[node name="SubmitButton" type="Button" parent="UI/CharacterCreation/CharacterCreationCenter/CharacterCreationManager/MarginContainer/HBoxContainer/Form"]
-layout_mode = 2
-text = "Start game"
-script = ExtResource("30_txofh")
-
-[node name="HelperText" type="VBoxContainer" parent="UI/CharacterCreation/CharacterCreationCenter/CharacterCreationManager/MarginContainer/HBoxContainer"]
-visible = false
-layout_mode = 2
-
-[node name="MarginContainer" type="MarginContainer" parent="UI/CharacterCreation/CharacterCreationCenter/CharacterCreationManager/MarginContainer/HBoxContainer/HelperText"]
-layout_mode = 2
-size_flags_vertical = 3
-theme_override_constants/margin_left = 5
-
-[node name="Label" type="Label" parent="UI/CharacterCreation/CharacterCreationCenter/CharacterCreationManager/MarginContainer/HBoxContainer/HelperText/MarginContainer"]
-layout_mode = 2
-size_flags_vertical = 3
-text = "Test"
-horizontal_alignment = 1
-vertical_alignment = 1
+[node name="CharacterCreationCenter" parent="UI/CharacterCreation" instance=ExtResource("32_ogsbt")]
+layout_mode = 1
+grow_horizontal = 1
+grow_vertical = 1

@@ -1,0 +1,23 @@
+[gd_scene load_steps=3 format=3 uid="uid://bobl0cvnecl4s"]
+
+[ext_resource type="Theme" uid="uid://cstpy6v4nd287" path="res://Resources/Themes/BrickTheme.tres" id="1_3qlqq"]
+[ext_resource type="Script" uid="uid://dfeopkvw7y6i3" path="res://Scripts/UI/Components/ComponentExposer.cs" id="2_llk8w"]
+
+[node name="TurnIndicationPanel" type="PanelContainer"]
+theme = ExtResource("1_3qlqq")
+script = ExtResource("2_llk8w")
+
+[node name="TurnIndicationMargin" type="MarginContainer" parent="."]
+layout_mode = 2
+theme_override_constants/margin_left = 15
+theme_override_constants/margin_top = 1
+theme_override_constants/margin_right = 15
+theme_override_constants/margin_bottom = 0
+
+[node name="TurnLabel" type="Label" parent="TurnIndicationMargin"]
+layout_mode = 2
+size_flags_vertical = 1
+theme_override_font_sizes/font_size = 20
+text = "Turn 1, Phase: Main"
+horizontal_alignment = 1
+vertical_alignment = 1

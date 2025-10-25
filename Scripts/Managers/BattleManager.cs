@@ -50,9 +50,15 @@ public partial class BattleManager : Node
     private ResourcePreloader EnemiesPreloader;
 
     /// <summary>
+    /// The ComponentExposer that exposes the turn indication components.
+    /// </summary>
+    [Export]
+    private ComponentExposer TurnIndicationExposer;
+
+    /// <summary>
     /// The label that displays the current turn number and phase.
     /// </summary>
-    private Label TurnLabel;
+    private Label TurnLabel => TurnIndicationExposer.GetComponent<Label>(Components.TurnLabel);
 
     /// <summary>
     /// Indicates whether the battle has been initialized.
@@ -62,7 +68,6 @@ public partial class BattleManager : Node
     public override void _Ready()
     {
         EnemiesPreloader = GetNode<ResourcePreloader>("EnemiesPreloader");
-        TurnLabel = GetTree().Root.GetNode<Label>("Root/UI/HUD/BottomContainer/TurnIndicationPanel/TurnIndicationMargin/TurnLabel");
         if (EnemiesPreloader == null)
         {
             GD.PrintErr("EnemiesPreloader not found in the scene.");

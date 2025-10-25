@@ -17,6 +17,7 @@ script = ExtResource("1_h30us")
 Name = "Fireball"
 Description = "Flings a flaming sphere at the target."
 Image = SubResource("AtlasTexture_17jqw")
+SpellCostExpression = "[C:3]"
 MaxManaCharges = 4
 BasePhysicalDamage = 0.0
 BaseDarkDamage = 0.0

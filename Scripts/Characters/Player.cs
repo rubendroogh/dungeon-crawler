@@ -75,7 +75,8 @@ public partial class Player : Character
 
 	protected override void InitializeNodes(CharacterData characterData)
 	{
-		HealthBar = GetTree().Root.GetNode<TextureProgressBar>("Root/UI/HUD/BottomContainer/HealthBar");
+		// TODO: Refactor to use ComponentExposer
+		HealthBar = GetTree().Root.GetNode<TextureProgressBar>("Root/UI/HUD/Bottom/HealthBar");
 
 		if (HealthBar == null)
 		{

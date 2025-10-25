@@ -8,7 +8,7 @@ using System.Linq;
 /// 
 /// TODO: Make this into a proper manager like the rest.
 /// </summary>
-public partial class DeckManager : Node
+public partial class ManaSourceManager : Node
 {
 	private List<Blessing> Cards { get; set; } = [];
 
@@ -17,8 +17,8 @@ public partial class DeckManager : Node
 	public override void _Ready()
 	{
 		base._Ready();
-		InitializeCustomBlessingDeck();
-		InitializeCardDeckUI();
+		// InitializeCustomBlessingDeck();
+		// InitializeCardDeckUI();
 	}
 
 	/// <summary>
@@ -228,7 +228,7 @@ public class Blessing
 
     public Texture2D GetIcon()
 	{
-		return DeckManager.GetCardIcon(this);
+		return ManaSourceManager.GetCardIcon(this);
 	}
 }
 
