@@ -72,14 +72,8 @@ public partial class BattleManager : Node
             CurrentTurnPhase = TurnPhase.Start;
         }
 
-        // Get the amount of turns that have passed for the player
-        float displayTurnCount = (float)CurrentTurn / (float)Characters.Count;
-
-        // Round up
-        displayTurnCount = Mathf.Ceil(displayTurnCount);
-
         await this.Delay(300);
-        TurnLabel.Text = $"Turn {displayTurnCount} - Phase: {CurrentTurnPhase}";
+        UpdateTurnLabel();
     }
 
     /// <summary>
@@ -122,6 +116,7 @@ public partial class BattleManager : Node
     {
         while (IsBattleInitialized)
         {
+            GD.Print("BattleManager: Running battle loop iteration.");
             TurnPhaseProcessed = false;
             await AdvanceTurnFlow();
 
@@ -135,13 +130,21 @@ public partial class BattleManager : Node
     /// </summary>
     private async Task AdvanceTurnFlow()
     {
-        await ProcessTurnPhase();
+        try
+        {
+            await ProcessTurnPhase();
+        }
+        catch (System.Exception ex)
+        {
+            GD.PrintErr($"Error processing turn phase {CurrentTurnPhase}: {ex.Message}");
+        }
+        
         TurnPhaseProcessed = true;
 
         // If phase requires immediate progression, handle it here.
         if (ShouldAutoAdvancePhase(CurrentTurnPhase))
         {
-            StartNewTurnPhase();
+            await StartNewTurnPhase();
         }
     }
 
@@ -190,7 +193,7 @@ public partial class BattleManager : Node
     private void StartPhase()
     {
         CurrentTurn++;
-        Managers.ActionManager.ResetCards();
+        // Managers.ActionManager.ResetCards();
 
         var currentCharacter = GetCurrentCharacter();
         currentCharacter.StartTurn();
@@ -303,6 +306,18 @@ public partial class BattleManager : Node
     {
         Managers.TransitionManager.ToRewardSelection();
         IsBattleInitialized = false;
+    }
+
+    /// <summary>
+    /// Updates the turn label to reflect the player's turn number and phase.
+    /// </summary>
+    private void UpdateTurnLabel()
+    {
+        float displayTurnCount = (float)CurrentTurn / (float)Characters.Count;
+
+        // Round up
+        displayTurnCount = Mathf.Ceil(displayTurnCount);
+        TurnLabel.Text = $"Turn {displayTurnCount}, {CurrentTurnPhase} Phase";
     }
 }
 
