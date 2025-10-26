@@ -1,8 +1,6 @@
-[gd_scene load_steps=3 format=3 uid="uid://csxpifkpyb2j3"]
+[gd_scene load_steps=2 format=3 uid="uid://csxpifkpyb2j3"]
 
 [ext_resource type="Script" uid="uid://dfeopkvw7y6i3" path="res://Scripts/UI/Components/ComponentExposer.cs" id="1_ogtq6"]
-
-[sub_resource type="Theme" id="Theme_5eubm"]
 
 [node name="ManaSource" type="PanelContainer"]
 anchors_preset = 3
@@ -32,39 +30,3 @@ theme_override_constants/separation = 10
 layout_mode = 2
 theme_override_font_sizes/font_size = 24
 text = "Your blessings"
-
-[node name="CardList" type="HBoxContainer" parent="Margin/CardListHorizontalContainer"]
-modulate = Color(1, 1, 1, 0.937255)
-layout_mode = 2
-size_flags_stretch_ratio = 10.63
-theme = SubResource("Theme_5eubm")
-
-[node name="CardListHearts" type="VBoxContainer" parent="Margin/CardListHorizontalContainer/CardList"]
-custom_minimum_size = Vector2(0, 10)
-layout_mode = 2
-size_flags_horizontal = 3
-
-[node name="CardListDiamonds" type="VBoxContainer" parent="Margin/CardListHorizontalContainer/CardList"]
-custom_minimum_size = Vector2(0, 10)
-layout_mode = 2
-size_flags_horizontal = 3
-
-[node name="CardListClubs" type="VBoxContainer" parent="Margin/CardListHorizontalContainer/CardList"]
-custom_minimum_size = Vector2(0, 10)
-layout_mode = 2
-size_flags_horizontal = 3
-
-[node name="CardListSpades" type="VBoxContainer" parent="Margin/CardListHorizontalContainer/CardList"]
-custom_minimum_size = Vector2(0, 10)
-layout_mode = 2
-size_flags_horizontal = 3
-
-[node name="SelectedCardsLabelContainer" type="HBoxContainer" parent="Margin/CardListHorizontalContainer"]
-layout_mode = 2
-size_flags_stretch_ratio = 0.0
-alignment = 1
-
-[node name="SelectedCardsLabel" type="Label" parent="Margin/CardListHorizontalContainer/SelectedCardsLabelContainer"]
-layout_mode = 2
-theme_override_font_sizes/font_size = 16
-text = "0/0 mana charges"
