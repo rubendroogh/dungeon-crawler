@@ -116,7 +116,6 @@ public partial class BattleManager : Node
     {
         while (IsBattleInitialized)
         {
-            GD.Print("BattleManager: Running battle loop iteration.");
             TurnPhaseProcessed = false;
             await AdvanceTurnFlow();
 

@@ -416,7 +416,7 @@ public partial class Character : Node2D
     protected virtual async Task UpdateHealthBar()
     {
         var tween = CreateTween();
-        // Animate the rotation smoothly over 0.2 seconds
+        // Animate the change smoothly over 0.2 seconds
         tween.TweenProperty(HealthBar, "value", Health, .2f)
             .SetTrans(Tween.TransitionType.Cubic)
             .SetEase(Tween.EaseType.InOut);

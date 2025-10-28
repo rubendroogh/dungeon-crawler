@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://c52h746nogb6c"]
 
-[ext_resource type="Script" uid="uid://dfeopkvw7y6i3" path="res://Scripts/UI/Components/ComponentExposer.cs" id="1_343mg"]
+[ext_resource type="Script" uid="uid://dfeopkvw7y6i3" path="res://Scripts/UI/Components/Exposers/ComponentExposer.cs" id="1_343mg"]
 [ext_resource type="Script" uid="uid://b40v7nngruesy" path="res://Scripts/UI/Spells/AddSpellToQueueButton.cs" id="1_rd12s"]
 
 [node name="SpellBook" type="PanelContainer"]

@@ -1,4 +1,4 @@
-[gd_scene load_steps=36 format=3 uid="uid://ck8p1eru6l2f4"]
+[gd_scene load_steps=34 format=3 uid="uid://ck8p1eru6l2f4"]
 
 [ext_resource type="Script" uid="uid://di2h8gf1377s5" path="res://Scripts/UI/CameraShake.cs" id="1_hojmo"]
 [ext_resource type="Script" uid="uid://bb2xw40m0q3sm" path="res://Scripts/Managers/ManaSourceManager.cs" id="3_hvf01"]
@@ -26,18 +26,13 @@
 [ext_resource type="PackedScene" uid="uid://da86qewhcsw42" path="res://Scenes/BattleUI/BattleLog/BattleLog.tscn" id="22_8287p"]
 [ext_resource type="PackedScene" uid="uid://brrg2g58puw3q" path="res://Scenes/BattleUI/Opponents/OpponentScreen.tscn" id="22_ogsbt"]
 [ext_resource type="PackedScene" uid="uid://csxpifkpyb2j3" path="res://Scenes/BattleUI/ManaSource/ManaSource.tscn" id="23_8287p"]
+[ext_resource type="StyleBox" uid="uid://ginbulb641wh" path="res://Resources/StyleBoxes/Brick/BrickBackgroundPanel.tres" id="24_jk3s6"]
 [ext_resource type="PackedScene" uid="uid://bobl0cvnecl4s" path="res://Scenes/BattleUI/TurnIndication/TurnIndicationPanel.tscn" id="25_b51k0"]
 [ext_resource type="PackedScene" uid="uid://din1s2uojtxq0" path="res://Scenes/RewardSelectionUI/RewardSelectionPanel.tscn" id="27_aj24y"]
 [ext_resource type="PackedScene" uid="uid://ixikavep8rh3" path="res://Scenes/RewardSelectionUI/RewardSelectionBackground.tscn" id="27_b51k0"]
-[ext_resource type="Texture2D" uid="uid://gs4miyhf4h5w" path="res://Assets/RawImages/PatternsOutlinesTileMapTransparent.png" id="27_n6swl"]
-[ext_resource type="Texture2D" uid="uid://dtiph47grigev" path="res://Assets/RawImages/HealthBarProgress.png" id="28_ghvpb"]
-[ext_resource type="Texture2D" uid="uid://bw2mr7ncsl7ni" path="res://Assets/RawImages/HealthBarOver.png" id="28_n6swl"]
+[ext_resource type="PackedScene" uid="uid://dt1nefepu8rpf" path="res://Scenes/BattleUI/PlayerHealthBar/HealthBar.tscn" id="28_ghvpb"]
 [ext_resource type="PackedScene" uid="uid://2drx4r22f0mk" path="res://Scenes/CharacterCreationUI/CharacterCreationBackground.tscn" id="31_ogsbt"]
 [ext_resource type="PackedScene" uid="uid://c6c50r7e37xs6" path="res://Scenes/CharacterCreationUI/CharacterCreationPanel.tscn" id="32_ogsbt"]
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_jk3s6"]
-atlas = ExtResource("27_n6swl")
-region = Rect2(377, 217, 46, 46)
 
 [node name="Root" type="Node2D"]
 
@@ -56,7 +51,7 @@ script = ExtResource("4_safex")
 script = ExtResource("5_26f67")
 SpellListItemScene = ExtResource("6_71tao")
 SpellPreloader = NodePath("StartingSpellPreloader")
-SpellBookExposer = NodePath("../../../UI/HUD/BattleAndResources/Resources/Spells/SpellSelection/SpellBook")
+SpellBookExposer = NodePath("../../../UI/HUD/BattleAndResources/ResourcesTabs/Spells/SpellsVBox/SpellSelection/SpellBook")
 
 [node name="StartingSpellPreloader" type="ResourcePreloader" parent="World/ManagerRepository/SpellListManager"]
 resources = [PackedStringArray("BrainFreeze", "Discombobulate"), [ExtResource("7_71tao"), ExtResource("8_lxbb3")]]
@@ -68,7 +63,7 @@ BattleLogExposer = NodePath("../../../UI/HUD/BattleAndResources/Battle/BattleLog
 [node name="BattleManager" type="Node" parent="World/ManagerRepository" node_paths=PackedStringArray("TurnIndicationExposer")]
 script = ExtResource("8_rc4gq")
 EnemyScene = ExtResource("12_aw745")
-TurnIndicationExposer = NodePath("../../../UI/HUD/Bottom/TurnIndicationPanel")
+TurnIndicationExposer = NodePath("../../../UI/HUD/BottomPanel/Bottom/TurnIndicationPanel")
 
 [node name="PlayerManager" type="Node" parent="World/ManagerRepository"]
 script = ExtResource("14_wnt1r")
@@ -82,7 +77,7 @@ script = ExtResource("15_g2qkk")
 
 [node name="DebugScreenManager" type="Node" parent="World/ManagerRepository" node_paths=PackedStringArray("SpellQueueExposer")]
 script = ExtResource("16_ogsbt")
-SpellQueueExposer = NodePath("../../../UI/HUD/BattleAndResources/Resources/Spells/SpellSelection/SpellQueue")
+SpellQueueExposer = NodePath("../../../UI/HUD/BattleAndResources/ResourcesTabs/Spells/SpellsVBox/SpellSelection/SpellQueue")
 
 [node name="SoundEffectManager" type="Node" parent="World/ManagerRepository"]
 script = ExtResource("17_udxv6")
@@ -148,74 +143,73 @@ layout_mode = 2
 custom_minimum_size = Vector2(0, 250)
 layout_mode = 2
 
-[node name="Resources" type="TabContainer" parent="UI/HUD/BattleAndResources"]
+[node name="ResourcesTabs" type="TabContainer" parent="UI/HUD/BattleAndResources"]
 custom_minimum_size = Vector2(425, 0)
 layout_mode = 2
 current_tab = 0
 
-[node name="Spells" type="VBoxContainer" parent="UI/HUD/BattleAndResources/Resources"]
+[node name="Spells" type="PanelContainer" parent="UI/HUD/BattleAndResources/ResourcesTabs"]
 layout_mode = 2
-theme_override_constants/separation = 20
+theme_override_styles/panel = ExtResource("24_jk3s6")
 metadata/_tab_index = 0
 
-[node name="SpellSelection" type="VBoxContainer" parent="UI/HUD/BattleAndResources/Resources/Spells"]
+[node name="SpellsVBox" type="VBoxContainer" parent="UI/HUD/BattleAndResources/ResourcesTabs/Spells"]
+layout_mode = 2
+theme_override_constants/separation = 20
+
+[node name="SpellSelection" type="VBoxContainer" parent="UI/HUD/BattleAndResources/ResourcesTabs/Spells/SpellsVBox"]
 layout_mode = 2
 theme_override_constants/separation = 10
 
-[node name="SpellBook" parent="UI/HUD/BattleAndResources/Resources/Spells/SpellSelection" instance=ExtResource("20_2dbf0")]
+[node name="SpellBook" parent="UI/HUD/BattleAndResources/ResourcesTabs/Spells/SpellsVBox/SpellSelection" instance=ExtResource("20_2dbf0")]
 layout_mode = 2
 
-[node name="SpellQueue" parent="UI/HUD/BattleAndResources/Resources/Spells/SpellSelection" instance=ExtResource("21_2dbf0")]
+[node name="SpellQueue" parent="UI/HUD/BattleAndResources/ResourcesTabs/Spells/SpellsVBox/SpellSelection" instance=ExtResource("21_2dbf0")]
 layout_mode = 2
 
-[node name="ManaSource" parent="UI/HUD/BattleAndResources/Resources/Spells" instance=ExtResource("23_8287p")]
+[node name="ManaSource" parent="UI/HUD/BattleAndResources/ResourcesTabs/Spells/SpellsVBox" instance=ExtResource("23_8287p")]
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="Inventory" type="VBoxContainer" parent="UI/HUD/BattleAndResources/Resources"]
+[node name="Inventory" type="VBoxContainer" parent="UI/HUD/BattleAndResources/ResourcesTabs"]
 visible = false
 layout_mode = 2
 metadata/_tab_index = 1
 
-[node name="CenterContainer" type="CenterContainer" parent="UI/HUD/BattleAndResources/Resources/Inventory"]
+[node name="CenterContainer" type="CenterContainer" parent="UI/HUD/BattleAndResources/ResourcesTabs/Inventory"]
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="Label" type="Label" parent="UI/HUD/BattleAndResources/Resources/Inventory/CenterContainer"]
+[node name="Label" type="Label" parent="UI/HUD/BattleAndResources/ResourcesTabs/Inventory/CenterContainer"]
 layout_mode = 2
 text = "Feature not implemented yet!"
 
-[node name="Map" type="VBoxContainer" parent="UI/HUD/BattleAndResources/Resources"]
+[node name="Map" type="VBoxContainer" parent="UI/HUD/BattleAndResources/ResourcesTabs"]
 visible = false
 layout_mode = 2
 metadata/_tab_index = 2
 
-[node name="CenterContainer" type="CenterContainer" parent="UI/HUD/BattleAndResources/Resources/Map"]
+[node name="CenterContainer" type="CenterContainer" parent="UI/HUD/BattleAndResources/ResourcesTabs/Map"]
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="Label" type="Label" parent="UI/HUD/BattleAndResources/Resources/Map/CenterContainer"]
+[node name="Label" type="Label" parent="UI/HUD/BattleAndResources/ResourcesTabs/Map/CenterContainer"]
 layout_mode = 2
 text = "Feature not implemented yet!"
 
-[node name="Bottom" type="HBoxContainer" parent="UI/HUD"]
+[node name="BottomPanel" type="PanelContainer" parent="UI/HUD"]
+layout_mode = 2
+theme_override_styles/panel = ExtResource("24_jk3s6")
+
+[node name="Bottom" type="HBoxContainer" parent="UI/HUD/BottomPanel"]
 custom_minimum_size = Vector2(0, 48)
 layout_mode = 2
 theme_override_constants/separation = 0
 
-[node name="HealthBar" type="TextureProgressBar" parent="UI/HUD/Bottom"]
+[node name="HealthBar" parent="UI/HUD/BottomPanel/Bottom" instance=ExtResource("28_ghvpb")]
 layout_mode = 2
-size_flags_horizontal = 3
-value = 50.0
-stretch_margin_left = 8
-stretch_margin_top = 8
-stretch_margin_right = 8
-stretch_margin_bottom = 8
-texture_under = SubResource("AtlasTexture_jk3s6")
-texture_over = ExtResource("28_n6swl")
-texture_progress = ExtResource("28_ghvpb")
 
-[node name="TurnIndicationPanel" parent="UI/HUD/Bottom" instance=ExtResource("25_b51k0")]
+[node name="TurnIndicationPanel" parent="UI/HUD/BottomPanel/Bottom" instance=ExtResource("25_b51k0")]
 custom_minimum_size = Vector2(220, 0)
 layout_mode = 2
 

@@ -1,6 +1,4 @@
-using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Threading.Tasks;
 using Godot;
 
@@ -17,6 +15,11 @@ public partial class Player : Character
 	/// </summary>
 	[Signal]
 	public delegate void SpellQueuedEventHandler();
+
+	/// <summary>
+	/// The HealthBar UI element for the player.
+	/// </summary>
+	private PlayerHealthBar PlayerHealthBar { get; set; }
 
 	public override void _Ready()
 	{
@@ -76,16 +79,20 @@ public partial class Player : Character
 	protected override void InitializeNodes(CharacterData characterData)
 	{
 		// TODO: Refactor to use ComponentExposer
-		HealthBar = GetTree().Root.GetNode<TextureProgressBar>("Root/UI/HUD/Bottom/HealthBar");
+		PlayerHealthBar = GetTree().Root.GetNode<PlayerHealthBar>("Root/UI/HUD/BottomPanel/Bottom/HealthBar");
 
-		if (HealthBar == null)
+		if (PlayerHealthBar == null)
 		{
 			GD.PrintErr("Player HealthBar is not set up in the scene.");
 			return;
 		}
 
-		HealthBar.MaxValue = characterData.MaxHealth;
-		HealthBar.Value = Health;
+		PlayerHealthBar.Initialize(characterData.MaxHealth, Health);
+	}
+
+	protected override async Task UpdateHealthBar()
+	{
+		await PlayerHealthBar.SetHealth(Health);
 	}
 
 	protected override void UpdateStatusEffectLabel()
