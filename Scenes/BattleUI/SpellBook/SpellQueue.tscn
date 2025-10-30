@@ -23,7 +23,7 @@ layout_mode = 2
 theme_override_font_sizes/font_size = 24
 text = "Spell queue"
 
-[node name="RichTextLabel" type="RichTextLabel" parent="MarginContainer/SpellQueue"]
+[node name="SpellQueueLabel" type="RichTextLabel" parent="MarginContainer/SpellQueue"]
 layout_mode = 2
 theme_override_font_sizes/normal_font_size = 16
 fit_content = true
