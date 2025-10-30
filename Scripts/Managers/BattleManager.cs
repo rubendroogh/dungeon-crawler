@@ -64,7 +64,10 @@ public partial class BattleManager : Node
     /// Starts a new turn phase and processes it for the current character.
     /// This method is called automatically after the current turn phase is completed.
     /// </summary>
-    public async Task StartNewTurnPhase()
+    /// <param name="immediate">
+    /// If true, the new turn phase starts immediately without delay. Used to skip mechanical turn phases.
+    /// </param>
+    public async Task StartNewTurnPhase(bool immediate = false)
     {
         CurrentTurnPhase++;
         if (CurrentTurnPhase > TurnPhase.PostEnd)
@@ -72,7 +75,11 @@ public partial class BattleManager : Node
             CurrentTurnPhase = TurnPhase.Start;
         }
 
-        await this.Delay(300);
+        if (!immediate)
+        {
+            await this.Delay(300);
+        }
+
         UpdateTurnLabel();
     }
 
@@ -136,6 +143,7 @@ public partial class BattleManager : Node
         catch (System.Exception ex)
         {
             GD.PrintErr($"Error processing turn phase {CurrentTurnPhase}: {ex.Message}");
+            GD.PrintErr(ex.StackTrace);
         }
         
         TurnPhaseProcessed = true;
@@ -143,7 +151,7 @@ public partial class BattleManager : Node
         // If phase requires immediate progression, handle it here.
         if (ShouldAutoAdvancePhase(CurrentTurnPhase))
         {
-            await StartNewTurnPhase();
+            await StartNewTurnPhase(immediate: true);
         }
     }
 
@@ -269,6 +277,14 @@ public partial class BattleManager : Node
         var isPlayer = GetCurrentCharacter() == Managers.PlayerManager.GetPlayer();
 
         return !(isMain && isPlayer);
+    }
+
+    /// <summary>
+    /// An immediate turn phase is one that requires no player interaction and has no animations.
+    /// </summary>
+    private bool IsImmediateTurnPhase()
+    {
+        return CurrentTurnPhase == TurnPhase.Start || CurrentTurnPhase == TurnPhase.PostEnd;
     }
 
     /// <summary>
