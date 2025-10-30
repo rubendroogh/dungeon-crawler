@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://c0ol2s1uon0x3"]
 
-[ext_resource type="Script" uid="uid://dfeopkvw7y6i3" path="res://Scripts/UI/Components/Exposers/ComponentExposer.cs" id="1_pf0a5"]
+[ext_resource type="Script" uid="uid://dfeopkvw7y6i3" path="res://Scripts/UI/Exposers/ComponentExposer.cs" id="1_pf0a5"]
 [ext_resource type="Script" uid="uid://cpji6emjswl8f" path="res://Scripts/UI/Spells/CastSpellButton.cs" id="1_ste01"]
 
 [node name="SpellQueue" type="PanelContainer"]

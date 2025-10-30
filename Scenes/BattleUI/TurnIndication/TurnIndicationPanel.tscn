@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://bobl0cvnecl4s"]
 
 [ext_resource type="Theme" uid="uid://cf4ymgipxtcs0" path="res://Resources/Themes/DefaultTheme.tres" id="1_llk8w"]
-[ext_resource type="Script" uid="uid://dfeopkvw7y6i3" path="res://Scripts/UI/Components/Exposers/ComponentExposer.cs" id="2_llk8w"]
+[ext_resource type="Script" uid="uid://dfeopkvw7y6i3" path="res://Scripts/UI/Exposers/ComponentExposer.cs" id="2_llk8w"]
 
 [node name="TurnIndicationPanel" type="PanelContainer"]
 theme = ExtResource("1_llk8w")

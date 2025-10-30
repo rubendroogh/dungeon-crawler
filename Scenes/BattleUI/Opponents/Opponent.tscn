@@ -1,6 +1,6 @@
 [gd_scene load_steps=11 format=3 uid="uid://dchnspiwg3mmg"]
 
-[ext_resource type="Script" uid="uid://dfeopkvw7y6i3" path="res://Scripts/UI/Components/Exposers/ComponentExposer.cs" id="1_dxxnc"]
+[ext_resource type="Script" uid="uid://dfeopkvw7y6i3" path="res://Scripts/UI/Exposers/ComponentExposer.cs" id="1_dxxnc"]
 [ext_resource type="Script" uid="uid://bag16jmrm8a4c" path="res://Scripts/Characters/Enemy.cs" id="1_xeo28"]
 [ext_resource type="Texture2D" uid="uid://s2ihy4m3p226" path="res://Assets/RawImages/CreaturesTileMap.png" id="2_xeo28"]
 [ext_resource type="Texture2D" uid="uid://csjt8ylrgdkbj" path="res://Resources/Atlasses/TileAtlas.tres" id="3_xeo28"]

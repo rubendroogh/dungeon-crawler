@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://csxpifkpyb2j3"]
 
-[ext_resource type="Script" uid="uid://dfeopkvw7y6i3" path="res://Scripts/UI/Components/Exposers/ComponentExposer.cs" id="1_ogtq6"]
+[ext_resource type="Script" uid="uid://dfeopkvw7y6i3" path="res://Scripts/UI/Exposers/ComponentExposer.cs" id="1_ogtq6"]
 [ext_resource type="Texture2D" uid="uid://besod7da44jmr" path="res://Assets/RawImages/BlessingBarOver.png" id="2_vm5wt"]
 
 [node name="ManaSource" type="PanelContainer"]

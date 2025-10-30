@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://da86qewhcsw42"]
 
-[ext_resource type="Script" uid="uid://dfeopkvw7y6i3" path="res://Scripts/UI/Components/Exposers/ComponentExposer.cs" id="1_umrha"]
+[ext_resource type="Script" uid="uid://dfeopkvw7y6i3" path="res://Scripts/UI/Exposers/ComponentExposer.cs" id="1_umrha"]
 
 [node name="BattleLog" type="PanelContainer"]
 anchors_preset = 7
