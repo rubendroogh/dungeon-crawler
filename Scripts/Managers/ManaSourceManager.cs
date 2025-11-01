@@ -1,6 +1,7 @@
 using Godot;
 using System.Collections.Generic;
 using System.Linq;
+using DungeonRPG.Blessings.Enums;
 
 /// <summary>
 /// The manager responsible for handling mana sources and their related functionalities.
@@ -84,12 +85,12 @@ public class BlessingBar
 	/// Blessings that are marked for use in a queued action.
 	/// TODO: Find a way to track which blessings are used by which action so they can be properly managed.
 	/// </summary>
-	public List<Blessing> BlessingsMarkedForUse => AllBlessings.Where(b => b.State == BlessingState.MarkedForUse).ToList();
+	public List<Blessing> BlessingsMarkedForUse => AllBlessings.Where(b => b.State == State.MarkedForUse).ToList();
 
 	/// <summary>
 	/// The current amount of unspent mana in the blessing bar.
 	/// </summary>
-	public List<Blessing> AvailableBlessings => AllBlessings.Where(b => b.State == BlessingState.Available).ToList();
+	public List<Blessing> AvailableBlessings => AllBlessings.Where(b => b.State == State.Available).ToList();
 
 	/// <summary>
 	/// The maximum amount of mana the blessing bar can hold.
@@ -133,12 +134,12 @@ public class Blessing
 	/// <summary>
 	/// The potency level of the blessing. This determines how much mana it provides.
 	/// </summary>
-	public Rank Level { get; set; }
+	public Level Level { get; set; }
 
 	/// <summary>
 	/// The current state of the blessing (Available, MarkedForUse, Spent).
 	/// </summary>
-	public BlessingState State { get; set; } = BlessingState.Available;
+	public State State { get; set; } = State.Available;
 
 	/// <summary>
 	/// The domain of the blessing.
@@ -147,55 +148,59 @@ public class Blessing
 	public Domain Domain { get; set; }
 }
 
-/// <summary>
-/// Represents the rank of a card in a standard deck.
-/// The ranks are ordered from Minor (1) to Major (4).
-/// </summary>
-public enum Rank { Minor = 1, Lesser = 2, Greater = 3, Major = 4, Superior = 5 }
-
-/// <summary>
-/// Represents the state of a blessing in the game.
-/// </summary>
-public enum BlessingState
+namespace DungeonRPG.Blessings.Enums
 {
 	/// <summary>
-	/// The blessing is available for use.
+	/// Represents the rank of a card in a standard deck.
+	/// The ranks are ordered from Minor (1) to Major (4).
 	/// </summary>
-	Available,
+	public enum Level { Minor = 1, Lesser = 2, Greater = 3, Major = 4, Superior = 5 }
 
 	/// <summary>
-	/// The blessing is marked for use in a queued action.
+	/// Represents the state of a blessing in the game.
 	/// </summary>
-	MarkedForUse,
+	public enum State
+	{
+		/// <summary>
+		/// The blessing is available for use.
+		/// </summary>
+		Available,
+
+		/// <summary>
+		/// The blessing is marked for use in a queued action.
+		/// </summary>
+		MarkedForUse,
+
+		/// <summary>
+		/// The blessing has been spent (used) and cannot be used again until refreshed by prayer.
+		/// </summary>
+		Spent
+	}
 
 	/// <summary>
-	/// The blessing has been spent (used) and cannot be used again until refreshed by prayer.
+	/// Represents the type of a blessing in a standard deck.
 	/// </summary>
-	Spent
+	public enum Domain
+	{
+		/// <summary>
+		/// Focused on power and resilience.
+		/// </summary>
+		Calina,
+
+		/// <summary>
+		/// Focused on wisdom and calm.
+		/// </summary>
+		Hamin,
+
+		/// <summary>
+		/// Focused on the element of surprise and deception.
+		/// </summary>
+		Jaddis,
+
+		/// <summary>
+		/// Focused on pest and decay.
+		/// </summary>
+		Zer,
+	}
 }
 
-/// <summary>
-/// Represents the type of a blessing in a standard deck.
-/// </summary>
-public enum Domain
-{
-	/// <summary>
-	/// Focused on power and resilience.
-	/// </summary>
-	Calina,
-
-	/// <summary>
-	/// Focused on wisdom and calm.
-	/// </summary>
-	Hamin,
-
-	/// <summary>
-	/// Focused on the element of surprise and deception.
-	/// </summary>
-	Jaddis,
-
-	/// <summary>
-	/// Focused on pest and decay.
-	/// </summary>
-	Zer,
-}

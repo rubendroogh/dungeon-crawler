@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using DungeonRPG.Blessings.Enums;
 
 /// <summary>
 /// Represents the mana cost of an action or spell.
