@@ -29,7 +29,7 @@ public partial class RewardUI : Container
 	/// </summary>
 	public void Setup(Blessing card)
 	{
-		NameLabel.Text = $"{card.Rank} of {card.Domain}";
+		NameLabel.Text = $"{card.Level} of {card.Domain}";
 		DescriptionLabel.Text = "An additional card for your deck.";
 		Icon.Texture = card.GetIcon();
 

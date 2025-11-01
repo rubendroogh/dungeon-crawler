@@ -182,7 +182,7 @@ public partial class RewardSelectionManager : Node
         {
             // Assign weights: higher rank = lower weight (rarer)
             // Example: weight = 1 / rank (Two=1, Ace=14)
-            var weights = possibleRewards.Select(card => 1f / (float)card.Rank).ToList();
+            var weights = possibleRewards.Select(card => 1f / (float)card.Level).ToList();
             float totalWeight = weights.Sum();
             float randomValue = GD.Randf() * totalWeight;
 
@@ -228,7 +228,7 @@ public partial class RewardSelectionManager : Node
         {
             for (int suit = 0; suit < 4; suit++)
             {
-                var card = new Blessing { Rank = (Rank)rank, Domain = (Domain)suit };
+                var card = new Blessing { Level = (Rank)rank, Domain = (Domain)suit };
                 if (!SelectedCardRewards.Contains(card))
                 {
                     possibleRewards.Add(card);

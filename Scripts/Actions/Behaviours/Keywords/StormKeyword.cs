@@ -42,7 +42,7 @@ public class StormKeyword : KeywordBase
             // Queue the spell again with the same target and one card.
             var syntheticCard = new Blessing
             {
-                Rank = Rank.Two,
+                Level = Rank.Two,
                 Domain = Domain.Zer
             };
 

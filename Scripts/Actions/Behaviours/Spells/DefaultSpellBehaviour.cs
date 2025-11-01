@@ -27,7 +27,7 @@ public partial class DefaultSpellBehaviour : ISpellBehaviour
         float modifier = 1f;
         foreach (var card in cards)
         {
-            modifier *= Mathf.Pow(spellData.ModifierMultiplier, (float)card.Rank);
+            modifier *= Mathf.Pow(spellData.ModifierMultiplier, (float)card.Level);
         }
 
         // Add all damage types together
