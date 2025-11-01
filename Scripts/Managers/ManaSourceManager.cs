@@ -122,8 +122,6 @@ public class BlessingBar
 			AvailableBlessings.Add(blessing);
 		}
 	}
-
-	public 
 }
 
 /// <summary>
