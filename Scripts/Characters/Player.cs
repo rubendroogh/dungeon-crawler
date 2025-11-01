@@ -79,11 +79,11 @@ public partial class Player : Character
 	protected override void InitializeNodes(CharacterData characterData)
 	{
 		// TODO: Refactor to use ComponentExposer
-		PlayerHealthBar = GetTree().Root.GetNode<PlayerHealthBar>("Root/UI/HUD/BottomPanel/Bottom/HealthBar");
+		PlayerHealthBar = GetTree().Root.GetNode<PlayerHealthBar>("Root/UI/HUD/Bottom/HealthBar");
 
 		if (PlayerHealthBar == null)
 		{
-			GD.PrintErr("Player HealthBar is not set up in the scene.");
+			GD.PrintErr("Player.cs: Player HealthBar is not set up in the scene.");
 			return;
 		}
 
