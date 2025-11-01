@@ -18,11 +18,16 @@ public partial class CharacterCreationManager : Control
 	[Export]
 	public string AvailablePointsTextPlural;
 
+	[Export]
+	private ComponentExposer AvailablePointsExposer;
+
 	private LineEdit PlayerNameInput { get; set; }
 
-	private Label AvailablePointsNumberLabel { get; set; }
+	private Label AvailablePointsNumberLabel => AvailablePointsExposer.GetComponent<Label>(Components.AvailablePointsNumberLabel);
 
-	private Label AvailablePointsTextLabel { get; set; }
+	private Label AvailablePointsTextLabel => AvailablePointsExposer.GetComponent<Label>(Components.AvailablePointsTextLabel);
+
+	private TextureRect WarningIcon => AvailablePointsExposer.GetComponent<TextureRect>(Components.WarningIcon);
 
 	private Button SubmitButton { get; set; }
 	
@@ -46,12 +51,10 @@ public partial class CharacterCreationManager : Control
 	{
 		// Initialize form fields and points label
 		PlayerNameInput = FindChild("PlayerNameInput") as LineEdit;
-		AvailablePointsNumberLabel = FindChild("AvailablePointsNumberLabel") as Label;
-		AvailablePointsTextLabel = FindChild("AvailablePointsTextLabel") as Label;
 		SubmitButton = FindChild("SubmitButton") as Button;
 
 		Managers.TransitionManager.ToCharacterCreation();
-		UpdateAvailablePointsLabels();
+		UpdateAvailablePoints();
 		UpdateSubmitButtonState();
 
 		// Connect the player name input text changed signal to update the submit button state.
@@ -74,18 +77,19 @@ public partial class CharacterCreationManager : Control
 	/// </summary>
 	public void OnSpinboxValueChanged()
 	{
-		UpdateAvailablePointsLabels();
+		UpdateAvailablePoints();
 		UpdateSubmitButtonState();
-		UpdatePersonalityPointsColour();
 	}
 
 	/// <summary>
 	/// Updates the labels showing the available points and their text based on the current state of the spinboxes.
 	/// </summary>
-	private void UpdateAvailablePointsLabels()
+	private void UpdateAvailablePoints()
 	{
 		AvailablePointsNumberLabel.Text = AvailablePoints.ToString();
 		AvailablePointsTextLabel.Text = AvailablePoints == 1 ? AvailablePointsTextSingular : AvailablePointsTextPlural;
+
+		WarningIcon.Visible = AvailablePoints < 0;
 	}
 
 	/// <summary>
@@ -95,14 +99,6 @@ public partial class CharacterCreationManager : Control
 	{
 		// Enable or disable the submit button based on the available points and player name input
 		SubmitButton.Disabled = AvailablePoints < 0 || PlayerNameInput.Text.Trim().Length == 0;
-	}
-
-	/// <summary>
-	/// Updates the colour of the personality points based on the current values.
-	/// </summary>
-	private void UpdatePersonalityPointsColour()
-	{
-		AvailablePointsNumberLabel.LabelSettings.OutlineColor = AvailablePoints < 0 ? Colors.Red : new Color(0.682f, 0.0f, 1.0f);
 	}
 
 	/// <summary>

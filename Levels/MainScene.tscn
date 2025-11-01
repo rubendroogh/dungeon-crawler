@@ -63,7 +63,7 @@ BattleLogExposer = NodePath("../../../UI/HUD/BattleAndResources/Battle/BattleLog
 [node name="BattleManager" type="Node" parent="World/ManagerRepository" node_paths=PackedStringArray("TurnIndicationExposer")]
 script = ExtResource("8_rc4gq")
 EnemyScene = ExtResource("12_aw745")
-TurnIndicationExposer = NodePath("../../../UI/HUD/BottomPanel/Bottom/TurnIndicationPanel")
+TurnIndicationExposer = NodePath("../../../UI/HUD/Bottom/TurnIndicationPanel")
 
 [node name="PlayerManager" type="Node" parent="World/ManagerRepository"]
 script = ExtResource("14_wnt1r")
@@ -197,21 +197,19 @@ size_flags_vertical = 3
 layout_mode = 2
 text = "Feature not implemented yet!"
 
-[node name="BottomPanel" type="PanelContainer" parent="UI/HUD"]
-layout_mode = 2
-theme_override_styles/panel = ExtResource("24_jk3s6")
-
-[node name="Bottom" type="HBoxContainer" parent="UI/HUD/BottomPanel"]
+[node name="Bottom" type="HBoxContainer" parent="UI/HUD"]
 custom_minimum_size = Vector2(0, 48)
 layout_mode = 2
-theme_override_constants/separation = 0
+theme_override_constants/separation = 10
 
-[node name="HealthBar" parent="UI/HUD/BottomPanel/Bottom" instance=ExtResource("28_ghvpb")]
+[node name="HealthBar" parent="UI/HUD/Bottom" instance=ExtResource("28_ghvpb")]
 layout_mode = 2
+size_flags_horizontal = 1
 
-[node name="TurnIndicationPanel" parent="UI/HUD/BottomPanel/Bottom" instance=ExtResource("25_b51k0")]
-custom_minimum_size = Vector2(220, 0)
+[node name="TurnIndicationPanel" parent="UI/HUD/Bottom" instance=ExtResource("25_b51k0")]
+custom_minimum_size = Vector2(200, 0)
 layout_mode = 2
+size_flags_horizontal = 3
 
 [node name="RewardSelection" type="Control" parent="UI"]
 visible = false

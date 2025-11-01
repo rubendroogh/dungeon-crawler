@@ -12,15 +12,11 @@
 [ext_resource type="Resource" uid="uid://dv0wsrhnml26l" path="res://Resources/PersonalityTraits/Genuine.tres" id="10_hkvhk"]
 [ext_resource type="Resource" uid="uid://di70yuvrx0ctx" path="res://Resources/PersonalityTraits/Optimistic.tres" id="11_caqsy"]
 [ext_resource type="Script" uid="uid://dphi8b28kelq" path="res://Scripts/UI/CharacterCreation/CharacterCreationSubmit.cs" id="12_dmxv2"]
+[ext_resource type="PackedScene" uid="uid://8fc8j5unty8k" path="res://Scenes/CharacterCreationUI/AvailablePointsIndicator.tscn" id="12_fwyi0"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_sth1w"]
 atlas = ExtResource("2_fwyi0")
 region = Rect2(663, 169, 16, 17)
-
-[sub_resource type="LabelSettings" id="LabelSettings_tayw2"]
-font_size = 24
-outline_size = 2
-outline_color = Color(0.682353, 0, 1, 1)
 
 [node name="CharacterCreationCenter" type="CenterContainer"]
 z_index = 100
@@ -31,12 +27,13 @@ offset_top = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="CharacterCreationManager" type="PanelContainer" parent="."]
+[node name="CharacterCreationManager" type="PanelContainer" parent="." node_paths=PackedStringArray("AvailablePointsExposer")]
 layout_mode = 2
 script = ExtResource("1_vwkv2")
 MaxTotalPoints = 0
 AvailablePointsTextSingular = "available personality point"
 AvailablePointsTextPlural = "available personality points"
+AvailablePointsExposer = NodePath("MarginContainer/HBoxContainer/Form/FormMargin/VBoxContainer/AvailablePointsMargin")
 
 [node name="MarginContainer" type="MarginContainer" parent="CharacterCreationManager"]
 layout_mode = 2
@@ -53,48 +50,47 @@ layout_mode = 2
 theme_override_constants/separation = 12
 alignment = 1
 
-[node name="CharacterCreationTitleLabel" type="Label" parent="CharacterCreationManager/MarginContainer/HBoxContainer/Form"]
+[node name="TitleMargin" type="MarginContainer" parent="CharacterCreationManager/MarginContainer/HBoxContainer/Form"]
+layout_mode = 2
+theme_override_constants/margin_bottom = 10
+
+[node name="CharacterCreationTitleLabel" type="Label" parent="CharacterCreationManager/MarginContainer/HBoxContainer/Form/TitleMargin"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 36
 text = "Please describe yourself."
-
-[node name="Line" type="Panel" parent="CharacterCreationManager/MarginContainer/HBoxContainer/Form"]
-modulate = Color(0, 0, 0, 0.643137)
-custom_minimum_size = Vector2(0, 3)
-layout_mode = 2
 
 [node name="PlayerNameInput" type="LineEdit" parent="CharacterCreationManager/MarginContainer/HBoxContainer/Form"]
 layout_mode = 2
 placeholder_text = "Your name"
 
-[node name="MarginContainer" type="MarginContainer" parent="CharacterCreationManager/MarginContainer/HBoxContainer/Form"]
+[node name="FormMargin" type="MarginContainer" parent="CharacterCreationManager/MarginContainer/HBoxContainer/Form"]
 layout_mode = 2
 theme_override_constants/margin_left = 5
-theme_override_constants/margin_top = 5
+theme_override_constants/margin_top = 15
 theme_override_constants/margin_right = 5
 theme_override_constants/margin_bottom = 5
 
-[node name="VBoxContainer" type="VBoxContainer" parent="CharacterCreationManager/MarginContainer/HBoxContainer/Form/MarginContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="CharacterCreationManager/MarginContainer/HBoxContainer/Form/FormMargin"]
 layout_mode = 2
 theme_override_constants/separation = 12
 
-[node name="Benevolent" type="HBoxContainer" parent="CharacterCreationManager/MarginContainer/HBoxContainer/Form/MarginContainer/VBoxContainer"]
+[node name="Benevolent" type="HBoxContainer" parent="CharacterCreationManager/MarginContainer/HBoxContainer/Form/FormMargin/VBoxContainer"]
 layout_mode = 2
 alignment = 1
 
-[node name="TextureRect" type="TextureRect" parent="CharacterCreationManager/MarginContainer/HBoxContainer/Form/MarginContainer/VBoxContainer/Benevolent"]
+[node name="TextureRect" type="TextureRect" parent="CharacterCreationManager/MarginContainer/HBoxContainer/Form/FormMargin/VBoxContainer/Benevolent"]
 visible = false
 layout_mode = 2
 size_flags_vertical = 4
 texture = SubResource("AtlasTexture_sth1w")
 stretch_mode = 2
 
-[node name="Label" type="Label" parent="CharacterCreationManager/MarginContainer/HBoxContainer/Form/MarginContainer/VBoxContainer/Benevolent"]
+[node name="Label" type="Label" parent="CharacterCreationManager/MarginContainer/HBoxContainer/Form/FormMargin/VBoxContainer/Benevolent"]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Benevolent"
 
-[node name="SpinBox" type="SpinBox" parent="CharacterCreationManager/MarginContainer/HBoxContainer/Form/MarginContainer/VBoxContainer/Benevolent"]
+[node name="SpinBox" type="SpinBox" parent="CharacterCreationManager/MarginContainer/HBoxContainer/Form/FormMargin/VBoxContainer/Benevolent"]
 layout_mode = 2
 min_value = -10.0
 max_value = 10.0
@@ -102,23 +98,23 @@ rounded = true
 script = ExtResource("3_wlrjr")
 Trait = ExtResource("4_vnafq")
 
-[node name="Charming" type="HBoxContainer" parent="CharacterCreationManager/MarginContainer/HBoxContainer/Form/MarginContainer/VBoxContainer"]
+[node name="Charming" type="HBoxContainer" parent="CharacterCreationManager/MarginContainer/HBoxContainer/Form/FormMargin/VBoxContainer"]
 layout_mode = 2
 alignment = 1
 
-[node name="TextureRect" type="TextureRect" parent="CharacterCreationManager/MarginContainer/HBoxContainer/Form/MarginContainer/VBoxContainer/Charming"]
+[node name="TextureRect" type="TextureRect" parent="CharacterCreationManager/MarginContainer/HBoxContainer/Form/FormMargin/VBoxContainer/Charming"]
 visible = false
 layout_mode = 2
 size_flags_vertical = 4
 texture = SubResource("AtlasTexture_sth1w")
 stretch_mode = 2
 
-[node name="Label" type="Label" parent="CharacterCreationManager/MarginContainer/HBoxContainer/Form/MarginContainer/VBoxContainer/Charming"]
+[node name="Label" type="Label" parent="CharacterCreationManager/MarginContainer/HBoxContainer/Form/FormMargin/VBoxContainer/Charming"]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Charming"
 
-[node name="SpinBox" type="SpinBox" parent="CharacterCreationManager/MarginContainer/HBoxContainer/Form/MarginContainer/VBoxContainer/Charming"]
+[node name="SpinBox" type="SpinBox" parent="CharacterCreationManager/MarginContainer/HBoxContainer/Form/FormMargin/VBoxContainer/Charming"]
 layout_mode = 2
 min_value = -10.0
 max_value = 10.0
@@ -126,23 +122,23 @@ rounded = true
 script = ExtResource("3_wlrjr")
 Trait = ExtResource("5_novjt")
 
-[node name="Curious" type="HBoxContainer" parent="CharacterCreationManager/MarginContainer/HBoxContainer/Form/MarginContainer/VBoxContainer"]
+[node name="Curious" type="HBoxContainer" parent="CharacterCreationManager/MarginContainer/HBoxContainer/Form/FormMargin/VBoxContainer"]
 layout_mode = 2
 alignment = 1
 
-[node name="TextureRect" type="TextureRect" parent="CharacterCreationManager/MarginContainer/HBoxContainer/Form/MarginContainer/VBoxContainer/Curious"]
+[node name="TextureRect" type="TextureRect" parent="CharacterCreationManager/MarginContainer/HBoxContainer/Form/FormMargin/VBoxContainer/Curious"]
 visible = false
 layout_mode = 2
 size_flags_vertical = 4
 texture = SubResource("AtlasTexture_sth1w")
 stretch_mode = 2
 
-[node name="Label" type="Label" parent="CharacterCreationManager/MarginContainer/HBoxContainer/Form/MarginContainer/VBoxContainer/Curious"]
+[node name="Label" type="Label" parent="CharacterCreationManager/MarginContainer/HBoxContainer/Form/FormMargin/VBoxContainer/Curious"]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Curious"
 
-[node name="SpinBox" type="SpinBox" parent="CharacterCreationManager/MarginContainer/HBoxContainer/Form/MarginContainer/VBoxContainer/Curious"]
+[node name="SpinBox" type="SpinBox" parent="CharacterCreationManager/MarginContainer/HBoxContainer/Form/FormMargin/VBoxContainer/Curious"]
 layout_mode = 2
 min_value = -10.0
 max_value = 10.0
@@ -150,23 +146,23 @@ rounded = true
 script = ExtResource("3_wlrjr")
 Trait = ExtResource("6_fherr")
 
-[node name="Dominant" type="HBoxContainer" parent="CharacterCreationManager/MarginContainer/HBoxContainer/Form/MarginContainer/VBoxContainer"]
+[node name="Dominant" type="HBoxContainer" parent="CharacterCreationManager/MarginContainer/HBoxContainer/Form/FormMargin/VBoxContainer"]
 layout_mode = 2
 alignment = 1
 
-[node name="TextureRect" type="TextureRect" parent="CharacterCreationManager/MarginContainer/HBoxContainer/Form/MarginContainer/VBoxContainer/Dominant"]
+[node name="TextureRect" type="TextureRect" parent="CharacterCreationManager/MarginContainer/HBoxContainer/Form/FormMargin/VBoxContainer/Dominant"]
 visible = false
 layout_mode = 2
 size_flags_vertical = 4
 texture = SubResource("AtlasTexture_sth1w")
 stretch_mode = 2
 
-[node name="Label" type="Label" parent="CharacterCreationManager/MarginContainer/HBoxContainer/Form/MarginContainer/VBoxContainer/Dominant"]
+[node name="Label" type="Label" parent="CharacterCreationManager/MarginContainer/HBoxContainer/Form/FormMargin/VBoxContainer/Dominant"]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Dominant"
 
-[node name="SpinBox" type="SpinBox" parent="CharacterCreationManager/MarginContainer/HBoxContainer/Form/MarginContainer/VBoxContainer/Dominant"]
+[node name="SpinBox" type="SpinBox" parent="CharacterCreationManager/MarginContainer/HBoxContainer/Form/FormMargin/VBoxContainer/Dominant"]
 layout_mode = 2
 min_value = -10.0
 max_value = 10.0
@@ -174,23 +170,23 @@ rounded = true
 script = ExtResource("3_wlrjr")
 Trait = ExtResource("7_1nowq")
 
-[node name="Fearless" type="HBoxContainer" parent="CharacterCreationManager/MarginContainer/HBoxContainer/Form/MarginContainer/VBoxContainer"]
+[node name="Fearless" type="HBoxContainer" parent="CharacterCreationManager/MarginContainer/HBoxContainer/Form/FormMargin/VBoxContainer"]
 layout_mode = 2
 alignment = 1
 
-[node name="TextureRect" type="TextureRect" parent="CharacterCreationManager/MarginContainer/HBoxContainer/Form/MarginContainer/VBoxContainer/Fearless"]
+[node name="TextureRect" type="TextureRect" parent="CharacterCreationManager/MarginContainer/HBoxContainer/Form/FormMargin/VBoxContainer/Fearless"]
 visible = false
 layout_mode = 2
 size_flags_vertical = 4
 texture = SubResource("AtlasTexture_sth1w")
 stretch_mode = 2
 
-[node name="Label" type="Label" parent="CharacterCreationManager/MarginContainer/HBoxContainer/Form/MarginContainer/VBoxContainer/Fearless"]
+[node name="Label" type="Label" parent="CharacterCreationManager/MarginContainer/HBoxContainer/Form/FormMargin/VBoxContainer/Fearless"]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Fearless"
 
-[node name="SpinBox" type="SpinBox" parent="CharacterCreationManager/MarginContainer/HBoxContainer/Form/MarginContainer/VBoxContainer/Fearless"]
+[node name="SpinBox" type="SpinBox" parent="CharacterCreationManager/MarginContainer/HBoxContainer/Form/FormMargin/VBoxContainer/Fearless"]
 layout_mode = 2
 min_value = -10.0
 max_value = 10.0
@@ -198,23 +194,23 @@ rounded = true
 script = ExtResource("3_wlrjr")
 Trait = ExtResource("8_ya8mj")
 
-[node name="Focused" type="HBoxContainer" parent="CharacterCreationManager/MarginContainer/HBoxContainer/Form/MarginContainer/VBoxContainer"]
+[node name="Focused" type="HBoxContainer" parent="CharacterCreationManager/MarginContainer/HBoxContainer/Form/FormMargin/VBoxContainer"]
 layout_mode = 2
 alignment = 1
 
-[node name="TextureRect" type="TextureRect" parent="CharacterCreationManager/MarginContainer/HBoxContainer/Form/MarginContainer/VBoxContainer/Focused"]
+[node name="TextureRect" type="TextureRect" parent="CharacterCreationManager/MarginContainer/HBoxContainer/Form/FormMargin/VBoxContainer/Focused"]
 visible = false
 layout_mode = 2
 size_flags_vertical = 4
 texture = SubResource("AtlasTexture_sth1w")
 stretch_mode = 2
 
-[node name="Label" type="Label" parent="CharacterCreationManager/MarginContainer/HBoxContainer/Form/MarginContainer/VBoxContainer/Focused"]
+[node name="Label" type="Label" parent="CharacterCreationManager/MarginContainer/HBoxContainer/Form/FormMargin/VBoxContainer/Focused"]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Focused"
 
-[node name="SpinBox" type="SpinBox" parent="CharacterCreationManager/MarginContainer/HBoxContainer/Form/MarginContainer/VBoxContainer/Focused"]
+[node name="SpinBox" type="SpinBox" parent="CharacterCreationManager/MarginContainer/HBoxContainer/Form/FormMargin/VBoxContainer/Focused"]
 layout_mode = 2
 min_value = -10.0
 max_value = 10.0
@@ -222,23 +218,23 @@ rounded = true
 script = ExtResource("3_wlrjr")
 Trait = ExtResource("9_1g6v2")
 
-[node name="Geniune" type="HBoxContainer" parent="CharacterCreationManager/MarginContainer/HBoxContainer/Form/MarginContainer/VBoxContainer"]
+[node name="Geniune" type="HBoxContainer" parent="CharacterCreationManager/MarginContainer/HBoxContainer/Form/FormMargin/VBoxContainer"]
 layout_mode = 2
 alignment = 1
 
-[node name="TextureRect" type="TextureRect" parent="CharacterCreationManager/MarginContainer/HBoxContainer/Form/MarginContainer/VBoxContainer/Geniune"]
+[node name="TextureRect" type="TextureRect" parent="CharacterCreationManager/MarginContainer/HBoxContainer/Form/FormMargin/VBoxContainer/Geniune"]
 visible = false
 layout_mode = 2
 size_flags_vertical = 4
 texture = SubResource("AtlasTexture_sth1w")
 stretch_mode = 2
 
-[node name="Label" type="Label" parent="CharacterCreationManager/MarginContainer/HBoxContainer/Form/MarginContainer/VBoxContainer/Geniune"]
+[node name="Label" type="Label" parent="CharacterCreationManager/MarginContainer/HBoxContainer/Form/FormMargin/VBoxContainer/Geniune"]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Genuine"
 
-[node name="SpinBox" type="SpinBox" parent="CharacterCreationManager/MarginContainer/HBoxContainer/Form/MarginContainer/VBoxContainer/Geniune"]
+[node name="SpinBox" type="SpinBox" parent="CharacterCreationManager/MarginContainer/HBoxContainer/Form/FormMargin/VBoxContainer/Geniune"]
 layout_mode = 2
 min_value = -10.0
 max_value = 10.0
@@ -246,23 +242,23 @@ rounded = true
 script = ExtResource("3_wlrjr")
 Trait = ExtResource("10_hkvhk")
 
-[node name="Optimistic" type="HBoxContainer" parent="CharacterCreationManager/MarginContainer/HBoxContainer/Form/MarginContainer/VBoxContainer"]
+[node name="Optimistic" type="HBoxContainer" parent="CharacterCreationManager/MarginContainer/HBoxContainer/Form/FormMargin/VBoxContainer"]
 layout_mode = 2
 alignment = 1
 
-[node name="TextureRect" type="TextureRect" parent="CharacterCreationManager/MarginContainer/HBoxContainer/Form/MarginContainer/VBoxContainer/Optimistic"]
+[node name="TextureRect" type="TextureRect" parent="CharacterCreationManager/MarginContainer/HBoxContainer/Form/FormMargin/VBoxContainer/Optimistic"]
 visible = false
 layout_mode = 2
 size_flags_vertical = 4
 texture = SubResource("AtlasTexture_sth1w")
 stretch_mode = 2
 
-[node name="Label" type="Label" parent="CharacterCreationManager/MarginContainer/HBoxContainer/Form/MarginContainer/VBoxContainer/Optimistic"]
+[node name="Label" type="Label" parent="CharacterCreationManager/MarginContainer/HBoxContainer/Form/FormMargin/VBoxContainer/Optimistic"]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Optimistic"
 
-[node name="SpinBox" type="SpinBox" parent="CharacterCreationManager/MarginContainer/HBoxContainer/Form/MarginContainer/VBoxContainer/Optimistic"]
+[node name="SpinBox" type="SpinBox" parent="CharacterCreationManager/MarginContainer/HBoxContainer/Form/FormMargin/VBoxContainer/Optimistic"]
 layout_mode = 2
 min_value = -10.0
 max_value = 10.0
@@ -270,28 +266,8 @@ rounded = true
 script = ExtResource("3_wlrjr")
 Trait = ExtResource("11_caqsy")
 
-[node name="AvailablePersonalityPoints" type="HBoxContainer" parent="CharacterCreationManager/MarginContainer/HBoxContainer/Form/MarginContainer/VBoxContainer"]
+[node name="AvailablePointsMargin" parent="CharacterCreationManager/MarginContainer/HBoxContainer/Form/FormMargin/VBoxContainer" instance=ExtResource("12_fwyi0")]
 layout_mode = 2
-
-[node name="MarginContainer" type="MarginContainer" parent="CharacterCreationManager/MarginContainer/HBoxContainer/Form/MarginContainer/VBoxContainer/AvailablePersonalityPoints"]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_stretch_ratio = 0.0
-theme_override_constants/margin_left = 5
-theme_override_constants/margin_top = 5
-theme_override_constants/margin_right = 5
-theme_override_constants/margin_bottom = 5
-
-[node name="AvailablePointsNumberLabel" type="Label" parent="CharacterCreationManager/MarginContainer/HBoxContainer/Form/MarginContainer/VBoxContainer/AvailablePersonalityPoints/MarginContainer"]
-layout_mode = 2
-text = "0"
-label_settings = SubResource("LabelSettings_tayw2")
-horizontal_alignment = 1
-
-[node name="AvailablePointsTextLabel" type="Label" parent="CharacterCreationManager/MarginContainer/HBoxContainer/Form/MarginContainer/VBoxContainer/AvailablePersonalityPoints"]
-layout_mode = 2
-text = "available personality points"
-horizontal_alignment = 1
 
 [node name="SubmitButton" type="Button" parent="CharacterCreationManager/MarginContainer/HBoxContainer/Form"]
 layout_mode = 2

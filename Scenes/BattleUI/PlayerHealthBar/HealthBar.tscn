@@ -1,10 +1,11 @@
-[gd_scene load_steps=7 format=3 uid="uid://dt1nefepu8rpf"]
+[gd_scene load_steps=8 format=3 uid="uid://dt1nefepu8rpf"]
 
 [ext_resource type="Texture2D" uid="uid://gs4miyhf4h5w" path="res://Assets/RawImages/PatternsOutlinesTileMapTransparent.png" id="1_tvd7f"]
 [ext_resource type="Texture2D" uid="uid://bw2mr7ncsl7ni" path="res://Assets/RawImages/HealthBarOver.png" id="2_sy2p4"]
 [ext_resource type="Texture2D" uid="uid://dtiph47grigev" path="res://Assets/RawImages/HealthBarProgress.png" id="3_1yeb5"]
 [ext_resource type="Script" uid="uid://cahxjdfylskgp" path="res://Scripts/UI/PlayerHealthBar/PlayerHealthBar.cs" id="4_bifm2"]
 [ext_resource type="Texture2D" uid="uid://dnst7a5q0y2h1" path="res://Assets/RawImages/HealthBarGloss.png" id="5_3gkrb"]
+[ext_resource type="StyleBox" uid="uid://ginbulb641wh" path="res://Resources/StyleBoxes/Brick/BrickBackgroundPanel.tres" id="5_e883t"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_jk3s6"]
 atlas = ExtResource("1_tvd7f")
@@ -22,6 +23,16 @@ texture_over = ExtResource("2_sy2p4")
 texture_progress = ExtResource("3_1yeb5")
 tint_progress = Color(0.646029, 0.646029, 0.646028, 1)
 script = ExtResource("4_bifm2")
+
+[node name="BottomPanel" type="PanelContainer" parent="."]
+z_index = -6
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = ExtResource("5_e883t")
 
 [node name="HealthBarOver" type="TextureProgressBar" parent="."]
 layout_mode = 0
