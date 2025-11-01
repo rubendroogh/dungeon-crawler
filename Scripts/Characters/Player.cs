@@ -65,15 +65,14 @@ public partial class Player : Character
 	public override async Task PlayDamageAnimation()
 	{
 		await Task.Delay(300);
-		Managers.SoundEffectManager.PlaySoundEffect(CharacterData.HitSound);
+        _ = Managers.SoundEffectManager.PlaySoundEffect(CharacterData.HitSound);
 
-		var camera = Managers.PlayerManager.GetCamera() as CameraShake;
-		if (camera != null)
-		{
-			await camera.StartShake(0.7f, 10f);
-		}
+        if (Managers.PlayerManager.GetCamera() is CameraShake camera)
+        {
+            await camera.StartShake(0.7f, 10f);
+        }
 
-		await Task.Delay(300);
+        await Task.Delay(300);
 	}
 
 	protected override void InitializeNodes(CharacterData characterData)

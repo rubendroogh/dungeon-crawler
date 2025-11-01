@@ -67,7 +67,7 @@ public partial class CharacterCreationManager : Control
 	/// </summary>
 	public void SubmitForm()
 	{
-		Managers.SoundEffectManager.PlayButtonClick();
+        _ = Managers.SoundEffectManager.PlayButtonClick();
 		Managers.PlayerManager.SetPlayerData(GetPlayerData());
 		Managers.TransitionManager.CharacterCreationToGame();
 	}

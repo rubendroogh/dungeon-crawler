@@ -90,7 +90,7 @@ public partial class BattleManager : Node
     {
         if (CurrentTurnPhase == phase)
         {
-            StartNewTurnPhase();
+            _ = StartNewTurnPhase();
         }
         else
         {
