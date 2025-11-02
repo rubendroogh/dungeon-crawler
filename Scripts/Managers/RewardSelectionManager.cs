@@ -1,3 +1,4 @@
+using DungeonRPG.Blessings.Enums;
 using Godot;
 using System;
 using System.Collections.Generic;

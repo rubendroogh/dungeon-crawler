@@ -1,4 +1,4 @@
-[gd_scene load_steps=34 format=3 uid="uid://ck8p1eru6l2f4"]
+[gd_scene load_steps=35 format=3 uid="uid://ck8p1eru6l2f4"]
 
 [ext_resource type="Script" uid="uid://di2h8gf1377s5" path="res://Scripts/UI/CameraShake.cs" id="1_hojmo"]
 [ext_resource type="Script" uid="uid://bb2xw40m0q3sm" path="res://Scripts/Managers/ManaSourceManager.cs" id="3_hvf01"]
@@ -31,6 +31,7 @@
 [ext_resource type="PackedScene" uid="uid://din1s2uojtxq0" path="res://Scenes/RewardSelectionUI/RewardSelectionPanel.tscn" id="27_aj24y"]
 [ext_resource type="PackedScene" uid="uid://ixikavep8rh3" path="res://Scenes/RewardSelectionUI/RewardSelectionBackground.tscn" id="27_b51k0"]
 [ext_resource type="PackedScene" uid="uid://dt1nefepu8rpf" path="res://Scenes/BattleUI/PlayerHealthBar/HealthBar.tscn" id="28_ghvpb"]
+[ext_resource type="PackedScene" uid="uid://13p46brkeo3f" path="res://Scenes/BattleUI/ManaSource/BlessingBar.tscn" id="28_n6swl"]
 [ext_resource type="PackedScene" uid="uid://2drx4r22f0mk" path="res://Scenes/CharacterCreationUI/CharacterCreationBackground.tscn" id="31_ogsbt"]
 [ext_resource type="PackedScene" uid="uid://c6c50r7e37xs6" path="res://Scenes/CharacterCreationUI/CharacterCreationPanel.tscn" id="32_ogsbt"]
 
@@ -197,19 +198,25 @@ size_flags_vertical = 3
 layout_mode = 2
 text = "Feature not implemented yet!"
 
+[node name="Manasource" type="HBoxContainer" parent="UI/HUD"]
+layout_mode = 2
+alignment = 1
+
+[node name="BlessingBar" parent="UI/HUD/Manasource" instance=ExtResource("28_n6swl")]
+layout_mode = 2
+
 [node name="Bottom" type="HBoxContainer" parent="UI/HUD"]
 custom_minimum_size = Vector2(0, 48)
 layout_mode = 2
-theme_override_constants/separation = 10
+alignment = 1
 
 [node name="HealthBar" parent="UI/HUD/Bottom" instance=ExtResource("28_ghvpb")]
 layout_mode = 2
 size_flags_horizontal = 1
 
 [node name="TurnIndicationPanel" parent="UI/HUD/Bottom" instance=ExtResource("25_b51k0")]
-custom_minimum_size = Vector2(200, 0)
+custom_minimum_size = Vector2(190, 0)
 layout_mode = 2
-size_flags_horizontal = 3
 
 [node name="RewardSelection" type="Control" parent="UI"]
 visible = false

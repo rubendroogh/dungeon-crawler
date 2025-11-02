@@ -11,7 +11,7 @@ public partial class ManaSourceManager : Node
 {
 	// TODO: Add event for when mana sources change (e.g., blessings are added/removed).
 
-	public Dictionary<Domain, BlessingBar> BlessingBars { get; private set; } = new Dictionary<Domain, BlessingBar>();
+	public BlessingBar BlessingBar { get; private set; } = new BlessingBar();
 
 	/// <summary>
 	/// Checks if the current mana sources can pay for the given spell cost.
@@ -44,16 +44,16 @@ public partial class ManaSourceManager : Node
 		return true;
 	}
 
+	public void AddBlessing(Blessing blessing)
+	{
+		// Add the blessing to the bar
+		BlessingBar.AllBlessings.Add(blessing);
+	}
+
 	private int GetRemainingMana(Domain domain)
 	{
-		// Get the blessing bar for the domain
-		if (!BlessingBars.TryGetValue(domain, out var blessingBar))
-		{
-			return 0;
-		}
-
 		// Get the available blessings and get the total mana from them by summing their levels
-		var availableBlessings = blessingBar.AvailableBlessings;
+		var availableBlessings = BlessingBar.AvailableBlessings;
 		var count = availableBlessings.Sum(b => (int)b.Level);
 
 		return count;
@@ -66,16 +66,10 @@ public partial class ManaSourceManager : Node
 }
 
 /// <summary>
-/// Represents a blessing bar that tracks the current and maximum mana for a specific blessing.
+/// Represents the blessing bar that holds blessings (mana) for all domains for the player.
 /// </summary>
 public class BlessingBar
 {
-	/// <summary>
-	/// The domain of the blessing bar.
-	/// Each blessing bar corresponds to a specific domain.
-	/// </summary>
-	public Domain Domain { get; set; }
-
 	/// <summary>
 	/// All blessings that have been added to the blessing bar, including spent ones.
 	/// </summary>
@@ -111,12 +105,6 @@ public class BlessingBar
 	/// </summary>
 	public void AddBlessing(Blessing blessing)
 	{
-		if (blessing.Domain != Domain)
-		{
-			GD.PrintErr("Cannot add blessing of domain " + blessing.Domain + " to blessing bar of domain " + Domain);
-			return;
-		}
-
 		// Check if there is enough space
 		if (AvailableBlessings.Count + (int)blessing.Level < MaxMana)
 		{
@@ -143,7 +131,6 @@ public class Blessing
 
 	/// <summary>
 	/// The domain of the blessing.
-	/// TODO: Maybe remove this and track the domain via the blessing bar instead?
 	/// </summary>
 	public Domain Domain { get; set; }
 }

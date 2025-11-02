@@ -31,7 +31,7 @@ public partial class RewardUI : Container
 	{
 		NameLabel.Text = $"{card.Level} of {card.Domain}";
 		DescriptionLabel.Text = "An additional card for your deck.";
-		Icon.Texture = card.GetIcon();
+		// Icon.Texture = card.GetIcon(); TODO: Implement blessing icons
 
 		Reward = new Reward
 		{

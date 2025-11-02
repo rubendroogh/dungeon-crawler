@@ -1,4 +1,5 @@
 using System.Threading.Tasks;
+using DungeonRPG.Blessings.Enums;
 using Godot;
 
 public class StormKeyword : KeywordBase
@@ -42,7 +43,7 @@ public class StormKeyword : KeywordBase
             // Queue the spell again with the same target and one card.
             var syntheticCard = new Blessing
             {
-                Level = Level.Two,
+                Level = Level.Minor,
                 Domain = Domain.Zer
             };
 

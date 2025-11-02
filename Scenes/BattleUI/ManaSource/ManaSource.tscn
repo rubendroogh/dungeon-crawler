@@ -1,7 +1,6 @@
-[gd_scene load_steps=3 format=3 uid="uid://csxpifkpyb2j3"]
+[gd_scene load_steps=2 format=3 uid="uid://csxpifkpyb2j3"]
 
 [ext_resource type="Script" uid="uid://dfeopkvw7y6i3" path="res://Scripts/UI/Exposers/ComponentExposer.cs" id="1_ogtq6"]
-[ext_resource type="Texture2D" uid="uid://besod7da44jmr" path="res://Assets/RawImages/BlessingBarOver.png" id="2_vm5wt"]
 
 [node name="ManaSource" type="PanelContainer"]
 anchors_preset = 3
@@ -37,27 +36,3 @@ layout_mode = 2
 size_flags_vertical = 3
 theme_override_constants/separation = 10
 alignment = 1
-
-[node name="TextureProgressBar3" type="TextureProgressBar" parent="Margin/CardListHorizontalContainer/HBoxContainer"]
-layout_mode = 2
-size_flags_horizontal = 0
-size_flags_vertical = 8
-texture_over = ExtResource("2_vm5wt")
-
-[node name="TextureProgressBar2" type="TextureProgressBar" parent="Margin/CardListHorizontalContainer/HBoxContainer"]
-layout_mode = 2
-size_flags_horizontal = 0
-size_flags_vertical = 8
-texture_over = ExtResource("2_vm5wt")
-
-[node name="TextureProgressBar" type="TextureProgressBar" parent="Margin/CardListHorizontalContainer/HBoxContainer"]
-layout_mode = 2
-size_flags_horizontal = 0
-size_flags_vertical = 8
-texture_over = ExtResource("2_vm5wt")
-
-[node name="TextureProgressBar4" type="TextureProgressBar" parent="Margin/CardListHorizontalContainer/HBoxContainer"]
-layout_mode = 2
-size_flags_horizontal = 0
-size_flags_vertical = 8
-texture_over = ExtResource("2_vm5wt")
