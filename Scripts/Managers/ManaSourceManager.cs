@@ -44,24 +44,25 @@ public partial class ManaSourceManager : Node
 		return true;
 	}
 
+	/// <summary>
+	/// Adds a blessing to the player's blessing bar.
+	/// </summary>
 	public void AddBlessing(Blessing blessing)
 	{
 		// Add the blessing to the bar
 		BlessingBar.AllBlessings.Add(blessing);
 	}
 
+	/// <summary>
+	/// Gets the remaining mana for the given domain.
+	/// </summary>
 	private int GetRemainingMana(Domain domain)
 	{
 		// Get the available blessings and get the total mana from them by summing their levels
-		var availableBlessings = BlessingBar.AvailableBlessings;
+		var availableBlessings = BlessingBar.AvailableBlessings.Where(b => b.Domain == domain).ToList();
 		var count = availableBlessings.Sum(b => (int)b.Level);
 
 		return count;
-	}
-
-	private void ShowOrHideBlessingBars()
-	{
-
 	}
 }
 
