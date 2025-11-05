@@ -204,6 +204,7 @@ layout_mode = 2
 [node name="Bottom" type="HBoxContainer" parent="UI/HUD"]
 custom_minimum_size = Vector2(0, 48)
 layout_mode = 2
+theme_override_constants/separation = 7
 alignment = 1
 
 [node name="HealthBar" parent="UI/HUD/Bottom" instance=ExtResource("28_ghvpb")]

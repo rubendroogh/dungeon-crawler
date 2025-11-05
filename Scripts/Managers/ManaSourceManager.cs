@@ -6,6 +6,7 @@ using DungeonRPG.Blessings.Enums;
 /// <summary>
 /// The manager responsible for handling mana sources and their related functionalities.
 /// For now, this is only the blessing bars.
+/// TODO: Split this file into multiple classes (blessingBar, enums, mana source manager, etc.)
 /// </summary>
 public partial class ManaSourceManager : Node
 {
