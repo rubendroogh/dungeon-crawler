@@ -4,6 +4,7 @@
 [ext_resource type="Script" uid="uid://b40v7nngruesy" path="res://Scripts/UI/Spells/AddSpellToQueueButton.cs" id="1_rd12s"]
 
 [node name="SpellBook" type="PanelContainer"]
+size_flags_vertical = 3
 script = ExtResource("1_343mg")
 
 [node name="MarginContainer" type="MarginContainer" parent="."]

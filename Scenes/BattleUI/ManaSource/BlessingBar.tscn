@@ -1,11 +1,16 @@
-[gd_scene load_steps=3 format=3 uid="uid://13p46brkeo3f"]
+[gd_scene load_steps=5 format=3 uid="uid://13p46brkeo3f"]
 
 [ext_resource type="Texture2D" uid="uid://besod7da44jmr" path="res://Assets/RawImages/BlessingBarOver.png" id="1_s77ot"]
-[ext_resource type="Texture2D" uid="uid://27rg6ktmspun" path="res://Assets/RawImages/BlessingBarProgress.png" id="2_t7tbg"]
+[ext_resource type="Script" uid="uid://conso3gyxrgcv" path="res://Scripts/Debug/BlessingBarDebug.cs" id="2_4eq63"]
+[ext_resource type="Texture2D" uid="uid://dnst7a5q0y2h1" path="res://Assets/RawImages/HealthBarGloss.png" id="2_4kwis"]
+[ext_resource type="PackedScene" uid="uid://bmviwuqe1s6be" path="res://Scenes/BattleUI/ManaSource/Blessing.tscn" id="4_majnm"]
 
-[node name="BlessingBar" type="TextureProgressBar"]
+[node name="BlessingBar" type="TextureProgressBar" node_paths=PackedStringArray("BlessingsContainer")]
 z_index = 1
 texture_over = ExtResource("1_s77ot")
+script = ExtResource("2_4eq63")
+BlessingsContainer = NodePath("HBoxContainer")
+BlessingUIScene = ExtResource("4_majnm")
 
 [node name="HBoxContainer" type="HBoxContainer" parent="."]
 z_index = -1
@@ -17,14 +22,12 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_constants/separation = 2
 
-[node name="Part" type="TextureProgressBar" parent="HBoxContainer"]
-layout_mode = 2
-value = 100.0
-texture_progress = ExtResource("2_t7tbg")
-tint_progress = Color(0.431373, 1, 1, 1)
-
-[node name="Part2" type="TextureProgressBar" parent="HBoxContainer"]
-layout_mode = 2
-value = 100.0
-texture_progress = ExtResource("2_t7tbg")
-tint_progress = Color(0.431373, 1, 1, 1)
+[node name="TextureRect" type="TextureRect" parent="."]
+z_index = 5
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_4kwis")

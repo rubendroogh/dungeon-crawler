@@ -1,4 +1,4 @@
-[gd_scene load_steps=35 format=3 uid="uid://ck8p1eru6l2f4"]
+[gd_scene load_steps=34 format=3 uid="uid://ck8p1eru6l2f4"]
 
 [ext_resource type="Script" uid="uid://di2h8gf1377s5" path="res://Scripts/UI/CameraShake.cs" id="1_hojmo"]
 [ext_resource type="Script" uid="uid://bb2xw40m0q3sm" path="res://Scripts/Managers/ManaSourceManager.cs" id="3_hvf01"]
@@ -25,7 +25,6 @@
 [ext_resource type="Script" uid="uid://p81ss845glea" path="res://Scripts/Managers/OpponentManager.cs" id="21_g2qkk"]
 [ext_resource type="PackedScene" uid="uid://da86qewhcsw42" path="res://Scenes/BattleUI/BattleLog/BattleLog.tscn" id="22_8287p"]
 [ext_resource type="PackedScene" uid="uid://brrg2g58puw3q" path="res://Scenes/BattleUI/Opponents/OpponentScreen.tscn" id="22_ogsbt"]
-[ext_resource type="PackedScene" uid="uid://csxpifkpyb2j3" path="res://Scenes/BattleUI/ManaSource/ManaSource.tscn" id="23_8287p"]
 [ext_resource type="StyleBox" uid="uid://ginbulb641wh" path="res://Resources/StyleBoxes/Brick/BrickBackgroundPanel.tres" id="24_jk3s6"]
 [ext_resource type="PackedScene" uid="uid://bobl0cvnecl4s" path="res://Scenes/BattleUI/TurnIndication/TurnIndicationPanel.tscn" id="25_b51k0"]
 [ext_resource type="PackedScene" uid="uid://din1s2uojtxq0" path="res://Scenes/RewardSelectionUI/RewardSelectionPanel.tscn" id="27_aj24y"]
@@ -160,6 +159,7 @@ theme_override_constants/separation = 20
 
 [node name="SpellSelection" type="VBoxContainer" parent="UI/HUD/BattleAndResources/ResourcesTabs/Spells/SpellsVBox"]
 layout_mode = 2
+size_flags_vertical = 3
 theme_override_constants/separation = 10
 
 [node name="SpellBook" parent="UI/HUD/BattleAndResources/ResourcesTabs/Spells/SpellsVBox/SpellSelection" instance=ExtResource("20_2dbf0")]
@@ -167,10 +167,6 @@ layout_mode = 2
 
 [node name="SpellQueue" parent="UI/HUD/BattleAndResources/ResourcesTabs/Spells/SpellsVBox/SpellSelection" instance=ExtResource("21_2dbf0")]
 layout_mode = 2
-
-[node name="ManaSource" parent="UI/HUD/BattleAndResources/ResourcesTabs/Spells/SpellsVBox" instance=ExtResource("23_8287p")]
-layout_mode = 2
-size_flags_vertical = 3
 
 [node name="Inventory" type="VBoxContainer" parent="UI/HUD/BattleAndResources/ResourcesTabs"]
 visible = false

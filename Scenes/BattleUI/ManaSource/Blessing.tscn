@@ -1,0 +1,13 @@
+[gd_scene load_steps=3 format=3 uid="uid://bmviwuqe1s6be"]
+
+[ext_resource type="Script" uid="uid://bwfrgsxgpkc11" path="res://Scripts/UI/BlessingBar/BlessingUI.cs" id="2_rwknu"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_cd67k"]
+
+[node name="Blessing" type="TextureProgressBar"]
+z_index = -1
+texture_repeat = 2
+value = 100.0
+texture_progress = SubResource("AtlasTexture_cd67k")
+tint_progress = Color(0.357954, 0.486983, 0.205381, 1)
+script = ExtResource("2_rwknu")

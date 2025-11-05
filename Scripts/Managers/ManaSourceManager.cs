@@ -134,6 +134,31 @@ public class Blessing
 	/// The domain of the blessing.
 	/// </summary>
 	public Domain Domain { get; set; }
+
+	/// <summary>
+	/// Gets the texture associated with the blessing's domain and level.
+	/// </summary>
+	public Texture2D GetTexture()
+	{
+		string texturePath = $"res://Assets/Textures/Blessings/{Domain}_{Level}.png";
+		return GD.Load<Texture2D>(texturePath);
+	}
+
+	/// <summary>
+	/// Gets the color associated with the blessing's domain.
+	/// TODO: Store the colors in a more centralized way.
+	/// </summary>
+	public Color GetColor()
+	{
+		return Domain switch
+		{
+			Domain.Calina => Colors.Red,
+			Domain.Hamin => Colors.Blue,
+			Domain.Jaddis => Colors.Green,
+			Domain.Zer => Colors.Purple,
+			_ => Colors.White,
+		};
+	}
 }
 
 namespace DungeonRPG.Blessings.Enums
