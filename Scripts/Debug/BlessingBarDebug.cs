@@ -11,6 +11,7 @@ public partial class BlessingBarDebug : TextureProgressBar
 
     public override void _Ready()
     {
+        // TODO: Move the setup and instantiation to the AddBlessing method in ManaSourceManager.
         var b1 = BlessingUIScene.Instantiate<BlessingUI>().Setup(new Blessing
         {
             Level = DungeonRPG.Blessings.Enums.Level.Minor,
@@ -31,7 +32,7 @@ public partial class BlessingBarDebug : TextureProgressBar
 
         var b4 = BlessingUIScene.Instantiate<BlessingUI>().Setup(new Blessing
         {
-            Level = DungeonRPG.Blessings.Enums.Level.Greater,
+            Level = DungeonRPG.Blessings.Enums.Level.Minor,
             Domain = DungeonRPG.Blessings.Enums.Domain.Hamin
         });
 
@@ -39,5 +40,10 @@ public partial class BlessingBarDebug : TextureProgressBar
         BlessingsContainer.AddChild(b2);
         BlessingsContainer.AddChild(b3);
         BlessingsContainer.AddChild(b4);
+
+        Managers.ManaSourceManager.AddBlessing(b1.Blessing);
+        Managers.ManaSourceManager.AddBlessing(b2.Blessing);
+        Managers.ManaSourceManager.AddBlessing(b3.Blessing);
+        Managers.ManaSourceManager.AddBlessing(b4.Blessing);
     }
 }
