@@ -94,6 +94,8 @@ public partial class SpellListManager : Node
             ActionData spellData = SpellPreloader.GetResource(key) as ActionData;
             IActionBehaviour spellBehaviour = GetSpellBehaviour(spellData.Name);
 
+            spellData.Initialize();
+
             if (spellBehaviour != null)
             {
                 AvailableSpells.Add(new Spell(spellData, spellBehaviour));

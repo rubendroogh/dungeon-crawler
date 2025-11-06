@@ -128,7 +128,7 @@ public partial class ActionData : Resource
     [Export]
     public int Rarity = 1;
 
-    public ActionData()
+    public void Initialize()
     {
         Cost.ParseExpression(SpellCostExpression);
     }
