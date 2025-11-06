@@ -10,7 +10,7 @@ script = ExtResource("1_pf0a5")
 [node name="MarginContainer" type="MarginContainer" parent="."]
 layout_mode = 2
 theme_override_constants/margin_top = 10
-theme_override_constants/margin_bottom = 10
+theme_override_constants/margin_bottom = 0
 
 [node name="SpellQueue" type="VBoxContainer" parent="MarginContainer"]
 layout_mode = 2
@@ -26,10 +26,12 @@ text = "Spell queue"
 
 [node name="SpellQueueLabel" type="RichTextLabel" parent="MarginContainer/SpellQueue"]
 layout_mode = 2
+size_flags_vertical = 3
 theme_override_font_sizes/normal_font_size = 16
 fit_content = true
 
 [node name="CastSpell" type="Button" parent="MarginContainer/SpellQueue"]
+custom_minimum_size = Vector2(0, 50)
 layout_mode = 2
 theme_override_font_sizes/font_size = 24
 text = "Cast queue"
