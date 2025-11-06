@@ -23,7 +23,21 @@ public partial class BlessingBarDebug : TextureProgressBar
             Domain = DungeonRPG.Blessings.Enums.Domain.Calina
         });
 
+        var b3 = BlessingUIScene.Instantiate<BlessingUI>().Setup(new Blessing
+        {
+            Level = DungeonRPG.Blessings.Enums.Level.Superior,
+            Domain = DungeonRPG.Blessings.Enums.Domain.Jaddis
+        });
+
+        var b4 = BlessingUIScene.Instantiate<BlessingUI>().Setup(new Blessing
+        {
+            Level = DungeonRPG.Blessings.Enums.Level.Greater,
+            Domain = DungeonRPG.Blessings.Enums.Domain.Hamin
+        });
+
         BlessingsContainer.AddChild(b1);
         BlessingsContainer.AddChild(b2);
+        BlessingsContainer.AddChild(b3);
+        BlessingsContainer.AddChild(b4);
     }
 }

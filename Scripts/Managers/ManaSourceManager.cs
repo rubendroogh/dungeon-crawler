@@ -116,7 +116,7 @@ public class BlessingBar
 }
 
 /// <summary>
-/// Represents a blessing with a rank and domain (which is its type).
+/// Represents a blessing with a rank and domain.
 /// This is used to cast spells in the game and fills the blessing bar.
 /// </summary>
 public class Blessing
@@ -166,7 +166,7 @@ namespace DungeonRPG.Blessings.Enums
 {
 	/// <summary>
 	/// Represents the rank of a card in a standard deck.
-	/// The ranks are ordered from Minor (1) to Major (4).
+	/// The ranks are ordered from Minor (1) to Superior (5).
 	/// </summary>
 	public enum Level { Minor = 1, Lesser = 2, Greater = 3, Major = 4, Superior = 5 }
 
