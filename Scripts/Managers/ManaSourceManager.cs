@@ -7,11 +7,13 @@ using DungeonRPG.Blessings.Enums;
 /// The manager responsible for handling mana sources and their related functionalities.
 /// For now, this is only the blessing bars.
 /// TODO: Split this file into multiple classes (blessingBar, enums, mana source manager, etc.)
+	// TODO: Add event for when mana sources change (e.g., blessings are added/removed).
 /// </summary>
 public partial class ManaSourceManager : Node
 {
-	// TODO: Add event for when mana sources change (e.g., blessings are added/removed).
-
+	/// <summary>
+	/// The blessing bar containing the player's blessings.
+	/// </summary>
 	public BlessingBar BlessingBar { get; private set; } = new BlessingBar();
 
 	/// <summary>
@@ -91,7 +93,13 @@ public class BlessingBar
 	/// <summary>
 	/// The maximum amount of mana the blessing bar can hold.
 	/// </summary>
-	public int MaxMana { get; set; }
+	public int MaxMana { get; set; } = 15;
+
+	/// <summary>
+	/// The width of the blessing bar in pixels.
+	/// TODO: Make configurable via UI or config file, or get from the texture.
+	/// </summary>
+	public int Width { get; set; } = 1700;
 
 	/// <summary>
 	/// Checks if the blessing bar can pay for the given mana cost.

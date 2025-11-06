@@ -22,7 +22,7 @@ public partial class BlessingUI : TextureProgressBar
     {
         Blessing = blessing;
 
-        var xSize = 48 * (int)blessing.Level;
+        var xSize = GetXSize();
         var ySize = 48;
 
         TintProgress = Blessing.GetColor();
@@ -46,6 +46,16 @@ public partial class BlessingUI : TextureProgressBar
     /// </summary>
     private void SetLabelText()
     {
-        TextLabel.Text = $"{Blessing.Domain} (Level {Blessing.Level})";
+        TextLabel.Text = $"{Blessing.Domain} ({Blessing.Level})";
+    }
+
+    /// <summary>
+    /// Calculates the X size of the blessing UI based on its level.
+    /// </summary>
+    private int GetXSize()
+    {
+        var fullWidth = Managers.ManaSourceManager.BlessingBar.Width;
+        var percentage = (float)Blessing.Level / Managers.ManaSourceManager.BlessingBar.MaxMana;
+        return (int)(fullWidth * percentage);
     }
 }
