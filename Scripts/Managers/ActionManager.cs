@@ -4,8 +4,7 @@ using System.Threading.Tasks;
 
 /// <summary>
 /// Manages casting of spells, handling of actions, and current state of all related variables.
-/// This includes managing selected cards, spells, and targets, as well as emitting signals
-/// for UI updates and game state changes.
+/// Also responsible for emitting signals when actions occur.
 /// </summary>
 public partial class ActionManager : Node
 {
@@ -17,6 +16,7 @@ public partial class ActionManager : Node
 
     /// <summary>
     /// Signal that is emitted when the cards should be reset.
+    /// TODO: Change this to a more general "SelectionChanged" event and don't use cards anymore.
     /// </summary>
     [Signal]
     public delegate void CardsResetEventHandler();
@@ -33,17 +33,6 @@ public partial class ActionManager : Node
     public Spell SelectedSpell { get; set; }
 
     /// <summary>
-    /// The maximum number of cards that can be selected for casting a spell.
-    /// </summary>
-    public int MaxSelectedCards { get; set; } = 0;
-
-    /// <summary>
-    /// The label that shows the currently selected cards.
-    /// </summary>
-    [Export]
-    public Label SelectedCardsLabel { get; set; }
-
-    /// <summary>
     /// The currently selected target for the spell.
     /// </summary>
     public Character SelectedTarget { get; set; }
@@ -52,40 +41,6 @@ public partial class ActionManager : Node
     /// The context for keyword effects.
     /// </summary>
     public KeywordContext KeywordContext { get; } = new KeywordContext();
-
-    /// <summary>
-    /// Mark the card as selected and ready to cast a spell with and updates the label.
-    /// </summary>
-    /// <param name="card">The card to add.</param>
-    /// <returns>True if the card was added, false if the maximum number of cards is reached.</returns>
-    public bool AddCardToSelection(Blessing card)
-    {
-        if (SelectedCards.Count >= MaxSelectedCards)
-        {
-            return false;
-        }
-
-        SelectedCards.Add(card);
-        UpdateSelectedCardsLabel();
-        return true;
-    }
-
-    /// <summary>
-    /// Unmark the card as selected and ready to cast a spell with and updates the label.
-    /// </summary>
-    /// <param name="card">The card to remove.</param>
-    /// <returns>True if the card was removed, false if the card was not in the selection.</returns>
-    public bool RemoveCardFromSelection(Blessing card)
-    {
-        if (!SelectedCards.Contains(card))
-        {
-            return false;
-        }
-
-        SelectedCards.Remove(card);
-        UpdateSelectedCardsLabel();
-        return true;
-    }
 
     /// <summary>
     /// Set the currently selected spell.
@@ -114,12 +69,9 @@ public partial class ActionManager : Node
             return;
         }
 
-        EmitSignal(SignalName.SpellSelected, spell.Data.Name);
-
         SelectedSpell = spell;
-        MaxSelectedCards = spell.Data.MaxManaCharges;
 
-        UpdateSelectedCardsLabel();
+        EmitSignal(SignalName.SpellSelected, spell.Data.Name);
     }
 
     /// <summary>
@@ -142,25 +94,5 @@ public partial class ActionManager : Node
 
         await resolveResult.Target.Damage(resolveResult);
         return resolveResult.TotalDamageAmount;
-    }
-
-    /// <summary>
-    /// Resets the mana cards to be usable again.
-    /// Used when a new turn starts.
-    /// </summary>
-    public void ResetCards()
-    {
-        EmitSignal(SignalName.CardsReset);
-
-        SelectedCards.Clear();
-        UpdateSelectedCardsLabel();
-    }
-
-    /// <summary>
-    /// Updates the label that shows the currently selected cards.
-    /// </summary>
-    private void UpdateSelectedCardsLabel()
-    {
-        SelectedCardsLabel.Text = $"{SelectedCards.Count}/{MaxSelectedCards} mana charges";
     }
 }
