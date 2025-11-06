@@ -5,9 +5,36 @@ public partial class AddSpellToQueueButton : Button
     public override void _Ready()
     {
         Pressed += OnPressed;
+        InitializeCustomSignals();
     }
 
+	/// <summary>
+	/// Wires up the custom signals for the button.
+	/// </summary>
+	private void InitializeCustomSignals()
+	{
+		Managers.ActionManager.SpellSelected += OnSpellSelected;
+	}
+
+    /// <summary>
+    /// Handles the selection of a spell by updating the UI.
+    /// </summary>
+    private void OnSpellSelected(string spellName)
+    {
+        // Disable the button if the selected spell cannot be paid for
+        if (!Managers.ManaSourceManager.CanPay(Managers.ActionManager.SelectedSpell.Data.Cost))
+        {
+            Disabled = true;
+        }
+        else
+        {
+            Disabled = false;
+        }
+    }
+
+    /// <summary>
     /// Adds the currently selected spell to the spell queue when the button is pressed.
+    /// </summary>
     public void OnPressed()
     {
         if (Managers.ActionManager.SelectedSpell == null)

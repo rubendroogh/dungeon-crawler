@@ -1,5 +1,7 @@
 using System.Collections.Generic;
+using System.Diagnostics;
 using DungeonRPG.Blessings.Enums;
+using Godot;
 
 /// <summary>
 /// Represents the mana cost of an action or spell.
@@ -93,13 +95,33 @@ public class SpellCost
         foreach (var part in parts)
         {
             var subParts = part.Split(':');
+
             if (subParts.Length == 2 && int.TryParse(subParts[1], out int amount) && amount > 0)
             {
-                if (System.Enum.TryParse<Domain>(subParts[0], out var domain))
+                var domain = subParts[0] switch
                 {
-                    AddCost(domain, amount);
-                }
+                    "C" => Domain.Calina,
+                    "H" => Domain.Hamin,
+                    "J" => Domain.Jaddis,
+                    "Z" => Domain.Zer,
+                    _ => (Domain)(-1)
+                };
+
+                AddCost(domain, amount);
             }
         }
+    }
+
+    /// <summary>
+    /// Returns a string representation of the spell cost.
+    /// </summary>
+    public override string ToString()
+    {
+        var parts = new List<string>();
+        foreach (var cost in Costs)
+        {
+            parts.Add($"[{cost.Type}:{cost.Amount}]");
+        }
+        return string.Join("", parts);
     }
 }
