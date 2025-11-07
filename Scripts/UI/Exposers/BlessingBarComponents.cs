@@ -1,12 +1,17 @@
 public static partial class Components
 {
     /// <summary>
-    /// The BlessingsBar rich text label component.
+    /// The BlessingBar rich text label component.
     /// </summary>
-    public const string BlessingsBar = "BlessingsBar";
+    public const string BlessingBar = "BlessingBar";
 
     /// <summary>
-    /// The BlessingsContainer HBoxContainer component.
+    /// The BlessingContainer HBoxContainer component.
     /// </summary>
-    public const string BlessingsContainer = "BlessingsContainer";
+    public const string BlessingContainer = "BlessingContainer";
+
+    /// <summary>
+    /// The BlessingBarOverlay TextureRect component.
+    /// </summary>
+    public const string BlessingBarOverlay = "TextureRect";
 }

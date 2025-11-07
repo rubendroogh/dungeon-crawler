@@ -15,11 +15,21 @@ public partial class ManaSourceManager : Node
 	/// The blessing bar containing the player's blessings.
 	/// </summary>
 	public BlessingBar BlessingBar { get; private set; } = new BlessingBar();
+	
+	/// <summary>
+	/// The width of the blessing bar in pixels.
+	/// </summary>
+	public int Width
+	{
+		get {
+			return (int)BlessingsBarExposer.GetComponent<Control>(Components.BlessingBarOverlay).Size.X;
+		}
+	}
 
 	/// <summary>
 	/// The component exposer for the blessing bar UI elements.
 	/// </summary>
-    [Export]
+	[Export]
     private ComponentExposer BlessingsBarExposer;
 
 	/// <summary>
@@ -62,18 +72,22 @@ public partial class ManaSourceManager : Node
 	/// <summary>
 	/// Adds a blessing to the player's blessing bar.
 	/// </summary>
-	public void AddBlessing(Blessing blessing)
+	public bool AddBlessing(Blessing blessing)
 	{
-		var blessingsBarNode = BlessingsBarExposer.GetComponent<Node>(Components.BlessingsContainer);
-		var blessingNode = BlessingUIScene.Instantiate<BlessingUI>().Setup(new Blessing
-        {
-            Level = Level.Minor,
-            Domain = Domain.Zer
-        });
+		if (BlessingBar.AvailableBlessings.Count + (int)blessing.Level >= BlessingBar.MaxMana)
+		{
+			GD.PrintErr("Not enough space in the blessing bar to add a new blessing.");
+			return false;
+		}
+
+		var blessingContainerNode = BlessingsBarExposer.GetComponent<Node>(Components.BlessingContainer);
+		var blessingNode = BlessingUIScene.Instantiate<BlessingUI>().Setup(blessing);
 
 		// Add the node to the scene
-        blessingsBarNode.AddChild(blessingNode);
+		blessingContainerNode.AddChild(blessingNode);
 		BlessingBar.AllBlessings.Add(blessing);
+
+		return true;
 	}
 
 	/// <summary>
@@ -113,13 +127,7 @@ public class BlessingBar
 	/// <summary>
 	/// The maximum amount of mana the blessing bar can hold.
 	/// </summary>
-	public int MaxMana { get; set; } = 15;
-
-	/// <summary>
-	/// The width of the blessing bar in pixels.
-	/// TODO: Make configurable via UI or config file, or get from the texture.
-	/// </summary>
-	public int Width { get; set; } = 1700;
+	public int MaxMana { get; set; } = 10;
 
 	/// <summary>
 	/// Checks if the blessing bar can pay for the given mana cost.

@@ -161,7 +161,7 @@ public partial class CharacterCreationManager : Control
 
         Managers.ManaSourceManager.AddBlessing(new Blessing
         {
-            Level = Level.Major,
+            Level = Level.Greater,
             Domain = Domain.Calina
         });
 

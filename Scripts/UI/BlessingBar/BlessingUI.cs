@@ -54,7 +54,7 @@ public partial class BlessingUI : TextureProgressBar
     /// </summary>
     private int GetXSize()
     {
-        var fullWidth = Managers.ManaSourceManager.BlessingBar.Width;
+        var fullWidth = Managers.ManaSourceManager.Width;
         var percentage = (float)Blessing.Level / Managers.ManaSourceManager.BlessingBar.MaxMana;
         return (int)(fullWidth * percentage);
     }
