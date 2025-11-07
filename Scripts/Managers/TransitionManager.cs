@@ -38,7 +38,6 @@ public partial class TransitionManager : Node
             HUDNode.SetProcess(false);
         }
 
-
         if (CharacterCreationNode != null)
         {
             CharacterCreationNode.Visible = true;
@@ -91,6 +90,9 @@ public partial class TransitionManager : Node
         Managers.BattleManager.InitializeBattle();
     }
 
+    /// <summary>
+    /// Transitions to the reward selection screen by hiding the world and HUD nodes.
+    /// </summary>
     public void ToRewardSelection()
     {
         // Hide the world and HUD nodes
@@ -115,6 +117,9 @@ public partial class TransitionManager : Node
         }
     }
 
+    /// <summary>
+    /// Transitions from reward selection to the game by showing the world and HUD nodes.
+    /// </summary>
     public void RewardSelectionToGame()
     {
         // Hide the reward selection UI
