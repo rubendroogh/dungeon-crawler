@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using DungeonRPG.Blessings.Enums;
 using Godot;
 
 /// <summary>
@@ -69,6 +70,7 @@ public partial class CharacterCreationManager : Control
 	{
         _ = Managers.SoundEffectManager.PlayButtonClick();
 		Managers.PlayerManager.SetPlayerData(GetPlayerData());
+		SetStartingBlessings();
 		Managers.TransitionManager.CharacterCreationToGame();
 	}
 
@@ -142,6 +144,38 @@ public partial class CharacterCreationManager : Control
 		characterData.BaseOptimistic = traitValues.FirstOrDefault(t => t.Key == "Optimistic").Value;
 		
 		return characterData;
+	}
+
+	/// <summary>
+	/// Sets the starting blessings for the player based on their chosen traits.
+	/// </summary>
+	private static void SetStartingBlessings()
+	{
+		// Implementation for setting starting blessings based on traits goes here.
+		// For now, this is a placeholder.
+		Managers.ManaSourceManager.AddBlessing(new Blessing
+        {
+            Level = Level.Minor,
+            Domain = Domain.Zer
+        });
+
+        Managers.ManaSourceManager.AddBlessing(new Blessing
+        {
+            Level = Level.Major,
+            Domain = Domain.Calina
+        });
+
+        Managers.ManaSourceManager.AddBlessing(new Blessing
+        {
+            Level = Level.Superior,
+            Domain = Domain.Jaddis
+        });
+
+        Managers.ManaSourceManager.AddBlessing(new Blessing
+        {
+            Level = Level.Minor,
+            Domain = Domain.Hamin
+        });
 	}
 
 	/// <summary>
