@@ -7,7 +7,7 @@ using DungeonRPG.Blessings.Enums;
 /// The manager responsible for handling mana sources and their related functionalities.
 /// For now, this is only the blessing bars.
 /// TODO: Split this file into multiple classes (blessingBar, enums, mana source manager, etc.)
-	// TODO: Add event for when mana sources change (e.g., blessings are added/removed).
+/// TODO: Add event for when mana sources change (e.g., blessings are added/removed).
 /// </summary>
 public partial class ManaSourceManager : Node
 {
@@ -15,6 +15,18 @@ public partial class ManaSourceManager : Node
 	/// The blessing bar containing the player's blessings.
 	/// </summary>
 	public BlessingBar BlessingBar { get; private set; } = new BlessingBar();
+
+	/// <summary>
+	/// The component exposer for the blessing bar UI elements.
+	/// </summary>
+    [Export]
+    private ComponentExposer BlessingsBarExposer;
+
+	/// <summary>
+	/// The scene used to instantiate blessing UI elements.
+	/// </summary>
+    [Export]
+    private PackedScene BlessingUIScene;
 
 	/// <summary>
 	/// Checks if the current mana sources can pay for the given spell cost.
@@ -52,7 +64,15 @@ public partial class ManaSourceManager : Node
 	/// </summary>
 	public void AddBlessing(Blessing blessing)
 	{
-		// Add the blessing to the bar
+		var blessingsBarNode = BlessingsBarExposer.GetComponent<Node>(Components.BlessingsContainer);
+		var blessingNode = BlessingUIScene.Instantiate<BlessingUI>().Setup(new Blessing
+        {
+            Level = Level.Minor,
+            Domain = Domain.Zer
+        });
+
+		// Add the node to the scene
+        blessingsBarNode.AddChild(blessingNode);
 		BlessingBar.AllBlessings.Add(blessing);
 	}
 

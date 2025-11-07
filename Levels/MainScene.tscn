@@ -1,4 +1,4 @@
-[gd_scene load_steps=34 format=3 uid="uid://ck8p1eru6l2f4"]
+[gd_scene load_steps=35 format=3 uid="uid://ck8p1eru6l2f4"]
 
 [ext_resource type="Script" uid="uid://di2h8gf1377s5" path="res://Scripts/UI/CameraShake.cs" id="1_hojmo"]
 [ext_resource type="Script" uid="uid://bb2xw40m0q3sm" path="res://Scripts/Managers/ManaSourceManager.cs" id="3_hvf01"]
@@ -20,6 +20,7 @@
 [ext_resource type="Script" uid="uid://do64s87kejasc" path="res://Scripts/Managers/SoundEffectManager.cs" id="17_udxv6"]
 [ext_resource type="AudioStream" uid="uid://28xaykhomefb" path="res://Assets/Sound/click.wav" id="18_21fen"]
 [ext_resource type="AudioStream" uid="uid://dwu2yk120ey8n" path="res://Assets/Sound/Mountain Emperor.mp3" id="19_8287p"]
+[ext_resource type="PackedScene" uid="uid://bmviwuqe1s6be" path="res://Scenes/BattleUI/ManaSource/Blessing.tscn" id="19_n6swl"]
 [ext_resource type="PackedScene" uid="uid://c52h746nogb6c" path="res://Scenes/BattleUI/SpellBook/SpellBook.tscn" id="20_2dbf0"]
 [ext_resource type="PackedScene" uid="uid://c0ol2s1uon0x3" path="res://Scenes/BattleUI/SpellBook/SpellQueue.tscn" id="21_2dbf0"]
 [ext_resource type="Script" uid="uid://p81ss845glea" path="res://Scripts/Managers/OpponentManager.cs" id="21_g2qkk"]
@@ -87,8 +88,10 @@ ButtonClickSound = ExtResource("18_21fen")
 volume_db = -27.17
 pitch_scale = 0.62
 
-[node name="ManaSourceManager" type="Node" parent="World/ManagerRepository"]
+[node name="ManaSourceManager" type="Node" parent="World/ManagerRepository" node_paths=PackedStringArray("BlessingsBarExposer")]
 script = ExtResource("3_hvf01")
+BlessingsBarExposer = NodePath("../../../UI/HUD/Manasource/BlessingBar")
+BlessingUIScene = ExtResource("19_n6swl")
 
 [node name="OpponentManager" type="Node" parent="World/ManagerRepository" node_paths=PackedStringArray("OpponentExposer", "OpponentsPreloader")]
 script = ExtResource("21_g2qkk")
