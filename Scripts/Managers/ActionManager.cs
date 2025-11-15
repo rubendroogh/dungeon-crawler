@@ -54,7 +54,7 @@ public partial class ActionManager : Node
             return;
         }
 
-        var selectedSpell = Managers.SpellListManager.GetSpell(spellData.Name);
+        var selectedSpell = Managers.SpellBookManager.GetSpell(spellData.Name);
         SetSelectedSpell(selectedSpell);
     }
 

@@ -49,6 +49,8 @@ public partial class AddSpellToQueueButton : Button
             return;
         }
 
+        // HERE!
+
         var player = Managers.PlayerManager.GetPlayer();
         var selectedSpell = Managers.ActionManager.SelectedSpell;
         var selectedCards = Managers.ActionManager.SelectedCards;

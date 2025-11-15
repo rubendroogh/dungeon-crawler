@@ -13,10 +13,10 @@ public partial class Managers : Node
     public static ActionManager ActionManager { get; set; }
 
     /// <summary>
-    /// SpellListManager is responsible for managing the list of spells available in the game.
+    /// SpellBookManager is responsible for managing the list of spells available in the game.
     /// It handles loading, saving, and retrieving spells, as well as managing the UI for spell selection.
     /// </summary>
-    public static SpellListManager SpellListManager { get; set; }
+    public static SpellBookManager SpellBookManager { get; set; }
 
     /// <summary>
     /// BattleLogManager is responsible for managing the battle log in the game.
@@ -69,7 +69,7 @@ public partial class Managers : Node
     public override void _Ready()
     {
         ActionManager = GetNode<ActionManager>("ActionManager");
-        SpellListManager = GetNode<SpellListManager>("SpellListManager");
+        SpellBookManager = GetNode<SpellBookManager>("SpellListManager");
         BattleLogManager = GetNode<BattleLogManager>("BattleLogManager");
         BattleManager = GetNode<BattleManager>("BattleManager");
         PlayerManager = GetNode<PlayerManager>("PlayerManager");

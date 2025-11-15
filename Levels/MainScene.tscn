@@ -48,13 +48,13 @@ script = ExtResource("4_26f67")
 [node name="ActionManager" type="Node" parent="World/ManagerRepository"]
 script = ExtResource("4_safex")
 
-[node name="SpellListManager" type="Node" parent="World/ManagerRepository" node_paths=PackedStringArray("SpellPreloader", "SpellBookExposer")]
+[node name="SpellBookManager" type="Node" parent="World/ManagerRepository" node_paths=PackedStringArray("SpellPreloader", "SpellBookExposer")]
 script = ExtResource("5_26f67")
 SpellListItemScene = ExtResource("6_71tao")
 SpellPreloader = NodePath("StartingSpellPreloader")
 SpellBookExposer = NodePath("../../../UI/HUD/BattleAndResources/ResourcesTabs/Spells/SpellsVBox/SpellSelection/SpellBook")
 
-[node name="StartingSpellPreloader" type="ResourcePreloader" parent="World/ManagerRepository/SpellListManager"]
+[node name="StartingSpellPreloader" type="ResourcePreloader" parent="World/ManagerRepository/SpellBookManager"]
 resources = [PackedStringArray("BrainFreeze", "Discombobulate"), [ExtResource("7_71tao"), ExtResource("8_lxbb3")]]
 
 [node name="BattleLogManager" type="Node" parent="World/ManagerRepository" node_paths=PackedStringArray("BattleLogExposer")]

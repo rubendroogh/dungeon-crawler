@@ -2,9 +2,9 @@ using Godot;
 using System.Collections.Generic;
 
 /// <summary>
-/// SpellListManager is responsible for managing the list of spells available in the game.
+/// SpellBookManager is responsible for managing the list of spells available in the game.
 /// </summary>
-public partial class SpellListManager : Node
+public partial class SpellBookManager : Node
 {
     /// <summary>
     /// The list of spells that the player can cast.

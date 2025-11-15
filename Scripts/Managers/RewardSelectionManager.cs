@@ -161,7 +161,7 @@ public partial class RewardSelectionManager : Node
         }
         else if (SelectedReward.Type == RewardType.Spell)
         {
-            Managers.SpellListManager.AddSpell(SelectedReward.SpellReward);
+            Managers.SpellBookManager.AddSpell(SelectedReward.SpellReward);
         }
 
         // Clear the selection and reset the UI
@@ -250,7 +250,7 @@ public partial class RewardSelectionManager : Node
 
         // Filter list on spells that the player does not already possess or has not selected
         var availableSpells = resourceList.Select(res => SpellRewardPreloader.GetResource(res) as ActionData)
-            .Where(spell => !Managers.SpellListManager.AvailableSpells.Any(s => s.Data.Name == spell.Name))
+            .Where(spell => !Managers.SpellBookManager.AvailableSpells.Any(s => s.Data.Name == spell.Name))
             .Where(spell => !SelectedSpellRewards.Any(s => s.Name == spell.Name))
             .ToList();
 
