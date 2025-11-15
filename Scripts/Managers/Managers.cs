@@ -69,7 +69,7 @@ public partial class Managers : Node
     public override void _Ready()
     {
         ActionManager = GetNode<ActionManager>("ActionManager");
-        SpellBookManager = GetNode<SpellBookManager>("SpellListManager");
+        SpellBookManager = GetNode<SpellBookManager>("SpellBookManager");
         BattleLogManager = GetNode<BattleLogManager>("BattleLogManager");
         BattleManager = GetNode<BattleManager>("BattleManager");
         PlayerManager = GetNode<PlayerManager>("PlayerManager");
