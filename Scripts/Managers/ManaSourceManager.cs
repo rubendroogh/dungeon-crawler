@@ -2,6 +2,7 @@ using Godot;
 using System.Collections.Generic;
 using System.Linq;
 using DungeonRPG.Blessings.Enums;
+using System;
 
 /// <summary>
 /// The manager responsible for handling mana sources and their related functionalities.
@@ -25,6 +26,9 @@ public partial class ManaSourceManager : Node
 			return (int)BlessingsBarExposer.GetComponent<Control>(Components.BlessingBarOverlay).Size.X;
 		}
 	}
+
+	[Signal]
+	public delegate void BlessingStateChangedEventHandler();
 
 	/// <summary>
 	/// The component exposer for the blessing bar UI elements.
@@ -91,6 +95,65 @@ public partial class ManaSourceManager : Node
 	}
 
 	/// <summary>
+    /// Reserves mana for the given cost by marking blessings as "MarkedForUse".
+    /// </summary>
+	public bool ReserveMana(SpellCost cost)
+    {
+		foreach (var manaCost in cost.Costs)
+		{
+			int amountToReserve = manaCost.Amount;
+
+			// Use the smallest blessing that can cover the cost first
+			var availableBlessings = BlessingBar.AvailableBlessings
+				.Where(b => b.Domain == manaCost.Type)
+				.OrderBy(b => b.ManaAmount) // Lowest first
+				.ToList();
+
+			// If there is not enough mana at all, we can just stop now.
+			if (availableBlessings.Sum(b => b.ManaAmount) < amountToReserve)
+			{
+				GD.Print($"Not enough available blessings to reserve {manaCost.Amount} mana of {manaCost.Type}.");
+				return false;
+			}
+
+			// If we have a blessing that is exactly the right size, we use that one.
+			var exactMatchingBlessing = availableBlessings.Find(b => b.ManaAmount == amountToReserve);
+			if (exactMatchingBlessing != null)
+            {
+				// Cost has been paid.
+                exactMatchingBlessing.State = State.MarkedForUse;
+				continue;
+            }
+
+			// If the lowest value blessing has enough mana to pay, we use that one.
+			var lowestValueBlessing = availableBlessings[0];
+			if (lowestValueBlessing.ManaAmount > amountToReserve)
+            {
+				// Cost has been paid.
+                lowestValueBlessing.State = State.MarkedForUse;
+				continue;
+            }
+
+			// For other cases, we add up from lowest to highest value until we have enough.
+			var reservedMana = 0;
+			foreach (var blessing in availableBlessings)
+			{
+				if (reservedMana >= amountToReserve)
+                {
+                    break;
+                }
+
+				blessing.State = State.MarkedForUse;
+				reservedMana += blessing.ManaAmount;
+			}
+		}
+
+		// Emit signal to display blessing state change in the UI.
+		EmitSignal(SignalName.BlessingStateChanged);
+		return true;
+    }
+
+	/// <summary>
 	/// Gets the remaining mana for the given domain.
 	/// </summary>
 	private int GetRemainingMana(Domain domain)
@@ -125,6 +188,11 @@ public class BlessingBar
 	public List<Blessing> AvailableBlessings => AllBlessings.Where(b => b.State == State.Available).ToList();
 
 	/// <summary>
+    /// Gets a specific blessing's state by ID, or null if the blessing cannot be found.
+    /// </summary>
+	public State? GetBlessingState(Guid ID) => AllBlessings.Find(b => b.ID == ID)?.State;
+
+	/// <summary>
 	/// The maximum amount of mana the blessing bar can hold.
 	/// </summary>
 	public int MaxMana { get; set; } = 10;
@@ -157,10 +225,22 @@ public class BlessingBar
 /// </summary>
 public class Blessing
 {
+    public Blessing(Level level, Domain domain)
+    {
+        Level = level;
+		Domain = domain;
+		ID = Guid.NewGuid();
+    }
+
 	/// <summary>
-	/// The potency level of the blessing. This determines how much mana it provides.
-	/// </summary>
-	public Level Level { get; set; }
+    /// The unique identifier to get specific blessings.
+    /// </summary>
+	public Guid ID { get; }
+
+    /// <summary>
+    /// The potency level of the blessing. This determines how much mana it provides.
+    /// </summary>
+    public Level Level { get; set; }
 
 	/// <summary>
 	/// The current state of the blessing (Available, MarkedForUse, Spent).
@@ -171,6 +251,11 @@ public class Blessing
 	/// The domain of the blessing.
 	/// </summary>
 	public Domain Domain { get; set; }
+
+	/// <summary>
+    /// Gets the amount of mana provided by this blessing.
+    /// </summary>
+	public int ManaAmount => (int)Level;
 
 	/// <summary>
 	/// Gets the texture associated with the blessing's domain and level.

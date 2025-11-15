@@ -49,14 +49,17 @@ public partial class AddSpellToQueueButton : Button
             return;
         }
 
-        // HERE!
-
         var player = Managers.PlayerManager.GetPlayer();
         var selectedSpell = Managers.ActionManager.SelectedSpell;
-        var selectedCards = Managers.ActionManager.SelectedCards;
+        if (Managers.ManaSourceManager.ReserveMana(selectedSpell.Data.Cost) == false)
+        {
+            GD.PrintErr("Not enough mana to add the selected spell to the queue.");
+            return;
+        }
+
         var target = Managers.ActionManager.SelectedTarget;
 
-        Managers.SoundEffectManager.PlayButtonClick();
-        player.QueueAction(selectedSpell, target, selectedCards);
+        _ = Managers.SoundEffectManager.PlayButtonClick();
+        player.QueueAction(selectedSpell, target);
     }
 }

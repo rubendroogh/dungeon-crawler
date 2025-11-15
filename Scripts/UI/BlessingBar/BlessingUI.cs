@@ -42,6 +42,23 @@ public partial class BlessingUI : TextureProgressBar
     }
 
     /// <summary>
+    /// Initialize the OnManaStateChanged signals.
+    /// </summary>
+    private void InitializeCustomSignals()
+    {
+        Managers.ManaSourceManager.BlessingStateChanged += OnManaStateChanged;
+    }
+
+    /// <summary>
+    /// Handles visual feedback of mana state changed.
+    /// </summary>
+    private void OnManaStateChanged()
+    {
+        var blessingState = Managers.ManaSourceManager.BlessingBar.GetBlessingState(Blessing.ID);
+        // TODO: Set blessing colour based on the state
+    }
+
+    /// <summary>
     /// Sets the label text to display the blessing's domain and level.
     /// </summary>
     private void SetLabelText()
