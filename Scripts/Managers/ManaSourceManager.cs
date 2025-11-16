@@ -148,6 +148,8 @@ public partial class ManaSourceManager : Node
 			}
 		}
 
+		GD.Print("Mana successfully reserved for the spell cost.");
+
 		// Emit signal to display blessing state change in the UI.
 		EmitSignal(SignalName.BlessingStateChanged);
 		return true;
@@ -272,14 +274,35 @@ public class Blessing
 	/// </summary>
 	public Color GetColor()
 	{
-		return Domain switch
+		var baseCalinaColor = new Color(1f, 0.5f, 0.5f); // Light Red
+		var baseHaminColor = new Color(0.5f, 0.5f, 1f); // Light Blue
+		var baseJaddisColor = new Color(0.5f, 1f, 0.5f); // Light Green
+		var baseZerColor = new Color(0.75f, 0.5f, 1f); // Light Purple
+
+		var colour = Domain switch
 		{
-			Domain.Calina => Colors.Red,
-			Domain.Hamin => Colors.Blue,
-			Domain.Jaddis => Colors.Green,
-			Domain.Zer => Colors.Purple,
+			Domain.Calina => baseCalinaColor,
+			Domain.Hamin => baseHaminColor,
+			Domain.Jaddis => baseJaddisColor,
+			Domain.Zer => baseZerColor,
 			_ => Colors.White,
 		};
+
+		// Modify brightness based on level
+		// Decrease brightness by 10% per level above Minor
+		float brightnessModifier = 1f - ((int)Level - 1) * 0.1f;
+		var modifiedColor = colour.ModifyBrightness(brightnessModifier);
+
+		// Modify colour based on state
+		modifiedColor = State switch
+		{
+			State.Available => modifiedColor,
+			State.MarkedForUse => modifiedColor.ApplyGreyscale(0.7f),
+			State.Spent => modifiedColor.ApplyGreyscale(1f),
+			_ => modifiedColor,
+		};
+
+		return modifiedColor;
 	}
 }
 

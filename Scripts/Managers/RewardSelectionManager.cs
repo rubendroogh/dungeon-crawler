@@ -229,7 +229,7 @@ public partial class RewardSelectionManager : Node
         {
             for (int suit = 0; suit < 4; suit++)
             {
-                var card = new Blessing { Level = (Level)rank, Domain = (Domain)suit };
+                var card = new Blessing((Level)rank, (Domain)suit);
                 if (!SelectedCardRewards.Contains(card))
                 {
                     possibleRewards.Add(card);

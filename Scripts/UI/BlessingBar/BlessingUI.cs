@@ -1,3 +1,4 @@
+using DungeonRPG.Blessings.Enums;
 using Godot;
 
 /// <summary>
@@ -36,6 +37,7 @@ public partial class BlessingUI : TextureProgressBar
         Value = (int)Blessing.Level;
 
         SetLabelText();
+        InitializeCustomSignals();
 
         // Return this for chaining
         return this;
@@ -54,8 +56,8 @@ public partial class BlessingUI : TextureProgressBar
     /// </summary>
     private void OnManaStateChanged()
     {
-        var blessingState = Managers.ManaSourceManager.BlessingBar.GetBlessingState(Blessing.ID);
-        // TODO: Set blessing colour based on the state
+        GD.Print("BlessingUI: Mana state changed, updating tint.");
+        TintProgress = Blessing.GetColor();
     }
 
     /// <summary>

@@ -41,11 +41,7 @@ public class StormKeyword : KeywordBase
         for (int i = 0; i < spellsCastThisTurn; i++)
         {
             // Queue the spell again with the same target and one card.
-            var syntheticCard = new Blessing
-            {
-                Level = Level.Minor,
-                Domain = Domain.Zer
-            };
+            var syntheticCard = new Blessing(domain: Domain.Calina, level: Level.Minor);
 
             spellQueue.Enqueue(new ActionQueueEntry(spell, context.Target, [syntheticCard]));
             Managers.BattleLogManager.Log($"Queued duplicate of {spell.Data.Name} due to Storm effect.");

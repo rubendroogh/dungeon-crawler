@@ -33,26 +33,22 @@ public partial class Player : Character
 	/// <param name="action">The action to queue.</param>
 	public void QueueAction(Spell spell, Character target, List<Blessing> cards = null)
 	{
-		if (spell == null || cards == null || target == null)
+		if (spell == null || target == null)
 		{
 			GD.PrintErr("Invalid parameters for adding action to queue.");
 			return;
 		}
 
 		// Copy the card list to avoid screwing with the original list.
-		var cardList = new List<Blessing>(cards);
-		if (cardList.Count == 0)
-		{
-			// TODO: Add animation for hinting at card selection.
-			return;
-		}
+		var cardList = new List<Blessing>(cards ?? []);
 
 		// Check if the spell can be cast with the selected cards.
-		if (!spell.CanCast(this, cardList))
-		{
-			GD.PrintErr("Spell cannot be cast with the selected cards.");
-			return;
-		}
+		// TODO: Check if we need this validation here or can keep it in de button.
+		// if (!spell.CanCast(this, cardList))
+		// {
+		// 	GD.PrintErr("Spell cannot be cast with the selected cards.");
+		// 	return;
+		// }
 
 		var entry = new ActionQueueEntry(spell, target, cardList);
 		ActionQueue.Enqueue(entry);

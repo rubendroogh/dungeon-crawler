@@ -13,28 +13,28 @@ public partial class BlessingBarDebug : TextureProgressBar
     {
         // TODO: Move the setup and instantiation to the AddBlessing method in ManaSourceManager.
         var b1 = BlessingUIScene.Instantiate<BlessingUI>().Setup(new Blessing
-        {
-            Level = DungeonRPG.Blessings.Enums.Level.Minor,
-            Domain = DungeonRPG.Blessings.Enums.Domain.Zer
-        });
+        (
+            DungeonRPG.Blessings.Enums.Level.Minor,
+            DungeonRPG.Blessings.Enums.Domain.Zer
+        ));
 
         var b2 = BlessingUIScene.Instantiate<BlessingUI>().Setup(new Blessing
-        {
-            Level = DungeonRPG.Blessings.Enums.Level.Major,
-            Domain = DungeonRPG.Blessings.Enums.Domain.Calina
-        });
+        (
+            DungeonRPG.Blessings.Enums.Level.Major,
+            DungeonRPG.Blessings.Enums.Domain.Calina
+        ));
 
         var b3 = BlessingUIScene.Instantiate<BlessingUI>().Setup(new Blessing
-        {
-            Level = DungeonRPG.Blessings.Enums.Level.Superior,
-            Domain = DungeonRPG.Blessings.Enums.Domain.Jaddis
-        });
+        (
+            DungeonRPG.Blessings.Enums.Level.Superior,
+            DungeonRPG.Blessings.Enums.Domain.Jaddis
+        ));
 
         var b4 = BlessingUIScene.Instantiate<BlessingUI>().Setup(new Blessing
-        {
-            Level = DungeonRPG.Blessings.Enums.Level.Minor,
-            Domain = DungeonRPG.Blessings.Enums.Domain.Hamin
-        });
+        (
+            DungeonRPG.Blessings.Enums.Level.Minor,
+            DungeonRPG.Blessings.Enums.Domain.Hamin
+        ));
 
         BlessingsContainer.AddChild(b1);
         BlessingsContainer.AddChild(b2);
