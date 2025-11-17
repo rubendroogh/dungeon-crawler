@@ -4,7 +4,7 @@ using Godot;
 /// <summary>
 /// A part of the blessing bar UI representing a single blessing.
 /// </summary>
-public partial class BlessingUI : TextureProgressBar
+public partial class BlessingUI : TextureRect
 {
     /// <summary>
     /// The blessing represented by this UI element.
@@ -26,15 +26,14 @@ public partial class BlessingUI : TextureProgressBar
         var xSize = GetXSize();
         var ySize = 48;
 
-        TintProgress = Blessing.GetColor();
-        TextureProgress = new AtlasTexture
+        Modulate = Blessing.GetColor();
+        Texture = new AtlasTexture
         {
             Atlas = Blessing.GetTexture(),
             Region = new Rect2(Vector2.Zero, new Vector2(xSize, ySize))
         };
 
-        MaxValue = (int)Blessing.Level;
-        Value = (int)Blessing.Level;
+        CustomMinimumSize = new Vector2((int)Blessing.Level, 48);
 
         SetLabelText();
         InitializeCustomSignals();
@@ -57,7 +56,7 @@ public partial class BlessingUI : TextureProgressBar
     private void OnManaStateChanged()
     {
         GD.Print("BlessingUI: Mana state changed, updating tint.");
-        TintProgress = Blessing.GetColor();
+        Modulate = Blessing.GetColor();
     }
 
     /// <summary>
