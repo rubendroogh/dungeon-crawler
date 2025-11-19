@@ -49,7 +49,7 @@ public partial class ActionManager : Node
 
     public override void _Ready()
     {
-        InitializeCustomSignals();
+        CallDeferred(nameof(InitializeCustomSignals));
     }
 
     /// <summary>

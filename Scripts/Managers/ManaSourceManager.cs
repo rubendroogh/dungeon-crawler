@@ -207,14 +207,18 @@ public class BlessingBar
 	public List<Blessing> AvailableBlessings => AllBlessings.Where(b => b.State == State.Available).ToList();
 
 	/// <summary>
-    /// Gets a specific blessing's state by ID, or null if the blessing cannot be found.
-    /// </summary>
-	public State? GetBlessingState(Guid ID) => AllBlessings.Find(b => b.ID == ID)?.State;
-
-	/// <summary>
 	/// The maximum amount of mana the blessing bar can hold.
 	/// </summary>
 	public int MaxMana { get; set; } = 10;
+
+	/// <summary>
+    /// Sets a specific blessing's state by ID.
+    /// </summary>
+	public void SetBlessingState(Guid ID, State state)
+	{
+		AllBlessings.Find(b => b.ID == ID).State = state;
+		Managers.ManaSourceManager.EmitSignal("BlessingStateChanged");
+	}
 
 	/// <summary>
 	/// Checks if the blessing bar can pay for the given mana cost.

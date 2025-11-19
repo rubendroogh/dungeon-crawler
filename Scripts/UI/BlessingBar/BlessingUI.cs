@@ -58,14 +58,13 @@ public partial class BlessingUI : TextureRect
                 if (Blessing.State == State.MarkedForUse)
                 {
                     // If already marked for use, deselect
-                    Blessing.State = State.Available;
-                    SetSelectedVisual(false);
+                    Managers.ManaSourceManager.BlessingBar.SetBlessingState(Blessing.ID, State.Available);
+                    OnManaStateChanged();
                 }
                 else if (Blessing.State == State.Available)
                 {
-                    // Select
-                    Blessing.State = State.MarkedForUse;
-                    SetSelectedVisual(true);
+                    Managers.ManaSourceManager.BlessingBar.SetBlessingState(Blessing.ID, State.MarkedForUse);
+                    OnManaStateChanged();
                 }
             }
         }
