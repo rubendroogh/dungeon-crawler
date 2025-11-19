@@ -4,6 +4,6 @@
 
 [resource]
 shader = ExtResource("1_0k2pl")
-shader_parameter/enable_outline = 1.0
+shader_parameter/enable_outline = 0.584
 shader_parameter/outline_size = 1.0
 shader_parameter/outline_color = Color(0.17, 0.944667, 1, 1)
