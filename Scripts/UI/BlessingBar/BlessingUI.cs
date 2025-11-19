@@ -26,7 +26,7 @@ public partial class BlessingUI : TextureRect
         var xSize = GetXSize();
         var ySize = 48;
 
-        Modulate = Blessing.GetColor();
+        SelfModulate = Blessing.GetColor();
         Texture = new AtlasTexture
         {
             Atlas = Blessing.GetTexture(),
@@ -99,7 +99,7 @@ public partial class BlessingUI : TextureRect
     /// </summary>
     private void OnManaStateChanged()
     {
-        Modulate = Blessing.GetColor();
+        SelfModulate = Blessing.GetColor();
         SetSelectedVisual(Blessing.State == State.MarkedForUse);
     }
 
