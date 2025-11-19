@@ -13,15 +13,22 @@ public partial class AddSpellToQueueButton : Button
 	/// </summary>
 	private void InitializeCustomSignals()
 	{
-		Managers.ActionManager.SpellSelected += OnSpellSelected;
+		Managers.ManaSourceManager.BlessingStateChanged += OnManaStateChanged;
 	}
 
     /// <summary>
-    /// Handles the selection of a spell by updating the UI.
+    /// Handles changing mana states.
     /// </summary>
-    private void OnSpellSelected(string spellName)
+    private void OnManaStateChanged()
     {
-        // Disable the button if the selected spell cannot be paid for
+        // If no spell is selected, we cannot queue one
+        if (!Managers.ActionManager.SpellIsSelected)
+        {
+            Disabled = true;
+            return;
+        }
+
+        // Whenever any mana changes, we need to check if the selected spell can be paid for agian
         if (!Managers.ManaSourceManager.CanPay(Managers.ActionManager.SelectedSpell.Data.Cost))
         {
             Disabled = true;
@@ -51,14 +58,14 @@ public partial class AddSpellToQueueButton : Button
 
         var player = Managers.PlayerManager.GetPlayer();
         var selectedSpell = Managers.ActionManager.SelectedSpell;
-        if (Managers.ManaSourceManager.ReserveMana(selectedSpell.Data.Cost) == false)
+        if (!Managers.ManaSourceManager.CanPay(selectedSpell.Data.Cost))
         {
-            GD.PrintErr("Not enough mana to add the selected spell to the queue.");
             return;
         }
 
         var target = Managers.ActionManager.SelectedTarget;
 
+        Managers.ManaSourceManager.DeselectAllMana();
         _ = Managers.SoundEffectManager.PlayButtonClick();
         player.QueueAction(selectedSpell, target);
     }

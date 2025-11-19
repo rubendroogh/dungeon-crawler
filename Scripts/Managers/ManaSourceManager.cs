@@ -27,6 +27,9 @@ public partial class ManaSourceManager : Node
 		}
 	}
 
+	/// <summary>
+    /// Signal that is emitted when the state of blessings changes (e.g., when mana is reserved or spent).
+    /// </summary>
 	[Signal]
 	public delegate void BlessingStateChangedEventHandler();
 
@@ -43,10 +46,10 @@ public partial class ManaSourceManager : Node
     private PackedScene BlessingUIScene;
 
 	/// <summary>
-	/// Checks if the current mana sources can pay for the given spell cost.
+	/// Checks if the selected mana can pay for the given spell cost.
 	/// </summary>
 	/// <param name="spellCost">The cost of the spell.</param>
-	/// <returns>True if the mana sources can pay for the spell, false otherwise.</returns>
+	/// <returns>True if the mana can pay for the spell, false otherwise.</returns>
 	public bool CanPay(SpellCost spellCost)
 	{
 		// Aggregate all costs by domain
@@ -90,15 +93,20 @@ public partial class ManaSourceManager : Node
 		// Add the node to the scene
 		blessingContainerNode.AddChild(blessingNode);
 		BlessingBar.AllBlessings.Add(blessing);
+		EmitSignal(SignalName.BlessingStateChanged);
 
 		return true;
 	}
 
 	/// <summary>
-    /// Reserves mana for the given cost by marking blessings as "MarkedForUse".
+    /// Autoselects mana for a specified spellcost.
     /// </summary>
-	public bool ReserveMana(SpellCost cost)
+	public bool AutoselectMana(SpellCost cost)
     {
+		// Deselect all mana first
+		DeselectAllMana();
+
+		// Loop through the mana costs to calculate the most effecient spending.
 		foreach (var manaCost in cost.Costs)
 		{
 			int amountToReserve = manaCost.Amount;
@@ -156,13 +164,22 @@ public partial class ManaSourceManager : Node
     }
 
 	/// <summary>
-	/// Gets the remaining mana for the given domain.
+    /// Deselects all mana marked for use and marks them as available.
+    /// </summary>
+	public void DeselectAllMana()
+    {
+        BlessingBar.BlessingsMarkedForUse.Select(x => x.State = State.Available);
+		EmitSignal(SignalName.BlessingStateChanged);
+    }
+
+	/// <summary>
+	/// Gets the remaining mana for the given domain. This is available mana and mana marked fo
 	/// </summary>
 	private int GetRemainingMana(Domain domain)
 	{
 		// Get the available blessings and get the total mana from them by summing their levels
-		var availableBlessings = BlessingBar.AvailableBlessings.Where(b => b.Domain == domain).ToList();
-		var count = availableBlessings.Sum(b => (int)b.Level);
+		var markedForUse = BlessingBar.BlessingsMarkedForUse.Where(b => b.Domain == domain).ToList();
+		var count = markedForUse.Sum(b => (int)b.Level);
 
 		return count;
 	}

@@ -42,6 +42,50 @@ public partial class BlessingUI : TextureRect
         return this;
     }
 
+    public override void _GuiInput(InputEvent @event)
+    {
+        // Handle hover state
+        if (Managers.ActionManager.SpellIsSelected)
+        {
+            if (Blessing.State != State.Spent)
+            {
+                // Show hover state
+            }
+
+            // On click
+            if (@event is InputEventMouseButton mouseEvent && mouseEvent.Pressed && mouseEvent.ButtonIndex == MouseButton.Left)
+            {
+                if (Blessing.State == State.MarkedForUse)
+                {
+                    // If already marked for use, deselect
+                    Blessing.State = State.Available;
+                    SetSelectedVisual(false);
+                }
+                else if (Blessing.State == State.Available)
+                {
+                    // Select
+                    Blessing.State = State.MarkedForUse;
+                    SetSelectedVisual(true);
+                }
+            }
+        }
+    }
+
+    /// <summary>
+    /// Shows the blessing as selected visually.
+    /// </summary>
+    private void SetSelectedVisual(bool value)
+    {
+        if (value)
+        {
+            TextLabel.Text = "Selected";
+        }
+        else
+        {
+            TextLabel.Text = "Not seoected";
+        }
+    }
+
     /// <summary>
     /// Initialize the OnManaStateChanged signals.
     /// </summary>
@@ -55,8 +99,8 @@ public partial class BlessingUI : TextureRect
     /// </summary>
     private void OnManaStateChanged()
     {
-        GD.Print("BlessingUI: Mana state changed, updating tint.");
         Modulate = Blessing.GetColor();
+        SetSelectedVisual(Blessing.State == State.MarkedForUse);
     }
 
     /// <summary>

@@ -29,6 +29,7 @@ public partial class Player : Character
 
 	/// <summary>
 	/// Queue an action for the character to perform in the next damage phase.
+	/// Clear the selected spell from the action manager after queuing.
 	/// </summary>
 	/// <param name="action">The action to queue.</param>
 	public void QueueAction(Spell spell, Character target, List<Blessing> cards = null)
@@ -41,16 +42,8 @@ public partial class Player : Character
 
 		// Copy the card list to avoid screwing with the original list.
 		var cardList = new List<Blessing>(cards ?? []);
-
-		// Check if the spell can be cast with the selected cards.
-		// TODO: Check if we need this validation here or can keep it in de button.
-		// if (!spell.CanCast(this, cardList))
-		// {
-		// 	GD.PrintErr("Spell cannot be cast with the selected cards.");
-		// 	return;
-		// }
-
 		var entry = new ActionQueueEntry(spell, target, cardList);
+		
 		ActionQueue.Enqueue(entry);
 		EmitSignal(SignalName.SpellQueued);
 		Managers.BattleLogManager.Log($"Queued {spell.Data.Name} with {cardList.Count} cards for {target.Name}.");

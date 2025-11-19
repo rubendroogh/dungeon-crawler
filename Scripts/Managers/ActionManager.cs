@@ -43,6 +43,24 @@ public partial class ActionManager : Node
     public KeywordContext KeywordContext { get; } = new KeywordContext();
 
     /// <summary>
+    /// Indicates whether a spell is currently selected.
+    /// </summary>
+    public bool SpellIsSelected => SelectedSpell != null;
+
+    public override void _Ready()
+    {
+        InitializeCustomSignals();
+    }
+
+    /// <summary>
+    /// Clears the currently selected spell.
+    /// </summary>
+    public void ClearSelectedSpell()
+    {
+        SelectedSpell = null;
+    }
+
+    /// <summary>
     /// Set the currently selected spell.
     /// This method finds the spell by its ActionData name from the Spell List.
     /// </summary>
@@ -94,5 +112,23 @@ public partial class ActionManager : Node
 
         await resolveResult.Target.Damage(resolveResult);
         return resolveResult.TotalDamageAmount;
+    }
+
+    /// <summary>
+    /// Wires up the custom signals for the ActionManager.
+    /// </summary>
+    private void InitializeCustomSignals()
+    {
+        Managers.PlayerManager.GetPlayer().SpellQueued += OnPlayerSpellQueued;
+    }
+
+    /// <summary>
+    /// Handles the event when the player queues a spell.
+    /// </summary>
+    private void OnPlayerSpellQueued()
+    {
+        // Clear the selected spell after it has been queued
+        ClearSelectedSpell();
+        GD.Print("Cleared spell");
     }
 }

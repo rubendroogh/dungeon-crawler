@@ -62,8 +62,15 @@ public partial class SpellUI : PanelContainer
 		// Handle mouse input for selecting the spell
 		if (@event is InputEventMouseButton mouseEvent && mouseEvent.Pressed && mouseEvent.ButtonIndex == MouseButton.Left)
 		{
-			Managers.SoundEffectManager.PlayButtonClick();
 			Managers.ActionManager.SetSelectedSpell(ActionData);
+
+			if (Managers.ManaSourceManager.AutoselectMana(ActionData.Cost) == false)
+			{
+				GD.PrintErr("Not enough mana to add the selected spell to the queue.");
+				return;
+			}
+			
+			_ = Managers.SoundEffectManager.PlayButtonClick();
 		}
 	}
 
