@@ -76,17 +76,24 @@ public partial class BlessingUI : TextureRect
     }
 
     /// <summary>
-    /// Shows the blessing as selected visually.
+    /// Sets the visual properties to indicate the blessing state.
     /// </summary>
-    private void SetSelectedVisual(bool value)
+    private void SetVisualMode(State state)
     {
-        if (value)
+        SelfModulate = Blessing.GetColor();
+        if (state == State.MarkedForUse)
         {
-            TextLabel.Text = "Selected";
+            MouseDefaultCursorShape = CursorShape.PointingHand;
+            TextLabel.Text = "Marked for use";
         }
-        else
+        else if (state == State.Available)
         {
-            TextLabel.Text = "Not seoected";
+            MouseDefaultCursorShape = CursorShape.PointingHand;
+            TextLabel.Text = "Available";
+        }
+        else if (state == State.Spent)
+        {
+            TextLabel.Text = "Spent";
         }
     }
 
@@ -103,12 +110,7 @@ public partial class BlessingUI : TextureRect
     /// </summary>
     private void OnManaStateChanged()
     {
-        SelfModulate = Blessing.GetColor();
-        SetSelectedVisual(Blessing.State == State.MarkedForUse);
-        if (Blessing.State != State.Spent)
-        {
-            MouseDefaultCursorShape = CursorShape.PointingHand;
-        }
+        SetVisualMode(Blessing.State);
     }
 
     /// <summary>

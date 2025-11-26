@@ -173,7 +173,16 @@ public partial class ManaSourceManager : Node
     /// </summary>
 	public void DeselectAllMana()
     {
-        BlessingBar.BlessingsMarkedForUse.Select(x => x.State = State.Available);
+        BlessingBar.BlessingsMarkedForUse.ForEach(x => x.State = State.Available);
+		EmitSignal(SignalName.BlessingStateChanged);
+    }
+
+	/// <summary>
+    /// Marks all mana marked for use as spent.
+    /// </summary>
+	public void SpendSelectedMana()
+    {
+		BlessingBar.BlessingsMarkedForUse.ForEach(b => b.State = State.Spent);
 		EmitSignal(SignalName.BlessingStateChanged);
     }
 

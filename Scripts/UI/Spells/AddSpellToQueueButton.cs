@@ -13,13 +13,23 @@ public partial class AddSpellToQueueButton : Button
 	/// </summary>
 	private void InitializeCustomSignals()
 	{
-		Managers.ManaSourceManager.BlessingStateChanged += OnManaStateChanged;
+        Managers.ActionManager.SpellSelected += UpdateButtonInteractableState;
+		Managers.ManaSourceManager.BlessingStateChanged += UpdateButtonInteractableState;
 	}
 
     /// <summary>
-    /// Handles changing mana states.
+    /// Overload for UpdateButtonInteractableState event handler to fit the SpellSelected event.
     /// </summary>
-    private void OnManaStateChanged()
+    private void UpdateButtonInteractableState(string value)
+    {
+        UpdateButtonInteractableState();
+    }
+
+    /// <summary>
+    /// Updates the button's enabled state based on whether a spell is selected
+    /// and if there is enough mana to queue it.
+    /// </summary>
+    private void UpdateButtonInteractableState()
     {
         // If no spell is selected, we cannot queue one
         if (!Managers.ActionManager.SpellIsSelected)
@@ -63,10 +73,11 @@ public partial class AddSpellToQueueButton : Button
             return;
         }
 
-        var target = Managers.ActionManager.SelectedTarget;
-
+        Managers.ManaSourceManager.SpendSelectedMana();
         Managers.ManaSourceManager.DeselectAllMana();
         _ = Managers.SoundEffectManager.PlayButtonClick();
+
+        var target = Managers.ActionManager.SelectedTarget;
         player.QueueAction(selectedSpell, target);
     }
 }
