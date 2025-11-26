@@ -58,6 +58,7 @@ public partial class ActionManager : Node
     public void ClearSelectedSpell()
     {
         SelectedSpell = null;
+        EmitSignal(SignalName.SpellSelected, string.Empty);
     }
 
     /// <summary>
@@ -88,7 +89,6 @@ public partial class ActionManager : Node
         }
 
         SelectedSpell = spell;
-
         EmitSignal(SignalName.SpellSelected, spell.Data.Name);
     }
 
