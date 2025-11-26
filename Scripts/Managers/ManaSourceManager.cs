@@ -28,6 +28,11 @@ public partial class ManaSourceManager : Node
 	}
 
 	/// <summary>
+    /// True if the player is able to select mana for an action.
+    /// </summary>
+	public bool IsSelectingMana { get; private set; }
+
+	/// <summary>
     /// Signal that is emitted when the state of blessings changes (e.g., when mana is reserved or spent).
     /// </summary>
 	[Signal]
@@ -170,6 +175,14 @@ public partial class ManaSourceManager : Node
     {
         BlessingBar.BlessingsMarkedForUse.Select(x => x.State = State.Available);
 		EmitSignal(SignalName.BlessingStateChanged);
+    }
+
+	/// <summary>
+    /// Set whether the player can select mana.
+    /// </summary>
+	public void SetManaSelectionMode(bool value)
+    {
+        IsSelectingMana = value;
     }
 
 	/// <summary>

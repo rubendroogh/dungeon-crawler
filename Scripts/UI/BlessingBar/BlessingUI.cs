@@ -15,6 +15,11 @@ public partial class BlessingUI : TextureRect
     /// The label displaying the blessing's domain and level.
     /// </summary>
     private Label TextLabel => GetNode<Label>("Label");
+    
+    /// <summary>
+    /// Used to track if the blessing should show the hover state.
+    /// </summary>
+    private bool IsHovering { get; set; }
 
     /// <summary>
     /// Sets up the BlessingUI with the given blessing.
@@ -49,7 +54,7 @@ public partial class BlessingUI : TextureRect
         {
             if (Blessing.State != State.Spent)
             {
-                // Show hover state
+                // TODO: Show hover state
             }
 
             // On click
@@ -100,6 +105,10 @@ public partial class BlessingUI : TextureRect
     {
         SelfModulate = Blessing.GetColor();
         SetSelectedVisual(Blessing.State == State.MarkedForUse);
+        if (Blessing.State != State.Spent)
+        {
+            MouseDefaultCursorShape = CursorShape.PointingHand;
+        }
     }
 
     /// <summary>
