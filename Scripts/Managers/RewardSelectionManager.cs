@@ -42,7 +42,7 @@ public partial class RewardSelectionManager : Node
     private Container NoPossibleRewardsContainer { get; set; }
 
     /// <summary>
-    /// The list of currently selected card rewards. Used to prevent duplicate selections.
+    /// The list of currently selected blessing rewards. Used to prevent duplicate selections.
     /// </summary>
     private List<Blessing> SelectedBlessingRewards = new List<Blessing>();
 
@@ -52,7 +52,7 @@ public partial class RewardSelectionManager : Node
     private List<ActionData> SelectedSpellRewards = new List<ActionData>();
 
     /// <summary>
-    /// The number of possible card rewards that can be selected.
+    /// The number of possible blessing rewards that can be selected.
     /// </summary>
     private int PossibleBlessingRewardsCount => GetPossibleBlessingRewards().Count;
 
@@ -100,7 +100,7 @@ public partial class RewardSelectionManager : Node
             var rewardUI = rewardItem.GetChild(0).GetChild<RewardUI>(0); // This is disgusting
             RewardContainer.AddChild(rewardItem);
 
-            // 50/50 chance to select a card or a spell
+            // 50/50 chance to select a blessing or a spell
             // If this gets more complicated, we need another solution
             // Possibly with an IReward
             var blessingRewardChance = 0.5f;
@@ -174,7 +174,7 @@ public partial class RewardSelectionManager : Node
     }
 
     /// <summary>
-    /// Generates a card reward.
+    /// Generates a blessing reward.
     /// </summary>
     private Blessing GetBlessingReward()
     {
@@ -183,7 +183,7 @@ public partial class RewardSelectionManager : Node
         {
             // Assign weights: higher rank = lower weight (rarer)
             // Example: weight = 1 / rank (Two=1, Ace=14)
-            var weights = possibleRewards.Select(card => 1f / (float)card.Level).ToList();
+            var weights = possibleRewards.Select(blessing => 1f / (float)blessing.Level).ToList();
             float totalWeight = weights.Sum();
             float randomValue = GD.Randf() * totalWeight;
 
@@ -220,19 +220,19 @@ public partial class RewardSelectionManager : Node
     }
 
     /// <summary>
-    /// Get every possible card reward. This is a list of all unique card rewards that can be obtained.
+    /// Get every possible blessing reward. This is a list of all unique blessing rewards that can be obtained.
     /// </summary>
     private List<Blessing> GetPossibleBlessingRewards()
     {
         var possibleRewards = new List<Blessing>();
-        for (int rank = 1; rank <= 13; rank++)
+        for (int level = 1; level <= 5; level++)
         {
-            for (int suit = 0; suit < 4; suit++)
+            for (int domain = 0; domain < 4; domain++)
             {
-                var card = new Blessing((Level)rank, (Domain)suit);
-                if (!SelectedBlessingRewards.Contains(card))
+                var blessing = new Blessing((Level)level, (Domain)domain);
+                if (!SelectedBlessingRewards.Contains(blessing))
                 {
-                    possibleRewards.Add(card);
+                    possibleRewards.Add(blessing);
                 }
             }
         }
