@@ -464,7 +464,7 @@ public partial class Character : Node2D
         if (entry.Action is Spell spell)
         {
             actionBehaviour = spell.GetBehaviour();
-            actionResolveResult = (actionBehaviour as ISpellBehaviour).Resolve(entry.Cards, spell.Data, entry.Target);
+            actionResolveResult = (actionBehaviour as ISpellBehaviour).Resolve(entry.Blessings, spell.Data, entry.Target);
         }
         else
         {

@@ -51,7 +51,7 @@ public partial class DebugScreenManager : Node
         var spellQueue = Managers.PlayerManager.GetPlayer().ActionQueue;
         foreach (var entry in spellQueue)
         {
-            SpellQueueLabel.AddText($"Spell: {entry.Action.Data.Name}, Target: {entry.Target.Name}, Cards: {entry.Cards.Count}\n");
+            SpellQueueLabel.AddText($"Spell: {entry.Action.Data.Name}, Target: {entry.Target.Name}, Cards: {entry.Blessings.Count}\n");
         }
     }
 }

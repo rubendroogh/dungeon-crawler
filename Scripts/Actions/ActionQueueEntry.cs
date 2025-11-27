@@ -18,16 +18,16 @@ public class ActionQueueEntry
     /// <summary>
     /// If the action represents a spell, the cards used in the spell cast.
     /// </summary>
-    public List<Blessing> Cards { get; } = new List<Blessing>();
+    public List<Blessing> Blessings { get; } = new List<Blessing>();
 
-    public ActionQueueEntry(Action action, Character target, List<Blessing> cards = null)
+    public ActionQueueEntry(Action action, Character target, List<Blessing> blessings = null)
     {
         Action = action;
         Target = target;
         
-        if (cards != null)
+        if (blessings != null)
         {
-            Cards = cards;
+            Blessings = blessings;
         }
     }
 }
