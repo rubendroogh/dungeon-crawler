@@ -2,7 +2,7 @@ using System.Collections.Generic;
 
 public partial class BrainFreezeBehaviour : DefaultSpellBehaviour
 {
-    public override ResolveResult Resolve(List<Blessing> cards, ActionData spellData, Character target)
+    public override ResolveResult Resolve(List<Blessing> blessings, ActionData spellData, Character target)
     {
         // Check if the target is frozen
         if (target.HasEffect(StatusEffectType.Frozen))
@@ -17,6 +17,6 @@ public partial class BrainFreezeBehaviour : DefaultSpellBehaviour
             target.ApplyEffect(StatusEffectType.Frozen, 2);
         }
 
-        return base.Resolve(cards, spellData, target);
+        return base.Resolve(blessings, spellData, target);
     }
 }

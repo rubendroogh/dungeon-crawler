@@ -200,7 +200,6 @@ public partial class BattleManager : Node
     private void StartPhase()
     {
         CurrentTurn++;
-        // Managers.ActionManager.ResetCards();
 
         var currentCharacter = GetCurrentCharacter();
         currentCharacter.StartTurn();

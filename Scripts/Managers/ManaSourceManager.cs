@@ -352,7 +352,7 @@ public class Blessing
 namespace DungeonRPG.Blessings.Enums
 {
 	/// <summary>
-	/// Represents the rank of a card in a standard deck.
+	/// Represents the level (potency) of a blessing.
 	/// The ranks are ordered from Minor (1) to Superior (5).
 	/// </summary>
 	public enum Level { Minor = 1, Lesser = 2, Greater = 3, Major = 4, Superior = 5 }

@@ -103,12 +103,6 @@ public partial class ActionData : Resource
     public Array<StatusEffectType> StatusEffects { get; set; } = new Array<StatusEffectType>();
 
     /// <summary>
-    /// This multiplier affects the effect of mana power (the card rank) on the spell damage.
-    /// </summary>
-    [Export]
-    public float ModifierMultiplier = 1.01f;
-
-    /// <summary>
     /// The scene containing the animation played when the spell is cast.
     /// </summary>
     [Export]

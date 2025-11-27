@@ -22,9 +22,9 @@ public partial class Spell : Action
     }
 
     /// <summary>
-    /// Check if the spell can be cast by the given character with the provided cards and abilities.
+    /// Check if the spell can be cast by the given character with the provided blessings and abilities.
     /// </summary>
-    public bool CanCast(Character caster, List<Blessing> cards)
+    public bool CanCast(Character caster, List<Blessing> blessings)
     {
         var spellBehaviour = GetBehaviour();
         if (spellBehaviour == null)
@@ -33,6 +33,6 @@ public partial class Spell : Action
             return false;
         }
 
-        return spellBehaviour.CanCast(caster, this, cards);
+        return spellBehaviour.CanCast(caster, this, blessings);
     }
 }

@@ -10,9 +10,9 @@ using Godot;
 /// </summary>
 public partial class DefaultSpellBehaviour : ISpellBehaviour
 {
-    public virtual ResolveResult Resolve(List<Blessing> cards, ActionData spellData, Character target)
+    public virtual ResolveResult Resolve(List<Blessing> blessings, ActionData spellData, Character target)
     {
-        if (cards == null || cards.Count == 0)
+        if (blessings == null || blessings.Count == 0)
         {
             GD.PrintErr("No cards selected.");
             return new ResolveResult();
@@ -24,18 +24,11 @@ public partial class DefaultSpellBehaviour : ISpellBehaviour
             return new ResolveResult();
         }
 
-        // Calculate the modifier based on the cards selected
-        float modifier = 1f;
-        foreach (var card in cards)
-        {
-            modifier *= Mathf.Pow(spellData.ModifierMultiplier, (float)card.Level);
-        }
-
         // Add all damage types together
         List<Damage> damages = new();
         foreach (var damageType in spellData.DamageTypes)
         {
-            float damage = CalculateDamage(damageType, modifier, spellData);
+            float damage = CalculateDamage(damageType, 1f, spellData);
             damages.Add(new Damage(damage, damageType));
         }
 
