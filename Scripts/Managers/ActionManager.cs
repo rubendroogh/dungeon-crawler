@@ -15,18 +15,6 @@ public partial class ActionManager : Node
     public delegate void SpellSelectedEventHandler(string spellName);
 
     /// <summary>
-    /// Signal that is emitted when the cards should be reset.
-    /// TODO: Change this to a more general "SelectionChanged" event and don't use cards anymore.
-    /// </summary>
-    [Signal]
-    public delegate void CardsResetEventHandler();
-
-    /// <summary>
-    /// The currently selected cards.
-    /// </summary>
-    public List<Blessing> SelectedCards { get; } = [];
-
-    /// <summary>
     /// The currently selected spell.
     /// This is the spell that is currently being prepared for queueing.
     /// </summary>

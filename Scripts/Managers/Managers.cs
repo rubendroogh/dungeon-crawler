@@ -8,7 +8,7 @@ public partial class Managers : Node
 {
     /// <summary>
     /// ActionManager is responsible for managing actions related to casting spells,
-    /// handling selected blessings, spells, and targets, and emitting signals for UI updates.
+    /// handling selected spells, targets, and emitting signals for UI updates.
     /// </summary>
     public static ActionManager ActionManager { get; set; }
 

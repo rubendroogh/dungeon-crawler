@@ -14,7 +14,7 @@ public partial class DefaultSpellBehaviour : ISpellBehaviour
     {
         if (blessings == null || blessings.Count == 0)
         {
-            GD.PrintErr("No cards selected.");
+            GD.PrintErr("No blessings selected.");
             return new ResolveResult();
         }
 
@@ -83,25 +83,25 @@ public partial class DefaultSpellBehaviour : ISpellBehaviour
         }
     }
 
-    public bool CanCast(Character caster, Spell spell, List<Blessing> cards)
+    public bool CanCast(Character caster, Spell spell, List<Blessing> blessings)
     {
-        if (caster == null || spell == null || cards == null)
+        if (caster == null || spell == null || blessings == null)
         {
             GD.PrintErr("Invalid parameters for CanCast.");
             return false;
         }
 
-        // Add up the mana from the selected cards
+        // Add up the mana from the selected blessings
         var manaCounts = new Dictionary<Domain, int>();
-        foreach (var card in cards)
+        foreach (var blessing in blessings)
         {
-            if (manaCounts.ContainsKey(card.Domain))
+            if (manaCounts.ContainsKey(blessing.Domain))
             {
-                manaCounts[card.Domain]++;
+                manaCounts[blessing.Domain]++;
             }
             else
             {
-                manaCounts[card.Domain] = 1;
+                manaCounts[blessing.Domain] = 1;
             }
         }
 
