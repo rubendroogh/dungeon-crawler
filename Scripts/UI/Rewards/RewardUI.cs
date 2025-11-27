@@ -25,18 +25,18 @@ public partial class RewardUI : Container
 	}
 
 	/// <summary>
-	/// Sets up the reward UI for a card.
+	/// Sets up the reward UI for a blessing.
 	/// </summary>
-	public void Setup(Blessing card)
+	public void Setup(Blessing blessing)
 	{
-		NameLabel.Text = $"{card.Level} of {card.Domain}";
-		DescriptionLabel.Text = "An additional card for your deck.";
-		// Icon.Texture = card.GetIcon(); TODO: Implement blessing icons
+		NameLabel.Text = $"{blessing.Level} of {blessing.Domain}";
+		DescriptionLabel.Text = "An additional blessing from a God.";
+		// Icon.Texture = blessing.GetIcon(); TODO: Implement blessing icons
 
 		Reward = new Reward
 		{
-			Type = RewardType.Card,
-			CardReward = card
+			Type = RewardType.Blessing,
+			BlessingReward = blessing
 		};
 	}
 
@@ -61,13 +61,13 @@ public class Reward
 {
 	public RewardType Type { get; set; }
 
-	internal Blessing CardReward { get; init; }
+	internal Blessing BlessingReward { get; init; }
 
 	internal ActionData SpellReward { get; init; }
 
-	public Blessing GetCardReward()
+	public Blessing GetBlessingReward()
 	{
-		return CardReward;
+		return BlessingReward;
 	}
 
 	public ActionData GetSpellReward()
@@ -82,9 +82,9 @@ public class Reward
 public enum RewardType
 {
 	/// <summary>
-	/// Represents a playing card reward.
+	/// Represents a blessing reward.
 	/// </summary>
-	Card,
+	Blessing,
 	/// <summary>
 	/// Represents a spell reward.
 	/// </summary>

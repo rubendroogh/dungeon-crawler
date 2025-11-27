@@ -44,7 +44,7 @@ public partial class RewardSelectionManager : Node
     /// <summary>
     /// The list of currently selected card rewards. Used to prevent duplicate selections.
     /// </summary>
-    private List<Blessing> SelectedCardRewards = new List<Blessing>();
+    private List<Blessing> SelectedBlessingRewards = new List<Blessing>();
 
     /// <summary>
     /// The list of currently selected spell rewards. Used to prevent duplicate selections.
@@ -54,7 +54,7 @@ public partial class RewardSelectionManager : Node
     /// <summary>
     /// The number of possible card rewards that can be selected.
     /// </summary>
-    private int PossibleCardRewardsCount => GetPossibleCardRewards().Count;
+    private int PossibleBlessingRewardsCount => GetPossibleBlessingRewards().Count;
 
     /// <summary>
     /// The number of possible spell rewards that can be selected.
@@ -90,7 +90,7 @@ public partial class RewardSelectionManager : Node
 
         for (int i = 0; i < count; i++)
         {
-            if (PossibleCardRewardsCount == 0 && PossibleSpellRewardsCount == 0)
+            if (PossibleBlessingRewardsCount == 0 && PossibleSpellRewardsCount == 0)
             {
                 DisplayNoMoreRewardsMessage();
                 break;
@@ -103,14 +103,14 @@ public partial class RewardSelectionManager : Node
             // 50/50 chance to select a card or a spell
             // If this gets more complicated, we need another solution
             // Possibly with an IReward
-            var cardRewardChance = 0.5f;
-            if (GD.Randf() < cardRewardChance && PossibleCardRewardsCount > 0 || PossibleSpellRewardsCount == 0)
+            var blessingRewardChance = 0.5f;
+            if (GD.Randf() < blessingRewardChance && PossibleBlessingRewardsCount > 0 || PossibleSpellRewardsCount == 0)
             {
-                var cardReward = GetCardReward();
-                if (cardReward != null)
+                var blessingReward = GetBlessingReward();
+                if (blessingReward != null)
                 {
-                    SelectedCardRewards.Add(cardReward);
-                    rewardUI.Setup(cardReward);
+                    SelectedBlessingRewards.Add(blessingReward);
+                    rewardUI.Setup(blessingReward);
                 }
             }
             else
@@ -124,7 +124,7 @@ public partial class RewardSelectionManager : Node
             }
         }
 
-        SelectedCardRewards.Clear();
+        SelectedBlessingRewards.Clear();
         SelectedSpellRewards.Clear();
     }
 
@@ -155,9 +155,9 @@ public partial class RewardSelectionManager : Node
         }
 
         // Add the selected reward to the appropriate managerX
-        if (SelectedReward.Type == RewardType.Card)
+        if (SelectedReward.Type == RewardType.Blessing)
         {
-            Managers.ManaSourceManager.AddBlessing(SelectedReward.CardReward);
+            Managers.ManaSourceManager.AddBlessing(SelectedReward.BlessingReward);
         }
         else if (SelectedReward.Type == RewardType.Spell)
         {
@@ -176,9 +176,9 @@ public partial class RewardSelectionManager : Node
     /// <summary>
     /// Generates a card reward.
     /// </summary>
-    private Blessing GetCardReward()
+    private Blessing GetBlessingReward()
     {
-        var possibleRewards = GetPossibleCardRewards();
+        var possibleRewards = GetPossibleBlessingRewards();
         if (possibleRewards.Count > 0)
         {
             // Assign weights: higher rank = lower weight (rarer)
@@ -222,7 +222,7 @@ public partial class RewardSelectionManager : Node
     /// <summary>
     /// Get every possible card reward. This is a list of all unique card rewards that can be obtained.
     /// </summary>
-    private List<Blessing> GetPossibleCardRewards()
+    private List<Blessing> GetPossibleBlessingRewards()
     {
         var possibleRewards = new List<Blessing>();
         for (int rank = 1; rank <= 13; rank++)
@@ -230,7 +230,7 @@ public partial class RewardSelectionManager : Node
             for (int suit = 0; suit < 4; suit++)
             {
                 var card = new Blessing((Level)rank, (Domain)suit);
-                if (!SelectedCardRewards.Contains(card))
+                if (!SelectedBlessingRewards.Contains(card))
                 {
                     possibleRewards.Add(card);
                 }

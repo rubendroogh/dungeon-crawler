@@ -16,7 +16,7 @@ public class ActionQueueEntry
     public Character Target { get; }
 
     /// <summary>
-    /// If the action represents a spell, the cards used in the spell cast.
+    /// If the action represents a spell, the blessings used in the spell cast.
     /// </summary>
     public List<Blessing> Blessings { get; } = new List<Blessing>();
 

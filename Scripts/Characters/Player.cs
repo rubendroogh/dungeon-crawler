@@ -32,7 +32,7 @@ public partial class Player : Character
 	/// Clear the selected spell from the action manager after queuing.
 	/// </summary>
 	/// <param name="action">The action to queue.</param>
-	public void QueueAction(Spell spell, Character target, List<Blessing> cards = null)
+	public void QueueAction(Spell spell, Character target, List<Blessing> blessings = null)
 	{
 		if (spell == null || target == null)
 		{
@@ -40,13 +40,13 @@ public partial class Player : Character
 			return;
 		}
 
-		// Copy the card list to avoid screwing with the original list.
-		var cardList = new List<Blessing>(cards ?? []);
-		var entry = new ActionQueueEntry(spell, target, cardList);
+		// Copy the blessing list to avoid screwing with the original list.
+		var blessingList = new List<Blessing>(blessings ?? []);
+		var entry = new ActionQueueEntry(spell, target, blessingList);
 		
 		ActionQueue.Enqueue(entry);
 		EmitSignal(SignalName.SpellQueued);
-		Managers.BattleLogManager.Log($"Queued {spell.Data.Name} with {cardList.Count} cards for {target.Name}.");
+		Managers.BattleLogManager.Log($"Queued {spell.Data.Name} with {blessingList.Count} blessings for {target.Name}.");
 
 		Managers.DebugScreenManager.UpdateSpellQueue();
 	}
