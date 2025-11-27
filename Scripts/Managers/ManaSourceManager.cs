@@ -187,6 +187,15 @@ public partial class ManaSourceManager : Node
     }
 
 	/// <summary>
+    /// Marks all mana as available.
+    /// </summary>
+	public void ResetAllMana()
+    {
+		BlessingBar.AllBlessings.ForEach(b => b.State = State.Available);
+		EmitSignal(SignalName.BlessingStateChanged);
+    }
+
+	/// <summary>
     /// Set whether the player can select mana.
     /// </summary>
 	public void SetManaSelectionMode(bool value)

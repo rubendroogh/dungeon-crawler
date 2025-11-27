@@ -311,8 +311,8 @@ public partial class Character : Node2D
 		    Managers.DebugScreenManager.UpdateSpellQueue();
         }
 
-        // Clear the action queue after resolving.
-        ActionQueue.Clear();
+        // Reset mana after resolving.
+        Managers.ManaSourceManager.ResetAllMana();
     }
 
     /// <summary>
