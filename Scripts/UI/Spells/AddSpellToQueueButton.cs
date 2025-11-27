@@ -73,11 +73,12 @@ public partial class AddSpellToQueueButton : Button
             return;
         }
 
+        var manaUsed = Managers.ManaSourceManager.BlessingBar.BlessingsMarkedForUse;
         Managers.ManaSourceManager.SpendSelectedMana();
         Managers.ManaSourceManager.DeselectAllMana();
         _ = Managers.SoundEffectManager.PlayButtonClick();
 
         var target = Managers.ActionManager.SelectedTarget;
-        player.QueueAction(selectedSpell, target);
+        player.QueueAction(selectedSpell, target, manaUsed);
     }
 }
