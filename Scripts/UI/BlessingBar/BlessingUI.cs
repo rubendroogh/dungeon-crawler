@@ -49,28 +49,32 @@ public partial class BlessingUI : TextureRect
 
     public override void _GuiInput(InputEvent @event)
     {
-        // Handle hover state
-        if (Managers.ActionManager.SpellIsSelected)
-        {
-            if (Blessing.State != State.Spent)
-            {
-                // TODO: Show hover state
-            }
+        // Show popup panel
+        
 
-            // On click
-            if (@event is InputEventMouseButton mouseEvent && mouseEvent.Pressed && mouseEvent.ButtonIndex == MouseButton.Left)
+        if (!Managers.ActionManager.SpellIsSelected)
+        {
+            return;
+        }
+
+        if (Blessing.State != State.Spent)
+        {
+            // TODO: Show hover state
+        }
+
+        // On click
+        if (@event is InputEventMouseButton mouseEvent && mouseEvent.Pressed && mouseEvent.ButtonIndex == MouseButton.Left)
+        {
+            if (Blessing.State == State.MarkedForUse)
             {
-                if (Blessing.State == State.MarkedForUse)
-                {
-                    // If already marked for use, deselect
-                    Managers.ManaSourceManager.BlessingBar.SetBlessingState(Blessing.ID, State.Available);
-                    OnManaStateChanged();
-                }
-                else if (Blessing.State == State.Available)
-                {
-                    Managers.ManaSourceManager.BlessingBar.SetBlessingState(Blessing.ID, State.MarkedForUse);
-                    OnManaStateChanged();
-                }
+                // If already marked for use, deselect
+                Managers.ManaSourceManager.BlessingBar.SetBlessingState(Blessing.ID, State.Available);
+                OnManaStateChanged();
+            }
+            else if (Blessing.State == State.Available)
+            {
+                Managers.ManaSourceManager.BlessingBar.SetBlessingState(Blessing.ID, State.MarkedForUse);
+                OnManaStateChanged();
             }
         }
     }
