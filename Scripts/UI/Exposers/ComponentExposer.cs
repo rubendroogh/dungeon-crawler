@@ -3,6 +3,7 @@ using Godot.Collections;
 
 /// <summary>
 /// Added to the root note of a scene to expose its components to other scripts.
+/// This should be used for components that do not contain any logic by itself.
 /// </summary>
 public partial class ComponentExposer : Node
 {

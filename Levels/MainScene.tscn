@@ -1,4 +1,4 @@
-[gd_scene load_steps=35 format=3 uid="uid://ck8p1eru6l2f4"]
+[gd_scene load_steps=36 format=3 uid="uid://ck8p1eru6l2f4"]
 
 [ext_resource type="Script" uid="uid://di2h8gf1377s5" path="res://Scripts/UI/CameraShake.cs" id="1_hojmo"]
 [ext_resource type="Script" uid="uid://bb2xw40m0q3sm" path="res://Scripts/Managers/ManaSourceManager.cs" id="3_hvf01"]
@@ -26,6 +26,7 @@
 [ext_resource type="Script" uid="uid://p81ss845glea" path="res://Scripts/Managers/OpponentManager.cs" id="21_g2qkk"]
 [ext_resource type="PackedScene" uid="uid://da86qewhcsw42" path="res://Scenes/BattleUI/BattleLog/BattleLog.tscn" id="22_8287p"]
 [ext_resource type="PackedScene" uid="uid://brrg2g58puw3q" path="res://Scenes/BattleUI/Opponents/OpponentScreen.tscn" id="22_ogsbt"]
+[ext_resource type="Script" uid="uid://ca0fvsfshmiyq" path="res://Scripts/Managers/TooltipManager.cs" id="23_jk3s6"]
 [ext_resource type="StyleBox" uid="uid://ginbulb641wh" path="res://Resources/StyleBoxes/Brick/BrickBackgroundPanel.tres" id="24_jk3s6"]
 [ext_resource type="PackedScene" uid="uid://bobl0cvnecl4s" path="res://Scenes/BattleUI/TurnIndication/TurnIndicationPanel.tscn" id="25_b51k0"]
 [ext_resource type="PackedScene" uid="uid://din1s2uojtxq0" path="res://Scenes/RewardSelectionUI/RewardSelectionPanel.tscn" id="27_aj24y"]
@@ -109,6 +110,9 @@ stream = ExtResource("19_8287p")
 volume_db = -19.676
 autoplay = true
 parameters/looping = true
+
+[node name="TooltipManager" type="Node" parent="World/ManagerRepository"]
+script = ExtResource("23_jk3s6")
 
 [node name="UI" type="Control" parent="."]
 layout_mode = 3

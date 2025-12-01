@@ -66,6 +66,11 @@ public partial class Managers : Node
     /// </summary>
     public static OpponentManager OpponentManager { get; set; }
 
+    /// <summary>
+    /// TooltipManager is responsible for showing tooltips in the game.
+    /// </summary>
+    public static TooltipManager TooltipManager { get; set; }
+
     public override void _Ready()
     {
         ActionManager = GetNode<ActionManager>("ActionManager");
@@ -78,6 +83,7 @@ public partial class Managers : Node
         SoundEffectManager = GetNode<SoundEffectManager>("SoundEffectManager");
         ManaSourceManager = GetNode<ManaSourceManager>("ManaSourceManager");
         OpponentManager = GetNode<OpponentManager>("OpponentManager");
+        TooltipManager = GetNode<TooltipManager>("TooltipManager");
 
         // TODO: Find a better way to get this manager
         RewardSelectionManager = GetTree().Root.GetNode<RewardSelectionManager>("Root/UI/RewardSelection/RewardSelectionManager");

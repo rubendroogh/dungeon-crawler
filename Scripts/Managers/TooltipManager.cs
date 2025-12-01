@@ -1,0 +1,55 @@
+using Godot;
+
+public partial class TooltipManager : Node
+{
+    /// <summary>
+    /// The PackedScene for the tooltip UI.
+    /// </summary>
+    [Export]
+    private PackedScene TooltipScene { get; set; }
+
+    /// <summary>
+    /// The singleton tooltip component.
+    /// </summary>
+    private TooltipPanel TooltipComponent { get; set; }
+
+    public override void _Ready()
+    {
+        // Create the initial tooltip and hide it
+        var tooltip = TooltipScene.Instantiate<TooltipPanel>();
+        AddChild(tooltip);
+
+        TooltipComponent = tooltip;
+        TooltipComponent.Hide();
+    }
+
+    /// <summary>
+    /// Shows the tooltip with the given title and text at the specified position.
+    /// </summary>
+    public void Show(string title, string description, Vector2 position)
+    {
+        if (TooltipComponent == null)
+        {
+            GD.PrintErr("TooltipManager: TooltipComponent missing.");
+            return;
+        }
+
+        TooltipComponent.Show(title, description, position);
+    }
+
+    /// <summary>
+    /// Updates the position of the tooltip (e.g. to follow the mouse)
+    /// </summary>
+    public void UpdatePosition(Vector2 position)
+    {
+        TooltipComponent.SetPosition(position);
+    }
+
+    /// <summary>
+    /// Hides the tooltip.
+    /// </summary>
+    public void Hide()
+    {
+        TooltipComponent.Hide();
+    }
+}

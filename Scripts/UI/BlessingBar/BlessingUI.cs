@@ -43,6 +43,9 @@ public partial class BlessingUI : TextureRect
         SetLabelText();
         InitializeCustomSignals();
 
+        MouseEntered += OnMouseEntered;
+        MouseExited += OnMouseExited;
+
         // Return this for chaining
         return this;
     }
@@ -77,6 +80,24 @@ public partial class BlessingUI : TextureRect
                 OnManaStateChanged();
             }
         }
+    }
+
+    /// <summary>
+    /// Handles mouse enter event to show hover state.
+    /// </summary>
+    private void OnMouseEntered()
+    {
+        IsHovering = true;
+        Managers.TooltipManager.Show("Test blessing", "Test blessing description", GetViewport().GetMousePosition());
+    }
+
+    /// <summary>
+    /// Handles mouse exit event to hide hover state.
+    /// </summary>
+    private void OnMouseExited()
+    {
+        IsHovering = false;
+        Managers.TooltipManager.Hide();
     }
 
     /// <summary>
