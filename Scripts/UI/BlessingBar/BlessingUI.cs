@@ -89,7 +89,7 @@ public partial class BlessingUI : TextureRect
     {
         IsHovering = true;
         var mousePosition = GetGlobalMousePosition();
-        Managers.TooltipManager.Show(Blessing.ToString(), "Test blessing description", mousePosition);
+        Managers.TooltipManager.Show(Blessing.ToString(), Blessing.GetDescription(), mousePosition);
     }
 
     /// <summary>

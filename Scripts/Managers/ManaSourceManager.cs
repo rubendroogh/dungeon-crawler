@@ -311,9 +311,20 @@ public class Blessing
     /// </summary>
 	public int ManaAmount => (int)Level;
 
+	/// <summary>
+    /// Returns a string representation of the blessing.
+    /// </summary>
 	public override string ToString()
 	{
 		return $"{Level} {Domain} blessing";
+	}
+
+	/// <summary>
+    /// Gets the description of the blessing. This contains any effects, properties, or modifiers.
+    /// </summary>
+	public string GetDescription()
+	{
+		return "This can be [color=\"violet\"]upgraded[/color] to increase its potency and effectiveness.";
 	}
 
 	/// <summary>

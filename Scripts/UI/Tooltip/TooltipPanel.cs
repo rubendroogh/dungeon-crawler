@@ -5,7 +5,7 @@ public partial class TooltipPanel : PanelContainer
     /// <summary>
     /// The offset to apply to the tooltip position.
     /// </summary>
-    private Vector2 Offset = new(16, -16);
+    private Vector2 Offset = new(8, -8);
 
     /// <summary>
     /// Shows the tooltip and sets its initial parameters.
@@ -28,6 +28,6 @@ public partial class TooltipPanel : PanelContainer
     public void SetPosition(Vector2 position)
     {
         // TODO: Control offsets
-        Position = position + Offset - new Vector2(0, Size.Y / 2);
+        Position = position + Offset - new Vector2(0, Size.Y);
     }
 }
