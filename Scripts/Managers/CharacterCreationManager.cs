@@ -10,28 +10,65 @@ using Godot;
 /// </summary>
 public partial class CharacterCreationManager : Control
 {
+	/// <summary>
+    /// Skips the character creation process and goes directly to the game.
+	/// Used for testing purposes.
+    /// </summary>
+	[Export]
+	public bool SkipCharacterCreation = false;
+
+	/// <summary>
+    /// The maximum total points available for character attribute allocation.
+    /// </summary>
 	[Export]
 	public int MaxTotalPoints = 40; // Each stat starts at 10, so account for that.
 
+	/// <summary>
+    /// The text to display when there is one available point.
+    /// </summary>
 	[Export]
 	public string AvailablePointsTextSingular;
 
+	/// <summary>
+    /// The text to display when there are multiple available points.
+    /// </summary>
 	[Export]
 	public string AvailablePointsTextPlural;
 
+	/// <summary>
+	/// The ComponentExposer used to access UI components related to available points.
+	/// </summary>
 	[Export]
 	private ComponentExposer AvailablePointsExposer;
 
+	/// <summary>
+    /// The LineEdit for player name input.
+    /// </summary>
 	private LineEdit PlayerNameInput { get; set; }
 
+	/// <summary>
+    /// The Label displaying the number of available points.
+    /// </summary>
 	private Label AvailablePointsNumberLabel => AvailablePointsExposer.GetComponent<Label>(Components.AvailablePointsNumberLabel);
 
+	/// <summary>
+    /// The Label displaying the text for available points.
+    /// </summary>
 	private Label AvailablePointsTextLabel => AvailablePointsExposer.GetComponent<Label>(Components.AvailablePointsTextLabel);
 
+	/// <summary>
+    /// The Warning Icon indicating insufficient points.
+    /// </summary>
 	private TextureRect WarningIcon => AvailablePointsExposer.GetComponent<TextureRect>(Components.WarningIcon);
 
+	/// <summary>
+    /// The Submit Button for submitting the character creation form.
+    /// </summary>
 	private Button SubmitButton { get; set; }
 	
+	/// <summary>
+    /// Calculates the number of available points left for allocation.
+    /// </summary>
 	private int AvailablePoints
 	{
 		get
@@ -40,6 +77,9 @@ public partial class CharacterCreationManager : Control
 		}
 	}
 
+	/// <summary>
+    /// Calculates the number of points already used in the spinboxes.
+    /// </summary>
 	private int UsedPoints
 	{
 		get
@@ -60,6 +100,11 @@ public partial class CharacterCreationManager : Control
 
 		// Connect the player name input text changed signal to update the submit button state.
 		PlayerNameInput.TextChanged += (text) => UpdateSubmitButtonState();
+
+		if (SkipCharacterCreation)
+		{
+			CallDeferred(nameof(SubmitForm));
+		}
 	}
 
 	/// <summary>
@@ -133,7 +178,7 @@ public partial class CharacterCreationManager : Control
 
 		CharacterData characterData = Managers.PlayerManager.GetPlayer().CharacterData;
 
-		characterData.Name = PlayerNameInput.Text;
+		characterData.Name = PlayerNameInput.Text == "" ? "Unnamed Hero" : PlayerNameInput.Text;
 		characterData.BaseBenevolent = traitValues.FirstOrDefault(t => t.Key == "Benevolent").Value;
 		characterData.BaseCurious = traitValues.FirstOrDefault(t => t.Key == "Curious").Value;
 		characterData.BaseCharming = traitValues.FirstOrDefault(t => t.Key == "Charming").Value;
