@@ -51,11 +51,43 @@ public partial class ManaSourceManager : Node
     private PackedScene BlessingUIScene;
 
 	/// <summary>
+    /// Checks if the player can pay for the given spell cost with their available mana.
+    /// </summary>
+    /// <param name="spellCost">The cost of the spell.</param>
+    /// <returns>True if the player can pay for the spell, false otherwise.</returns>
+	public bool CanPay(SpellCost spellCost)
+    {
+		// TODO: This is duplicated code with SelectedManaCanPay. Refactor to avoid duplication.
+		// Aggregate all costs by domain
+		var costByDomain = new Dictionary<Domain, int>();
+		foreach (var cost in spellCost.Costs)
+		{
+			if (!costByDomain.ContainsKey(cost.Type))
+			{
+				costByDomain[cost.Type] = 0;
+			}
+
+			costByDomain[cost.Type] += cost.Amount;
+		}
+
+		// Check if we have enough mana in each domain
+		foreach (var domainCost in costByDomain)
+		{
+			if (GetAvailableManaTotal(domainCost.Key) < domainCost.Value)
+			{
+				return false;
+			}
+		}
+
+		return true;
+    }
+
+	/// <summary>
 	/// Checks if the selected mana can pay for the given spell cost.
 	/// </summary>
 	/// <param name="spellCost">The cost of the spell.</param>
-	/// <returns>True if the mana can pay for the spell, false otherwise.</returns>
-	public bool CanPay(SpellCost spellCost)
+	/// <returns>True if the mana can pay for the spell using the currently selected mana, false otherwise.</returns>
+	public bool SelectedManaCanPay(SpellCost spellCost)
 	{
 		// Aggregate all costs by domain
 		var costByDomain = new Dictionary<Domain, int>();
@@ -72,7 +104,7 @@ public partial class ManaSourceManager : Node
 		// Check if we have enough mana in each domain
 		foreach (var domainCost in costByDomain)
 		{
-			if (GetRemainingMana(domainCost.Key) < domainCost.Value)
+			if (GetSelectedManaTotal(domainCost.Key) < domainCost.Value)
 			{
 				return false;
 			}
@@ -204,13 +236,25 @@ public partial class ManaSourceManager : Node
     }
 
 	/// <summary>
-	/// Gets the remaining mana for the given domain. This is available mana and mana marked fo
+	/// Gets the remaining mana for the given domain. This is mana marked for use.
 	/// </summary>
-	private int GetRemainingMana(Domain domain)
+	private int GetSelectedManaTotal(Domain domain)
 	{
 		// Get the available blessings and get the total mana from them by summing their levels
 		var markedForUse = BlessingBar.BlessingsMarkedForUse.Where(b => b.Domain == domain).ToList();
 		var count = markedForUse.Sum(b => (int)b.Level);
+
+		return count;
+	}
+
+	/// <summary>
+    /// Gets the total available mana for the given domain.
+    /// </summary>
+	private int GetAvailableManaTotal(Domain domain)
+	{
+		// Get the available blessings and get the total mana from them by summing their levels
+		var availableBlessings = BlessingBar.AvailableBlessings.Where(b => b.Domain == domain).ToList();
+		var count = availableBlessings.Sum(b => (int)b.Level);
 
 		return count;
 	}

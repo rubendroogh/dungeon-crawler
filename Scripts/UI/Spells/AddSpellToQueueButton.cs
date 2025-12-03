@@ -39,7 +39,7 @@ public partial class AddSpellToQueueButton : Button
         }
 
         // Whenever any mana changes, we need to check if the selected spell can be paid for agian
-        if (!Managers.ManaSourceManager.CanPay(Managers.ActionManager.SelectedSpell.Data.Cost))
+        if (!Managers.ManaSourceManager.SelectedManaCanPay(Managers.ActionManager.SelectedSpell.Data.Cost))
         {
             Disabled = true;
         }
@@ -68,7 +68,7 @@ public partial class AddSpellToQueueButton : Button
 
         var player = Managers.PlayerManager.GetPlayer();
         var selectedSpell = Managers.ActionManager.SelectedSpell;
-        if (!Managers.ManaSourceManager.CanPay(selectedSpell.Data.Cost))
+        if (!Managers.ManaSourceManager.SelectedManaCanPay(selectedSpell.Data.Cost))
         {
             return;
         }

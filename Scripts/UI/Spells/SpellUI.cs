@@ -68,13 +68,14 @@ public partial class SpellUI : PanelContainer
                 return;
             }
 
-			if (Managers.ManaSourceManager.AutoselectMana(ActionData.Cost) == false)
+			if (!Managers.ManaSourceManager.CanPay(ActionData.Cost))
 			{
-				Managers.ManaSourceManager.DeselectAllMana();
-				Managers.BattleLogManager.Log("You cannot select this spell as you do not have enough mana.");
+				Managers.BattleLogManager.Log("You do not have enough mana to cast this spell.");
 				return;
 			}
 
+			// Try to autoselect mana for the spell
+			Managers.ManaSourceManager.AutoselectMana(ActionData.Cost);
 			Managers.ActionManager.SetSelectedSpell(ActionData);
 			_ = Managers.SoundEffectManager.PlayButtonClick();
 		}
