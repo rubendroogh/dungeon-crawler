@@ -53,7 +53,7 @@ public partial class BlessingUI : TextureRect
     public override void _GuiInput(InputEvent @event)
     {
         // Show popup panel
-        
+        Managers.TooltipManager.UpdatePosition(GetGlobalMousePosition());
 
         if (!Managers.ActionManager.SpellIsSelected)
         {
@@ -88,7 +88,8 @@ public partial class BlessingUI : TextureRect
     private void OnMouseEntered()
     {
         IsHovering = true;
-        Managers.TooltipManager.Show("Test blessing", "Test blessing description", GetViewport().GetMousePosition());
+        var mousePosition = GetGlobalMousePosition();
+        Managers.TooltipManager.Show(Blessing.ToString(), "Test blessing description", mousePosition);
     }
 
     /// <summary>

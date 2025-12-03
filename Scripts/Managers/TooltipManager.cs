@@ -3,23 +3,13 @@ using Godot;
 public partial class TooltipManager : Node
 {
     /// <summary>
-    /// The PackedScene for the tooltip UI.
-    /// </summary>
-    [Export]
-    private PackedScene TooltipScene { get; set; }
-
-    /// <summary>
     /// The singleton tooltip component.
     /// </summary>
-    private TooltipPanel TooltipComponent { get; set; }
+    [Export]
+    public TooltipPanel TooltipComponent { get; set; }
 
     public override void _Ready()
     {
-        // Create the initial tooltip and hide it
-        var tooltip = TooltipScene.Instantiate<TooltipPanel>();
-        AddChild(tooltip);
-
-        TooltipComponent = tooltip;
         TooltipComponent.Hide();
     }
 

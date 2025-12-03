@@ -311,6 +311,11 @@ public class Blessing
     /// </summary>
 	public int ManaAmount => (int)Level;
 
+	public override string ToString()
+	{
+		return $"{Level} {Domain} blessing";
+	}
+
 	/// <summary>
 	/// Gets the texture associated with the blessing's domain and level.
 	/// </summary>
