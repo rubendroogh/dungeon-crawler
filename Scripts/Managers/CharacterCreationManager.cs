@@ -197,29 +197,29 @@ public partial class CharacterCreationManager : Control
 	private static void SetStartingBlessings()
 	{
 		// Implementation for setting starting blessings based on traits goes here.
-		// For now, this is a placeholder.
-		Managers.ManaSourceManager.AddBlessing(new Blessing
-        (
-			Level.Minor,
-            Domain.Zer
-        ));
-
+		// TODO: this is a placeholder.
         Managers.ManaSourceManager.AddBlessing(new Blessing
         (
-			Level.Greater,
-            Domain.Calina
-        ));
-
-        Managers.ManaSourceManager.AddBlessing(new Blessing
-        (
-			Level.Superior,
-            Domain.Jaddis
-        ));
-
-        Managers.ManaSourceManager.AddBlessing(new Blessing
-        (
-			Level.Minor,
+			Level.Lesser,
             Domain.Hamin
+        ));
+
+        Managers.ManaSourceManager.AddBlessing(new Blessing
+        (
+			Level.Lesser,
+            Domain.Hamin
+        ));
+
+        Managers.ManaSourceManager.AddBlessing(new Blessing
+        (
+			Level.Lesser,
+            Domain.Hamin
+        ));
+
+        Managers.ManaSourceManager.AddBlessing(new Blessing
+        (
+			Level.Major,
+            Domain.Jaddis
         ));
 	}
 
