@@ -117,6 +117,5 @@ public partial class ActionManager : Node
     {
         // Clear the selected spell after it has been queued
         ClearSelectedSpell();
-        GD.Print("Cleared spell");
     }
 }

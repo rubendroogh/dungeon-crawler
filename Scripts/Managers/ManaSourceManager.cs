@@ -157,7 +157,6 @@ public partial class ManaSourceManager : Node
 			// If there is not enough mana at all, we can just stop now.
 			if (availableBlessings.Sum(b => b.ManaAmount) < amountToReserve)
 			{
-				GD.Print($"Not enough available blessings to reserve {manaCost.Amount} mana of {manaCost.Type}.");
 				return false;
 			}
 
@@ -192,8 +191,6 @@ public partial class ManaSourceManager : Node
 				reservedMana += blessing.ManaAmount;
 			}
 		}
-
-		GD.Print("Mana successfully reserved for the spell cost.");
 
 		// Emit signal to display blessing state change in the UI.
 		EmitSignal(SignalName.BlessingStateChanged);
