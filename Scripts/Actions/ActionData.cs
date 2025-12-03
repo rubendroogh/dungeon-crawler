@@ -34,13 +34,6 @@ public partial class ActionData : Resource
     private string SpellCostExpression { get; set; }
 
     /// <summary>
-    /// The max amount of mana charges this spell can have.
-    /// </summary>
-    [Export]
-    [Obsolete("Mana charges are no longer used in the game as we move to a mana pool system.")]
-    public int MaxManaCharges { get; set; } = 4;
-
-    /// <summary>
     /// The base physical damage dealt by the spell.
     /// </summary>
     [Export]
