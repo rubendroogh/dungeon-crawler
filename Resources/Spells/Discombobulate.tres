@@ -18,7 +18,6 @@ Name = "Discombobulate"
 Description = "Applies quick, successive forces at random points on the target's body."
 Image = SubResource("AtlasTexture_26e8r")
 SpellCostExpression = "[J:1]"
-MaxManaCharges = 3
 BasePhysicalDamage = 16.0
 BaseDarkDamage = 0.0
 BaseLightDamage = 0.0

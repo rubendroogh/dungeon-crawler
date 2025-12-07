@@ -18,7 +18,6 @@ Name = "Brain Freeze"
 Description = "Causes a splitting headache by freezing the target's brain."
 Image = SubResource("AtlasTexture_14adh")
 SpellCostExpression = "[H:2]"
-MaxManaCharges = 2
 BasePhysicalDamage = 0.0
 BaseDarkDamage = 0.0
 BaseLightDamage = 0.0
