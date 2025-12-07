@@ -30,13 +30,20 @@ public partial class ManaSourceManager : Node
 	/// <summary>
     /// True if the player is able to select mana for an action.
     /// </summary>
-	public bool IsSelectingMana { get; private set; }
+	public bool ManaSelectionMode { get; private set; }
 
 	/// <summary>
     /// Signal that is emitted when the state of blessings changes (e.g., when mana is reserved or spent).
     /// </summary>
 	[Signal]
 	public delegate void BlessingStateChangedEventHandler();
+
+	/// <summary>
+    /// Signal that is emitted when the mana selection mode changes.
+    /// </summary>
+    /// <param name="isEnabled">Indicates whether mana selection mode is enabled.</param>
+	[Signal]
+	public delegate void ManaSelectionModeChangedEventHandler(bool isEnabled);
 
 	/// <summary>
 	/// The component exposer for the blessing bar UI elements.
@@ -49,6 +56,28 @@ public partial class ManaSourceManager : Node
 	/// </summary>
     [Export]
     private PackedScene BlessingUIScene;
+
+	public override void _Ready()
+	{
+		CallDeferred(nameof(InitializeCustomSignals));
+	}
+
+	/// <summary>
+	/// Initializes custom signals for the ManaSourceManager.
+	/// </summary>
+	public void InitializeCustomSignals()
+	{
+		Managers.ActionManager.SpellSelected += OnSpellSelectionChanged;
+	}
+
+	/// <summary>
+    /// Handles changes in spell selection to update mana selection mode.
+	/// If a spell is selected, mana selection mode is enabled; otherwise, it is disabled.
+    /// </summary>
+	public void OnSpellSelectionChanged(string spellName)
+	{
+		SetManaSelectionMode(!string.IsNullOrEmpty(spellName));
+	}
 
 	/// <summary>
     /// Checks if the player can pay for the given spell cost with their available mana.
@@ -229,7 +258,8 @@ public partial class ManaSourceManager : Node
     /// </summary>
 	public void SetManaSelectionMode(bool value)
     {
-        IsSelectingMana = value;
+        ManaSelectionMode = value;
+		EmitSignal(SignalName.ManaSelectionModeChanged, ManaSelectionMode);
     }
 
 	/// <summary>

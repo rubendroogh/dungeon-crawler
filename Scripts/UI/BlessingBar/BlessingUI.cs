@@ -62,7 +62,7 @@ public partial class BlessingUI : TextureRect
 
         if (Blessing.State != State.Spent)
         {
-            // TODO: Show hover state
+            // TODO: Show hover state, also check if we in mana selection mode
         }
 
         // On click
@@ -107,19 +107,26 @@ public partial class BlessingUI : TextureRect
     private void SetVisualMode(State state)
     {
         SelfModulate = Blessing.GetColor();
-        if (state == State.MarkedForUse)
+        if (Managers.ManaSourceManager.ManaSelectionMode)
         {
             MouseDefaultCursorShape = CursorShape.PointingHand;
-            TextLabel.Text = "Marked for use";
         }
-        else if (state == State.Available)
+        else
         {
-            MouseDefaultCursorShape = CursorShape.PointingHand;
-            TextLabel.Text = "Available";
+            MouseDefaultCursorShape = CursorShape.Arrow;
         }
-        else if (state == State.Spent)
+
+        switch (state)
         {
-            TextLabel.Text = "Spent";
+            case State.MarkedForUse:
+                TextLabel.Text = "Marked for use";
+                break;
+            case State.Available:
+                TextLabel.Text = "Available";
+                break;
+            case State.Spent:
+                TextLabel.Text = "Spent";
+                break;
         }
     }
 
@@ -129,6 +136,7 @@ public partial class BlessingUI : TextureRect
     private void InitializeCustomSignals()
     {
         Managers.ManaSourceManager.BlessingStateChanged += OnManaStateChanged;
+        Managers.ManaSourceManager.ManaSelectionModeChanged += _ => OnManaStateChanged();
     }
 
     /// <summary>
