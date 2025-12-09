@@ -100,10 +100,9 @@ public partial class RewardSelectionManager : Node
             var rewardUI = rewardItem.GetChild(0).GetChild<RewardUI>(0); // This is disgusting
             RewardContainer.AddChild(rewardItem);
 
-            // 50/50 chance to select a blessing or a spell
             // If this gets more complicated, we need another solution
             // Possibly with an IReward
-            var blessingRewardChance = 0.5f;
+            var blessingRewardChance = 0.1f;
             if (GD.Randf() < blessingRewardChance && PossibleBlessingRewardsCount > 0 || PossibleSpellRewardsCount == 0)
             {
                 var blessingReward = GetBlessingReward();
