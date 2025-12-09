@@ -29,8 +29,9 @@ public partial class RewardUI : Container
 	/// </summary>
 	public void Setup(Blessing blessing)
 	{
-		NameLabel.Text = $"{blessing.Level} of {blessing.Domain}";
+		NameLabel.Text = $"{blessing.Level} {blessing.Domain} blessing";
 		DescriptionLabel.Text = "An additional blessing from a God.";
+		Icon.Texture = null;
 		// Icon.Texture = blessing.GetIcon(); TODO: Implement blessing icons
 
 		Reward = new Reward
