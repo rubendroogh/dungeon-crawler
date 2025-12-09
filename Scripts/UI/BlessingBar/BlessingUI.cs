@@ -28,18 +28,7 @@ public partial class BlessingUI : TextureRect
     {
         Blessing = blessing;
 
-        var xSize = GetXSize();
-        var ySize = 48;
-
-        SelfModulate = Blessing.GetColor();
-        Texture = new AtlasTexture
-        {
-            Atlas = Blessing.GetTexture(),
-            Region = new Rect2(Vector2.Zero, new Vector2(xSize, ySize))
-        };
-
-        CustomMinimumSize = new Vector2((int)Blessing.Level, 48);
-
+        UpdateBlessingBarSize();
         SetLabelText();
         InitializeCustomSignals();
 
@@ -145,6 +134,7 @@ public partial class BlessingUI : TextureRect
     private void OnManaStateChanged()
     {
         SetVisualMode(Blessing.State);
+        UpdateBlessingBarSize();
     }
 
     /// <summary>
@@ -156,12 +146,24 @@ public partial class BlessingUI : TextureRect
     }
 
     /// <summary>
-    /// Calculates the X size of the blessing UI based on its level.
+    /// Updates the size of the blessing UI based on its level
+    /// and the blessing bar's max mana.
     /// </summary>
-    private int GetXSize()
+    private void UpdateBlessingBarSize()
     {
         var fullWidth = Managers.ManaSourceManager.Width;
         var percentage = (float)Blessing.Level / Managers.ManaSourceManager.BlessingBar.MaxMana;
-        return (int)(fullWidth * percentage);
+
+        var xSize = (int)(fullWidth * percentage);
+        var ySize = 48;
+
+        SelfModulate = Blessing.GetColor();
+        Texture = new AtlasTexture
+        {
+            Atlas = Blessing.GetTexture(),
+            Region = new Rect2(Vector2.Zero, new Vector2(xSize, ySize))
+        };
+
+        CustomMinimumSize = new Vector2((int)Blessing.Level, 48);
     }
 }

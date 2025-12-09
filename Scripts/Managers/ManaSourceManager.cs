@@ -147,7 +147,7 @@ public partial class ManaSourceManager : Node
 	/// </summary>
 	public bool AddBlessing(Blessing blessing)
 	{
-		if (BlessingBar.AvailableBlessings.Count + (int)blessing.Level >= BlessingBar.MaxMana)
+		if (BlessingBar.AllMana + (int)blessing.Level > BlessingBar.MaxMana)
 		{
 			GD.PrintErr("Not enough space in the blessing bar to add a new blessing.");
 			return false;
@@ -307,6 +307,11 @@ public class BlessingBar
 	/// The current amount of unspent mana in the blessing bar.
 	/// </summary>
 	public List<Blessing> AvailableBlessings => AllBlessings.Where(b => b.State == State.Available).ToList();
+
+	/// <summary>
+    /// Gets the total amount of mana from all blessings, regardless of their state.
+    /// </summary>
+	public int AllMana => AllBlessings.Sum(x => (int)x.Level);
 
 	/// <summary>
 	/// The maximum amount of mana the blessing bar can hold.
