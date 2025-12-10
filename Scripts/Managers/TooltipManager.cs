@@ -8,6 +8,11 @@ public partial class TooltipManager : Node
     [Export]
     public TooltipPanel TooltipComponent { get; set; }
 
+    /// <summary>
+    /// Indicates whether the tooltip is currently visible.
+    /// </summary>
+    public bool IsTooltipVisible => TooltipComponent.IsVisible();
+
     public override void _Ready()
     {
         TooltipComponent.Hide();
