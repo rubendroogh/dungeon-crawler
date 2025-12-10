@@ -40,8 +40,6 @@ public partial class TooltipPanel : PanelContainer
         Vector2 screenSize = GetViewportRect().Size;
         var mousePosition = GetViewport().GetMousePosition();
 
-        GD.Print($"Mouse Position: {mousePosition}, Tooltip Size: {Size}, Screen Size: {screenSize}");
-
         // Adjust horizontal position if going off the right edge
         if (mousePosition.X + Size.X + BaseOffset.X > screenSize.X)
         {
