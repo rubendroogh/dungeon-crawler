@@ -25,6 +25,7 @@ atlas = ExtResource("3_ua4xw")
 region = Rect2(561, 170, 16, 16)
 
 [node name="StatusEffectIcon" type="MarginContainer"]
+z_index = 10
 custom_minimum_size = Vector2(10, 10)
 anchors_preset = 15
 anchor_right = 1.0
@@ -37,6 +38,7 @@ scale = Vector2(0.5, 0.5)
 size_flags_horizontal = 4
 size_flags_vertical = 4
 size_flags_stretch_ratio = 0.66
+mouse_filter = 0
 theme_override_constants/margin_left = 1
 theme_override_constants/margin_top = 1
 theme_override_constants/margin_right = 1
@@ -48,10 +50,12 @@ InsanityIcon = SubResource("AtlasTexture_t4bgn")
 
 [node name="Panel" type="PanelContainer" parent="."]
 layout_mode = 2
+mouse_filter = 1
 theme_override_styles/panel = ExtResource("2_ua4xw")
 
 [node name="Icon" type="TextureRect" parent="Panel"]
 custom_minimum_size = Vector2(10, 10)
 layout_mode = 2
+mouse_filter = 2
 texture = SubResource("AtlasTexture_66tht")
 stretch_mode = 2

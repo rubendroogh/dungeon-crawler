@@ -16,9 +16,12 @@ public partial class StatusEffectIcon : Control
 
     private TextureRect Icon { get; set; }
 
+    private StatusEffectType StatusEffectType { get; set; }
+
     public override void _Ready()
     {
         Icon = GetNode<TextureRect>("Panel/Icon");
+        MouseExited += OnMouseExited;
     }
 
     /// <summary>
@@ -30,6 +33,8 @@ public partial class StatusEffectIcon : Control
         {
             Icon = GetNode<TextureRect>("Panel/Icon");
         }
+
+        StatusEffectType = statusEffectType;
 
         switch (statusEffectType)
         {
@@ -52,5 +57,48 @@ public partial class StatusEffectIcon : Control
                 Icon.Texture = null;
                 break;
         }
+    }
+
+    /// <summary>
+    /// Handles mouse enter events to show the tooltip.
+    /// </summary>
+    public override void _GuiInput(InputEvent @event)
+    {
+        if (Managers.TooltipManager.IsTooltipVisible)
+        {
+            Managers.TooltipManager.UpdatePosition(GetGlobalMousePosition());
+        }
+        else
+        {
+            Managers.TooltipManager.Show(
+                StatusEffectType.ToString(),
+                GetStatusEffectDescription(),
+                GetGlobalMousePosition()
+            );
+        }
+    }
+
+    /// <summary>
+    /// Handles mouse exit events to hide the tooltip.
+    /// </summary>
+    private void OnMouseExited()
+    {
+        Managers.TooltipManager.Hide();
+    }
+
+    /// <summary>
+    /// Gets the description for the given status effect type.
+    /// TODO: Move this to a more appropriate location.
+    /// </summary>
+    private string GetStatusEffectDescription()
+    {
+        return StatusEffectType switch
+        {
+            StatusEffectType.Solidified => "Multiplies physical damage taken by 4x.",
+            StatusEffectType.Burn => "Not implemented yet.",
+            StatusEffectType.Frozen => "Multiplies physical damage taken by 2x.",
+            StatusEffectType.Insanity => "Not implemented yet.",
+            _ => "No status effect."
+        };
     }
 }
