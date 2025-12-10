@@ -47,7 +47,7 @@ public partial class StatusEffect
     private Dictionary<StatusEffectType, IStatusEffectBehaviour> StatusEffectBehaviours = new()
     {
         { StatusEffectType.Frozen, new FrozenStatusEffectBehaviour() },
-        { StatusEffectType.BrainFreeze, new BrainFreezeStatusEffectBehaviour() },
+        { StatusEffectType.Solidified, new SolidifiedStatusEffectBehaviour() },
     };
 }
 
@@ -58,5 +58,5 @@ public enum StatusEffectType
     Burn,
     Frozen,
     Insanity,
-    BrainFreeze,
+    Solidified,
 }

@@ -1,15 +1,15 @@
 using System.Collections.Generic;
 
-public partial class BrainFreezeBehaviour : DefaultSpellBehaviour
+public partial class SolidifyBehaviour : DefaultSpellBehaviour
 {
     public override ResolveResult Resolve(List<Blessing> blessings, ActionData spellData, Character target)
     {
         // Check if the target is frozen
         if (target.HasEffect(StatusEffectType.Frozen))
         {
-            // If the target is frozen, apply the BrainFreeze effect for 1 turn
+            // If the target is frozen, apply the Solidified effect for 1 turn
             target.ClearEffect(StatusEffectType.Frozen);
-            target.ApplyEffect(StatusEffectType.BrainFreeze, 1);
+            target.ApplyEffect(StatusEffectType.Solidified, 1);
         }
         else
         {

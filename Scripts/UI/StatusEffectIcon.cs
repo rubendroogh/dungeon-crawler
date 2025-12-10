@@ -3,7 +3,7 @@ using Godot;
 public partial class StatusEffectIcon : Control
 {
     [Export]
-    private Texture2D BrainFreezeIcon { get; set; }
+    private Texture2D SolidifiedIcon { get; set; }
 
     [Export]
     private Texture2D BurnIcon { get; set; }
@@ -36,8 +36,8 @@ public partial class StatusEffectIcon : Control
             case StatusEffectType.None:
                 Icon.Texture = null;
                 break;
-            case StatusEffectType.BrainFreeze:
-                Icon.Texture = BrainFreezeIcon;
+            case StatusEffectType.Solidified:
+                Icon.Texture = SolidifiedIcon;
                 break;
             case StatusEffectType.Burn:
                 Icon.Texture = BurnIcon;

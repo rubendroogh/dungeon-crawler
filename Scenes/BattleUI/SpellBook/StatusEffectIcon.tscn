@@ -4,9 +4,9 @@
 [ext_resource type="StyleBox" uid="uid://c00vqq1sjk0ap" path="res://Resources/StyleBoxes/Default/StatusEffectIcon.tres" id="2_ua4xw"]
 [ext_resource type="Texture2D" uid="uid://exboe6jk0wnb" path="res://Assets/RawImages/FullTileMap.png" id="3_ua4xw"]
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_ua4xw"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_45di4"]
 atlas = ExtResource("3_ua4xw")
-region = Rect2(646, 187, 16, 16)
+region = Rect2(306, 119, 16, 16)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_veh86"]
 atlas = ExtResource("3_ua4xw")
@@ -41,7 +41,7 @@ theme_override_constants/margin_left = 1
 theme_override_constants/margin_top = 1
 theme_override_constants/margin_right = 1
 script = ExtResource("1_u02jj")
-BrainFreezeIcon = SubResource("AtlasTexture_ua4xw")
+SolidifiedIcon = SubResource("AtlasTexture_45di4")
 BurnIcon = SubResource("AtlasTexture_veh86")
 FrozenIcon = SubResource("AtlasTexture_ftmrd")
 InsanityIcon = SubResource("AtlasTexture_t4bgn")

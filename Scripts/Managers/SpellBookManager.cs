@@ -40,7 +40,7 @@ public partial class SpellBookManager : Node
     private Dictionary<string, IActionBehaviour> SpellBehaviours = new()
     {
         { "Fireball", new FireBallBehaviour() },
-        { "Brain Freeze", new BrainFreezeBehaviour() },
+        { "Solidify", new SolidifyBehaviour() },
     };
 
     public override void _Ready()

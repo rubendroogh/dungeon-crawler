@@ -10,21 +10,21 @@ region = Rect2(561, 170, 16, 16)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_14adh"]
 atlas = ExtResource("2_bxmei")
-region = Rect2(459, 170, 16, 16)
+region = Rect2(561, 170, 16, 16)
 
 [resource]
 script = ExtResource("1_spsgq")
-Name = "Brain Freeze"
-Description = "Causes a splitting headache by freezing the target's brain."
+Name = "Solidify"
+Description = "Freezes the target. On successive hits, this spell will fully solidify the target, making them susceptible to physical attacks."
 Image = SubResource("AtlasTexture_14adh")
 SpellCostExpression = "[H:2]"
 BasePhysicalDamage = 0.0
 BaseDarkDamage = 0.0
 BaseLightDamage = 0.0
 BaseFireDamage = 0.0
-BaseIceDamage = 8.0
+BaseIceDamage = 12.0
 BaseLightningDamage = 0.0
-BaseSanityDamage = 8.0
+BaseSanityDamage = 0.0
 BaseDiseaseDamage = 0.0
 Keywords = Array[int]([])
 StatusEffects = Array[int]([2, 4])
