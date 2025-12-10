@@ -416,7 +416,7 @@ public class Blessing
 	/// Gets the color associated with the blessing's domain.
 	/// TODO: Store the colors in a more centralized way.
 	/// </summary>
-	public Color GetColor()
+	public Color GetDomainColor()
 	{
 		var baseCalinaColor = new Color(1f, 0.5f, 0.5f); // Light Red
 		var baseHaminColor = new Color(0.5f, 0.5f, 1f); // Light Blue

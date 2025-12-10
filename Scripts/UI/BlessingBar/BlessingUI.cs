@@ -95,7 +95,7 @@ public partial class BlessingUI : TextureRect
     /// </summary>
     private void SetVisualMode(State state)
     {
-        SelfModulate = Blessing.GetColor();
+        SelfModulate = Blessing.GetDomainColor();
         if (Managers.ManaSourceManager.ManaSelectionMode)
         {
             MouseDefaultCursorShape = CursorShape.PointingHand;
@@ -157,7 +157,7 @@ public partial class BlessingUI : TextureRect
         var xSize = (int)(fullWidth * percentage);
         var ySize = 48;
 
-        SelfModulate = Blessing.GetColor();
+        SelfModulate = Blessing.GetDomainColor();
         Texture = new AtlasTexture
         {
             Atlas = Blessing.GetTexture(),
