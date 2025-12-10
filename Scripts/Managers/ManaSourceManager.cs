@@ -392,7 +392,15 @@ public class Blessing
     /// </summary>
 	public override string ToString()
 	{
-		return $"{Level} {Domain} blessing";
+		var levelColor = GetLevelColor().ToHexString();
+		var domainColor = GetDomainColor().ToHexString();
+
+		return string.Format(
+			"[color={0}]{1}[/color] [color={2}]{3}[/color] blessing",
+			levelColor,
+			Level,
+			domainColor,
+			Domain);
 	}
 
 	/// <summary>
@@ -400,7 +408,7 @@ public class Blessing
     /// </summary>
 	public string GetDescription()
 	{
-		return "This can be [color=\"violet\"]upgraded[/color] to increase its potency and effectiveness.";
+		return "[color=\"gray\"]Blessing modifiers not implemented yet.[/color]";
 	}
 
 	/// <summary>
@@ -447,6 +455,22 @@ public class Blessing
 		};
 
 		return modifiedColor;
+	}
+
+	/// <summary>
+    /// Gets the color associated with the blessing's level.
+    /// </summary>
+	public Color GetLevelColor()
+	{
+		return Level switch
+		{
+			Level.Minor => Colors.Gray,
+			Level.Lesser => Colors.White,
+			Level.Greater => Colors.Orange,
+			Level.Major => Colors.Gold,
+			Level.Superior => Colors.Purple,
+			_ => Colors.White,
+		};
 	}
 }
 
