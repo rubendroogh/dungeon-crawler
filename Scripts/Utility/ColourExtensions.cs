@@ -28,4 +28,15 @@ public static class ColourExtensions
             color.A
         );
     }
+
+    /// <summary>
+    /// Converts the color to a hexadecimal string representation.
+    /// </summary>
+    public static string ToHexString(this Color color)
+    {
+        int r = (int)(color.R * 255);
+        int g = (int)(color.G * 255);
+        int b = (int)(color.B * 255);
+        return $"#{r:X2}{g:X2}{b:X2}";
+    }
 }
