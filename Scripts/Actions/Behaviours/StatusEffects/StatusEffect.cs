@@ -48,6 +48,7 @@ public partial class StatusEffect
     {
         { StatusEffectType.Frozen, new FrozenStatusEffectBehaviour() },
         { StatusEffectType.Solidified, new SolidifiedStatusEffectBehaviour() },
+        { StatusEffectType.PhysicalInvincibility, new PhysicalInvincibilityStatusEffectBehaviour() },
     };
 }
 
@@ -55,8 +56,7 @@ public partial class StatusEffect
 public enum StatusEffectType
 {
     None,
-    Burn,
     Frozen,
-    Insanity,
     Solidified,
+    PhysicalInvincibility,
 }

@@ -41,6 +41,7 @@ public class StormKeyword : KeywordBase
         for (int i = 0; i < spellsCastThisTurn; i++)
         {
             // Queue the spell again with the same target and one blessing.
+            // TODO: Use original blessings if applicable.
             var syntheticBlessing = new Blessing(domain: Domain.Calina, level: Level.Minor);
 
             spellQueue.Enqueue(new ActionQueueEntry(spell, context.Target, [syntheticBlessing]));
