@@ -41,6 +41,7 @@ public partial class SpellBookManager : Node
     {
         { "Fireball", new FireBallBehaviour() },
         { "Solidify", new SolidifyBehaviour() },
+        { "Umbral Shield", new UmbralShieldBehaviour() },
     };
 
     public override void _Ready()

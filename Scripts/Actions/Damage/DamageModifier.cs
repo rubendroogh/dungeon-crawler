@@ -1,4 +1,3 @@
-
 /// <summary>
 /// A modifier that can be applied to the damage dealt to a character.
 /// </summary>
