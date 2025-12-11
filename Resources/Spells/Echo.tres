@@ -11,7 +11,7 @@ region = Rect2(612, 187, 16, 16)
 [resource]
 script = ExtResource("3_w3v31")
 Name = "Echo"
-Description = "Uses the leyline energy trailing from your spell casts to repeatedly hit the target. "
+Description = "Repeatedly hit the target for each previously spell cast this turn."
 Image = SubResource("AtlasTexture_s6pnq")
 SpellCostExpression = "[C:1][J:1]"
 BasePhysicalDamage = 0.0
