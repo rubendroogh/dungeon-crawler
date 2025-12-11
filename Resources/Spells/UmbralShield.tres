@@ -1,0 +1,28 @@
+[gd_resource type="Resource" script_class="ActionData" load_steps=4 format=3 uid="uid://d0l20mb5voaph"]
+
+[ext_resource type="Texture2D" uid="uid://exboe6jk0wnb" path="res://Assets/RawImages/FullTileMap.png" id="1_krutl"]
+[ext_resource type="Script" uid="uid://d31wkdgrcylv3" path="res://Scripts/Actions/ActionData.cs" id="1_spn11"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_or7ut"]
+atlas = ExtResource("1_krutl")
+region = Rect2(680, 34, 16, 16)
+
+[resource]
+script = ExtResource("1_spn11")
+Name = "Umbral Shield"
+Description = "Evades any incoming physical damage this turn."
+Image = SubResource("AtlasTexture_or7ut")
+SpellCostExpression = ""
+BasePhysicalDamage = 0.0
+BaseDarkDamage = 0.0
+BaseLightDamage = 0.0
+BaseFireDamage = 0.0
+BaseIceDamage = 0.0
+BaseLightningDamage = 0.0
+BaseSanityDamage = 0.0
+BaseDiseaseDamage = 0.0
+Keywords = Array[int]([])
+StatusEffects = Array[int]([3])
+DefaultCastEffectTexture = ExtResource("1_krutl")
+Rarity = 1
+metadata/_custom_type_script = "uid://d31wkdgrcylv3"
