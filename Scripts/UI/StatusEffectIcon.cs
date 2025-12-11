@@ -6,13 +6,7 @@ public partial class StatusEffectIcon : Control
     private Texture2D SolidifiedIcon { get; set; }
 
     [Export]
-    private Texture2D BurnIcon { get; set; }
-
-    [Export]
     private Texture2D FrozenIcon { get; set; }
-
-    [Export]
-    private Texture2D InsanityIcon { get; set; }
 
     private TextureRect Icon { get; set; }
 
@@ -29,10 +23,7 @@ public partial class StatusEffectIcon : Control
     /// </summary>
     public void Setup(StatusEffectType statusEffectType)
     {
-        if (Icon == null)
-        {
-            Icon = GetNode<TextureRect>("Panel/Icon");
-        }
+        Icon ??= GetNode<TextureRect>("Panel/Icon");
 
         StatusEffectType = statusEffectType;
 
@@ -44,14 +35,8 @@ public partial class StatusEffectIcon : Control
             case StatusEffectType.Solidified:
                 Icon.Texture = SolidifiedIcon;
                 break;
-            case StatusEffectType.Burn:
-                Icon.Texture = BurnIcon;
-                break;
             case StatusEffectType.Frozen:
                 Icon.Texture = FrozenIcon;
-                break;
-            case StatusEffectType.Insanity:
-                Icon.Texture = InsanityIcon;
                 break;
             default:
                 Icon.Texture = null;
@@ -95,9 +80,8 @@ public partial class StatusEffectIcon : Control
         return StatusEffectType switch
         {
             StatusEffectType.Solidified => "Multiplies physical damage taken by 4x.",
-            StatusEffectType.Burn => "Not implemented yet.",
             StatusEffectType.Frozen => "Multiplies physical damage taken by 2x.",
-            StatusEffectType.Insanity => "Not implemented yet.",
+            StatusEffectType.PhysicalInvincibility => "Prevents all physical damage.",
             _ => "No status effect."
         };
     }
