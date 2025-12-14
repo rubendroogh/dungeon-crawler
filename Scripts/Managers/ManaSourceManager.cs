@@ -102,7 +102,7 @@ public partial class ManaSourceManager : Node
 		// Check if we have enough mana in each domain
 		foreach (var domainCost in costByDomain)
 		{
-			if (GetAvailableManaTotal(domainCost.Key) < domainCost.Value)
+			if (GetUnspentManaTotal(domainCost.Key) < domainCost.Value)
 			{
 				return false;
 			}
@@ -282,6 +282,20 @@ public partial class ManaSourceManager : Node
 		// Get the available blessings and get the total mana from them by summing their levels
 		var availableBlessings = BlessingBar.AvailableBlessings.Where(b => b.Domain == domain).ToList();
 		var count = availableBlessings.Sum(b => (int)b.Level);
+
+		return count;
+	}
+
+	/// <summary>
+    /// Gets the total mana for the given domain which has not been spent.
+    /// </summary>
+	private int GetUnspentManaTotal(Domain domain)
+	{
+		// Get the blessings not spent
+		var unspentBlessings = BlessingBar.AllBlessings
+			.Where(b => b.Domain == domain && b.State != State.Spent)
+			.ToList();
+		var count = unspentBlessings.Sum(b => (int)b.Level);
 
 		return count;
 	}
