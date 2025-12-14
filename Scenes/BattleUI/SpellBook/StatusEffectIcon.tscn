@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://bv8nhr1hmgpwv"]
+[gd_scene load_steps=8 format=3 uid="uid://bv8nhr1hmgpwv"]
 
 [ext_resource type="Script" uid="uid://dhuep8rs8awh7" path="res://Scripts/UI/StatusEffectIcon.cs" id="1_u02jj"]
 [ext_resource type="StyleBox" uid="uid://c00vqq1sjk0ap" path="res://Resources/StyleBoxes/Default/StatusEffectIcon.tres" id="2_ua4xw"]
@@ -11,6 +11,10 @@ region = Rect2(306, 119, 16, 16)
 [sub_resource type="AtlasTexture" id="AtlasTexture_ftmrd"]
 atlas = ExtResource("3_ua4xw")
 region = Rect2(561, 170, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0b1d8"]
+atlas = ExtResource("3_ua4xw")
+region = Rect2(680, 34, 16, 16)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_66tht"]
 atlas = ExtResource("3_ua4xw")
@@ -37,6 +41,7 @@ theme_override_constants/margin_right = 1
 script = ExtResource("1_u02jj")
 SolidifiedIcon = SubResource("AtlasTexture_45di4")
 FrozenIcon = SubResource("AtlasTexture_ftmrd")
+PhysicalInvincibilityIcon = SubResource("AtlasTexture_0b1d8")
 
 [node name="Panel" type="PanelContainer" parent="."]
 layout_mode = 2

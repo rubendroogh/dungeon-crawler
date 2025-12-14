@@ -8,6 +8,9 @@ public partial class StatusEffectIcon : Control
     [Export]
     private Texture2D FrozenIcon { get; set; }
 
+    [Export]
+    private Texture2D PhysicalInvincibilityIcon { get; set; }
+
     private TextureRect Icon { get; set; }
 
     private StatusEffectType StatusEffectType { get; set; }
@@ -37,6 +40,9 @@ public partial class StatusEffectIcon : Control
                 break;
             case StatusEffectType.Frozen:
                 Icon.Texture = FrozenIcon;
+                break;
+            case StatusEffectType.PhysicalInvincibility:
+                Icon.Texture = PhysicalInvincibilityIcon;
                 break;
             default:
                 Icon.Texture = null;
