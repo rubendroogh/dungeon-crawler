@@ -47,7 +47,7 @@ theme_override_constants/margin_right = 8
 theme_override_constants/margin_bottom = 8
 
 [node name="TextureRect" type="TextureRect" parent="MarginContainer/PanelContainer/HBoxContainer/MarginContainer"]
-custom_minimum_size = Vector2(86, 86)
+custom_minimum_size = Vector2(64, 64)
 layout_mode = 2
 size_flags_horizontal = 2
 size_flags_stretch_ratio = 0.25
@@ -66,15 +66,18 @@ size_flags_stretch_ratio = 0.8
 theme_override_constants/margin_left = 4
 theme_override_constants/margin_top = 8
 theme_override_constants/margin_right = 6
-theme_override_constants/margin_bottom = 0
+theme_override_constants/margin_bottom = 4
 
 [node name="RichTextLabel" type="RichTextLabel" parent="MarginContainer/PanelContainer/HBoxContainer/VBoxContainer/MarginContainer"]
 layout_mode = 2
 mouse_filter = 1
-theme_override_font_sizes/normal_font_size = 24
-text = "tekst"
+theme_override_font_sizes/bold_italics_font_size = 16
+theme_override_font_sizes/normal_font_size = 16
+theme_override_font_sizes/bold_font_size = 16
+bbcode_enabled = true
+text = "Titel"
 scroll_active = false
-vertical_alignment = 1
+vertical_alignment = 2
 
 [node name="MarginContainer2" type="MarginContainer" parent="MarginContainer/PanelContainer/HBoxContainer/VBoxContainer"]
 layout_mode = 2
@@ -89,7 +92,7 @@ layout_mode = 2
 mouse_filter = 1
 theme_override_font_sizes/normal_font_size = 16
 bbcode_enabled = true
-text = "test"
+text = "Lorem ipsum dolor sit amet."
 scroll_active = false
 
 [node name="StatusEffectsContainer" type="VBoxContainer" parent="MarginContainer/PanelContainer/HBoxContainer"]

@@ -27,27 +27,17 @@ public partial class StatusEffectIcon : Control
     public void Setup(StatusEffectType statusEffectType)
     {
         Icon ??= GetNode<TextureRect>("Panel/Icon");
-
         StatusEffectType = statusEffectType;
 
-        switch (statusEffectType)
+        Icon.Texture = statusEffectType switch
         {
-            case StatusEffectType.None:
-                Icon.Texture = null;
-                break;
-            case StatusEffectType.Solidified:
-                Icon.Texture = SolidifiedIcon;
-                break;
-            case StatusEffectType.Frozen:
-                Icon.Texture = FrozenIcon;
-                break;
-            case StatusEffectType.PhysicalInvincibility:
-                Icon.Texture = PhysicalInvincibilityIcon;
-                break;
-            default:
-                Icon.Texture = null;
-                break;
-        }
+            StatusEffectType.None => null,
+            StatusEffectType.Solidified => SolidifiedIcon,
+            StatusEffectType.Frozen => FrozenIcon,
+            StatusEffectType.PhysicalInvincibility => PhysicalInvincibilityIcon,
+            _ => null,
+        };
+
     }
 
     /// <summary>
@@ -62,7 +52,7 @@ public partial class StatusEffectIcon : Control
         else
         {
             Managers.TooltipManager.Show(
-                StatusEffectType.ToString(),
+                GetStatusEffectName(),
                 GetStatusEffectDescription(),
                 GetGlobalMousePosition()
             );
@@ -75,6 +65,20 @@ public partial class StatusEffectIcon : Control
     private void OnMouseExited()
     {
         Managers.TooltipManager.Hide();
+    }
+
+    /// <summary>
+    /// Gets the name for the given status effect type.
+    /// </summary>
+    private string GetStatusEffectName()
+    {
+        return StatusEffectType switch
+        {
+            StatusEffectType.Solidified => "Solidified",
+            StatusEffectType.Frozen => "Frozen",
+            StatusEffectType.PhysicalInvincibility => "Physical Invincibility",
+            _ => "No Status Effect"
+        };
     }
 
     /// <summary>
