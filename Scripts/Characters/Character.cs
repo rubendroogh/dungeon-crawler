@@ -86,21 +86,6 @@ public partial class Character : Node2D
     public Queue<ActionQueueEntry> ActionQueue { get; protected set; } = new();
 
     /// <summary>
-    /// Checks if the character has the value for the given personality trait.
-    /// </summary>
-    public bool CheckPersonalityTrait(int valueToCheck, PersonalityTraitType trait)
-    {
-        if (CharacterData == null)
-        {
-            return false;
-        }
-
-        // TODO: Add support for less than checks.
-        // TODO: Add support for temporary trait modifiers.
-        return CharacterData.GetBasePersonalityTraitValue(trait) >= valueToCheck;
-    }
-
-    /// <summary>
     /// The sprite that represents the character.
     /// </summary>
     protected Sprite2D CharacterSprite { get; set; }
@@ -114,6 +99,11 @@ public partial class Character : Node2D
     /// A label that shows the status effects applied to the character.
     /// </summary>
     private Label StatusEffectLabel { get; set; }
+
+    /// <summary>
+    /// The label that shows the character's name.
+    /// </summary>
+    private RichTextLabel CharacterName { get; set; }
 
     /// <summary>
     /// A dictionary of status effects applied to the character.
@@ -185,6 +175,21 @@ public partial class Character : Node2D
         }
 
         UpdateStatusEffectLabel();
+    }
+
+    /// <summary>
+    /// Checks if the character has the value for the given personality trait.
+    /// </summary>
+    public bool CheckPersonalityTrait(int valueToCheck, PersonalityTraitType trait)
+    {
+        if (CharacterData == null)
+        {
+            return false;
+        }
+
+        // TODO: Add support for less than checks.
+        // TODO: Add support for temporary trait modifiers.
+        return CharacterData.GetBasePersonalityTraitValue(trait) >= valueToCheck;
     }
 
     /// <summary>
@@ -377,16 +382,18 @@ public partial class Character : Node2D
         CharacterSprite = GetNode<Sprite2D>("CharacterSprite");
         HealthBar = GetNode<TextureProgressBar>("HealthBar");
         StatusEffectLabel = GetNode<Label>("StatusEffectsLabel");
+        CharacterName = GetNode<RichTextLabel>("CharacterName");
 
-        if (CharacterSprite == null || HealthBar == null || StatusEffectLabel == null)
+        if (CharacterSprite == null || HealthBar == null || StatusEffectLabel == null || CharacterName == null)
         {
-            GD.PrintErr("CharacterSprite, HealthBar, or StatusEffectLabel is not set up in the scene.");
+            GD.PrintErr("CharacterSprite, HealthBar, StatusEffectLabel, or CharacterName is not set up in the scene.");
             return;
         }
 
         HealthBar.MaxValue = characterData.MaxHealth;
         HealthBar.Value = Health;
         CharacterSprite.Texture = characterData.Image;
+        CharacterName.Text = characterData.Name;
     }
 
     /// <summary>
