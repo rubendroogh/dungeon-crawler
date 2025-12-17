@@ -15,11 +15,11 @@ public partial class BlessingUI : TextureRect
     /// The label displaying the blessing's domain and level.
     /// </summary>
     private Label TextLabel => GetNode<Label>("Label");
-    
+
     /// <summary>
-    /// Used to track if the blessing should show the hover state.
+    /// The overlay control used for highlighting on hover.
     /// </summary>
-    private bool IsHovering { get; set; }
+    private Control HighlightOverlay => GetNode<Control>("HighlightOverlay");
 
     /// <summary>
     /// Sets up the BlessingUI with the given blessing.
@@ -51,7 +51,10 @@ public partial class BlessingUI : TextureRect
 
         if (Blessing.State != State.Spent)
         {
-            // TODO: Show hover state, also check if we in mana selection mode
+            if (Managers.ManaSourceManager.ManaSelectionMode)
+            {
+                HighlightOverlay.Visible = true;
+            }
         }
 
         // On click
@@ -76,7 +79,6 @@ public partial class BlessingUI : TextureRect
     /// </summary>
     private void OnMouseEntered()
     {
-        IsHovering = true;
         var mousePosition = GetGlobalMousePosition();
         Managers.TooltipManager.Show(Blessing.ToString(), Blessing.GetDescription(), mousePosition);
     }
@@ -86,7 +88,7 @@ public partial class BlessingUI : TextureRect
     /// </summary>
     private void OnMouseExited()
     {
-        IsHovering = false;
+        HighlightOverlay.Visible = false;
         Managers.TooltipManager.Hide();
     }
 
