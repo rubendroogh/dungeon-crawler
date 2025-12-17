@@ -154,8 +154,8 @@ public partial class BlessingUI : TextureRect
         var fullWidth = Managers.ManaSourceManager.Width;
         var percentage = (float)Blessing.Level / Managers.ManaSourceManager.BlessingBar.MaxMana;
 
-        var xSize = (int)(fullWidth * percentage);
-        var ySize = 48;
+        var xSize = (int)((fullWidth - 12) * percentage);
+        var ySize = 48 - 12;
 
         SelfModulate = Blessing.GetDomainColor();
         Texture = new AtlasTexture
@@ -164,6 +164,6 @@ public partial class BlessingUI : TextureRect
             Region = new Rect2(Vector2.Zero, new Vector2(xSize, ySize))
         };
 
-        CustomMinimumSize = new Vector2((int)Blessing.Level, 48);
+        CustomMinimumSize = new Vector2((int)Blessing.Level, ySize);
     }
 }
