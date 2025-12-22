@@ -223,6 +223,49 @@ public partial class CharacterCreationManager : Control
         ));
 	}
 
+	private void GenerateCharacterBuild()
+	{
+		// Builds will be generated based on the personality traits of the player
+		// See https://www.notion.so/Damage-types-and-domains-285b94d5324680a5b55dd0b70998646c for the personality traits related to the different Godly domains
+		// We assign points to the domain based on each character trait
+		// If one of the domains has a much higher value than the others, you'll get a 1-domain build
+		// If it's more equal, 2-domain build.
+		// There is no 3 or 4 domain starting build
+
+		var zerPoints = 0;
+		var haminPoints = 0;
+		var jaddisPoints = 0;
+		var calinaPoints = 0;
+
+		var traitSpinBoxes = GetAllSpinboxes()
+			.Where(spinbox => spinbox is PersonalityPointsSpinBox)
+			.Cast<PersonalityPointsSpinBox>()
+			.ToDictionary(spinbox => spinbox.Trait.Name, spinbox => (int)spinbox.Value)
+			.ToList();
+
+		foreach (var trait in traitSpinBoxes)
+		{
+			switch (trait.Key)
+			{
+				case "Genuine":
+				case "Optimistic":
+					zerPoints++;
+					break;
+				case "Curious":
+				case "Focused":
+					haminPoints++;
+					break;
+				case "Charming":
+				case "Benevolent":
+					jaddisPoints++;
+					break;
+				case "Dominant":
+				case "Fearless":
+					calinaPoints++;
+					break;
+			}
+	}
+
 	/// <summary>
 	/// Recursively finds all descendants of a specific type in the node tree.
 	/// </summary>
