@@ -264,6 +264,7 @@ public partial class CharacterCreationManager : Control
 					calinaPoints++;
 					break;
 			}
+		}
 	}
 
 	/// <summary>
