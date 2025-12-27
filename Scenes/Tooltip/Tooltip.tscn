@@ -1,12 +1,14 @@
-[gd_scene load_steps=3 format=3 uid="uid://c74bphfj6aomw"]
+[gd_scene load_steps=4 format=3 uid="uid://c74bphfj6aomw"]
 
 [ext_resource type="Theme" uid="uid://cf4ymgipxtcs0" path="res://Resources/Themes/DefaultTheme.tres" id="1_g1ywa"]
+[ext_resource type="StyleBox" uid="uid://bq3uwp0re5ofu" path="res://Resources/StyleBoxes/Default/Popup.tres" id="2_7uo4j"]
 [ext_resource type="Script" uid="uid://bo31wqqonbetn" path="res://Scripts/UI/Tooltip/TooltipPanel.cs" id="3_7uo4j"]
 
 [node name="TooltipRoot" type="PanelContainer"]
 offset_right = 578.0
 offset_bottom = 113.0
 theme = ExtResource("1_g1ywa")
+theme_override_styles/panel = ExtResource("2_7uo4j")
 script = ExtResource("3_7uo4j")
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
