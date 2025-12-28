@@ -13,5 +13,5 @@ public static partial class Components
     /// <summary>
     /// The BlessingBarOverlay TextureRect component.
     /// </summary>
-    public const string BlessingBarOverlay = "TextureRect";
+    public const string BlessingBarOverlay = "Overlay";
 }

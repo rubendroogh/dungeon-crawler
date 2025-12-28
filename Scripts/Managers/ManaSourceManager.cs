@@ -172,6 +172,21 @@ public partial class ManaSourceManager : Node
 		// Deselect all mana first
 		DeselectAllMana();
 
+		// Get the most efficient combination of blessings to pay the cost
+		var blessingsToSelect = GetMostEfficientManaCombination(cost, out bool canPay);
+
+		// Mark the blessings as selected
+		blessingsToSelect.ForEach(b => b.State = State.MarkedForUse);
+
+		// Emit signal to display blessing state change in the UI.
+		EmitSignal(SignalName.BlessingStateChanged);
+		return true;
+    }
+
+	public List<Blessing> GetMostEfficientManaCombination(SpellCost cost, out bool canPay)
+	{
+		var reservedBlessings = new List<Blessing>();
+
 		// Loop through the mana costs to calculate the most effecient spending.
 		foreach (var manaCost in cost.Costs)
 		{
@@ -179,6 +194,7 @@ public partial class ManaSourceManager : Node
 
 			// Use the smallest blessing that can cover the cost first
 			var availableBlessings = BlessingBar.AvailableBlessings
+				.Subtract(reservedBlessings)
 				.Where(b => b.Domain == manaCost.Type)
 				.OrderBy(b => b.ManaAmount) // Lowest first
 				.ToList();
@@ -186,7 +202,8 @@ public partial class ManaSourceManager : Node
 			// If there is not enough mana at all, we can just stop now.
 			if (availableBlessings.Sum(b => b.ManaAmount) < amountToReserve)
 			{
-				return false;
+				canPay = false;
+				return reservedBlessings;
 			}
 
 			// If we have a blessing that is exactly the right size, we use that one.
@@ -194,7 +211,7 @@ public partial class ManaSourceManager : Node
 			if (exactMatchingBlessing != null)
             {
 				// Cost has been paid.
-                exactMatchingBlessing.State = State.MarkedForUse;
+                reservedBlessings.Add(exactMatchingBlessing);
 				continue;
             }
 
@@ -203,7 +220,7 @@ public partial class ManaSourceManager : Node
 			if (lowestValueBlessing.ManaAmount > amountToReserve)
             {
 				// Cost has been paid.
-                lowestValueBlessing.State = State.MarkedForUse;
+				reservedBlessings.Add(lowestValueBlessing);
 				continue;
             }
 
@@ -216,15 +233,14 @@ public partial class ManaSourceManager : Node
                     break;
                 }
 
-				blessing.State = State.MarkedForUse;
+				reservedBlessings.Add(blessing);
 				reservedMana += blessing.ManaAmount;
 			}
 		}
 
-		// Emit signal to display blessing state change in the UI.
-		EmitSignal(SignalName.BlessingStateChanged);
-		return true;
-    }
+		canPay = true;
+		return reservedBlessings;
+	}
 
 	/// <summary>
     /// Deselects all mana marked for use and marks them as available.

@@ -152,7 +152,7 @@ size_flags_horizontal = 3
 layout_mode = 2
 
 [node name="BattleLog" parent="UI/HUD/BattleAndResources/Battle" instance=ExtResource("22_8287p")]
-custom_minimum_size = Vector2(0, 150)
+custom_minimum_size = Vector2(0, 147)
 layout_mode = 2
 
 [node name="ResourcesTabs" type="TabContainer" parent="UI/HUD/BattleAndResources"]

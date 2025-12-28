@@ -57,6 +57,9 @@ public partial class SpellUI : PanelContainer
 		Managers.ActionManager.SpellSelected -= OnSpellSelected;
 	}
 
+	/// <summary>
+	/// Hover and click handling for the spell UI.
+	/// </summary>
 	public override void _GuiInput(InputEvent @event)
 	{
 		// Show tooltip
@@ -94,14 +97,6 @@ public partial class SpellUI : PanelContainer
 			_ = Managers.SoundEffectManager.PlayButtonClick();
 		}
 	}
-
-	/// <summary>
-    /// Handles mouse exit events to hide the tooltip.
-    /// </summary>
-    private void OnMouseExited()
-    {
-        Managers.TooltipManager.Hide();
-    }
 
 	/// <summary>
 	/// Sets up the SpellUI with the given ActionData to show the spell's information.
@@ -146,6 +141,14 @@ public partial class SpellUI : PanelContainer
 		IsSelected = ActionData.Name == spellName;
 		UpdateStyle();
 	}
+
+	/// <summary>
+    /// Handles mouse exit events to hide the tooltip.
+    /// </summary>
+    private void OnMouseExited()
+    {
+        Managers.TooltipManager.Hide();
+    }
 
 	/// <summary>
 	/// Formats the spell description with keywords and sets it to the description label.

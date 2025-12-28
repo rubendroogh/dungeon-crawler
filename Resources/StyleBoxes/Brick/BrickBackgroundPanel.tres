@@ -6,4 +6,4 @@
 texture = ExtResource("1_p2iye")
 axis_stretch_horizontal = 2
 axis_stretch_vertical = 2
-modulate_color = Color(1, 1, 1, 0.466667)
+modulate_color = Color(0.93, 0.8928, 0.8742, 0.772549)

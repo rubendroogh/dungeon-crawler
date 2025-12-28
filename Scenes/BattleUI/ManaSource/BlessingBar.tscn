@@ -1,5 +1,6 @@
-[gd_scene load_steps=4 format=3 uid="uid://13p46brkeo3f"]
+[gd_scene load_steps=5 format=3 uid="uid://13p46brkeo3f"]
 
+[ext_resource type="Texture2D" uid="uid://b4ffcgwkderkg" path="res://Assets/RawImages/BlessingBarUnder.png" id="1_4eq63"]
 [ext_resource type="Texture2D" uid="uid://besod7da44jmr" path="res://Assets/RawImages/BlessingBarOver.png" id="1_s77ot"]
 [ext_resource type="Script" uid="uid://dfeopkvw7y6i3" path="res://Scripts/UI/Exposers/ComponentExposer.cs" id="2_4eq63"]
 [ext_resource type="Texture2D" uid="uid://dnst7a5q0y2h1" path="res://Assets/RawImages/HealthBarGloss.png" id="2_4kwis"]
@@ -9,7 +10,14 @@ z_index = 2
 texture_over = ExtResource("1_s77ot")
 script = ExtResource("2_4eq63")
 
-[node name="TextureRect" type="TextureRect" parent="."]
+[node name="Background" type="TextureRect" parent="."]
+z_index = -2
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+texture = ExtResource("1_4eq63")
+
+[node name="Overlay" type="TextureRect" parent="."]
 z_index = 5
 layout_mode = 1
 anchors_preset = 15
