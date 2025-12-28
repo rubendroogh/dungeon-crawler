@@ -67,14 +67,6 @@ public partial class SpellUI : PanelContainer
         {
             Managers.TooltipManager.UpdatePosition(GetGlobalMousePosition());
         }
-        else
-        {
-            Managers.TooltipManager.Show(
-                string.Empty,
-                $"Cost: {ActionData.Cost}",
-                GetGlobalMousePosition()
-            );
-        }
 
 		// Handle mouse input for selecting the spell
 		if (@event is InputEventMouseButton mouseEvent && mouseEvent.Pressed && mouseEvent.ButtonIndex == MouseButton.Left)
@@ -130,6 +122,7 @@ public partial class SpellUI : PanelContainer
 	private void InitializeCustomSignals()
 	{
 		Managers.ActionManager.SpellSelected += OnSpellSelected;
+		MouseEntered += OnMouseEntered;
         MouseExited += OnMouseExited;
 	}
 
@@ -143,7 +136,19 @@ public partial class SpellUI : PanelContainer
 	}
 
 	/// <summary>
-    /// Handles mouse exit events to hide the tooltip.
+	/// Handles mouse enter events.
+	/// </summary>
+	private void OnMouseEntered()
+	{
+		Managers.TooltipManager.Show(
+			string.Empty,
+			$"Cost: {ActionData.Cost}",
+			GetGlobalMousePosition()
+		);
+	}
+
+	/// <summary>
+    /// Handles mouse exit events.
     /// </summary>
     private void OnMouseExited()
     {
