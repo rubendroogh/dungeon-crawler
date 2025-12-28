@@ -1,5 +1,6 @@
-[gd_scene load_steps=2 format=3 uid="uid://da86qewhcsw42"]
+[gd_scene load_steps=3 format=3 uid="uid://da86qewhcsw42"]
 
+[ext_resource type="StyleBox" uid="uid://ginbulb641wh" path="res://Resources/StyleBoxes/Brick/BrickBackgroundPanel.tres" id="1_iroqq"]
 [ext_resource type="Script" uid="uid://dfeopkvw7y6i3" path="res://Scripts/UI/Exposers/ComponentExposer.cs" id="1_umrha"]
 
 [node name="BattleLog" type="PanelContainer"]
@@ -14,16 +15,27 @@ offset_right = 252.0
 offset_bottom = 444.0
 grow_horizontal = 2
 grow_vertical = 0
+theme_override_styles/panel = ExtResource("1_iroqq")
 script = ExtResource("1_umrha")
 
-[node name="MarginContainer" type="MarginContainer" parent="."]
+[node name="MarginContainer2" type="MarginContainer" parent="."]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="PanelContainer" type="PanelContainer" parent="MarginContainer2"]
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer2/PanelContainer"]
 layout_mode = 2
 theme_override_constants/margin_left = 4
 theme_override_constants/margin_top = 4
 theme_override_constants/margin_right = 4
 theme_override_constants/margin_bottom = 4
 
-[node name="BattleLog" type="RichTextLabel" parent="MarginContainer"]
+[node name="BattleLog" type="RichTextLabel" parent="MarginContainer2/PanelContainer/MarginContainer"]
 layout_mode = 2
 theme_override_font_sizes/normal_font_size = 18
 scroll_following = true

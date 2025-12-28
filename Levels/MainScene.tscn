@@ -55,7 +55,7 @@ script = ExtResource("4_safex")
 script = ExtResource("4_ghvpb")
 SpellListItemScene = ExtResource("6_71tao")
 SpellPreloader = NodePath("StartingSpellPreloader")
-SpellBookExposer = NodePath("../../../UI/HUD/BattleAndResources/ResourcesTabs/Spells/SpellsVBox/SpellSelection/SpellBook")
+SpellBookExposer = NodePath("../../../UI/HUD/BattleAndResources/ResourcesTabs/Spells/Margin/SpellSelection/SpellBook")
 
 [node name="StartingSpellPreloader" type="ResourcePreloader" parent="World/ManagerRepository/SpellBookManager"]
 resources = [PackedStringArray("BrainFreeze", "Discombobulate", "UmbralShield"), [ExtResource("7_71tao"), ExtResource("8_lxbb3"), ExtResource("8_cltpb")]]
@@ -67,7 +67,7 @@ BattleLogExposer = NodePath("../../../UI/HUD/BattleAndResources/Battle/BattleLog
 [node name="BattleManager" type="Node" parent="World/ManagerRepository" node_paths=PackedStringArray("TurnIndicationExposer")]
 script = ExtResource("8_rc4gq")
 EnemyScene = ExtResource("12_aw745")
-TurnIndicationExposer = NodePath("../../../UI/HUD/Bottom/TurnIndicationPanel")
+TurnIndicationExposer = NodePath("../../../UI/HUD/Bottom/Margin/VBox/TurnIndicationPanel")
 
 [node name="PlayerManager" type="Node" parent="World/ManagerRepository"]
 script = ExtResource("14_wnt1r")
@@ -81,7 +81,7 @@ script = ExtResource("15_g2qkk")
 
 [node name="DebugScreenManager" type="Node" parent="World/ManagerRepository" node_paths=PackedStringArray("SpellQueueExposer")]
 script = ExtResource("16_ogsbt")
-SpellQueueExposer = NodePath("../../../UI/HUD/BattleAndResources/ResourcesTabs/Spells/SpellsVBox/SpellSelection/SpellQueue")
+SpellQueueExposer = NodePath("../../../UI/HUD/BattleAndResources/ResourcesTabs/Spells/Margin/SpellSelection/SpellQueue")
 
 [node name="SoundEffectManager" type="Node" parent="World/ManagerRepository"]
 script = ExtResource("17_udxv6")
@@ -93,7 +93,7 @@ pitch_scale = 0.62
 
 [node name="ManaSourceManager" type="Node" parent="World/ManagerRepository" node_paths=PackedStringArray("BlessingsBarExposer")]
 script = ExtResource("3_hvf01")
-BlessingsBarExposer = NodePath("../../../UI/HUD/Manasource/BlessingBar")
+BlessingsBarExposer = NodePath("../../../UI/HUD/Manasource/Margin/VBox/BlessingBar")
 BlessingUIScene = ExtResource("19_n6swl")
 
 [node name="OpponentManager" type="Node" parent="World/ManagerRepository" node_paths=PackedStringArray("OpponentExposer", "OpponentsPreloader")]
@@ -136,11 +136,13 @@ offset_right = 960.0
 offset_bottom = 540.0
 grow_horizontal = 2
 grow_vertical = 2
+theme_override_constants/separation = 0
 alignment = 1
 
 [node name="BattleAndResources" type="HBoxContainer" parent="UI/HUD"]
 layout_mode = 2
 size_flags_vertical = 3
+theme_override_constants/separation = 0
 
 [node name="Battle" type="VBoxContainer" parent="UI/HUD/BattleAndResources"]
 layout_mode = 2
@@ -163,19 +165,22 @@ layout_mode = 2
 theme_override_styles/panel = ExtResource("24_jk3s6")
 metadata/_tab_index = 0
 
-[node name="SpellsVBox" type="VBoxContainer" parent="UI/HUD/BattleAndResources/ResourcesTabs/Spells"]
+[node name="Margin" type="MarginContainer" parent="UI/HUD/BattleAndResources/ResourcesTabs/Spells"]
 layout_mode = 2
-theme_override_constants/separation = 20
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
 
-[node name="SpellSelection" type="VBoxContainer" parent="UI/HUD/BattleAndResources/ResourcesTabs/Spells/SpellsVBox"]
+[node name="SpellSelection" type="VBoxContainer" parent="UI/HUD/BattleAndResources/ResourcesTabs/Spells/Margin"]
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_constants/separation = 10
 
-[node name="SpellBook" parent="UI/HUD/BattleAndResources/ResourcesTabs/Spells/SpellsVBox/SpellSelection" instance=ExtResource("20_2dbf0")]
+[node name="SpellBook" parent="UI/HUD/BattleAndResources/ResourcesTabs/Spells/Margin/SpellSelection" instance=ExtResource("20_2dbf0")]
 layout_mode = 2
 
-[node name="SpellQueue" parent="UI/HUD/BattleAndResources/ResourcesTabs/Spells/SpellsVBox/SpellSelection" instance=ExtResource("21_2dbf0")]
+[node name="SpellQueue" parent="UI/HUD/BattleAndResources/ResourcesTabs/Spells/Margin/SpellSelection" instance=ExtResource("21_2dbf0")]
 layout_mode = 2
 
 [node name="Inventory" type="VBoxContainer" parent="UI/HUD/BattleAndResources/ResourcesTabs"]
@@ -204,24 +209,47 @@ size_flags_vertical = 3
 layout_mode = 2
 text = "Feature not implemented yet!"
 
-[node name="Manasource" type="HBoxContainer" parent="UI/HUD"]
+[node name="Manasource" type="PanelContainer" parent="UI/HUD"]
+z_index = -2
+layout_mode = 2
+theme_override_styles/panel = ExtResource("24_jk3s6")
+
+[node name="Margin" type="MarginContainer" parent="UI/HUD/Manasource"]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 0
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 4
+
+[node name="VBox" type="HBoxContainer" parent="UI/HUD/Manasource/Margin"]
 layout_mode = 2
 alignment = 1
 
-[node name="BlessingBar" parent="UI/HUD/Manasource" instance=ExtResource("28_n6swl")]
+[node name="BlessingBar" parent="UI/HUD/Manasource/Margin/VBox" instance=ExtResource("28_n6swl")]
 layout_mode = 2
 
-[node name="Bottom" type="HBoxContainer" parent="UI/HUD"]
+[node name="Bottom" type="PanelContainer" parent="UI/HUD"]
+layout_mode = 2
+theme_override_styles/panel = ExtResource("24_jk3s6")
+
+[node name="Margin" type="MarginContainer" parent="UI/HUD/Bottom"]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="VBox" type="HBoxContainer" parent="UI/HUD/Bottom/Margin"]
 custom_minimum_size = Vector2(0, 48)
 layout_mode = 2
 theme_override_constants/separation = 7
 alignment = 1
 
-[node name="HealthBar" parent="UI/HUD/Bottom" instance=ExtResource("28_ghvpb")]
+[node name="PlayerHealthBar" parent="UI/HUD/Bottom/Margin/VBox" instance=ExtResource("28_ghvpb")]
 layout_mode = 2
 size_flags_horizontal = 1
 
-[node name="TurnIndicationPanel" parent="UI/HUD/Bottom" instance=ExtResource("25_b51k0")]
+[node name="TurnIndicationPanel" parent="UI/HUD/Bottom/Margin/VBox" instance=ExtResource("25_b51k0")]
 custom_minimum_size = Vector2(190, 0)
 layout_mode = 2
 

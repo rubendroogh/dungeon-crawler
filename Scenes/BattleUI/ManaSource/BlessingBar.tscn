@@ -5,7 +5,7 @@
 [ext_resource type="Texture2D" uid="uid://dnst7a5q0y2h1" path="res://Assets/RawImages/HealthBarGloss.png" id="2_4kwis"]
 
 [node name="BlessingBar" type="TextureProgressBar"]
-z_index = 1
+z_index = 2
 texture_over = ExtResource("1_s77ot")
 script = ExtResource("2_4eq63")
 

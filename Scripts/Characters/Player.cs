@@ -66,8 +66,8 @@ public partial class Player : Character
 
 	protected override void InitializeNodes(CharacterData characterData)
 	{
-		// TODO: Refactor to use ComponentExposer
-		PlayerHealthBar = GetTree().Root.GetNode<PlayerHealthBar>("Root/UI/HUD/Bottom/HealthBar");
+		// Find health bar in the scene tree by name
+		PlayerHealthBar = GetTree().Root.GetNode<PlayerHealthBar>("Root/UI/HUD/Bottom/Margin/VBox/PlayerHealthBar");
 
 		if (PlayerHealthBar == null)
 		{
