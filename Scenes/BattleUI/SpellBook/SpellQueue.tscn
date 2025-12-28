@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=3 uid="uid://c0ol2s1uon0x3"]
+[gd_scene load_steps=4 format=3 uid="uid://c0ol2s1uon0x3"]
 
 [ext_resource type="Script" uid="uid://dfeopkvw7y6i3" path="res://Scripts/UI/Exposers/ComponentExposer.cs" id="1_pf0a5"]
 [ext_resource type="Script" uid="uid://cpji6emjswl8f" path="res://Scripts/UI/Spells/CastSpellButton.cs" id="1_ste01"]
+[ext_resource type="PackedScene" uid="uid://s0xnqcjg4cqj" path="res://Scenes/BattleUI/SpellQueue/SpellQueueItem.tscn" id="2_q3w5k"]
 
 [node name="SpellQueue" type="PanelContainer"]
 size_flags_vertical = 3
@@ -24,11 +25,11 @@ layout_mode = 2
 theme_override_font_sizes/font_size = 24
 text = "Spell queue"
 
-[node name="SpellQueueLabel" type="RichTextLabel" parent="MarginContainer/SpellQueue"]
+[node name="SpellQueue" type="VBoxContainer" parent="MarginContainer/SpellQueue"]
 layout_mode = 2
-size_flags_vertical = 3
-theme_override_font_sizes/normal_font_size = 16
-fit_content = true
+
+[node name="SpellQueueItem" parent="MarginContainer/SpellQueue/SpellQueue" instance=ExtResource("2_q3w5k")]
+layout_mode = 2
 
 [node name="CastSpell" type="Button" parent="MarginContainer/SpellQueue"]
 custom_minimum_size = Vector2(0, 50)

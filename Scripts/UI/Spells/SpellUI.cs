@@ -13,9 +13,6 @@ public partial class SpellUI : PanelContainer
 	public RichTextLabel SpellName { get; set; }
 
 	[Export]
-	public RichTextLabel SpellDescription { get; set; }
-
-	[Export]
 	public TextureRect SpellIcon { get; set; }
 
 	[Export]
@@ -31,6 +28,8 @@ public partial class SpellUI : PanelContainer
 	public PackedScene StatusEffectIconScene { get; set; }
 
 	private ActionData ActionData { get; set; }
+
+	private string SpellDescriptionText { get; set; }
 
 	private bool IsSelected { get; set; }
 
@@ -142,7 +141,7 @@ public partial class SpellUI : PanelContainer
 	{
 		Managers.TooltipManager.Show(
 			string.Empty,
-			$"Cost: {ActionData.Cost}",
+			SpellDescriptionText,
 			GetGlobalMousePosition()
 		);
 
@@ -179,12 +178,12 @@ public partial class SpellUI : PanelContainer
 
 		if (keywordList.Count == 0)
 		{
-			SpellDescription.Text = description;
+			SpellDescriptionText = description;
 			return;
 		}
 
         string fullDescription = string.Join(", ", keywordList) + " " + description;
-        SpellDescription.Text = fullDescription;
+        SpellDescriptionText = fullDescription;
 	}
 
 	/// <summary>

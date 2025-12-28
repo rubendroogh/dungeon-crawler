@@ -30,6 +30,7 @@ grow_vertical = 2
 [node name="CharacterCreationManager" type="PanelContainer" parent="." node_paths=PackedStringArray("AvailablePointsExposer")]
 layout_mode = 2
 script = ExtResource("1_vwkv2")
+SkipCharacterCreation = true
 MaxTotalPoints = 0
 AvailablePointsTextSingular = "available personality point"
 AvailablePointsTextPlural = "available personality points"
