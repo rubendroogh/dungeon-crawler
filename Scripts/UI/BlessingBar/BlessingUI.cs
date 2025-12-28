@@ -44,17 +44,9 @@ public partial class BlessingUI : TextureRect
         // Show popup panel
         Managers.TooltipManager.UpdatePosition(GetGlobalMousePosition());
 
-        if (!Managers.ActionManager.SpellIsSelected)
+        if (!Managers.ManaSourceManager.ManaSelectionMode)
         {
             return;
-        }
-
-        if (Blessing.State != State.Spent)
-        {
-            if (Managers.ManaSourceManager.ManaSelectionMode)
-            {
-                HighlightOverlay.Visible = true;
-            }
         }
 
         // On click
@@ -75,10 +67,26 @@ public partial class BlessingUI : TextureRect
     }
 
     /// <summary>
+    /// Sets the highlight overlay visibility.
+    /// </summary>
+    public void SetHighlight(bool highlight)
+    {
+        HighlightOverlay.Visible = highlight;
+    }
+
+    /// <summary>
     /// Handles mouse enter event to show hover state.
     /// </summary>
     private void OnMouseEntered()
     {
+        if (Blessing.State != State.Spent)
+        {
+            if (Managers.ManaSourceManager.ManaSelectionMode)
+            {
+                SetHighlight(true);
+            }
+        }
+
         var mousePosition = GetGlobalMousePosition();
         Managers.TooltipManager.Show(Blessing.ToString(), Blessing.GetDescription(), mousePosition);
     }
@@ -88,7 +96,7 @@ public partial class BlessingUI : TextureRect
     /// </summary>
     private void OnMouseExited()
     {
-        HighlightOverlay.Visible = false;
+        SetHighlight(false);
         Managers.TooltipManager.Hide();
     }
 

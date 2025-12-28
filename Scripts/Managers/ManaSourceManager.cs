@@ -183,6 +183,9 @@ public partial class ManaSourceManager : Node
 		return true;
     }
 
+	/// <summary>
+	/// Gets the most efficient combination of blessings to pay for the given spell cost.
+	/// </summary>
 	public List<Blessing> GetMostEfficientManaCombination(SpellCost cost, out bool canPay)
 	{
 		var reservedBlessings = new List<Blessing>();
@@ -240,6 +243,38 @@ public partial class ManaSourceManager : Node
 
 		canPay = true;
 		return reservedBlessings;
+	}
+
+	/// <summary>
+	/// Highlights the specified blessings in the blessing bar UI.
+	/// </summary>
+	public void HighlightBlessings(List<Blessing> blessingsToHighlight)
+	{
+		BlessingBar.AllBlessings.ForEach(b =>
+		{
+			var blessingUI = BlessingsBarExposer.GetComponent<Node>(Components.BlessingContainer)
+				.GetChildren()
+				.OfType<BlessingUI>()
+				.FirstOrDefault(ui => ui.Blessing.ID == b.ID);
+
+			blessingUI?.SetHighlight(blessingsToHighlight.Contains(b));
+		});
+	}
+
+	/// <summary>
+	/// Clears all highlighted blessings in the blessing bar UI.
+	/// </summary>
+	public void ClearHighlightedBlessings()
+	{
+		BlessingBar.AllBlessings.ForEach(b =>
+		{
+			var blessingUI = BlessingsBarExposer.GetComponent<Node>(Components.BlessingContainer)
+				.GetChildren()
+				.OfType<BlessingUI>()
+				.FirstOrDefault(ui => ui.Blessing.ID == b.ID);
+
+			blessingUI?.SetHighlight(false);
+		});
 	}
 
 	/// <summary>

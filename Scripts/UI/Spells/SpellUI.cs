@@ -145,6 +145,15 @@ public partial class SpellUI : PanelContainer
 			$"Cost: {ActionData.Cost}",
 			GetGlobalMousePosition()
 		);
+
+		// Highlight mana that would be autoselected for this spell
+		var manaToHighlight = Managers.ManaSourceManager.GetMostEfficientManaCombination(ActionData.Cost, out bool canPay);
+		if (canPay)
+		{
+			// Only highlight if the spell can be paid for
+			Managers.ManaSourceManager.HighlightBlessings(manaToHighlight);
+			return;
+		}
 	}
 
 	/// <summary>
@@ -153,6 +162,7 @@ public partial class SpellUI : PanelContainer
     private void OnMouseExited()
     {
         Managers.TooltipManager.Hide();
+		Managers.ManaSourceManager.ClearHighlightedBlessings();
     }
 
 	/// <summary>
