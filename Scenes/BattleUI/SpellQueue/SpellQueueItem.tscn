@@ -1,6 +1,7 @@
-[gd_scene load_steps=5 format=3 uid="uid://s0xnqcjg4cqj"]
+[gd_scene load_steps=6 format=3 uid="uid://s0xnqcjg4cqj"]
 
 [ext_resource type="StyleBox" uid="uid://di1t0g1fgt6r5" path="res://Resources/StyleBoxes/Default/SpellDefault.tres" id="1_0m38t"]
+[ext_resource type="Script" uid="uid://w5g5dw1lubff" path="res://Scripts/UI/Spells/SpellQueueUI.cs" id="2_2ch6b"]
 [ext_resource type="StyleBox" uid="uid://chxd4xyjuxd3j" path="res://Resources/StyleBoxes/Default/SpellInner.tres" id="2_wbrkn"]
 [ext_resource type="Texture2D" uid="uid://exboe6jk0wnb" path="res://Assets/RawImages/FullTileMap.png" id="3_oo281"]
 
@@ -8,7 +9,7 @@
 atlas = ExtResource("3_oo281")
 region = Rect2(595, 357, 16, 16)
 
-[node name="SpellQueueItem" type="PanelContainer"]
+[node name="SpellQueueItem" type="PanelContainer" node_paths=PackedStringArray("NameLabel", "SpellIcon")]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -17,6 +18,9 @@ offset_bottom = -1040.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = ExtResource("1_0m38t")
+script = ExtResource("2_2ch6b")
+NameLabel = NodePath("MarginContainer/PanelContainer/MarginContainer/HBoxContainer/SpellTitle")
+SpellIcon = NodePath("MarginContainer/PanelContainer/MarginContainer/HBoxContainer/SpellIcon")
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
 layout_mode = 2
@@ -39,14 +43,14 @@ theme_override_constants/margin_bottom = 8
 [node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/PanelContainer/MarginContainer"]
 layout_mode = 2
 
-[node name="Icon" type="TextureRect" parent="MarginContainer/PanelContainer/MarginContainer/HBoxContainer"]
+[node name="SpellIcon" type="TextureRect" parent="MarginContainer/PanelContainer/MarginContainer/HBoxContainer"]
 custom_minimum_size = Vector2(16, 16)
 layout_mode = 2
 size_flags_horizontal = 0
 texture = SubResource("AtlasTexture_2ch6b")
 stretch_mode = 4
 
-[node name="Title" type="RichTextLabel" parent="MarginContainer/PanelContainer/MarginContainer/HBoxContainer"]
+[node name="SpellTitle" type="RichTextLabel" parent="MarginContainer/PanelContainer/MarginContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_font_sizes/normal_font_size = 16

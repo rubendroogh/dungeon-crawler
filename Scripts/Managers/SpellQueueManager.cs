@@ -4,7 +4,7 @@ using Godot;
 /// Responsible for showing the correct data in the debug screen.
 /// TODO: This has de facto become the Spell Queue Manager. Will rename.
 /// </summary>
-public partial class DebugScreenManager : Node
+public partial class SpellQueueManager : Node
 {
     /// <summary>
     /// Indicates whether the debug screen is currently active.

@@ -250,6 +250,11 @@ public partial class ManaSourceManager : Node
 	/// </summary>
 	public void HighlightBlessings(List<Blessing> blessingsToHighlight)
 	{
+		if (blessingsToHighlight == null || blessingsToHighlight.Count == 0)
+		{
+			return;
+		}
+
 		BlessingBar.AllBlessings.ForEach(b =>
 		{
 			var blessingUI = BlessingsBarExposer.GetComponent<Node>(Components.BlessingContainer)
@@ -264,7 +269,7 @@ public partial class ManaSourceManager : Node
 	/// <summary>
 	/// Clears all highlighted blessings in the blessing bar UI.
 	/// </summary>
-	public void ClearHighlightedBlessings()
+	public void ClearHighlighted()
 	{
 		BlessingBar.AllBlessings.ForEach(b =>
 		{

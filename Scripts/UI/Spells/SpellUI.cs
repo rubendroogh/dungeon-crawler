@@ -161,7 +161,7 @@ public partial class SpellUI : PanelContainer
     private void OnMouseExited()
     {
         Managers.TooltipManager.Hide();
-		Managers.ManaSourceManager.ClearHighlightedBlessings();
+		Managers.ManaSourceManager.ClearHighlighted();
     }
 
 	/// <summary>

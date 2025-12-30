@@ -44,7 +44,7 @@ public partial class Managers : Node
     /// <summary>
     /// DebugScreenManager is responsible for showing the correct data in the debug screen.
     /// </summary>
-    public static DebugScreenManager DebugScreenManager { get; set; }
+    public static SpellQueueManager DebugScreenManager { get; set; }
 
     /// <summary>
     /// RewardSelectionManager is responsible for managing the selection of rewards for the player.
@@ -79,7 +79,7 @@ public partial class Managers : Node
         BattleManager = GetNode<BattleManager>("BattleManager");
         PlayerManager = GetNode<PlayerManager>("PlayerManager");
         TransitionManager = GetNode<TransitionManager>("TransitionManager");
-        DebugScreenManager = GetNode<DebugScreenManager>("DebugScreenManager");
+        DebugScreenManager = GetNode<SpellQueueManager>("DebugScreenManager");
         SoundEffectManager = GetNode<SoundEffectManager>("SoundEffectManager");
         ManaSourceManager = GetNode<ManaSourceManager>("ManaSourceManager");
         OpponentManager = GetNode<OpponentManager>("OpponentManager");
