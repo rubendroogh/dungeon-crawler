@@ -48,8 +48,8 @@ public class StormKeyword : KeywordBase
             Managers.BattleLogManager.Log($"Queued duplicate of {spell.Data.Name} due to Storm effect.");
         }
 
-        // Update the debug screen to show the new spell queue.
-        Managers.DebugScreenManager.UpdateSpellQueue();
+        // Update the spell queue to show the new spell queue.
+        Managers.SpellQueueManager.UpdateSpellQueue();
 
         // Mark as processed to avoid re-processing in the same turn queue.
         context.StormProcessed = true;

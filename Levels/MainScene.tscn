@@ -1,4 +1,4 @@
-[gd_scene load_steps=38 format=3 uid="uid://ck8p1eru6l2f4"]
+[gd_scene load_steps=39 format=3 uid="uid://ck8p1eru6l2f4"]
 
 [ext_resource type="Script" uid="uid://di2h8gf1377s5" path="res://Scripts/UI/CameraShake.cs" id="1_hojmo"]
 [ext_resource type="Script" uid="uid://bb2xw40m0q3sm" path="res://Scripts/Managers/ManaSourceManager.cs" id="3_hvf01"]
@@ -18,6 +18,7 @@
 [ext_resource type="Script" uid="uid://qvd64pgadui" path="res://Scripts/Managers/TransitionManager.cs" id="15_g2qkk"]
 [ext_resource type="Script" uid="uid://bc7r5kh0kegqt" path="res://Scripts/Characters/Player.cs" id="15_irpm1"]
 [ext_resource type="Script" uid="uid://omqimuu5thub" path="res://Scripts/Managers/SpellQueueManager.cs" id="16_ogsbt"]
+[ext_resource type="PackedScene" uid="uid://s0xnqcjg4cqj" path="res://Scenes/BattleUI/SpellQueue/SpellQueueItem.tscn" id="17_21fen"]
 [ext_resource type="Script" uid="uid://do64s87kejasc" path="res://Scripts/Managers/SoundEffectManager.cs" id="17_udxv6"]
 [ext_resource type="AudioStream" uid="uid://28xaykhomefb" path="res://Assets/Sound/click.wav" id="18_21fen"]
 [ext_resource type="AudioStream" uid="uid://dwu2yk120ey8n" path="res://Assets/Sound/Mountain Emperor.mp3" id="19_8287p"]
@@ -79,9 +80,10 @@ CharacterData = ExtResource("15_aw745")
 [node name="TransitionManager" type="Node" parent="World/ManagerRepository"]
 script = ExtResource("15_g2qkk")
 
-[node name="DebugScreenManager" type="Node" parent="World/ManagerRepository" node_paths=PackedStringArray("SpellQueueExposer")]
+[node name="SpellQueueManager" type="Node" parent="World/ManagerRepository" node_paths=PackedStringArray("SpellQueueExposer")]
 script = ExtResource("16_ogsbt")
 SpellQueueExposer = NodePath("../../../UI/HUD/BattleAndResources/ResourcesTabs/Spells/Margin/SpellSelection/SpellQueue")
+SpellQueueUIScene = ExtResource("17_21fen")
 
 [node name="SoundEffectManager" type="Node" parent="World/ManagerRepository"]
 script = ExtResource("17_udxv6")

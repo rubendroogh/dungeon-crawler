@@ -1,3 +1,4 @@
+using System.Linq;
 using Godot;
 
 /// <summary>
@@ -7,51 +8,43 @@ using Godot;
 public partial class SpellQueueManager : Node
 {
     /// <summary>
-    /// Indicates whether the debug screen is currently active.
-    /// </summary>
-    private bool DebugMode = true;
-
-    /// <summary>
     /// The ComponentExposer that exposes the spell queue components.
     /// </summary>
     [Export]
     private ComponentExposer SpellQueueExposer;
 
     /// <summary>
-    /// The root node of the debug screen.
+    /// The scene containing the individual SpellQueueUI element.
     /// </summary>
-    private Control DebugRootNode => SpellQueueExposer.GetComponent<Control>(Components.SpellQueueRoot);
+    [Export]
+    private PackedScene SpellQueueUIScene;
 
     /// <summary>
-    /// The label that displays the current spell queue.
+    /// The root node of the spell queue list.
     /// </summary>
-    private RichTextLabel SpellQueueLabel => DebugRootNode.GetNode<RichTextLabel>(Components.SpellQueueLabel);
-
-    public override void _Ready()
-    {
-        if (!DebugMode)
-        {
-            DebugRootNode.Visible = false;
-        }
-    }
+    private Control SpellQueue => SpellQueueExposer.GetComponent<Control>(Components.SpellQueueList);
 
     /// <summary>
-    /// Updates the spell queue display in the debug screen based on the player's spell queue.
+    /// Updates the spell queue list based on the player's spell queue.
     /// </summary>
     public void UpdateSpellQueue()
     {
-        if (SpellQueueLabel == null)
+        if (SpellQueue == null)
         {
-            GD.PrintErr("SpellQueueLabel is not initialized.");
+            GD.PrintErr("SpellQueue is not initialized.");
             return;
         }
 
-        // Loop through the spell queue and display each entry.
-        SpellQueueLabel.Clear();
+        // Remove all existing children
+        SpellQueue.GetChildren().ToList().ForEach(child => child.QueueFree());
+
+        // Add instances for each spell in the player's spell queue
         var spellQueue = Managers.PlayerManager.GetPlayer().ActionQueue;
         foreach (var entry in spellQueue)
         {
-            SpellQueueLabel.AddText($"Spell: {entry.Action.Data.Name}, Target: {entry.Target.Name}, Blessings: {entry.Blessings.Count}\n");
+            var spellQueueUIInstance = SpellQueueUIScene.Instantiate<SpellQueueUI>();
+            spellQueueUIInstance.Setup(entry.Action, entry.Blessings);
+            SpellQueue.AddChild(spellQueueUIInstance);
         }
     }
 }

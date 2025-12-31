@@ -1,12 +1,12 @@
 public static partial class Components
 {
     /// <summary>
-    /// The SpellQueue rich text label containing the spell queue.
+    /// The Tooltip rich text label.
     /// </summary>
     public const string TooltipRichTextLabel = "TooltipRichTextLabel";
 
     /// <summary>
-    /// The root node for the spell queue debug components.
+    /// The root node for the tooltip components.
     /// </summary>
     public const string TooltipRoot = "TooltipRoot";
 }

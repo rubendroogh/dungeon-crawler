@@ -24,6 +24,7 @@ SpellIcon = NodePath("MarginContainer/PanelContainer/MarginContainer/HBoxContain
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
 layout_mode = 2
+mouse_filter = 2
 theme_override_constants/margin_left = 1
 theme_override_constants/margin_top = 1
 theme_override_constants/margin_right = 1
@@ -31,10 +32,12 @@ theme_override_constants/margin_bottom = 1
 
 [node name="PanelContainer" type="PanelContainer" parent="MarginContainer"]
 layout_mode = 2
+mouse_filter = 2
 theme_override_styles/panel = ExtResource("2_wbrkn")
 
 [node name="MarginContainer" type="MarginContainer" parent="MarginContainer/PanelContainer"]
 layout_mode = 2
+mouse_filter = 2
 theme_override_constants/margin_left = 8
 theme_override_constants/margin_top = 8
 theme_override_constants/margin_right = 8
@@ -42,17 +45,20 @@ theme_override_constants/margin_bottom = 8
 
 [node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/PanelContainer/MarginContainer"]
 layout_mode = 2
+mouse_filter = 2
 
 [node name="SpellIcon" type="TextureRect" parent="MarginContainer/PanelContainer/MarginContainer/HBoxContainer"]
-custom_minimum_size = Vector2(16, 16)
+custom_minimum_size = Vector2(24, 24)
 layout_mode = 2
 size_flags_horizontal = 0
+mouse_filter = 2
 texture = SubResource("AtlasTexture_2ch6b")
 stretch_mode = 4
 
 [node name="SpellTitle" type="RichTextLabel" parent="MarginContainer/PanelContainer/MarginContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
-theme_override_font_sizes/normal_font_size = 16
+mouse_filter = 2
+theme_override_font_sizes/normal_font_size = 24
 text = "Spell"
 vertical_alignment = 1

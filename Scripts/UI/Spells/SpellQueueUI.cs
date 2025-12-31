@@ -9,7 +9,7 @@ public partial class SpellQueueUI : Control
     /// <summary>
     /// The spell being displayed in the queue.
     /// </summary>
-    private Spell Spell { get; set; }
+    private Action Spell { get; set; }
 
     /// <summary>
     /// The blessings that have been selected to cast this spell with.
@@ -43,17 +43,19 @@ public partial class SpellQueueUI : Control
     public void OnMouseEntered()
     {
         Managers.ManaSourceManager.HighlightBlessings(Blessings);
+        Managers.BattleLogManager.Log("Testing spell queue UI mouse enter. Blessings: " + Blessings.Count);
     }
 
     public void OnMouseExited()
     {
         Managers.ManaSourceManager.ClearHighlighted();
+        Managers.BattleLogManager.Log("Testing spell queue UI mouse exit.");
     }
 
     /// <summary>
     /// Sets up the SpellQueueUI to display the spell in the queue.
     /// </summary>
-    public void Setup(Spell spell, List<Blessing> blessings)
+    public void Setup(Action spell, List<Blessing> blessings)
     {
         Spell = spell;
         Blessings = blessings;

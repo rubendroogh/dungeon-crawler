@@ -313,7 +313,7 @@ public partial class Character : Node2D
 
             await ResolveQueueEntry(entry);
             
-		    Managers.DebugScreenManager.UpdateSpellQueue();
+		    Managers.SpellQueueManager.UpdateSpellQueue();
         }
 
         // Reset mana after resolving.

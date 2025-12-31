@@ -48,7 +48,7 @@ public partial class Player : Character
 		EmitSignal(SignalName.SpellQueued);
 		Managers.BattleLogManager.Log($"Queued {spell.Data.Name} with {blessingList.Count} blessings for {target.Name}.");
 
-		Managers.DebugScreenManager.UpdateSpellQueue();
+		Managers.SpellQueueManager.UpdateSpellQueue();
 	}
 
 	public override async Task PlayDamageAnimation()
