@@ -43,13 +43,11 @@ public partial class SpellQueueUI : Control
     public void OnMouseEntered()
     {
         Managers.ManaSourceManager.HighlightBlessings(Blessings);
-        Managers.BattleLogManager.Log("Testing spell queue UI mouse enter. Blessings: " + Blessings.Count);
     }
 
     public void OnMouseExited()
     {
         Managers.ManaSourceManager.ClearHighlighted();
-        Managers.BattleLogManager.Log("Testing spell queue UI mouse exit.");
     }
 
     /// <summary>

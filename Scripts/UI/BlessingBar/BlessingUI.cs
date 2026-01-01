@@ -71,7 +71,6 @@ public partial class BlessingUI : TextureRect
     /// </summary>
     public void SetHighlight(bool highlight)
     {
-        Managers.BattleLogManager.Log($"Setting highlight for blessing {Blessing} to {highlight}");
         HighlightOverlay.Visible = highlight;
     }
 
