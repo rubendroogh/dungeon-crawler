@@ -19,6 +19,7 @@ public partial class TooltipPanel : PanelContainer
         richText.Text = description;
         
         SetPosition(initialPosition);
+        ResetSize();
         Show();
     }
 

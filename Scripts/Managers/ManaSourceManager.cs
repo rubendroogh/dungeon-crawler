@@ -478,7 +478,7 @@ public class Blessing
     /// </summary>
 	public string GetDescription()
 	{
-		return "[color=\"gray\"]Blessing modifiers not implemented yet.[/color]";
+		return "[color=\"gray\"]No modifiers.[/color]";
 	}
 
 	/// <summary>
