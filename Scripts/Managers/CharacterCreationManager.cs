@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using DungeonRPG.Blessings.Enums;
+using DungeonRPG.Characters;
 using Godot;
 
 /// <summary>
@@ -115,7 +116,8 @@ public partial class CharacterCreationManager : Control
 	{
         _ = Managers.SoundEffectManager.PlayButtonClick();
 		Managers.PlayerManager.SetPlayerData(GetPlayerData());
-		SetStartingBlessings();
+		var build = GenerateCharacterBuild();
+		ApplyBuild(build);
 		Managers.TransitionManager.CharacterCreationToGame();
 	}
 
@@ -153,7 +155,7 @@ public partial class CharacterCreationManager : Control
 	/// </summary>
 	private SpinBox[] GetAllSpinboxes()
 	{
-		List<SpinBox> spinboxes = GetDescendantsOfType<SpinBox>(this);
+		List<SpinBox> spinboxes = this.GetDescendantsOfType<SpinBox>(this);
 
 		return spinboxes.ToArray();
 	}
@@ -192,38 +194,25 @@ public partial class CharacterCreationManager : Control
 	}
 
 	/// <summary>
-	/// Sets the starting blessings for the player based on their chosen traits.
+	/// Sets the starting blessings and spells on the player based on the provided build.
 	/// </summary>
-	private static void SetStartingBlessings()
+	private static void ApplyBuild(Build build)
 	{
-		// Implementation for setting starting blessings based on traits goes here.
-		// TODO: this is a placeholder.
-        Managers.ManaSourceManager.AddBlessing(new Blessing
-        (
-			Level.Lesser,
-            Domain.Hamin
-        ));
+		foreach (var blessing in build.Blessings)
+		{
+			Managers.ManaSourceManager.AddBlessing(blessing);
+		}
 
-        Managers.ManaSourceManager.AddBlessing(new Blessing
-        (
-			Level.Lesser,
-            Domain.Hamin
-        ));
-
-        Managers.ManaSourceManager.AddBlessing(new Blessing
-        (
-			Level.Lesser,
-            Domain.Hamin
-        ));
-
-        Managers.ManaSourceManager.AddBlessing(new Blessing
-        (
-			Level.Major,
-            Domain.Jaddis
-        ));
+		foreach (var spell in build.Spells)
+		{
+			Managers.SpellBookManager.AddSpell(spell.Data);
+		}
 	}
 
-	private void GenerateCharacterBuild()
+	/// <summary>
+	/// Generates the character build based on the selected personality traits.
+	/// </summary>
+	private Build GenerateCharacterBuild()
 	{
 		// Builds will be generated based on the personality traits of the player
 		// See https://www.notion.so/Damage-types-and-domains-285b94d5324680a5b55dd0b70998646c for the personality traits related to the different Godly domains
@@ -243,43 +232,62 @@ public partial class CharacterCreationManager : Control
 			.ToDictionary(spinbox => spinbox.Trait.Name, spinbox => (int)spinbox.Value)
 			.ToList();
 
+		// Match chosen personality traits to their respective domains and tally points
 		foreach (var trait in traitSpinBoxes)
 		{
 			switch (trait.Key)
 			{
 				case "Genuine":
 				case "Optimistic":
-					zerPoints++;
+					zerPoints += trait.Value;
 					break;
 				case "Curious":
 				case "Focused":
-					haminPoints++;
+					haminPoints += trait.Value;
 					break;
 				case "Charming":
 				case "Benevolent":
-					jaddisPoints++;
+					jaddisPoints += trait.Value;
 					break;
 				case "Dominant":
 				case "Fearless":
-					calinaPoints++;
+					calinaPoints += trait.Value;
 					break;
 			}
 		}
-	}
 
-	/// <summary>
-	/// Recursively finds all descendants of a specific type in the node tree.
-	/// </summary>
-	private List<T> GetDescendantsOfType<T>(Node root) where T : Node
-	{
-		List<T> result = new List<T>();
-		foreach (Node child in root.GetChildren())
+		// Get the total points to calculate proportions
+		var totalPoints = zerPoints + haminPoints + jaddisPoints + calinaPoints;
+		if (totalPoints != 0)
 		{
-			if (child is T match)
-				result.Add(match);
-
-			result.AddRange(GetDescendantsOfType<T>(child));
+			// This should never be non-zero, but just in case to avoid division by zero
+			GD.PrintErr("Total trait points is non-zero, cannot generate character build.");
+			return null;
 		}
-		return result;
+
+		// Determine the dominant domains based on the points
+		var domainPoints = new Dictionary<Domain, int>
+		{
+			{ Domain.Zer, zerPoints },
+			{ Domain.Hamin, haminPoints },
+			{ Domain.Jaddis, jaddisPoints },
+			{ Domain.Calina, calinaPoints }
+		};
+
+		var sortedDomains = domainPoints.OrderByDescending(dp => dp.Value).ToList();
+		var topDomain = sortedDomains[0];
+		var secondDomain = sortedDomains[1];
+
+		// Assign starting build based on dominant domains
+		if (topDomain.Value >= secondDomain.Value * 1.5)
+		{
+			// 1-domain build
+			return Builds.GetSingleDomainBuild(topDomain.Key);
+		}
+		else
+		{
+			// 2-domain build
+			return Builds.GetDualDomainBuild(topDomain.Key, secondDomain.Key);
+		}
 	}
 }

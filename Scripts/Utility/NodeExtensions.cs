@@ -1,4 +1,5 @@
 using Godot;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 public static class NodeExtensions
@@ -17,4 +18,20 @@ public static class NodeExtensions
         // Create a one-shot timer and wait for it
         await node.ToSignal(node.GetTree().CreateTimer(seconds), "timeout");
     }
+
+    /// <summary>
+	/// Recursively finds all descendants of a specific type in the node tree.
+	/// </summary>
+	public static List<T> GetDescendantsOfType<T>(this Node node, Node root) where T : Node
+	{
+		List<T> result = new List<T>();
+		foreach (Node child in root.GetChildren())
+		{
+			if (child is T match)
+				result.Add(match);
+
+			result.AddRange(GetDescendantsOfType<T>(node, child));
+		}
+		return result;
+	}
 }
