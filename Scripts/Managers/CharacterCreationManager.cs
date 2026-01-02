@@ -57,9 +57,9 @@ public partial class CharacterCreationManager : Control
 	private Label AvailablePointsTextLabel => AvailablePointsExposer.GetComponent<Label>(Components.AvailablePointsTextLabel);
 
 	/// <summary>
-    /// The Warning Icon indicating insufficient points.
+    /// The Warning indicating unbalanced points.
     /// </summary>
-	private TextureRect WarningIcon => AvailablePointsExposer.GetComponent<TextureRect>(Components.WarningIcon);
+	private Control WarningContainer => AvailablePointsExposer.GetComponent<Control>(Components.WarningContainer);
 
 	/// <summary>
     /// The Submit Button for submitting the character creation form.
@@ -136,7 +136,7 @@ public partial class CharacterCreationManager : Control
 		AvailablePointsNumberLabel.Text = AvailablePoints.ToString();
 		AvailablePointsTextLabel.Text = AvailablePoints == 1 ? AvailablePointsTextSingular : AvailablePointsTextPlural;
 
-		WarningIcon.Visible = AvailablePoints < 0;
+		WarningContainer.Visible = AvailablePoints != 0;
 	}
 
 	/// <summary>
@@ -145,7 +145,7 @@ public partial class CharacterCreationManager : Control
 	private void UpdateSubmitButtonState()
 	{
 		// Enable or disable the submit button based on the available points and player name input
-		SubmitButton.Disabled = AvailablePoints < 0 || PlayerNameInput.Text.Trim().Length == 0;
+		SubmitButton.Disabled = AvailablePoints != 0 || PlayerNameInput.Text.Trim().Length == 0;
 	}
 
 	/// <summary>
@@ -159,7 +159,7 @@ public partial class CharacterCreationManager : Control
 	}
 
 	/// <summary>
-	/// Retrieves the player data from the filled form fields on submission.
+	/// Retrieves the player data from the filled form fields.
 	/// </summary>
 	private CharacterData GetPlayerData()
 	{

@@ -11,7 +11,7 @@ public static partial class Components
     public const string AvailablePointsTextLabel = "AvailablePointsTextLabel";
 
     /// <summary>
-    /// The Warning Icon in the Character Creation UI indicating insufficient points.
+    /// The Warning container indicating unbalanced points.
     /// </summary>
-    public const string WarningIcon = "WarningIcon";
+    public const string WarningContainer = "WarningContainer";
 }
