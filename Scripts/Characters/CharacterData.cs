@@ -1,3 +1,4 @@
+using DungeonRPG.Blessings.Enums;
 using Godot;
 
 /// <summary>
@@ -125,6 +126,11 @@ public partial class CharacterData : Resource
     /// </summary>
     [Export]
     public float BaseDiseaseDamageMultiplier { get; set; } = 1;
+
+    /// <summary>
+    /// The divine alignment of the character. Influenced by race or personality traits.
+    /// </summary>
+    public Domain[] Alignment { get; set; }
     
     /// <summary>
     /// Get the base value for a given personality trait type.

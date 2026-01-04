@@ -1,4 +1,4 @@
-[gd_scene load_steps=39 format=3 uid="uid://ck8p1eru6l2f4"]
+[gd_scene load_steps=41 format=3 uid="uid://ck8p1eru6l2f4"]
 
 [ext_resource type="Script" uid="uid://di2h8gf1377s5" path="res://Scripts/UI/CameraShake.cs" id="1_hojmo"]
 [ext_resource type="Script" uid="uid://bb2xw40m0q3sm" path="res://Scripts/Managers/ManaSourceManager.cs" id="3_hvf01"]
@@ -38,6 +38,8 @@
 [ext_resource type="PackedScene" uid="uid://13p46brkeo3f" path="res://Scenes/BattleUI/ManaSource/BlessingBar.tscn" id="28_n6swl"]
 [ext_resource type="PackedScene" uid="uid://2drx4r22f0mk" path="res://Scenes/CharacterCreationUI/CharacterCreationBackground.tscn" id="31_ogsbt"]
 [ext_resource type="PackedScene" uid="uid://c6c50r7e37xs6" path="res://Scenes/CharacterCreationUI/CharacterCreationPanel.tscn" id="32_ogsbt"]
+[ext_resource type="Script" uid="uid://hl4tdhg10k2i" path="res://Scripts/UI/Cutscenes/FullScreenText.cs" id="38_21fen"]
+[ext_resource type="Script" uid="uid://em0jii3qq1vd" path="res://Scripts/UI/Cutscenes/IntroCutscene.cs" id="38_jtd1x"]
 
 [node name="Root" type="Node2D"]
 
@@ -128,6 +130,7 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="HUD" type="VBoxContainer" parent="UI"]
+visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -283,7 +286,7 @@ offset_right = 1303.0
 offset_bottom = 715.0
 
 [node name="CharacterCreation" type="Control" parent="UI"]
-visible = false
+z_index = 10
 anchors_preset = 0
 offset_left = -960.0
 offset_top = -540.0
@@ -304,10 +307,46 @@ grow_vertical = 2
 
 [node name="CharacterCreationCenter" parent="UI/CharacterCreation" instance=ExtResource("32_ogsbt")]
 layout_mode = 1
-grow_horizontal = 1
-grow_vertical = 1
+
+[node name="IntroCutscene" type="Control" parent="UI"]
+visible = false
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+mouse_filter = 1
+script = ExtResource("38_jtd1x")
+IntroTextSingular = "As the divine force sends you down the dungeon's stairs, you begin to feel an ecstatic sensation deep within you. The godly remnants that remain in this dungeon have felt in you a kindly spirit, and bestowed their power upon you.
+
+Based on your personality, the God {0} has gifted your their powers!"
+IntroTextPlural = "As the divine force sends you down the dungeon's stairs, you begin to feel an ecstatic sensation deep within you. The godly remnants that remain in this dungeon have felt in you a kindly spirit, and bestowed their power upon you.
+
+Based on your personality, the Gods {0} and {1} have gifted your their powers!"
+
+[node name="CenterContainer" type="CenterContainer" parent="UI/IntroCutscene"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = -24.0
+anchor_top = -13.5
+anchor_right = 24.0
+anchor_bottom = 13.5
+offset_left = 6.10352e-05
+offset_right = -6.10352e-05
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="IntroText" type="RichTextLabel" parent="UI/IntroCutscene/CenterContainer"]
+custom_minimum_size = Vector2(800, 400)
+layout_mode = 2
+bbcode_enabled = true
+text = "As the divine force sends you down the dungeon's stairs, you begin to feel an ecstatic sensation deep within you. The godly remnants that remain in this dungeon have felt in you a kindly spirit, and bestowed their power upon you.
+
+Based on your personality, the God {0} has gifted your their powers!"
+fit_content = true
+vertical_alignment = 1
+script = ExtResource("38_21fen")
 
 [node name="TooltipRoot" parent="UI" instance=ExtResource("24_hojmo")]
+visible = false
 z_index = 100
 layout_mode = 0
 offset_right = 172.0

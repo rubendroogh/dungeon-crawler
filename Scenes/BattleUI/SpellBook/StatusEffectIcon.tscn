@@ -1,6 +1,6 @@
 [gd_scene load_steps=8 format=3 uid="uid://bv8nhr1hmgpwv"]
 
-[ext_resource type="Script" uid="uid://dhuep8rs8awh7" path="res://Scripts/UI/StatusEffectIcon.cs" id="1_u02jj"]
+[ext_resource type="Script" uid="uid://dhuep8rs8awh7" path="res://Scripts/UI/Spells/StatusEffectIcon.cs" id="1_u02jj"]
 [ext_resource type="StyleBox" uid="uid://c00vqq1sjk0ap" path="res://Resources/StyleBoxes/Default/StatusEffectIcon.tres" id="2_ua4xw"]
 [ext_resource type="Texture2D" uid="uid://exboe6jk0wnb" path="res://Assets/RawImages/FullTileMap.png" id="3_ua4xw"]
 

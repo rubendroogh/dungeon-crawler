@@ -95,7 +95,7 @@ public partial class CharacterCreationManager : Control
 		PlayerNameInput = FindChild("PlayerNameInput") as LineEdit;
 		SubmitButton = FindChild("SubmitButton") as Button;
 
-		Managers.TransitionManager.ToCharacterCreation();
+		// Managers.TransitionManager.ToCharacterCreation();
 		UpdateAvailablePoints();
 		UpdateSubmitButtonState();
 
@@ -118,7 +118,7 @@ public partial class CharacterCreationManager : Control
 		Managers.PlayerManager.SetPlayerData(GetPlayerData());
 		var build = GenerateCharacterBuild();
 		ApplyBuild(build);
-		Managers.TransitionManager.CharacterCreationToGame();
+		_ = Managers.TransitionManager.CharacterCreationToCutscene();
 	}
 
 	/// <summary>
@@ -207,6 +207,8 @@ public partial class CharacterCreationManager : Control
 		{
 			Managers.SpellBookManager.AddSpell(spell.Data);
 		}
+
+		Managers.PlayerManager.GetPlayer().CharacterData.Alignment = build.Alignment;
 	}
 
 	/// <summary>

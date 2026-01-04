@@ -25,6 +25,7 @@ public static class Builds
         };
 
         build.Blessings = startingBlessings;
+        build.Alignment = [domain];
         return build;
     }
 
@@ -45,6 +46,7 @@ public static class Builds
         };
 
         build.Blessings = startingBlessings;
+        build.Alignment = [domain1, domain2];
         return build;
     }
 }
@@ -54,6 +56,11 @@ public static class Builds
 /// </summary>
 public class Build
 {
+    /// <summary>
+    /// The starting divine alignment.
+    /// </summary>
+    public Domain[] Alignment;
+
     /// <summary>
     /// The blessings granted by this build.
     /// </summary>
