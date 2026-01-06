@@ -496,19 +496,7 @@ public class Blessing
 	/// </summary>
 	public Color GetDomainColor()
 	{
-		var baseCalinaColor = new Color(1f, 0.5f, 0.5f); // Light Red
-		var baseHaminColor = new Color(0.5f, 0.5f, 1f); // Light Blue
-		var baseJaddisColor = new Color(0.5f, 1f, 0.5f); // Light Green
-		var baseZerColor = new Color(0.75f, 0.5f, 1f); // Light Purple
-
-		var colour = Domain switch
-		{
-			Domain.Calina => baseCalinaColor,
-			Domain.Hamin => baseHaminColor,
-			Domain.Jaddis => baseJaddisColor,
-			Domain.Zer => baseZerColor,
-			_ => Colors.White,
-		};
+		var colour = Domain.GetColor();
 
 		// Modify brightness based on level
 		// Decrease brightness by 10% per level above Minor

@@ -1,10 +1,14 @@
 using Godot;
-using System;
-using System.Linq;
 using System.Threading.Tasks;
 
 public partial class IntroCutscene : Control
 {
+    /// <summary>
+    /// The story text to show before the godly alignment.
+    /// </summary>
+    [Export(PropertyHint.MultilineText)]
+    public string IntroTextStory { get; set; }
+
     /// <summary>
     /// The introduction text to show if the player is only aligned to one god.
     /// </summary>
@@ -22,25 +26,50 @@ public partial class IntroCutscene : Control
     /// </summary>
     public async Task Start()
     {
-        if (FindChild("IntroText") is not FullScreenText textNode)
+        if (FindChild("AlignmentText") is not AnimatedText alignmentText)
         {
-            GD.PrintErr("Intro text not found!");
+            GD.PrintErr("AlignmentText not found!");
             return;
         }
 
+        if (FindChild("StoryText") is not AnimatedText storyText)
+        {
+            GD.PrintErr("StoryText not found!");
+            return;
+        }
+
+        if (FindChild("ContinueText") is not RichTextLabel continueText)
+        {
+            GD.PrintErr("ContinueText not found!");
+            return;
+        }
+
+        continueText.AddThemeColorOverride("default_color", Colors.Transparent);
+
+        await this.Delay(1000);
+        storyText.Text = IntroTextStory;
+        storyText.Start();
+
+        await this.Delay(8000);
+        alignmentText.Text = GetAlignmentText();
+        alignmentText.Start();
+
+        // Controls when to go next to the game.
+        await this.Delay(3000);
+        continueText.AddThemeColorOverride("default_color", Colors.Gray);
+    }
+
+    /// <summary>
+    /// Gets the text to show the player's alignment.
+    /// </summary>
+    private string GetAlignmentText()
+    {
         var alignment = Managers.PlayerManager.GetPlayer().CharacterData.Alignment;
         var singleAlignment = alignment.Length == 1;
 
         var introTextGodsTemplate = singleAlignment ? IntroTextSingular : IntroTextPlural;
-        var fullIntroText = singleAlignment
-            ? string.Format(introTextGodsTemplate, alignment[0])
-            : string.Format(introTextGodsTemplate, alignment[0], alignment[1]);
-
-        GD.Print(textNode.Text);
-        await this.Delay(1000);
-        textNode.Text = fullIntroText;
-        textNode.Start();
-
-        // Controls when to go next to the game.
+        return singleAlignment
+            ? string.Format(introTextGodsTemplate, alignment[0].ToRichString())
+            : string.Format(introTextGodsTemplate, alignment[0].ToRichString(), alignment[1].ToRichString());
     }
 }

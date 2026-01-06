@@ -1,0 +1,6 @@
+[gd_resource type="RichTextEffect" load_steps=2 format=3 uid="uid://yq2rpugc5vk0"]
+
+[ext_resource type="Script" uid="uid://cvfejumvld1h2" path="res://Scripts/UI/RichTextEffects/WaveEffect.cs" id="1_3vjps"]
+
+[resource]
+script = ExtResource("1_3vjps")

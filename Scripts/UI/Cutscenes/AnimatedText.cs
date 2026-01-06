@@ -5,7 +5,7 @@ using System;
 /// Handles the UI for the full screen text cutscene scenes.
 /// Displays the text character-by-character while preserving rich text formatting.
 /// </summary>
-public partial class FullScreenText : RichTextLabel
+public partial class AnimatedText : RichTextLabel
 {
     /// <summary>
     /// Defines how many characters should be shown per second if not fast-forwarding.

@@ -61,7 +61,6 @@ public partial class TransitionManager : Node
         await SetRewardSelectionVisibility(false);
 
         // Go to cutscene and set text based on build
-        GD.Print("Transition1");
         CutsceneNode.Visible = true;
         await CutsceneNode.Start();
     }
