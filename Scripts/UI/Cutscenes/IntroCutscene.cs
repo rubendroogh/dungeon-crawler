@@ -46,16 +46,17 @@ public partial class IntroCutscene : Control
 
         continueText.AddThemeColorOverride("default_color", Colors.Transparent);
 
-        await this.Delay(1000);
+        await this.Delay(1_000);
         storyText.Text = IntroTextStory;
         storyText.Start();
 
-        await this.Delay(8000);
+        await this.Delay(10_000);
+        // TODO: Add a pling sound when the alignment is announced
         alignmentText.Text = GetAlignmentText();
         alignmentText.Start();
 
         // Controls when to go next to the game.
-        await this.Delay(3000);
+        await this.Delay(5_000);
         continueText.AddThemeColorOverride("default_color", Colors.Gray);
     }
 

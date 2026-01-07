@@ -37,6 +37,7 @@ bbcode_enabled = true
 text = "As the divine force sends you down the dungeon's stairs, you begin to feel an ecstatic sensation deep within you. The godly remnants that remain in this dungeon have felt in you a kindly spirit, and bestowed their power upon you."
 fit_content = true
 script = ExtResource("2_kp4nm")
+CharactersPerSecond = 30.0
 
 [node name="AlignmentText" type="RichTextLabel" parent="CenterContainer/VBoxContainer"]
 custom_minimum_size = Vector2(800, 60)
@@ -45,11 +46,12 @@ bbcode_enabled = true
 text = "[wave]Based on your personality, the God {0} has gifted your their powers![/wave]"
 fit_content = true
 script = ExtResource("2_kp4nm")
+CharactersPerSecond = 30.0
 
 [node name="ContinueText" type="RichTextLabel" parent="CenterContainer/VBoxContainer"]
 custom_minimum_size = Vector2(0, 60)
 layout_mode = 2
 bbcode_enabled = true
-text = "Press space to continue"
+text = "[Press space to continue]"
 fit_content = true
 custom_effects = [ExtResource("3_w48tq")]
