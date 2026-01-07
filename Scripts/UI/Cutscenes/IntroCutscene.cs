@@ -50,7 +50,7 @@ public partial class IntroCutscene : Control
         storyText.Text = IntroTextStory;
         storyText.Start();
 
-        await this.Delay(10_000);
+        await this.Delay(9_000);
         // TODO: Add a pling sound when the alignment is announced
         alignmentText.Text = GetAlignmentText();
         alignmentText.Start();
