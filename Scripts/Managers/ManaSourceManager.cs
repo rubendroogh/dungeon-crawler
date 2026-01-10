@@ -386,7 +386,7 @@ public class BlessingBar
 	/// <summary>
 	/// The maximum amount of mana the blessing bar can hold.
 	/// </summary>
-	public int MaxMana { get; set; } = 10;
+	public int MaxMana { get; set; } = 4;
 
 	/// <summary>
     /// Sets a specific blessing's state by ID.

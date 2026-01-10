@@ -22,6 +22,11 @@ public partial class IntroCutscene : Control
     public string IntroTextPlural { get; set; }
 
     /// <summary>
+    /// True if the cutscene can be skipped by pressing space.
+    /// </summary>
+    private bool Skippable { get; set; } = false;
+
+    /// <summary>
     /// Starts the intro cutscene sequence, and resolves when it is done.
     /// </summary>
     public async Task Start()
@@ -58,6 +63,21 @@ public partial class IntroCutscene : Control
         // Controls when to go next to the game.
         await this.Delay(5_000);
         continueText.AddThemeColorOverride("default_color", Colors.Gray);
+        Skippable = true;
+    }
+
+    /// <summary>
+    /// Handle button presses to skip cutscene.
+    /// </summary>
+    public override void _Input(InputEvent @event)
+    {
+        if (@event is InputEventKey eventKey)
+        {
+            if (Skippable && eventKey.Pressed && eventKey.Keycode == Key.Space)
+            {
+                _ = Managers.TransitionManager.CutsceneToGame();
+            }
+        }
     }
 
     /// <summary>
