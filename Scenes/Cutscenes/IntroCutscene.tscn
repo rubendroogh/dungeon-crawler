@@ -2,7 +2,8 @@
 
 [ext_resource type="Script" uid="uid://em0jii3qq1vd" path="res://Scripts/UI/Cutscenes/IntroCutscene.cs" id="1_g6d6d"]
 [ext_resource type="Script" uid="uid://hl4tdhg10k2i" path="res://Scripts/UI/Cutscenes/AnimatedText.cs" id="2_kp4nm"]
-[ext_resource type="RichTextEffect" uid="uid://yq2rpugc5vk0" path="res://Scripts/UI/RichTextEffects/WaveEffect.tres" id="3_w48tq"]
+
+[sub_resource type="RichTextEffect" id="RichTextEffect_kp4nm"]
 
 [node name="IntroCutscene" type="Control"]
 layout_mode = 3
@@ -12,8 +13,8 @@ offset_bottom = 40.0
 mouse_filter = 1
 script = ExtResource("1_g6d6d")
 IntroTextStory = "As the divine force sends you down the dungeon's stairs, you begin to feel an ecstatic sensation deep within you. The godly remnants that remain in this dungeon have felt in you a kindly spirit, and bestowed their power upon you."
-IntroTextSingular = "[wave]Based on your personality, the God {0} has gifted your their powers![/wave]"
-IntroTextPlural = "[wave]Based on your personality, the Gods {0} and {1} have gifted your their powers![/wave]"
+IntroTextSingular = "Based on your personality, the God [wave amp=25.0 freq=10.0]{0}[/wave] has gifted your their powers!"
+IntroTextPlural = "Based on your personality, the Gods [wave amp=25.0 freq=10.0]{0}[/wave] and [wave amp=25.0 freq=10.0]{1}[/wave] have gifted your their powers!"
 
 [node name="CenterContainer" type="CenterContainer" parent="."]
 layout_mode = 1
@@ -43,7 +44,7 @@ CharactersPerSecond = 30.0
 custom_minimum_size = Vector2(800, 60)
 layout_mode = 2
 bbcode_enabled = true
-text = "[wave]Based on your personality, the God {0} has gifted your their powers![/wave]"
+text = "Based on your personality, the God [wave amp=25.0 freq=10.0]{0}[/wave] has gifted your their powers!"
 fit_content = true
 script = ExtResource("2_kp4nm")
 CharactersPerSecond = 30.0
@@ -54,4 +55,4 @@ layout_mode = 2
 bbcode_enabled = true
 text = "[Press space to continue]"
 fit_content = true
-custom_effects = [ExtResource("3_w48tq")]
+custom_effects = [SubResource("RichTextEffect_kp4nm")]
