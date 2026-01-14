@@ -248,7 +248,7 @@ public partial class BattleManager : Node
         // If all non-player characters are dead, the player is victorious
         if (Characters.All(c => c.Key.IsDead == !c.Key.IsPlayer))
         {
-            EndBattleVictory();
+            await EndBattleVictory();
             return;
         }
 
@@ -316,9 +316,9 @@ public partial class BattleManager : Node
     /// <summary>
     /// Handles the end of the battle when the player is victorious by transitioning to the rewards selection.
     /// </summary>
-    private void EndBattleVictory()
+    private async Task EndBattleVictory()
     {
-        Managers.TransitionManager.ToRewardSelection();
+        await Managers.TransitionManager.ToRewardSelection();
         IsBattleInitialized = false;
     }
 
