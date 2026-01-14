@@ -59,4 +59,5 @@ public enum StatusEffectType
     Frozen,
     Solidified,
     PhysicalInvincibility,
+    Plague,
 }

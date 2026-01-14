@@ -1,3 +1,5 @@
+using System.Threading.Tasks;
+
 public interface IStatusEffectBehaviour
 {
     /// <summary>
@@ -5,42 +7,42 @@ public interface IStatusEffectBehaviour
     /// This is called when the effect is first applied to the character.
     /// </summary>
     /// <param name="target"></param>
-    public void ProcessEffectOnApply(Character target);
+    public Task ProcessEffectOnApply(Character target);
 
     /// <summary>
     /// Process the effect on the target character when the effect is removed.
     /// This is called when the effect is removed from the character, either due to expiration or removal.
     /// </summary>
     /// <param name="target"></param>
-    public void ProcessEffectOnRemove(Character target);
+    public Task ProcessEffectOnRemove(Character target);
     
     /// <summary>
     /// Process the effect on the target character on the opponent's turn.
     /// </summary>
     /// <param name="target"></param>
-    public void ProcessEffectStartOpponentTurn(Character target);
+    public Task ProcessEffectStartOpponentTurn(Character target);
 
     /// <summary>
     /// Process the effect on the target character when damage is applied to it.
     /// </summary>
     /// <param name="target"></param>
-    public void ProcessEffectStartDamage(Character target);
+    public Task ProcessEffectStartDamage(Character target);
 
     /// <summary>
     /// Process the effect on the target character when the opponent's turn ends.
     /// </summary>
     /// <param name="target"></param>
-    public void ProcessEffectEndOpponentTurn(Character target);
+    public Task ProcessEffectEndOpponentTurn(Character target);
 
     /// <summary>
     /// Process the effect on the target character when its turn starts.
     /// </summary>
     /// <param name="target"></param>
-    public void ProcessEffectStartTurn(Character target);
+    public Task ProcessEffectStartTurn(Character target);
 
     /// <summary>
     /// Process the effect on the target character when its turn ends.
     /// </summary>
     /// <param name="target"></param>
-    public void ProcessEffectEndTurn(Character target);
+    public Task ProcessEffectEndTurn(Character target);
 }

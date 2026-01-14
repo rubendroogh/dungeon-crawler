@@ -132,19 +132,19 @@ public partial class Character : Node2D
     /// <summary>
     /// Process the effects at the start of the opponent's turn.
     /// </summary>
-    public void StartTurn()
+    public async Task StartTurn()
     {
         // Process the effects at the start of the turn
         foreach (var effect in StatusEffects)
         {
-            effect.Behaviour.ProcessEffectStartTurn(this);
+            await effect.Behaviour.ProcessEffectStartTurn(this);
         }
     }
 
     /// <summary>
     /// Process the effects at the end of the opponent's turn.
     /// </summary>
-    public void EndTurn()
+    public async Task EndTurn()
     {
         // TODO: Fix error in this method
         if (StatusEffects == null || StatusEffects.Count == 0)
@@ -164,14 +164,14 @@ public partial class Character : Node2D
 
         foreach (var effect in expiredStatusEffects)
         {
-            ClearEffect(effect.Type);
+            await ClearEffect(effect.Type);
         }
 
         // Process the effects at the end of the turn
         // Maybe move this up?
         foreach (var effect in StatusEffects)
         {
-            effect.Behaviour.ProcessEffectEndTurn(this);
+            await effect.Behaviour.ProcessEffectEndTurn(this);
         }
 
         UpdateStatusEffectLabel();
@@ -208,7 +208,7 @@ public partial class Character : Node2D
         {
             if (dmg.StatusEffect != StatusEffectType.None)
             {
-                ApplyEffect(dmg.StatusEffect, 2);
+                await ApplyEffect(dmg.StatusEffect, 2);
             }
 
             ApplyModifiedDamage(dmg);
@@ -245,7 +245,7 @@ public partial class Character : Node2D
     /// <summary>
     /// Apply a status effect to the character or increase the duration for the specified turns.
     /// </summary>
-    public void ApplyEffect(StatusEffectType effect, int turns)
+    public async Task ApplyEffect(StatusEffectType effect, int turns)
     {
         if (HasEffect(effect))
         {
@@ -256,7 +256,7 @@ public partial class Character : Node2D
         {
             var newEffect = new StatusEffect(turns, effect);
             StatusEffects.Add(newEffect);
-            newEffect.Behaviour.ProcessEffectOnApply(this);
+            await newEffect.Behaviour.ProcessEffectOnApply(this);
         }
 
         UpdateStatusEffectLabel();
@@ -273,7 +273,7 @@ public partial class Character : Node2D
     /// <summary>
     /// Clear a specific status effect from the character.
     /// </summary>
-    public void ClearEffect(StatusEffectType effect)
+    public async Task ClearEffect(StatusEffectType effect)
     {
         var existingEffect = StatusEffects.Find(e => e.Type == effect);
         if (existingEffect == null)
@@ -281,7 +281,7 @@ public partial class Character : Node2D
             return;
         }
 
-        existingEffect.Behaviour.ProcessEffectOnRemove(this);
+        await existingEffect.Behaviour.ProcessEffectOnRemove(this);
         StatusEffects.Remove(existingEffect);
 
         UpdateStatusEffectLabel();

@@ -176,7 +176,7 @@ public partial class BattleManager : Node
         switch (CurrentTurnPhase)
         {
             case TurnPhase.Start:
-                StartPhase();
+                await StartPhase();
                 break;
             case TurnPhase.Main:
                 MainPhase();
@@ -185,10 +185,10 @@ public partial class BattleManager : Node
                 await DamagePhase();
                 break;
             case TurnPhase.End:
-                currentCharacter.EndTurn();
+                await currentCharacter.EndTurn();
                 break;
             case TurnPhase.PostEnd:
-                EndTurn();
+                await EndTurn();
                 break;
         }
     }
@@ -197,12 +197,12 @@ public partial class BattleManager : Node
     /// Processes the start phase of the turn.
     /// Increases turn counter, resets mana charges and triggers relevant status effects.
     /// </summary>
-    private void StartPhase()
+    private async Task StartPhase()
     {
         CurrentTurn++;
 
         var currentCharacter = GetCurrentCharacter();
-        currentCharacter.StartTurn();
+        await currentCharacter.StartTurn();
     }
 
     /// <summary>
@@ -243,7 +243,7 @@ public partial class BattleManager : Node
     /// This method is called when the current character's turn ends.
     /// It moves to the next character's turn.
     /// </summary>
-    private void EndTurn()
+    private async Task EndTurn()
     {
         // If all non-player characters are dead, the player is victorious
         if (Characters.All(c => c.Key.IsDead == !c.Key.IsPlayer))
