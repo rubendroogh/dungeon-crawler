@@ -55,8 +55,8 @@ public partial class IntroCutscene : Control
         storyText.Text = IntroTextStory;
         storyText.Start();
 
-        await this.Delay(9_000);
         // TODO: Add a pling sound when the alignment is announced
+        await this.Delay(9_000);
         alignmentText.Text = GetAlignmentText();
         alignmentText.Start();
 
@@ -71,11 +71,20 @@ public partial class IntroCutscene : Control
     /// </summary>
     public override void _Input(InputEvent @event)
     {
-        if (@event is InputEventKey eventKey)
+        if (@event is not InputEventKey eventKey)
         {
-            if (Skippable && eventKey.Pressed && eventKey.Keycode == Key.Space)
+            return;
+        }
+
+        if (eventKey.Pressed && eventKey.Keycode == Key.Space)
+        {
+            if (Skippable)
             {
                 _ = Managers.TransitionManager.CutsceneToGame();
+            }
+            else
+            {
+                // TODO: make text faster when pressing space
             }
         }
     }
