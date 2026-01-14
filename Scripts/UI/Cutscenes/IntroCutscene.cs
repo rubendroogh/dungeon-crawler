@@ -80,6 +80,7 @@ public partial class IntroCutscene : Control
         {
             if (Skippable)
             {
+                Skippable = false; // Prevent multiple transitions
                 _ = Managers.TransitionManager.CutsceneToGame();
             }
             else
