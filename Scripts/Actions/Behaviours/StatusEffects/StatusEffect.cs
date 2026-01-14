@@ -49,6 +49,7 @@ public partial class StatusEffect
         { StatusEffectType.Frozen, new FrozenStatusEffectBehaviour() },
         { StatusEffectType.Solidified, new SolidifiedStatusEffectBehaviour() },
         { StatusEffectType.PhysicalInvincibility, new PhysicalInvincibilityStatusEffectBehaviour() },
+        { StatusEffectType.Plague, new PlagueStatusEffectBehaviour() },
     };
 }
 

@@ -1,5 +1,7 @@
+using DungeonRPG.Blessings.Enums;
 using Godot;
 using System.Collections.Generic;
+using System.Linq;
 
 /// <summary>
 /// SpellBookManager is responsible for managing the list of spells available in the game.
@@ -42,11 +44,12 @@ public partial class SpellBookManager : Node
         { "Fireball", new FireBallBehaviour() },
         { "Solidify", new SolidifyBehaviour() },
         { "Umbral Shield", new UmbralShieldBehaviour() },
+        { "Plague" , new PlagueBehaviour() },
     };
 
     public override void _Ready()
     {
-        InitializeSpells();
+        UpdateSpellListUI();
     }
 
     /// <summary>
@@ -84,31 +87,35 @@ public partial class SpellBookManager : Node
     }
 
     /// <summary>
-    /// Initializes the spells by loading them from the preloader and setting up their UI.
-    /// This method iterates through the available spells, retrieves their data and behavior,
-    /// and creates UI elements for each spell.
+    /// Gets the starting spells for the player based on their starting alignment.
     /// </summary>
-    private void InitializeSpells()
+    public List<Spell> GetStartingSpellsByDomain(Domain[] domains)
     {
-        foreach (var key in SpellPreloader.GetResourceList())
+        List<Spell> spellList = [];
+        ResourcePreloader spellPreloader;
+
+        // Get the correct preloader based on the provided domains
+        if (domains.Length == 1 && domains.Contains(Domain.Zer))
         {
-            ActionData spellData = SpellPreloader.GetResource(key) as ActionData;
+            spellPreloader = FindChild("ZerSpellsPreloader") as ResourcePreloader;
+        }
+        else
+        {
+            GD.PrintErr($"No starting spell preloader found for build {domains}");
+            return spellList;
+        }
+
+        // Get the spells from the preloader and initialize them
+        foreach (var key in spellPreloader.GetResourceList())
+        {
+            ActionData spellData = spellPreloader.GetResource(key) as ActionData;
             IActionBehaviour spellBehaviour = GetSpellBehaviour(spellData.Name);
 
             spellData.Initialize();
-
-            if (spellBehaviour != null)
-            {
-                AvailableSpells.Add(new Spell(spellData, spellBehaviour));
-            }
-            else
-            {
-                GD.PrintErr("No behavior defined for spell: " + spellData.Name);
-            }
+            spellList.Add(new Spell(spellData, spellBehaviour));
         }
 
-        // Update the UI to reflect the available spells
-        UpdateSpellListUI();
+        return spellList;
     }
 
     /// <summary>

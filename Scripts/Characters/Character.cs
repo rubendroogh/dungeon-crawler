@@ -193,9 +193,24 @@ public partial class Character : Node2D
     }
 
     /// <summary>
+    /// Damage the character using a single damage instance.
+    /// Takes into account the weaknesses and resistances of the character.
+    /// </summary>
+    /// <param name="damage">The damage to apply.</param>
+    /// <returns>The total damage applied after modifiers</returns>
+    public async Task<int> Damage(Damage damage)
+    {
+        var resolveResult = new ResolveResult();
+        resolveResult.Damages.Add(damage);
+
+        return await Damage(resolveResult);
+    }
+
+    /// <summary>
     /// Damage the character. Takes into account the weaknesses and resistances of the character.
     /// </summary>
     /// <param name="damage">The damage to apply.</param>
+    /// <returns>The total damage applied after modifiers</returns>
     public async Task<int> Damage(ResolveResult damage)
     {
         if (damage.TotalDamageAmount <= 0 || Health <= 0)

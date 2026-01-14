@@ -26,6 +26,8 @@ public static class Builds
 
         build.Blessings = startingBlessings;
         build.Alignment = [domain];
+        build.Spells = Managers.SpellBookManager.GetStartingSpellsByDomain([domain]);
+
         return build;
     }
 
@@ -47,6 +49,8 @@ public static class Builds
 
         build.Blessings = startingBlessings;
         build.Alignment = [domain1, domain2];
+        build.Spells = Managers.SpellBookManager.GetStartingSpellsByDomain([domain1, domain2]);
+
         return build;
     }
 }

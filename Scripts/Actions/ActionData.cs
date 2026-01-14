@@ -91,6 +91,7 @@ public partial class ActionData : Resource
 
     /// <summary>
     /// A list of status effects that the action can inflict.
+    /// For showing in the UI only.
     /// </summary>
     [Export]
     public Array<StatusEffectType> StatusEffects { get; set; } = new Array<StatusEffectType>();

@@ -77,6 +77,7 @@ public partial class StatusEffectIcon : Control
             StatusEffectType.Solidified => "Solidified",
             StatusEffectType.Frozen => "Frozen",
             StatusEffectType.PhysicalInvincibility => "Physical Invincibility",
+            StatusEffectType.Plague => "Plague",
             _ => "No Status Effect"
         };
     }
@@ -92,6 +93,7 @@ public partial class StatusEffectIcon : Control
             StatusEffectType.Solidified => "Multiplies physical damage taken by 4x.",
             StatusEffectType.Frozen => "Multiplies physical damage taken by 2x.",
             StatusEffectType.PhysicalInvincibility => "Prevents all physical damage.",
+            StatusEffectType.Plague => "Damages target every turn",
             _ => "No status effect."
         };
     }

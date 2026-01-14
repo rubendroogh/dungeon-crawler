@@ -1,4 +1,4 @@
-[gd_scene load_steps=40 format=3 uid="uid://ck8p1eru6l2f4"]
+[gd_scene load_steps=38 format=3 uid="uid://ck8p1eru6l2f4"]
 
 [ext_resource type="Script" uid="uid://di2h8gf1377s5" path="res://Scripts/UI/CameraShake.cs" id="1_hojmo"]
 [ext_resource type="Script" uid="uid://bb2xw40m0q3sm" path="res://Scripts/Managers/ManaSourceManager.cs" id="3_hvf01"]
@@ -6,12 +6,10 @@
 [ext_resource type="Script" uid="uid://bnm2mrdtnabvw" path="res://Scripts/Managers/SpellBookManager.cs" id="4_ghvpb"]
 [ext_resource type="Script" uid="uid://fi2i0pb2xx5u" path="res://Scripts/Managers/ActionManager.cs" id="4_safex"]
 [ext_resource type="PackedScene" uid="uid://csex8h13te3ep" path="res://Scenes/BattleUI/SpellBook/SpellListItem.tscn" id="6_71tao"]
-[ext_resource type="Resource" uid="uid://cn6ie7edpvr5j" path="res://Resources/Spells/BrainFreeze.tres" id="7_71tao"]
 [ext_resource type="Resource" uid="uid://cfekhne75nmml" path="res://Resources/Characters/BasicEnemy.tres" id="8_5eubm"]
-[ext_resource type="Resource" uid="uid://d0l20mb5voaph" path="res://Resources/Spells/UmbralShield.tres" id="8_cltpb"]
-[ext_resource type="Resource" uid="uid://b2obfc8fqqmsx" path="res://Resources/Spells/Discombobulate.tres" id="8_lxbb3"]
 [ext_resource type="Script" uid="uid://ccfu4bppobwlv" path="res://Scripts/Managers/BattleManager.cs" id="8_rc4gq"]
 [ext_resource type="Script" uid="uid://87g108e3say3" path="res://Scripts/Managers/BattleLogManager.cs" id="9_4h6gp"]
+[ext_resource type="Resource" uid="uid://cwyc4kfuwlt1k" path="res://Resources/Spells/Plague.tres" id="9_jtd1x"]
 [ext_resource type="PackedScene" uid="uid://dchnspiwg3mmg" path="res://Scenes/BattleUI/Opponents/Opponent.tscn" id="12_aw745"]
 [ext_resource type="Script" uid="uid://dpayadwmj0w0j" path="res://Scripts/Managers/PlayerManager.cs" id="14_wnt1r"]
 [ext_resource type="Resource" uid="uid://cdn0d7ugm3gse" path="res://Resources/Characters/Player.tres" id="15_aw745"]
@@ -53,14 +51,15 @@ script = ExtResource("4_26f67")
 [node name="ActionManager" type="Node" parent="World/ManagerRepository"]
 script = ExtResource("4_safex")
 
-[node name="SpellBookManager" type="Node" parent="World/ManagerRepository" node_paths=PackedStringArray("SpellPreloader", "SpellBookExposer")]
+[node name="SpellBookManager" type="Node" parent="World/ManagerRepository" node_paths=PackedStringArray("SpellBookExposer")]
 script = ExtResource("4_ghvpb")
 SpellListItemScene = ExtResource("6_71tao")
-SpellPreloader = NodePath("StartingSpellPreloader")
 SpellBookExposer = NodePath("../../../UI/HUD/BattleAndResources/ResourcesTabs/Spells/Margin/SpellSelection/SpellBook")
 
-[node name="StartingSpellPreloader" type="ResourcePreloader" parent="World/ManagerRepository/SpellBookManager"]
-resources = [PackedStringArray("BrainFreeze", "Discombobulate", "UmbralShield"), [ExtResource("7_71tao"), ExtResource("8_lxbb3"), ExtResource("8_cltpb")]]
+[node name="StartingSpellPreloaders" type="Node" parent="World/ManagerRepository/SpellBookManager"]
+
+[node name="ZerSpellsPreloader" type="ResourcePreloader" parent="World/ManagerRepository/SpellBookManager/StartingSpellPreloaders"]
+resources = [PackedStringArray("Plague"), [ExtResource("9_jtd1x")]]
 
 [node name="BattleLogManager" type="Node" parent="World/ManagerRepository" node_paths=PackedStringArray("BattleLogExposer")]
 script = ExtResource("9_4h6gp")
