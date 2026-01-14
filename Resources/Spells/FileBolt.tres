@@ -1,0 +1,32 @@
+[gd_resource type="Resource" script_class="ActionData" load_steps=5 format=3 uid="uid://d37yeyuey74u8"]
+
+[ext_resource type="Script" uid="uid://d31wkdgrcylv3" path="res://Scripts/Actions/ActionData.cs" id="1_36ecc"]
+[ext_resource type="Texture2D" uid="uid://exboe6jk0wnb" path="res://Assets/RawImages/FullTileMap.png" id="1_ee2wn"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ee2wn"]
+atlas = ExtResource("1_ee2wn")
+region = Rect2(255, 170, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_d2qm8"]
+atlas = ExtResource("1_ee2wn")
+region = Rect2(255, 170, 16, 16)
+
+[resource]
+script = ExtResource("1_36ecc")
+Name = "Fire Bolt"
+Description = "Simple, relatively high damage-dealing fireball."
+Image = SubResource("AtlasTexture_d2qm8")
+SpellCostExpression = "[C:1]"
+BasePhysicalDamage = 0.0
+BaseDarkDamage = 0.0
+BaseLightDamage = 0.0
+BaseFireDamage = 17.0
+BaseIceDamage = 0.0
+BaseLightningDamage = 0.0
+BaseSanityDamage = 0.0
+BaseDiseaseDamage = 0.0
+Keywords = Array[int]([])
+StatusEffects = Array[int]([])
+DefaultCastEffectTexture = SubResource("AtlasTexture_ee2wn")
+Rarity = 1
+metadata/_custom_type_script = "uid://d31wkdgrcylv3"

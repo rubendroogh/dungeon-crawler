@@ -1,4 +1,4 @@
-[gd_scene load_steps=38 format=3 uid="uid://ck8p1eru6l2f4"]
+[gd_scene load_steps=39 format=3 uid="uid://ck8p1eru6l2f4"]
 
 [ext_resource type="Script" uid="uid://di2h8gf1377s5" path="res://Scripts/UI/CameraShake.cs" id="1_hojmo"]
 [ext_resource type="Script" uid="uid://bb2xw40m0q3sm" path="res://Scripts/Managers/ManaSourceManager.cs" id="3_hvf01"]
@@ -6,6 +6,7 @@
 [ext_resource type="Script" uid="uid://bnm2mrdtnabvw" path="res://Scripts/Managers/SpellBookManager.cs" id="4_ghvpb"]
 [ext_resource type="Script" uid="uid://fi2i0pb2xx5u" path="res://Scripts/Managers/ActionManager.cs" id="4_safex"]
 [ext_resource type="PackedScene" uid="uid://csex8h13te3ep" path="res://Scenes/BattleUI/SpellBook/SpellListItem.tscn" id="6_71tao"]
+[ext_resource type="Resource" uid="uid://d37yeyuey74u8" path="res://Resources/Spells/FileBolt.tres" id="7_udxv6"]
 [ext_resource type="Resource" uid="uid://cfekhne75nmml" path="res://Resources/Characters/BasicEnemy.tres" id="8_5eubm"]
 [ext_resource type="Script" uid="uid://ccfu4bppobwlv" path="res://Scripts/Managers/BattleManager.cs" id="8_rc4gq"]
 [ext_resource type="Script" uid="uid://87g108e3say3" path="res://Scripts/Managers/BattleLogManager.cs" id="9_4h6gp"]
