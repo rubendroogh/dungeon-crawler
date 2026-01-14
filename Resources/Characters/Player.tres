@@ -7,7 +7,7 @@
 script = ExtResource("1_mx4uj")
 Name = "Player"
 HitSound = ExtResource("1_yklq2")
-MaxHealth = 70.0
+MaxHealth = 35.0
 BaseBenevolent = 10
 BaseDominant = 10
 BaseCharming = 10
