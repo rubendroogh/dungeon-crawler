@@ -99,6 +99,18 @@ public partial class SpellBookManager : Node
         {
             spellPreloader = FindChild("ZerSpellsPreloader") as ResourcePreloader;
         }
+        else if (domains.Length == 1 && domains.Contains(Domain.Calina))
+        {
+            spellPreloader = FindChild("CalinaSpellsPreloader") as ResourcePreloader;
+        }
+        else if (domains.Length == 1 && domains.Contains(Domain.Hamin))
+        {
+            spellPreloader = FindChild("HaminSpellsPreloader") as ResourcePreloader;
+        }
+        else if (domains.Length == 1 && domains.Contains(Domain.Jaddis))
+        {
+            spellPreloader = FindChild("JaddisSpellsPreloader") as ResourcePreloader;
+        }
         else
         {
             GD.PrintErr($"No starting spell preloader found for build {domains}");

@@ -61,6 +61,13 @@ SpellBookExposer = NodePath("../../../UI/HUD/BattleAndResources/ResourcesTabs/Sp
 [node name="ZerSpellsPreloader" type="ResourcePreloader" parent="World/ManagerRepository/SpellBookManager/StartingSpellPreloaders"]
 resources = [PackedStringArray("Plague"), [ExtResource("9_jtd1x")]]
 
+[node name="CalinaSpellsPreloader" type="ResourcePreloader" parent="World/ManagerRepository/SpellBookManager/StartingSpellPreloaders"]
+resources = [PackedStringArray("FileBolt"), [ExtResource("7_udxv6")]]
+
+[node name="JaddisSpellsPreloader" type="ResourcePreloader" parent="World/ManagerRepository/SpellBookManager/StartingSpellPreloaders"]
+
+[node name="HaminSpellsPreloader" type="ResourcePreloader" parent="World/ManagerRepository/SpellBookManager/StartingSpellPreloaders"]
+
 [node name="BattleLogManager" type="Node" parent="World/ManagerRepository" node_paths=PackedStringArray("BattleLogExposer")]
 script = ExtResource("9_4h6gp")
 BattleLogExposer = NodePath("../../../UI/HUD/BattleAndResources/Battle/BattleLog")
