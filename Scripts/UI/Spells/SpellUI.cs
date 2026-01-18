@@ -103,7 +103,7 @@ public partial class SpellUI : PanelContainer
 		ActionData = actionData;
 
 		SpellName.Text = actionData.Name;
-		SetSpellDescription(actionData.Description, actionData.Keywords);
+		SetSpellDescription(actionData.Description, actionData.Cost, actionData.Keywords);
 		SpellIcon.Texture = actionData.Image;
 
 		// Fill list of status effect icons
@@ -167,22 +167,21 @@ public partial class SpellUI : PanelContainer
 	/// <summary>
 	/// Formats the spell description with keywords and sets it to the description label.
 	/// </summary>
-	private void SetSpellDescription(string description, Array<Keyword> keywords)
+	private void SetSpellDescription(string description, SpellCost spellCost, Array<Keyword> keywords)
 	{
         var keywordList = new List<string>();
 		foreach (var keyword in keywords)
 		{
 			var keywordName = keyword.ToString();
-			keywordList.Add($"[color=violet]{keywordName}[/color]");
+			keywordList.Add($"[color=violet]{keywordName}[/color] \n");
 		}
 
-		if (keywordList.Count == 0)
-		{
-			SpellDescriptionText = description;
-			return;
-		}
+		string fullDescription =  string.Format("{0}\n{1}{2}",
+			spellCost.ToString(),
+			string.Join(", ", keywordList),
+			description
+		);
 
-        string fullDescription = string.Join(", ", keywordList) + " " + description;
         SpellDescriptionText = fullDescription;
 	}
 
