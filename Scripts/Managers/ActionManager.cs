@@ -93,7 +93,7 @@ public partial class ActionManager : Node
             return 0f;
         }
 
-        if (resolveResult.Target.IsDead)
+        if (resolveResult.Target?.IsDead == true)
         {
             return 0f;
         }
@@ -102,7 +102,7 @@ public partial class ActionManager : Node
         {
             await resolveResult.Target.Damage(resolveResult);
         }
-        
+
         return resolveResult.TotalDamageAmount;
     }
 

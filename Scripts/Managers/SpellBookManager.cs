@@ -45,6 +45,7 @@ public partial class SpellBookManager : Node
         { "Solidify", new SolidifyBehaviour() },
         { "Umbral Shield", new UmbralShieldBehaviour() },
         { "Plague" , new PlagueBehaviour() },
+        { "Discombobulate", new DiscombobulateBehaviour() },
     };
 
     public override void _Ready()
