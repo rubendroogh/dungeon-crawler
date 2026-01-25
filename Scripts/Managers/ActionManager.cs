@@ -81,7 +81,7 @@ public partial class ActionManager : Node
     }
 
     /// <summary>
-    /// Handles the result of resolving a DamagePacket.
+    /// Handles the result of resolving a ResolveResult.
     /// This method applies all damages and heals in the packet and returns the total damage dealt.
     /// </summary>
     /// <returns>The total damage dealt by the action.</returns>
@@ -98,7 +98,11 @@ public partial class ActionManager : Node
             return 0f;
         }
 
-        await resolveResult.Target.Damage(resolveResult);
+        if (!resolveResult.HasResolved)
+        {
+            await resolveResult.Target.Damage(resolveResult);
+        }
+        
         return resolveResult.TotalDamageAmount;
     }
 

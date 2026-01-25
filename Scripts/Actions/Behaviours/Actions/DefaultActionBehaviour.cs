@@ -15,7 +15,7 @@ public partial class DefaultActionBehaviour : IActionBehaviour
     /// <param name="actionData">The action data containing the spell and target.</param>
     /// <param name="targets">The list of targets for the action.</param>
     /// <returns>A damage packet representing the result of the action.</returns>
-    public ResolveResult Resolve(ActionData actionData, Character target)
+    public async Task<ResolveResult> Resolve(ActionData actionData, Character target)
     {
         if (target == null || target.IsDead)
         {

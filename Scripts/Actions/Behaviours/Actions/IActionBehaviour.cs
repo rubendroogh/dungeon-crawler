@@ -9,7 +9,7 @@ public interface IActionBehaviour
     /// Resolves the action using the selected target and the action data. Does not actually apply the effect to the target.
     /// </summary>
     /// <returns>The result of the action, a list of damages, healing, and status effects.</returns>
-    public ResolveResult Resolve(ActionData actionData, Character target);
+    public Task<ResolveResult> Resolve(ActionData actionData, Character target);
 
     /// <summary>
     /// Animates the action being applied to the given target.

@@ -1,11 +1,12 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 public partial class UmbralShieldBehaviour : DefaultSpellBehaviour
 {
-    public override ResolveResult Resolve(List<Blessing> blessings, ActionData spellData, Character target)
+    public async override Task<ResolveResult> Resolve(List<Blessing> blessings, ActionData spellData, Character target)
     {
         // Apply the physical invincibility to the player for the remainder of the turn.
-        Managers.PlayerManager.GetPlayer().ApplyEffect(StatusEffectType.PhysicalInvincibility, 1);
-        return base.Resolve(blessings, spellData, target);
+        await Managers.PlayerManager.GetPlayer().ApplyEffect(StatusEffectType.PhysicalInvincibility, 1);
+        return await base.Resolve(blessings, spellData, target);
     }
 }

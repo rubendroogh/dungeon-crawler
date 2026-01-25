@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using DungeonRPG.Blessings.Enums;
 using Godot;
@@ -10,7 +9,7 @@ using Godot;
 /// </summary>
 public partial class DefaultSpellBehaviour : ISpellBehaviour
 {
-    public virtual ResolveResult Resolve(List<Blessing> blessings, ActionData spellData, Character target)
+    public async virtual Task<ResolveResult> Resolve(List<Blessing> blessings, ActionData spellData, Character target)
     {
         if (blessings == null || blessings.Count == 0)
         {
@@ -59,9 +58,9 @@ public partial class DefaultSpellBehaviour : ISpellBehaviour
         };
     }
 
-    public ResolveResult Resolve(ActionData actionData, Character target)
+    public async Task<ResolveResult> Resolve(ActionData actionData, Character target)
     {
-        return Resolve(new List<Blessing>(), actionData, target);
+        return await Resolve(new List<Blessing>(), actionData, target);
     }
 
     public async Task AnimateAction(ActionData spellData, Character target, Character caster = null)

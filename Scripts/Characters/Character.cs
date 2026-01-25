@@ -230,9 +230,16 @@ public partial class Character : Node2D
             totalDamage += dmg.Amount;
         }
 
-        // Apply the total damage to the character's health
-        Health -= totalDamage;
+        // If total damage is 0, do nothing.
+        if (totalDamage <= 0)
+        {
+            return 0;
+        }
 
+        // Apply the total damage to the character's health
+        // And show animations
+        Health -= totalDamage;
+        await PlayDamageAnimation();
         await UpdateHealthBar();
         if (Health <= 0)
         {
@@ -486,17 +493,16 @@ public partial class Character : Node2D
         if (entry.Action is Spell spell)
         {
             actionBehaviour = spell.GetBehaviour();
-            actionResolveResult = (actionBehaviour as ISpellBehaviour).Resolve(entry.Blessings, spell.Data, entry.Target);
+            actionResolveResult = await (actionBehaviour as ISpellBehaviour).Resolve(entry.Blessings, spell.Data, entry.Target);
         }
         else
         {
             actionBehaviour = entry.Action.GetBehaviour();
-            actionResolveResult = actionBehaviour.Resolve(entry.Action.Data, entry.Target);
+            actionResolveResult = await actionBehaviour.Resolve(entry.Action.Data, entry.Target);
         }
 
         // Animate the action and target damage
         await actionBehaviour.AnimateAction(entry.Action.Data, entry.Target, this);
-        await entry.Target.PlayDamageAnimation();
 
         // Apply the resolve result (damage, healing, status effects, etc.)
         await Managers.ActionManager.ApplyResolveResult(actionResolveResult);

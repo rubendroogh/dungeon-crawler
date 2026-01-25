@@ -1,22 +1,23 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 public partial class SolidifyBehaviour : DefaultSpellBehaviour
 {
-    public override ResolveResult Resolve(List<Blessing> blessings, ActionData spellData, Character target)
+    public override async Task<ResolveResult> Resolve(List<Blessing> blessings, ActionData spellData, Character target)
     {
         // Check if the target is frozen
         if (target.HasEffect(StatusEffectType.Frozen))
         {
             // If the target is frozen, apply the Solidified effect for 1 turn
-            target.ClearEffect(StatusEffectType.Frozen);
-            target.ApplyEffect(StatusEffectType.Solidified, 1);
+            await target.ClearEffect(StatusEffectType.Frozen);
+            await target.ApplyEffect(StatusEffectType.Solidified, 1);
         }
         else
         {
             // If the target is not frozen, apply the frozen effect
-            target.ApplyEffect(StatusEffectType.Frozen, 2);
+            await target.ApplyEffect(StatusEffectType.Frozen, 2);
         }
 
-        return base.Resolve(blessings, spellData, target);
+        return await base.Resolve(blessings, spellData, target);
     }
 }

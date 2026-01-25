@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 /// <summary>
 /// ISpellBehaviour is an interface that defines the behaviour of a spell.
@@ -9,7 +10,7 @@ public interface ISpellBehaviour : IActionBehaviour
     /// Casts the spell using the selected blessings and the spell data. Does not apply the damage to the target.
     /// </summary>
     /// <returns>The result of the spellcast, a list of damages, healing, and status effects.</returns>
-    public ResolveResult Resolve(List<Blessing> blessings, ActionData spellData, Character target);
+    public Task<ResolveResult> Resolve(List<Blessing> blessings, ActionData spellData, Character target);
 
     /// <summary>
     /// Checks if the spell can be cast by the given character with the provided blessings and abilities.
