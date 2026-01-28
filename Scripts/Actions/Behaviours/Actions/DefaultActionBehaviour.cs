@@ -43,7 +43,7 @@ public partial class DefaultActionBehaviour : IActionBehaviour
         }
 
         // Apply damage modifiers from keywords
-        foreach (var modifier in Managers.ActionManager.KeywordContext.DamageModifiers)
+        foreach (var modifier in Managers.ActionManager.CastingContext.DamageModifiers)
         {
             foreach (var damage in damages)
             {

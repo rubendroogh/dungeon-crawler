@@ -6,7 +6,7 @@ public class StormKeyword : KeywordBase
 {
     public override async Task OnCast()
     {
-        var context = Managers.ActionManager.KeywordContext;
+        var context = Managers.ActionManager.CastingContext;
         if (context.StormProcessed)
         {
             // Already processed this keyword effect for this cast.

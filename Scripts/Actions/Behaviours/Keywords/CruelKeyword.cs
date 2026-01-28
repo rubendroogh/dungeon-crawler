@@ -6,7 +6,7 @@ public partial class CruelKeyword : KeywordBase
     public async override Task OnCast()
     {
         // Get the target of the spell from the action context
-        var context = Managers.ActionManager.KeywordContext;
+        var context = Managers.ActionManager.CastingContext;
 
         var target = context.Target;
         if (target == null)

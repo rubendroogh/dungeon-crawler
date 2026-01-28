@@ -26,9 +26,9 @@ public partial class ActionManager : Node
     public Character SelectedTarget { get; set; }
 
     /// <summary>
-    /// The context for keyword effects.
+    /// The context for context-aware spell effects or keywords.
     /// </summary>
-    public KeywordContext KeywordContext { get; } = new KeywordContext();
+    public CastingContext CastingContext { get; } = new CastingContext();
 
     /// <summary>
     /// Indicates whether a spell is currently selected.

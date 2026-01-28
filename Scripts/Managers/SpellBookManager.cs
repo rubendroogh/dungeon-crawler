@@ -95,24 +95,11 @@ public partial class SpellBookManager : Node
         List<Spell> spellList = [];
         ResourcePreloader spellPreloader;
 
-        // Get the correct preloader based on the provided domains
-        if (domains.Length == 1 && domains.Contains(Domain.Zer))
-        {
-            spellPreloader = FindChild("ZerSpellsPreloader") as ResourcePreloader;
-        }
-        else if (domains.Length == 1 && domains.Contains(Domain.Calina))
-        {
-            spellPreloader = FindChild("CalinaSpellsPreloader") as ResourcePreloader;
-        }
-        else if (domains.Length == 1 && domains.Contains(Domain.Hamin))
-        {
-            spellPreloader = FindChild("HaminSpellsPreloader") as ResourcePreloader;
-        }
-        else if (domains.Length == 1 && domains.Contains(Domain.Jaddis))
-        {
-            spellPreloader = FindChild("JaddisSpellsPreloader") as ResourcePreloader;
-        }
-        else
+        // Create the key from the provided domains
+        var preloaderName = $"{string.Join("", domains)}SpellsPreloader";
+        spellPreloader = FindChild(preloaderName) as ResourcePreloader;
+
+        if (spellPreloader == null)
         {
             GD.PrintErr($"No starting spell preloader found for build {domains}");
             return spellList;

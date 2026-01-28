@@ -320,7 +320,7 @@ public partial class Character : Node2D
             return;
         }
 
-		Managers.ActionManager.KeywordContext.ResetKeywordContext();
+		Managers.ActionManager.CastingContext.ResetContext();
 
         // Process each action in the queue in order.
         while (ActionQueue.Count > 0)
@@ -483,7 +483,7 @@ public partial class Character : Node2D
         }
 
         // Update the keyword context for this action.
-        Managers.ActionManager.KeywordContext.UpdateKeywordContext(entry.Action, this, entry.Target);
+        Managers.ActionManager.CastingContext.UpdateContext(entry.Action, this, entry.Target);
 
         await this.Delay(300);
         ResolveResult actionResolveResult;
@@ -494,6 +494,9 @@ public partial class Character : Node2D
         {
             actionBehaviour = spell.GetBehaviour();
             actionResolveResult = await (actionBehaviour as ISpellBehaviour).Resolve(entry.Blessings, spell.Data, entry.Target);
+
+            // Set the last resolved spell in the casting context
+            Managers.ActionManager.CastingContext.LastSpellResolved = spell;
         }
         else
         {

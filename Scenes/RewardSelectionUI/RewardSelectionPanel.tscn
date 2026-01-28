@@ -3,10 +3,10 @@
 [ext_resource type="Script" uid="uid://can1qqm8mdvlp" path="res://Scripts/Managers/RewardSelectionManager.cs" id="1_btlt7"]
 [ext_resource type="PackedScene" uid="uid://b064kuj7s5tyq" path="res://Scenes/RewardSelectionUI/RewardSelectionItem.tscn" id="2_raq3w"]
 [ext_resource type="Script" uid="uid://dc7fgp7xs3q51" path="res://Scripts/UI/Rewards/ConfirmSelectionButton.cs" id="3_ja1ax"]
-[ext_resource type="Resource" uid="uid://cn6ie7edpvr5j" path="res://Resources/Spells/BrainFreeze.tres" id="4_1brf0"]
-[ext_resource type="Resource" uid="uid://b2obfc8fqqmsx" path="res://Resources/Spells/Discombobulate.tres" id="5_2oyxv"]
-[ext_resource type="Resource" uid="uid://3f5dt78r8pmf" path="res://Resources/Spells/Echo.tres" id="6_tmhnt"]
-[ext_resource type="Resource" uid="uid://b1jhmr0xq4603" path="res://Resources/Spells/FireBall.tres" id="7_hxot5"]
+[ext_resource type="Resource" uid="uid://cn6ie7edpvr5j" path="res://Resources/Spells/Damage/Solidify.tres" id="4_1brf0"]
+[ext_resource type="Resource" uid="uid://b2obfc8fqqmsx" path="res://Resources/Spells/Damage/Discombobulate.tres" id="5_2oyxv"]
+[ext_resource type="Resource" uid="uid://3f5dt78r8pmf" path="res://Resources/Spells/QueueSynergy/Echo.tres" id="6_tmhnt"]
+[ext_resource type="Resource" uid="uid://b1jhmr0xq4603" path="res://Resources/Spells/Damage/FireBall.tres" id="7_hxot5"]
 
 [node name="RewardSelectionManager" type="PanelContainer" node_paths=PackedStringArray("SpellRewardPreloader")]
 script = ExtResource("1_btlt7")

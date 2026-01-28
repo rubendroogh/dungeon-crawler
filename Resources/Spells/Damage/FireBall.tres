@@ -1,19 +1,19 @@
 [gd_resource type="Resource" script_class="ActionData" load_steps=6 format=3 uid="uid://b1jhmr0xq4603"]
 
-[ext_resource type="PackedScene" uid="uid://cyspg83j1xpfk" path="res://Scenes/SpellCastEffects/BaseEffect.tscn" id="1_17jqw"]
-[ext_resource type="Script" uid="uid://d31wkdgrcylv3" path="res://Scripts/Actions/ActionData.cs" id="1_h30us"]
-[ext_resource type="Texture2D" uid="uid://exboe6jk0wnb" path="res://Assets/RawImages/FullTileMap.png" id="1_l5vw1"]
+[ext_resource type="PackedScene" uid="uid://cyspg83j1xpfk" path="res://Scenes/SpellCastEffects/BaseEffect.tscn" id="1_41hax"]
+[ext_resource type="Texture2D" uid="uid://exboe6jk0wnb" path="res://Assets/RawImages/FullTileMap.png" id="2_iu8x0"]
+[ext_resource type="Script" uid="uid://d31wkdgrcylv3" path="res://Scripts/Actions/ActionData.cs" id="3_v8fcv"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_bgbwx"]
-atlas = ExtResource("1_l5vw1")
+atlas = ExtResource("2_iu8x0")
 region = Rect2(255, 170, 16, 16)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_17jqw"]
-atlas = ExtResource("1_l5vw1")
+atlas = ExtResource("2_iu8x0")
 region = Rect2(255, 170, 16, 16)
 
 [resource]
-script = ExtResource("1_h30us")
+script = ExtResource("3_v8fcv")
 Name = "Fireball"
 Description = "Flings a flaming sphere at the target for massive amounts of damage."
 Image = SubResource("AtlasTexture_17jqw")
@@ -28,7 +28,7 @@ BaseSanityDamage = 0.0
 BaseDiseaseDamage = 0.0
 Keywords = Array[int]([])
 StatusEffects = Array[int]([1])
-CastEffectScene = ExtResource("1_17jqw")
+CastEffectScene = ExtResource("1_41hax")
 DefaultCastEffectTexture = SubResource("AtlasTexture_bgbwx")
 Rarity = 1
 metadata/_custom_type_script = "uid://d31wkdgrcylv3"

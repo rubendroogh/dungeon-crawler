@@ -1,17 +1,16 @@
 using System.Collections.Generic;
 
-
 /// <summary>
-/// KeywordContext provides all necessary context for executing keyword effects.
+/// Provides all necessary context for executing context-aware casting effects.
 /// This can be expanded as needed to include more information.
 /// </summary>
-public class KeywordContext
+public class CastingContext
 {
     /// <summary>
-    /// Update the keyword context with the current action, caster, and target.
+    /// Update the context with the current action, caster, and target.
     /// This should be called before processing keywords for an action.
     /// </summary>
-    public void UpdateKeywordContext(Action action, Character caster, Character target)
+    public void UpdateContext(Action action, Character caster, Character target)
     {
         Action = action;
         Caster = caster;
@@ -19,10 +18,10 @@ public class KeywordContext
     }
 
     /// <summary>
-    /// Reset the keyword context to its default state.
+    /// Reset the context to its default state.
     /// This should be called at the start of each new queue processing.
     /// </summary>
-    public void ResetKeywordContext()
+    public void ResetContext()
     {
         Action = null;
         Caster = null;
@@ -32,7 +31,7 @@ public class KeywordContext
     }
 
     /// <summary>
-    /// The action associated with this keyword context.
+    /// The action associated with this context.
     /// </summary>
     public Action Action { get; private set; }
 
@@ -67,4 +66,9 @@ public class KeywordContext
     /// The damage modifier applied by keywords. This can be modified by keywords like Cruel.
     /// </summary>
     public List<DamageModifier> DamageModifiers { get; } = new List<DamageModifier>();
+
+    /// <summary>
+    /// The last spell that has resolved this queue.
+    /// </summary>
+    public Spell LastSpellResolved { get; set; }
 }

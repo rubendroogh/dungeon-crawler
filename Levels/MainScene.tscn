@@ -6,13 +6,13 @@
 [ext_resource type="Script" uid="uid://bnm2mrdtnabvw" path="res://Scripts/Managers/SpellBookManager.cs" id="4_ghvpb"]
 [ext_resource type="Script" uid="uid://fi2i0pb2xx5u" path="res://Scripts/Managers/ActionManager.cs" id="4_safex"]
 [ext_resource type="PackedScene" uid="uid://csex8h13te3ep" path="res://Scenes/BattleUI/SpellBook/SpellListItem.tscn" id="6_71tao"]
-[ext_resource type="Resource" uid="uid://d37yeyuey74u8" path="res://Resources/Spells/FileBolt.tres" id="7_udxv6"]
+[ext_resource type="Resource" uid="uid://d37yeyuey74u8" path="res://Resources/Spells/Damage/FileBolt.tres" id="7_udxv6"]
 [ext_resource type="Resource" uid="uid://cfekhne75nmml" path="res://Resources/Characters/BasicEnemy.tres" id="8_5eubm"]
-[ext_resource type="Resource" uid="uid://g53ok3fb3puw" path="res://Resources/Spells/LightPierce.tres" id="8_21fen"]
-[ext_resource type="Resource" uid="uid://b2obfc8fqqmsx" path="res://Resources/Spells/Discombobulate.tres" id="8_jtd1x"]
+[ext_resource type="Resource" uid="uid://g53ok3fb3puw" path="res://Resources/Spells/Damage/LightPierce.tres" id="8_21fen"]
+[ext_resource type="Resource" uid="uid://b2obfc8fqqmsx" path="res://Resources/Spells/Damage/Discombobulate.tres" id="8_jtd1x"]
 [ext_resource type="Script" uid="uid://ccfu4bppobwlv" path="res://Scripts/Managers/BattleManager.cs" id="8_rc4gq"]
 [ext_resource type="Script" uid="uid://87g108e3say3" path="res://Scripts/Managers/BattleLogManager.cs" id="9_4h6gp"]
-[ext_resource type="Resource" uid="uid://cwyc4kfuwlt1k" path="res://Resources/Spells/Plague.tres" id="9_jtd1x"]
+[ext_resource type="Resource" uid="uid://cwyc4kfuwlt1k" path="res://Resources/Spells/StatusEffect/Plague.tres" id="9_jtd1x"]
 [ext_resource type="PackedScene" uid="uid://dchnspiwg3mmg" path="res://Scenes/BattleUI/Opponents/Opponent.tscn" id="12_aw745"]
 [ext_resource type="Script" uid="uid://dpayadwmj0w0j" path="res://Scripts/Managers/PlayerManager.cs" id="14_wnt1r"]
 [ext_resource type="Resource" uid="uid://cdn0d7ugm3gse" path="res://Resources/Characters/Player.tres" id="15_aw745"]
@@ -72,6 +72,24 @@ resources = [PackedStringArray("Discombobulate"), [ExtResource("8_jtd1x")]]
 
 [node name="HaminSpellsPreloader" type="ResourcePreloader" parent="World/ManagerRepository/SpellBookManager/StartingSpellPreloaders"]
 resources = [PackedStringArray("LightPierce"), [ExtResource("8_21fen")]]
+
+[node name="ZerHaminSpellsPreloader" type="ResourcePreloader" parent="World/ManagerRepository/SpellBookManager/StartingSpellPreloaders"]
+resources = [PackedStringArray("LightPierce", "Plague"), [ExtResource("8_21fen"), ExtResource("9_jtd1x")]]
+
+[node name="ZerJaddisSpellsPreloader" type="ResourcePreloader" parent="World/ManagerRepository/SpellBookManager/StartingSpellPreloaders"]
+resources = [PackedStringArray("Discombobulate", "Plague"), [ExtResource("8_jtd1x"), ExtResource("9_jtd1x")]]
+
+[node name="ZerCalinaSpellsPreloader" type="ResourcePreloader" parent="World/ManagerRepository/SpellBookManager/StartingSpellPreloaders"]
+resources = [PackedStringArray("Plague"), [ExtResource("9_jtd1x")]]
+
+[node name="HaminJaddisSpellsPreloader" type="ResourcePreloader" parent="World/ManagerRepository/SpellBookManager/StartingSpellPreloaders"]
+resources = [PackedStringArray("Discombobulate", "LightPierce"), [ExtResource("8_jtd1x"), ExtResource("8_21fen")]]
+
+[node name="HaminCalinaSpellsPreloader" type="ResourcePreloader" parent="World/ManagerRepository/SpellBookManager/StartingSpellPreloaders"]
+resources = [PackedStringArray("LightPierce"), [ExtResource("8_21fen")]]
+
+[node name="JaddisCalinaSpellsPreloader" type="ResourcePreloader" parent="World/ManagerRepository/SpellBookManager/StartingSpellPreloaders"]
+resources = [PackedStringArray("Discombobulate"), [ExtResource("8_jtd1x")]]
 
 [node name="BattleLogManager" type="Node" parent="World/ManagerRepository" node_paths=PackedStringArray("BattleLogExposer")]
 script = ExtResource("9_4h6gp")

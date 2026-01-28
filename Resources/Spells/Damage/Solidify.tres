@@ -1,19 +1,19 @@
 [gd_resource type="Resource" script_class="ActionData" load_steps=6 format=3 uid="uid://cn6ie7edpvr5j"]
 
-[ext_resource type="PackedScene" uid="uid://cyspg83j1xpfk" path="res://Scenes/SpellCastEffects/BaseEffect.tscn" id="1_14adh"]
-[ext_resource type="Script" uid="uid://d31wkdgrcylv3" path="res://Scripts/Actions/ActionData.cs" id="1_spsgq"]
-[ext_resource type="Texture2D" uid="uid://exboe6jk0wnb" path="res://Assets/RawImages/FullTileMap.png" id="2_bxmei"]
+[ext_resource type="PackedScene" uid="uid://cyspg83j1xpfk" path="res://Scenes/SpellCastEffects/BaseEffect.tscn" id="1_4hiy7"]
+[ext_resource type="Texture2D" uid="uid://exboe6jk0wnb" path="res://Assets/RawImages/FullTileMap.png" id="2_5lvnk"]
+[ext_resource type="Script" uid="uid://d31wkdgrcylv3" path="res://Scripts/Actions/ActionData.cs" id="3_t8ihp"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_vb51w"]
-atlas = ExtResource("2_bxmei")
+atlas = ExtResource("2_5lvnk")
 region = Rect2(561, 170, 16, 16)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_14adh"]
-atlas = ExtResource("2_bxmei")
+atlas = ExtResource("2_5lvnk")
 region = Rect2(561, 170, 16, 16)
 
 [resource]
-script = ExtResource("1_spsgq")
+script = ExtResource("3_t8ihp")
 Name = "Solidify"
 Description = "Freezes the target. On successive hits, this will fully solidify the target."
 Image = SubResource("AtlasTexture_14adh")
@@ -28,7 +28,7 @@ BaseSanityDamage = 0.0
 BaseDiseaseDamage = 0.0
 Keywords = Array[int]([])
 StatusEffects = Array[int]([1, 2])
-CastEffectScene = ExtResource("1_14adh")
+CastEffectScene = ExtResource("1_4hiy7")
 DefaultCastEffectTexture = SubResource("AtlasTexture_vb51w")
 Rarity = 1
 metadata/_custom_type_script = "uid://d31wkdgrcylv3"
