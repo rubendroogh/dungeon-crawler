@@ -68,7 +68,7 @@ public class CastingContext
     public List<DamageModifier> DamageModifiers { get; } = new List<DamageModifier>();
 
     /// <summary>
-    /// The last spell that has resolved this queue.
+    /// The last entry that has resolved this queue.
     /// </summary>
-    public Spell LastSpellResolved { get; set; }
+    public ActionQueueEntry LastEntryResolved { get; set; }
 }

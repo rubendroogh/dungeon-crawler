@@ -325,6 +325,7 @@ public partial class Character : Node2D
         // Process each action in the queue in order.
         while (ActionQueue.Count > 0)
         {
+            // TODO: When entry is being processed, highlight it in the queue
             var entry = ActionQueue.Dequeue();
             if (entry.Target.IsDead)
             {
@@ -482,7 +483,7 @@ public partial class Character : Node2D
             return;
         }
 
-        // Update the keyword context for this action.
+        // Update the casting context for this action.
         Managers.ActionManager.CastingContext.UpdateContext(entry.Action, this, entry.Target);
 
         await this.Delay(300);
@@ -495,8 +496,8 @@ public partial class Character : Node2D
             actionBehaviour = spell.GetBehaviour();
             actionResolveResult = await (actionBehaviour as ISpellBehaviour).Resolve(entry.Blessings, spell.Data, entry.Target);
 
-            // Set the last resolved spell in the casting context
-            Managers.ActionManager.CastingContext.LastSpellResolved = spell;
+            // Set the last resolved entry in the casting context
+            Managers.ActionManager.CastingContext.LastEntryResolved = entry;
         }
         else
         {

@@ -2,8 +2,7 @@ using System.Linq;
 using Godot;
 
 /// <summary>
-/// Responsible for showing the correct data in the debug screen.
-/// TODO: This has de facto become the Spell Queue Manager. Will rename.
+/// Responsible for showing the player's action queue in the UI.
 /// </summary>
 public partial class SpellQueueManager : Node
 {
