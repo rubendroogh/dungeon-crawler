@@ -13,6 +13,11 @@ public interface ISpellBehaviour : IActionBehaviour
     public Task<ResolveResult> Resolve(List<Blessing> blessings, ActionData spellData, Character target);
 
     /// <summary>
+    /// Executed when the player presses "Cast queue".
+    /// </summary>
+    public Task PreCastQueue();
+
+    /// <summary>
     /// Checks if the spell can be cast by the given character with the provided blessings and abilities.
     /// </summary>
     /// <returns>Whether the spell can be cast.</returns>

@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 
 /// <summary>
-/// Provides all necessary context for executing context-aware casting effects.
+/// Provides all necessary context for the current queue for executing context-aware casting effects.
 /// This can be expanded as needed to include more information.
 /// </summary>
 public class CastingContext
@@ -27,11 +27,12 @@ public class CastingContext
         Caster = null;
         Target = null;
         StormProcessed = false;
+        IndexInQueue = -1;
         DamageModifiers.Clear();
     }
 
     /// <summary>
-    /// The action associated with this context.
+    /// The action currently being performed.
     /// </summary>
     public Action Action { get; private set; }
 
@@ -68,7 +69,7 @@ public class CastingContext
     public List<DamageModifier> DamageModifiers { get; } = new List<DamageModifier>();
 
     /// <summary>
-    /// The last entry that has resolved this queue.
+    /// The index of the spell if still in the pre-cast phase.
     /// </summary>
-    public ActionQueueEntry LastEntryResolved { get; set; }
+    public int IndexInQueue { get; set; } = -1;
 }

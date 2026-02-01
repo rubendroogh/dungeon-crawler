@@ -58,6 +58,11 @@ public partial class DefaultSpellBehaviour : ISpellBehaviour
         };
     }
 
+    public async virtual Task PreCastQueue()
+    {
+        // Empty on purpose
+    }
+
     public async Task<ResolveResult> Resolve(ActionData actionData, Character target)
     {
         return await Resolve(new List<Blessing>(), actionData, target);

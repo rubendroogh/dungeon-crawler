@@ -322,6 +322,15 @@ public partial class Character : Node2D
 
 		Managers.ActionManager.CastingContext.ResetContext();
 
+        var queueIndex = 0;
+        foreach (var entry in ActionQueue)
+        {
+            Managers.ActionManager.CastingContext.IndexInQueue = queueIndex;
+            var behaviour = entry.Action.GetBehaviour() as ISpellBehaviour;
+            await behaviour.PreCastQueue();
+            queueIndex++;
+        }
+
         // Process each action in the queue in order.
         while (ActionQueue.Count > 0)
         {
@@ -495,9 +504,6 @@ public partial class Character : Node2D
         {
             actionBehaviour = spell.GetBehaviour();
             actionResolveResult = await (actionBehaviour as ISpellBehaviour).Resolve(entry.Blessings, spell.Data, entry.Target);
-
-            // Set the last resolved entry in the casting context
-            Managers.ActionManager.CastingContext.LastEntryResolved = entry;
         }
         else
         {
