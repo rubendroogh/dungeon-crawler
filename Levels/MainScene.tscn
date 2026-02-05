@@ -1,4 +1,4 @@
-[gd_scene load_steps=42 format=3 uid="uid://ck8p1eru6l2f4"]
+[gd_scene load_steps=44 format=3 uid="uid://ck8p1eru6l2f4"]
 
 [ext_resource type="Script" uid="uid://di2h8gf1377s5" path="res://Scripts/UI/CameraShake.cs" id="1_hojmo"]
 [ext_resource type="Script" uid="uid://bb2xw40m0q3sm" path="res://Scripts/Managers/ManaSourceManager.cs" id="3_hvf01"]
@@ -14,6 +14,8 @@
 [ext_resource type="Script" uid="uid://ccfu4bppobwlv" path="res://Scripts/Managers/BattleManager.cs" id="8_rc4gq"]
 [ext_resource type="Script" uid="uid://87g108e3say3" path="res://Scripts/Managers/BattleLogManager.cs" id="9_4h6gp"]
 [ext_resource type="Resource" uid="uid://cwyc4kfuwlt1k" path="res://Resources/Spells/StatusEffect/Plague.tres" id="9_jtd1x"]
+[ext_resource type="Resource" uid="uid://d0l20mb5voaph" path="res://Resources/Spells/Buff/UmbralShield.tres" id="10_2dbf0"]
+[ext_resource type="Resource" uid="uid://cn6ie7edpvr5j" path="res://Resources/Spells/Damage/Solidify.tres" id="12_8287p"]
 [ext_resource type="PackedScene" uid="uid://dchnspiwg3mmg" path="res://Scenes/BattleUI/Opponents/Opponent.tscn" id="12_aw745"]
 [ext_resource type="Script" uid="uid://dpayadwmj0w0j" path="res://Scripts/Managers/PlayerManager.cs" id="14_wnt1r"]
 [ext_resource type="Resource" uid="uid://cdn0d7ugm3gse" path="res://Resources/Characters/Player.tres" id="15_aw745"]
@@ -69,10 +71,10 @@ resources = [PackedStringArray("Plague"), [ExtResource("9_jtd1x")]]
 resources = [PackedStringArray("Duplication", "FileBolt"), [ExtResource("7_5a8hb"), ExtResource("7_udxv6")]]
 
 [node name="JaddisSpellsPreloader" type="ResourcePreloader" parent="World/ManagerRepository/SpellBookManager/StartingSpellPreloaders"]
-resources = [PackedStringArray("Discombobulate"), [ExtResource("8_jtd1x")]]
+resources = [PackedStringArray("Discombobulate", "UmbralShield"), [ExtResource("8_jtd1x"), ExtResource("10_2dbf0")]]
 
 [node name="HaminSpellsPreloader" type="ResourcePreloader" parent="World/ManagerRepository/SpellBookManager/StartingSpellPreloaders"]
-resources = [PackedStringArray("LightPierce"), [ExtResource("8_21fen")]]
+resources = [PackedStringArray("LightPierce", "Solidify"), [ExtResource("8_21fen"), ExtResource("12_8287p")]]
 
 [node name="ZerHaminSpellsPreloader" type="ResourcePreloader" parent="World/ManagerRepository/SpellBookManager/StartingSpellPreloaders"]
 resources = [PackedStringArray("LightPierce", "Plague"), [ExtResource("8_21fen"), ExtResource("9_jtd1x")]]
