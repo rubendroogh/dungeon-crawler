@@ -1,0 +1,28 @@
+[gd_resource type="Resource" script_class="ActionData" load_steps=4 format=3 uid="uid://bqdxov8q2os7r"]
+
+[ext_resource type="Texture2D" uid="uid://exboe6jk0wnb" path="res://Assets/RawImages/FullTileMap.png" id="1_k21ta"]
+[ext_resource type="Script" uid="uid://d31wkdgrcylv3" path="res://Scripts/Actions/ActionData.cs" id="1_ph1ci"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qd3ps"]
+atlas = ExtResource("1_k21ta")
+region = Rect2(561, 340, 16, 16)
+
+[resource]
+script = ExtResource("1_ph1ci")
+Name = "Rot"
+Description = "Rots the target from the inside out."
+Image = SubResource("AtlasTexture_qd3ps")
+SpellCostExpression = "[Z:1]"
+BasePhysicalDamage = 0.0
+BaseDarkDamage = 0.0
+BaseLightDamage = 0.0
+BaseFireDamage = 0.0
+BaseIceDamage = 0.0
+BaseLightningDamage = 0.0
+BaseSanityDamage = 0.0
+BaseDiseaseDamage = 8.0
+Keywords = Array[int]([])
+StatusEffects = Array[int]([])
+DefaultCastEffectTexture = ExtResource("1_k21ta")
+Rarity = 1
+metadata/_custom_type_script = "uid://d31wkdgrcylv3"
