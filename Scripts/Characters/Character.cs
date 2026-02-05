@@ -326,8 +326,10 @@ public partial class Character : Node2D
         foreach (var entry in ActionQueue)
         {
             Managers.ActionManager.CastingContext.IndexInQueue = queueIndex;
-            var behaviour = entry.Action.GetBehaviour() as ISpellBehaviour;
-            await behaviour.PreCastQueue();
+            if (entry.Action.GetBehaviour() is ISpellBehaviour behaviour)
+            {
+                await behaviour?.PreCastQueue();
+            }
             queueIndex++;
         }
 
