@@ -17,6 +17,7 @@ public partial class DuplicationBehaviour : DefaultSpellBehaviour
         if (indexInQueue == 0)
         {
             // Spell fizzles since it's the first in queue and has nothing to copy
+            Managers.BattleLogManager.Log("Duplication has no spell to copy: it fizzles.");
             return;
         }
 
