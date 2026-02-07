@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://hok2uuwn5xa"
-path="res://.godot/imported/StoneTile32.png-e16794d3cce04f26a24d96ab7e87775f.ctex"
+uid="uid://ct3vaefq7yd2g"
+path="res://.godot/imported/Cards.png-b7f79f378896781f2aea5190aa5ff332.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/RawImages/StoneTile32.png"
-dest_files=["res://.godot/imported/StoneTile32.png-e16794d3cce04f26a24d96ab7e87775f.ctex"]
+source_file="res://Assets/Textures/Atlasses/Cards.png"
+dest_files=["res://.godot/imported/Cards.png-b7f79f378896781f2aea5190aa5ff332.ctex"]
 
 [params]
 

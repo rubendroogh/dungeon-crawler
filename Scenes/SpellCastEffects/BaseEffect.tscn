@@ -1,6 +1,6 @@
 [gd_scene load_steps=7 format=3 uid="uid://cyspg83j1xpfk"]
 
-[ext_resource type="Texture2D" uid="uid://exboe6jk0wnb" path="res://Assets/RawImages/FullTileMap.png" id="1_i8k43"]
+[ext_resource type="Texture2D" uid="uid://exboe6jk0wnb" path="res://Assets/Textures/Atlasses/FullTileMap.png" id="1_i8k43"]
 [ext_resource type="Script" uid="uid://bxc3vq4yspq4" path="res://Scripts/Actions/Behaviours/SpellEffects/BaseEffect.cs" id="2_u5hye"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_ta5ip"]

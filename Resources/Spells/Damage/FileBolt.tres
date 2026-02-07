@@ -1,7 +1,7 @@
 [gd_resource type="Resource" script_class="ActionData" load_steps=5 format=3 uid="uid://d37yeyuey74u8"]
 
 [ext_resource type="Script" uid="uid://d31wkdgrcylv3" path="res://Scripts/Actions/ActionData.cs" id="1_36ecc"]
-[ext_resource type="Texture2D" uid="uid://exboe6jk0wnb" path="res://Assets/RawImages/FullTileMap.png" id="1_ee2wn"]
+[ext_resource type="Texture2D" uid="uid://exboe6jk0wnb" path="res://Assets/Textures/Atlasses/FullTileMap.png" id="1_ee2wn"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_ee2wn"]
 atlas = ExtResource("1_ee2wn")

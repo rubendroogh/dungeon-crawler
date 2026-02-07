@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://b4ffcgwkderkg"
-path="res://.godot/imported/BlessingBarUnder.png-2237aafabbd0cd18e7a0fd9629e60f2c.ctex"
+uid="uid://s2ihy4m3p226"
+path="res://.godot/imported/CreaturesTileMap.png-327b9b5229f6a7872f6d5fb2879a9dd6.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/RawImages/BlessingBarUnder.png"
-dest_files=["res://.godot/imported/BlessingBarUnder.png-2237aafabbd0cd18e7a0fd9629e60f2c.ctex"]
+source_file="res://Assets/Textures/Atlasses/CreaturesTileMap.png"
+dest_files=["res://.godot/imported/CreaturesTileMap.png-327b9b5229f6a7872f6d5fb2879a9dd6.ctex"]
 
 [params]
 

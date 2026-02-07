@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://2drx4r22f0mk"]
 
-[ext_resource type="Texture2D" uid="uid://djui78yeg84nj" path="res://Assets/RawImages/StoneTile.png" id="1_cd1pe"]
+[ext_resource type="Texture2D" uid="uid://djui78yeg84nj" path="res://Assets/Textures/UI/Misc/StoneTile.png" id="1_cd1pe"]
 
 [node name="CharacterCreationBackground" type="TextureRect"]
 modulate = Color(0.20871, 0.20871, 0.20871, 1)

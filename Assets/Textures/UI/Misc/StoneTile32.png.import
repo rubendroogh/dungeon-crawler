@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://gs4miyhf4h5w"
-path="res://.godot/imported/PatternsOutlinesTileMapTransparent.png-0792074b64ddf14c922783a9941cd0ec.ctex"
+uid="uid://hok2uuwn5xa"
+path="res://.godot/imported/StoneTile32.png-4da90fe93ba9446f4e23a38d65ceea74.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/RawImages/PatternsOutlinesTileMapTransparent.png"
-dest_files=["res://.godot/imported/PatternsOutlinesTileMapTransparent.png-0792074b64ddf14c922783a9941cd0ec.ctex"]
+source_file="res://Assets/Textures/UI/Misc/StoneTile32.png"
+dest_files=["res://.godot/imported/StoneTile32.png-4da90fe93ba9446f4e23a38d65ceea74.ctex"]
 
 [params]
 

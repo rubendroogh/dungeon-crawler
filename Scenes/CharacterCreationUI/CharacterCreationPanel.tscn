@@ -1,7 +1,7 @@
 [gd_scene load_steps=15 format=3 uid="uid://c6c50r7e37xs6"]
 
 [ext_resource type="Script" uid="uid://cr3tq3ldbn5dl" path="res://Scripts/Managers/CharacterCreationManager.cs" id="1_vwkv2"]
-[ext_resource type="Texture2D" uid="uid://exboe6jk0wnb" path="res://Assets/RawImages/FullTileMap.png" id="2_fwyi0"]
+[ext_resource type="Texture2D" uid="uid://exboe6jk0wnb" path="res://Assets/Textures/Atlasses/FullTileMap.png" id="2_fwyi0"]
 [ext_resource type="Script" uid="uid://27ykix11cmr7" path="res://Scripts/UI/CharacterCreation/PersonalityPointsSpinBox.cs" id="3_wlrjr"]
 [ext_resource type="Resource" uid="uid://qrbbkyecsjwj" path="res://Resources/PersonalityTraits/Benevolent.tres" id="4_vnafq"]
 [ext_resource type="Resource" uid="uid://d3yuybcptl4st" path="res://Resources/PersonalityTraits/Charming.tres" id="5_novjt"]

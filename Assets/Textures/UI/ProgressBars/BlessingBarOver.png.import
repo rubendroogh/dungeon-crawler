@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://ct3vaefq7yd2g"
-path="res://.godot/imported/Cards.png-e681e4aeb7090664552ed1a765248d2e.ctex"
+uid="uid://besod7da44jmr"
+path="res://.godot/imported/BlessingBarOver.png-0338d23c3dbcfe5cd683f3033a22a696.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/RawImages/Cards.png"
-dest_files=["res://.godot/imported/Cards.png-e681e4aeb7090664552ed1a765248d2e.ctex"]
+source_file="res://Assets/Textures/UI/ProgressBars/BlessingBarOver.png"
+dest_files=["res://.godot/imported/BlessingBarOver.png-0338d23c3dbcfe5cd683f3033a22a696.ctex"]
 
 [params]
 

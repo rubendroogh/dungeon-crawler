@@ -1,6 +1,6 @@
 [gd_resource type="Resource" script_class="ActionData" load_steps=4 format=3 uid="uid://bqdxov8q2os7r"]
 
-[ext_resource type="Texture2D" uid="uid://exboe6jk0wnb" path="res://Assets/RawImages/FullTileMap.png" id="1_k21ta"]
+[ext_resource type="Texture2D" uid="uid://exboe6jk0wnb" path="res://Assets/Textures/Atlasses/FullTileMap.png" id="1_k21ta"]
 [ext_resource type="Script" uid="uid://d31wkdgrcylv3" path="res://Scripts/Actions/ActionData.cs" id="1_ph1ci"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_qd3ps"]

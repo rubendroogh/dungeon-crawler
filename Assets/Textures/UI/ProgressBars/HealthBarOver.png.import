@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://djui78yeg84nj"
-path="res://.godot/imported/StoneTile.png-92b7851bc8bb36bb0fc7f2dc5a1fb5d6.ctex"
+uid="uid://bw2mr7ncsl7ni"
+path="res://.godot/imported/HealthBarOver.png-f0b27a2da00505f41e42786188461f7f.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/RawImages/StoneTile.png"
-dest_files=["res://.godot/imported/StoneTile.png-92b7851bc8bb36bb0fc7f2dc5a1fb5d6.ctex"]
+source_file="res://Assets/Textures/UI/ProgressBars/HealthBarOver.png"
+dest_files=["res://.godot/imported/HealthBarOver.png-f0b27a2da00505f41e42786188461f7f.ctex"]
 
 [params]
 

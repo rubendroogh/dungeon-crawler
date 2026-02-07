@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://s2ihy4m3p226"
-path="res://.godot/imported/CreaturesTileMap.png-29713ea12d6ed79ba4efb07896536fb9.ctex"
+uid="uid://bjieh1fppisut"
+path="res://.godot/imported/PatternsOutlinesTileMap.png-2c3076207ecf3b090fb2e3428291bed3.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/RawImages/CreaturesTileMap.png"
-dest_files=["res://.godot/imported/CreaturesTileMap.png-29713ea12d6ed79ba4efb07896536fb9.ctex"]
+source_file="res://Assets/Textures/UI/Misc/PatternsOutlinesTileMap.png"
+dest_files=["res://.godot/imported/PatternsOutlinesTileMap.png-2c3076207ecf3b090fb2e3428291bed3.ctex"]
 
 [params]
 

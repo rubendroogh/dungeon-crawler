@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://27rg6ktmspun"
-path="res://.godot/imported/BlessingBarProgress.png-4de61c760fbcc3740460746df22ed07b.ctex"
+uid="uid://dvc63kx4nm7g8"
+path="res://.godot/imported/Border1.png-a6de1b0cbeb43c23a52ac7f8db972d8f.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/RawImages/BlessingBarProgress.png"
-dest_files=["res://.godot/imported/BlessingBarProgress.png-4de61c760fbcc3740460746df22ed07b.ctex"]
+source_file="res://Assets/Textures/UI/Borders/Border1.png"
+dest_files=["res://.godot/imported/Border1.png-a6de1b0cbeb43c23a52ac7f8db972d8f.ctex"]
 
 [params]
 

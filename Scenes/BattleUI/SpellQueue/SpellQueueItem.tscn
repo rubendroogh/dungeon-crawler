@@ -3,7 +3,7 @@
 [ext_resource type="StyleBox" uid="uid://di1t0g1fgt6r5" path="res://Resources/StyleBoxes/Default/SpellDefault.tres" id="1_0m38t"]
 [ext_resource type="Script" uid="uid://w5g5dw1lubff" path="res://Scripts/UI/Spells/SpellQueueUI.cs" id="2_2ch6b"]
 [ext_resource type="StyleBox" uid="uid://chxd4xyjuxd3j" path="res://Resources/StyleBoxes/Default/SpellInner.tres" id="2_wbrkn"]
-[ext_resource type="Texture2D" uid="uid://exboe6jk0wnb" path="res://Assets/RawImages/FullTileMap.png" id="3_oo281"]
+[ext_resource type="Texture2D" uid="uid://exboe6jk0wnb" path="res://Assets/Textures/Atlasses/FullTileMap.png" id="3_oo281"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_2ch6b"]
 atlas = ExtResource("3_oo281")

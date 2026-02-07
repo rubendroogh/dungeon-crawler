@@ -1,7 +1,7 @@
 [gd_resource type="Resource" script_class="ActionData" load_steps=6 format=3 uid="uid://cn6ie7edpvr5j"]
 
 [ext_resource type="PackedScene" uid="uid://cyspg83j1xpfk" path="res://Scenes/SpellCastEffects/BaseEffect.tscn" id="1_4hiy7"]
-[ext_resource type="Texture2D" uid="uid://exboe6jk0wnb" path="res://Assets/RawImages/FullTileMap.png" id="2_5lvnk"]
+[ext_resource type="Texture2D" uid="uid://exboe6jk0wnb" path="res://Assets/Textures/Atlasses/FullTileMap.png" id="2_5lvnk"]
 [ext_resource type="Script" uid="uid://d31wkdgrcylv3" path="res://Scripts/Actions/ActionData.cs" id="3_t8ihp"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_vb51w"]

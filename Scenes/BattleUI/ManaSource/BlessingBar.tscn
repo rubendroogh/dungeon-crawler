@@ -1,9 +1,9 @@
 [gd_scene load_steps=5 format=3 uid="uid://13p46brkeo3f"]
 
-[ext_resource type="Texture2D" uid="uid://b4ffcgwkderkg" path="res://Assets/RawImages/BlessingBarUnder.png" id="1_4eq63"]
-[ext_resource type="Texture2D" uid="uid://besod7da44jmr" path="res://Assets/RawImages/BlessingBarOver.png" id="1_s77ot"]
+[ext_resource type="Texture2D" uid="uid://b4ffcgwkderkg" path="res://Assets/Textures/UI/ProgressBars/BlessingBarUnder.png" id="1_4eq63"]
+[ext_resource type="Texture2D" uid="uid://besod7da44jmr" path="res://Assets/Textures/UI/ProgressBars/BlessingBarOver.png" id="1_s77ot"]
 [ext_resource type="Script" uid="uid://dfeopkvw7y6i3" path="res://Scripts/UI/Exposers/ComponentExposer.cs" id="2_4eq63"]
-[ext_resource type="Texture2D" uid="uid://dnst7a5q0y2h1" path="res://Assets/RawImages/HealthBarGloss.png" id="2_4kwis"]
+[ext_resource type="Texture2D" uid="uid://dnst7a5q0y2h1" path="res://Assets/Textures/UI/ProgressBars/HealthBarGloss.png" id="2_4kwis"]
 
 [node name="BlessingBar" type="TextureProgressBar"]
 z_index = 2

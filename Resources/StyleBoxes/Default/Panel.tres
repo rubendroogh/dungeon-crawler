@@ -1,6 +1,6 @@
 [gd_resource type="StyleBoxTexture" load_steps=3 format=3 uid="uid://cbl7laqf3biow"]
 
-[ext_resource type="Texture2D" uid="uid://bjieh1fppisut" path="res://Assets/RawImages/PatternsOutlinesTileMap.png" id="1_svf6w"]
+[ext_resource type="Texture2D" uid="uid://bjieh1fppisut" path="res://Assets/Textures/UI/Misc/PatternsOutlinesTileMap.png" id="1_svf6w"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_igtbs"]
 atlas = ExtResource("1_svf6w")

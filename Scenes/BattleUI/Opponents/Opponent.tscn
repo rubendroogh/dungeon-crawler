@@ -2,9 +2,9 @@
 
 [ext_resource type="Script" uid="uid://dfeopkvw7y6i3" path="res://Scripts/UI/Exposers/ComponentExposer.cs" id="1_dxxnc"]
 [ext_resource type="Script" uid="uid://bag16jmrm8a4c" path="res://Scripts/Characters/Enemy.cs" id="1_xeo28"]
-[ext_resource type="Texture2D" uid="uid://s2ihy4m3p226" path="res://Assets/RawImages/CreaturesTileMap.png" id="2_xeo28"]
+[ext_resource type="Texture2D" uid="uid://s2ihy4m3p226" path="res://Assets/Textures/Atlasses/CreaturesTileMap.png" id="2_xeo28"]
 [ext_resource type="Texture2D" uid="uid://csjt8ylrgdkbj" path="res://Resources/Atlasses/TileAtlas.tres" id="3_xeo28"]
-[ext_resource type="Texture2D" uid="uid://exboe6jk0wnb" path="res://Assets/RawImages/FullTileMap.png" id="4_kpr8r"]
+[ext_resource type="Texture2D" uid="uid://exboe6jk0wnb" path="res://Assets/Textures/Atlasses/FullTileMap.png" id="4_kpr8r"]
 [ext_resource type="Texture2D" uid="uid://8djo8bfjyea4" path="res://Assets/Textures/Opponents/shadow.png" id="6_gwxy1"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_mo1ky"]
