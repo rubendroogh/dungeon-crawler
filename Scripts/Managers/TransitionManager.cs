@@ -6,7 +6,7 @@ public partial class TransitionManager : Node
     /// <summary>
     /// The root node of the world scene.
     /// </summary>
-    private CanvasItem WorldNode { get; set; }
+    private Node WorldNode { get; set; }
 
     /// <summary>
     /// The root node of the main game HUD.
@@ -35,7 +35,7 @@ public partial class TransitionManager : Node
 
     public override void _Ready()
     {
-        WorldNode = GetTree().Root.GetNode("Root/World") as CanvasItem;
+        WorldNode = GetTree().Root.GetNode("Root/World");
         HUDNode = GetTree().Root.GetNode("Root/UI/HUD") as CanvasItem;
         CharacterCreationNode = GetTree().Root.GetNode("Root/UI/CharacterCreation") as CanvasItem;
         RewardSelectionNode = GetTree().Root.GetNode("Root/UI/RewardSelection") as CanvasItem;
@@ -111,17 +111,6 @@ public partial class TransitionManager : Node
         {
             GD.PrintErr("WorldNode or HUDNode is null! (or both!)");
             return;
-        }
-
-        // Toggle the visibility of the world node
-        if (fade)
-        {
-            await FadeCanvasItem(WorldNode, value, FadeDuration);
-        }
-        else
-        {
-            WorldNode.Visible = value;
-            WorldNode.SetProcess(value);
         }
 
         // Toggle the visibility of the HUD

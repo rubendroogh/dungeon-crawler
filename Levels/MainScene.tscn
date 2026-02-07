@@ -1,4 +1,4 @@
-[gd_scene load_steps=45 format=3 uid="uid://ck8p1eru6l2f4"]
+[gd_scene load_steps=46 format=3 uid="uid://ck8p1eru6l2f4"]
 
 [ext_resource type="Script" uid="uid://di2h8gf1377s5" path="res://Scripts/UI/CameraShake.cs" id="1_hojmo"]
 [ext_resource type="Script" uid="uid://bb2xw40m0q3sm" path="res://Scripts/Managers/ManaSourceManager.cs" id="3_hvf01"]
@@ -44,12 +44,14 @@
 [ext_resource type="PackedScene" uid="uid://2drx4r22f0mk" path="res://Scenes/CharacterCreationUI/CharacterCreationBackground.tscn" id="31_ogsbt"]
 [ext_resource type="PackedScene" uid="uid://c6c50r7e37xs6" path="res://Scenes/CharacterCreationUI/CharacterCreationPanel.tscn" id="32_ogsbt"]
 [ext_resource type="PackedScene" uid="uid://df8xyouslar30" path="res://Scenes/Cutscenes/IntroCutscene.tscn" id="38_21fen"]
+[ext_resource type="PackedScene" uid="uid://c08focnuf0ky6" path="res://Scenes/Dungeon/hallway-straight.glb" id="45_7gdy0"]
 
-[node name="Root" type="Node2D"]
+[node name="Root" type="Node"]
 
-[node name="World" type="Node2D" parent="."]
+[node name="World" type="Node" parent="."]
 
-[node name="Camera2D" type="Camera2D" parent="World"]
+[node name="Camera3D" type="Camera3D" parent="World"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.47228, 1.53983)
 script = ExtResource("1_hojmo")
 
 [node name="ManagerRepository" type="Node" parent="World"]
@@ -153,6 +155,14 @@ parameters/looping = true
 script = ExtResource("23_jk3s6")
 TooltipComponent = NodePath("../../../UI/TooltipRoot")
 
+[node name="hallway-straight2" parent="World" instance=ExtResource("45_7gdy0")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -3.79706)
+
+[node name="hallway-straight" parent="World" instance=ExtResource("45_7gdy0")]
+
+[node name="OmniLight3D" type="OmniLight3D" parent="World"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.14938, -2.51348)
+
 [node name="UI" type="Control" parent="."]
 layout_mode = 3
 anchors_preset = 15
@@ -167,10 +177,9 @@ layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -960.0
-offset_top = -540.0
-offset_right = 960.0
-offset_bottom = 540.0
+offset_left = -15.0
+offset_right = -18.0
+offset_bottom = -8.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_constants/separation = 0
@@ -305,17 +314,17 @@ grow_vertical = 2
 
 [node name="CharacterCreationBackground" parent="UI/RewardSelection" instance=ExtResource("27_b51k0")]
 layout_mode = 2
-offset_left = -8.0
-offset_top = -8.0
-offset_right = 470.0
-offset_bottom = 264.0
+offset_left = 965.0
+offset_top = 539.0
+offset_right = 1443.0
+offset_bottom = 811.0
 
 [node name="RewardSelectionManager" parent="UI/RewardSelection" instance=ExtResource("27_aj24y")]
 layout_mode = 2
-offset_left = 647.0
-offset_top = 387.0
-offset_right = 1303.0
-offset_bottom = 715.0
+offset_left = 1568.0
+offset_top = 905.0
+offset_right = 2224.0
+offset_bottom = 1233.0
 
 [node name="CharacterCreation" type="Control" parent="UI"]
 z_index = 10
@@ -330,18 +339,26 @@ layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = 0.0
-offset_top = 0.0
-offset_right = -1440.0
-offset_bottom = -810.0
+offset_left = 959.0
+offset_top = 540.0
+offset_right = -481.0
+offset_bottom = -270.0
 grow_horizontal = 2
 grow_vertical = 2
 
 [node name="CharacterCreationCenter" parent="UI/CharacterCreation" instance=ExtResource("32_ogsbt")]
 layout_mode = 1
+offset_left = 959.0
+offset_top = 540.0
+offset_right = 959.0
+offset_bottom = 539.0
 
 [node name="IntroCutscene" parent="UI" instance=ExtResource("38_21fen")]
 visible = false
+offset_left = 960.0
+offset_top = 549.0
+offset_right = 1000.0
+offset_bottom = 589.0
 
 [node name="TooltipRoot" parent="UI" instance=ExtResource("24_hojmo")]
 visible = false

@@ -45,8 +45,8 @@ public partial class PlayerManager : Node
         }
     }
 
-    public Camera2D GetCamera()
+    public Camera3D GetCamera()
     {
-        return GetTree().Root.GetNode<Camera2D>("Root/World/Camera2D");
+        return GetTree().Root.GetNode<Camera3D>("Root/World/Camera3D");
     }
 }
