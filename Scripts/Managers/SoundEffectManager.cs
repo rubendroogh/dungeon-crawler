@@ -4,6 +4,8 @@ using System.Threading.Tasks;
 
 public partial class SoundEffectManager : Node
 {
+    public static SoundEffectManager Instance { get; private set; }
+
     /// <summary>
     /// The sound effect for button clicks.
     /// </summary>
@@ -17,6 +19,7 @@ public partial class SoundEffectManager : Node
 
     public override void _Ready()
     {
+        Instance = this;
         AudioStreamPlayer = GetNode<AudioStreamPlayer>("AudioStreamPlayer");
         if (AudioStreamPlayer == null)
         {

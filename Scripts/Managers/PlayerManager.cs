@@ -5,6 +5,8 @@ using Godot;
 /// </summary>
 public partial class PlayerManager : Node
 {
+    public static PlayerManager Instance { get; private set; }
+
     /// <summary>
     /// The player character instance that holds the character data.
     /// This character is used in battles and represents the player in the game world.
@@ -13,8 +15,10 @@ public partial class PlayerManager : Node
 
     public override void _Ready()
     {
+        Instance = this;
+
         // Initialize the player character
-        PlayerCharacter = GetNode<Character>("Player");
+        PlayerCharacter = GetTree().Root.FindChild("Player", true, false) as Character;
         if (PlayerCharacter == null)
         {
             GD.PrintErr("Player character not found in the scene.");

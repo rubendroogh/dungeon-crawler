@@ -42,12 +42,12 @@ public partial class SpellQueueUI : Control
 
     public void OnMouseEntered()
     {
-        Managers.ManaSourceManager.HighlightBlessings(Blessings);
+        ManaSourceManager.Instance.HighlightBlessings(Blessings);
     }
 
     public void OnMouseExited()
     {
-        Managers.ManaSourceManager.ClearHighlighted();
+        ManaSourceManager.Instance.ClearHighlighted();
     }
 
     /// <summary>

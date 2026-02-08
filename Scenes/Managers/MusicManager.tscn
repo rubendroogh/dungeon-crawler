@@ -1,0 +1,11 @@
+[gd_scene load_steps=2 format=3 uid="uid://086ceb5pmf84"]
+
+[ext_resource type="AudioStream" uid="uid://dwu2yk120ey8n" path="res://Assets/Sound/Mountain Emperor.mp3" id="1_qu4qy"]
+
+[node name="MusicManager" type="Node"]
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("1_qu4qy")
+volume_db = -19.676
+autoplay = true
+parameters/looping = true

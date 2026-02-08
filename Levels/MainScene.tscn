@@ -1,44 +1,15 @@
-[gd_scene load_steps=46 format=3 uid="uid://ck8p1eru6l2f4"]
+[gd_scene load_steps=17 format=3 uid="uid://ck8p1eru6l2f4"]
 
 [ext_resource type="Script" uid="uid://di2h8gf1377s5" path="res://Scripts/UI/CameraShake.cs" id="1_hojmo"]
-[ext_resource type="Script" uid="uid://bb2xw40m0q3sm" path="res://Scripts/Managers/ManaSourceManager.cs" id="3_hvf01"]
-[ext_resource type="Script" uid="uid://c0p2vud0ydmne" path="res://Scripts/Managers/Managers.cs" id="4_26f67"]
-[ext_resource type="Script" uid="uid://bnm2mrdtnabvw" path="res://Scripts/Managers/SpellBookManager.cs" id="4_ghvpb"]
-[ext_resource type="Script" uid="uid://fi2i0pb2xx5u" path="res://Scripts/Managers/ActionManager.cs" id="4_safex"]
-[ext_resource type="PackedScene" uid="uid://csex8h13te3ep" path="res://Scenes/BattleUI/SpellBook/SpellListItem.tscn" id="6_71tao"]
-[ext_resource type="Resource" uid="uid://ctiva4cktjag1" path="res://Resources/Spells/QueueSynergy/Duplication.tres" id="7_5a8hb"]
-[ext_resource type="Resource" uid="uid://bqdxov8q2os7r" path="res://Resources/Spells/Damage/Rot.tres" id="7_eyclm"]
-[ext_resource type="Resource" uid="uid://d37yeyuey74u8" path="res://Resources/Spells/Damage/FileBolt.tres" id="7_udxv6"]
-[ext_resource type="Resource" uid="uid://cfekhne75nmml" path="res://Resources/Characters/BasicEnemy.tres" id="8_5eubm"]
-[ext_resource type="Resource" uid="uid://g53ok3fb3puw" path="res://Resources/Spells/Damage/LightPierce.tres" id="8_21fen"]
-[ext_resource type="Resource" uid="uid://b2obfc8fqqmsx" path="res://Resources/Spells/Damage/Discombobulate.tres" id="8_jtd1x"]
-[ext_resource type="Script" uid="uid://ccfu4bppobwlv" path="res://Scripts/Managers/BattleManager.cs" id="8_rc4gq"]
-[ext_resource type="Script" uid="uid://87g108e3say3" path="res://Scripts/Managers/BattleLogManager.cs" id="9_4h6gp"]
-[ext_resource type="Resource" uid="uid://cwyc4kfuwlt1k" path="res://Resources/Spells/StatusEffect/Plague.tres" id="9_jtd1x"]
-[ext_resource type="Resource" uid="uid://d0l20mb5voaph" path="res://Resources/Spells/Buff/UmbralShield.tres" id="10_2dbf0"]
-[ext_resource type="Resource" uid="uid://cn6ie7edpvr5j" path="res://Resources/Spells/Damage/Solidify.tres" id="12_8287p"]
-[ext_resource type="PackedScene" uid="uid://dchnspiwg3mmg" path="res://Scenes/BattleUI/Opponents/Opponent.tscn" id="12_aw745"]
-[ext_resource type="Script" uid="uid://dpayadwmj0w0j" path="res://Scripts/Managers/PlayerManager.cs" id="14_wnt1r"]
 [ext_resource type="Resource" uid="uid://cdn0d7ugm3gse" path="res://Resources/Characters/Player.tres" id="15_aw745"]
-[ext_resource type="Script" uid="uid://qvd64pgadui" path="res://Scripts/Managers/TransitionManager.cs" id="15_g2qkk"]
 [ext_resource type="Script" uid="uid://bc7r5kh0kegqt" path="res://Scripts/Characters/Player.cs" id="15_irpm1"]
-[ext_resource type="Script" uid="uid://omqimuu5thub" path="res://Scripts/Managers/SpellQueueManager.cs" id="16_ogsbt"]
-[ext_resource type="PackedScene" uid="uid://s0xnqcjg4cqj" path="res://Scenes/BattleUI/SpellQueue/SpellQueueItem.tscn" id="17_21fen"]
-[ext_resource type="Script" uid="uid://do64s87kejasc" path="res://Scripts/Managers/SoundEffectManager.cs" id="17_udxv6"]
-[ext_resource type="AudioStream" uid="uid://28xaykhomefb" path="res://Assets/Sound/click.wav" id="18_21fen"]
-[ext_resource type="AudioStream" uid="uid://dwu2yk120ey8n" path="res://Assets/Sound/Mountain Emperor.mp3" id="19_8287p"]
-[ext_resource type="PackedScene" uid="uid://bmviwuqe1s6be" path="res://Scenes/BattleUI/ManaSource/Blessing.tscn" id="19_n6swl"]
 [ext_resource type="PackedScene" uid="uid://c52h746nogb6c" path="res://Scenes/BattleUI/SpellBook/SpellBook.tscn" id="20_2dbf0"]
 [ext_resource type="PackedScene" uid="uid://c0ol2s1uon0x3" path="res://Scenes/BattleUI/SpellBook/SpellQueue.tscn" id="21_2dbf0"]
-[ext_resource type="Script" uid="uid://p81ss845glea" path="res://Scripts/Managers/OpponentManager.cs" id="21_g2qkk"]
 [ext_resource type="PackedScene" uid="uid://da86qewhcsw42" path="res://Scenes/BattleUI/BattleLog/BattleLog.tscn" id="22_8287p"]
 [ext_resource type="PackedScene" uid="uid://brrg2g58puw3q" path="res://Scenes/BattleUI/Opponents/OpponentScreen.tscn" id="22_ogsbt"]
-[ext_resource type="Script" uid="uid://ca0fvsfshmiyq" path="res://Scripts/Managers/TooltipManager.cs" id="23_jk3s6"]
 [ext_resource type="PackedScene" uid="uid://c74bphfj6aomw" path="res://Scenes/Tooltip/Tooltip.tscn" id="24_hojmo"]
 [ext_resource type="StyleBox" uid="uid://ginbulb641wh" path="res://Resources/StyleBoxes/Brick/BrickBackgroundPanel.tres" id="24_jk3s6"]
 [ext_resource type="PackedScene" uid="uid://bobl0cvnecl4s" path="res://Scenes/BattleUI/TurnIndication/TurnIndicationPanel.tscn" id="25_b51k0"]
-[ext_resource type="PackedScene" uid="uid://din1s2uojtxq0" path="res://Scenes/RewardSelectionUI/RewardSelectionPanel.tscn" id="27_aj24y"]
-[ext_resource type="PackedScene" uid="uid://ixikavep8rh3" path="res://Scenes/RewardSelectionUI/RewardSelectionBackground.tscn" id="27_b51k0"]
 [ext_resource type="PackedScene" uid="uid://dt1nefepu8rpf" path="res://Scenes/BattleUI/PlayerHealthBar/HealthBar.tscn" id="28_ghvpb"]
 [ext_resource type="PackedScene" uid="uid://13p46brkeo3f" path="res://Scenes/BattleUI/ManaSource/BlessingBar.tscn" id="28_n6swl"]
 [ext_resource type="PackedScene" uid="uid://2drx4r22f0mk" path="res://Scenes/CharacterCreationUI/CharacterCreationBackground.tscn" id="31_ogsbt"]
@@ -54,107 +25,6 @@
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.47228, 1.53983)
 script = ExtResource("1_hojmo")
 
-[node name="ManagerRepository" type="Node" parent="World"]
-script = ExtResource("4_26f67")
-
-[node name="ActionManager" type="Node" parent="World/ManagerRepository"]
-script = ExtResource("4_safex")
-
-[node name="SpellBookManager" type="Node" parent="World/ManagerRepository" node_paths=PackedStringArray("SpellBookExposer")]
-script = ExtResource("4_ghvpb")
-SpellListItemScene = ExtResource("6_71tao")
-SpellBookExposer = NodePath("../../../UI/HUD/BattleAndResources/ResourcesTabs/Spells/Margin/SpellSelection/SpellBook")
-
-[node name="StartingSpellPreloaders" type="Node" parent="World/ManagerRepository/SpellBookManager"]
-
-[node name="ZerSpellsPreloader" type="ResourcePreloader" parent="World/ManagerRepository/SpellBookManager/StartingSpellPreloaders"]
-resources = [PackedStringArray("Plague", "Rot"), [ExtResource("9_jtd1x"), ExtResource("7_eyclm")]]
-
-[node name="CalinaSpellsPreloader" type="ResourcePreloader" parent="World/ManagerRepository/SpellBookManager/StartingSpellPreloaders"]
-resources = [PackedStringArray("Duplication", "FileBolt"), [ExtResource("7_5a8hb"), ExtResource("7_udxv6")]]
-
-[node name="JaddisSpellsPreloader" type="ResourcePreloader" parent="World/ManagerRepository/SpellBookManager/StartingSpellPreloaders"]
-resources = [PackedStringArray("Discombobulate", "UmbralShield"), [ExtResource("8_jtd1x"), ExtResource("10_2dbf0")]]
-
-[node name="HaminSpellsPreloader" type="ResourcePreloader" parent="World/ManagerRepository/SpellBookManager/StartingSpellPreloaders"]
-resources = [PackedStringArray("LightPierce", "Solidify"), [ExtResource("8_21fen"), ExtResource("12_8287p")]]
-
-[node name="ZerHaminSpellsPreloader" type="ResourcePreloader" parent="World/ManagerRepository/SpellBookManager/StartingSpellPreloaders"]
-resources = [PackedStringArray("LightPierce", "Rot"), [ExtResource("8_21fen"), ExtResource("7_eyclm")]]
-
-[node name="ZerJaddisSpellsPreloader" type="ResourcePreloader" parent="World/ManagerRepository/SpellBookManager/StartingSpellPreloaders"]
-resources = [PackedStringArray("Discombobulate", "Rot"), [ExtResource("8_jtd1x"), ExtResource("7_eyclm")]]
-
-[node name="ZerCalinaSpellsPreloader" type="ResourcePreloader" parent="World/ManagerRepository/SpellBookManager/StartingSpellPreloaders"]
-resources = [PackedStringArray("Duplication", "Rot"), [ExtResource("7_5a8hb"), ExtResource("7_eyclm")]]
-
-[node name="HaminJaddisSpellsPreloader" type="ResourcePreloader" parent="World/ManagerRepository/SpellBookManager/StartingSpellPreloaders"]
-resources = [PackedStringArray("Discombobulate", "LightPierce"), [ExtResource("8_jtd1x"), ExtResource("8_21fen")]]
-
-[node name="HaminCalinaSpellsPreloader" type="ResourcePreloader" parent="World/ManagerRepository/SpellBookManager/StartingSpellPreloaders"]
-resources = [PackedStringArray("Duplication", "LightPierce"), [ExtResource("7_5a8hb"), ExtResource("8_21fen")]]
-
-[node name="JaddisCalinaSpellsPreloader" type="ResourcePreloader" parent="World/ManagerRepository/SpellBookManager/StartingSpellPreloaders"]
-resources = [PackedStringArray("Discombobulate", "Duplication"), [ExtResource("8_jtd1x"), ExtResource("7_5a8hb")]]
-
-[node name="BattleLogManager" type="Node" parent="World/ManagerRepository" node_paths=PackedStringArray("BattleLogExposer")]
-script = ExtResource("9_4h6gp")
-BattleLogExposer = NodePath("../../../UI/HUD/BattleAndResources/Battle/BattleLog")
-
-[node name="BattleManager" type="Node" parent="World/ManagerRepository" node_paths=PackedStringArray("TurnIndicationExposer")]
-script = ExtResource("8_rc4gq")
-EnemyScene = ExtResource("12_aw745")
-TurnIndicationExposer = NodePath("../../../UI/HUD/Bottom/Margin/VBox/TurnIndicationPanel")
-
-[node name="PlayerManager" type="Node" parent="World/ManagerRepository"]
-script = ExtResource("14_wnt1r")
-
-[node name="Player" type="Node2D" parent="World/ManagerRepository/PlayerManager"]
-script = ExtResource("15_irpm1")
-CharacterData = ExtResource("15_aw745")
-
-[node name="TransitionManager" type="Node" parent="World/ManagerRepository"]
-script = ExtResource("15_g2qkk")
-
-[node name="SpellQueueManager" type="Node" parent="World/ManagerRepository" node_paths=PackedStringArray("SpellQueueExposer")]
-script = ExtResource("16_ogsbt")
-SpellQueueExposer = NodePath("../../../UI/HUD/BattleAndResources/ResourcesTabs/Spells/Margin/SpellSelection/SpellQueue")
-SpellQueueUIScene = ExtResource("17_21fen")
-
-[node name="SoundEffectManager" type="Node" parent="World/ManagerRepository"]
-script = ExtResource("17_udxv6")
-ButtonClickSound = ExtResource("18_21fen")
-
-[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="World/ManagerRepository/SoundEffectManager"]
-volume_db = -27.17
-pitch_scale = 0.62
-
-[node name="ManaSourceManager" type="Node" parent="World/ManagerRepository" node_paths=PackedStringArray("BlessingsBarExposer")]
-script = ExtResource("3_hvf01")
-BlessingsBarExposer = NodePath("../../../UI/HUD/Manasource/Margin/VBox/BlessingBar")
-BlessingUIScene = ExtResource("19_n6swl")
-
-[node name="OpponentManager" type="Node" parent="World/ManagerRepository" node_paths=PackedStringArray("OpponentExposer", "OpponentsPreloader")]
-script = ExtResource("21_g2qkk")
-OpponentExposer = NodePath("../../../UI/HUD/BattleAndResources/Battle/Opponents")
-OpponentScene = ExtResource("12_aw745")
-OpponentsPreloader = NodePath("OpponentsPreloader")
-
-[node name="OpponentsPreloader" type="ResourcePreloader" parent="World/ManagerRepository/OpponentManager"]
-resources = [PackedStringArray("BasicEnemy"), [ExtResource("8_5eubm")]]
-
-[node name="MusicManager" type="Node" parent="World/ManagerRepository"]
-
-[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="World/ManagerRepository/MusicManager"]
-stream = ExtResource("19_8287p")
-volume_db = -19.676
-autoplay = true
-parameters/looping = true
-
-[node name="TooltipManager" type="Node" parent="World/ManagerRepository" node_paths=PackedStringArray("TooltipComponent")]
-script = ExtResource("23_jk3s6")
-TooltipComponent = NodePath("../../../UI/TooltipRoot")
-
 [node name="hallway-straight2" parent="World" instance=ExtResource("45_7gdy0")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -3.79706)
 
@@ -162,6 +32,10 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -3.79706)
 
 [node name="OmniLight3D" type="OmniLight3D" parent="World"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.14938, -2.51348)
+
+[node name="Player" type="Node3D" parent="World"]
+script = ExtResource("15_irpm1")
+CharacterData = ExtResource("15_aw745")
 
 [node name="UI" type="Control" parent="."]
 layout_mode = 3
@@ -298,33 +172,6 @@ size_flags_horizontal = 1
 [node name="TurnIndicationPanel" parent="UI/HUD/Bottom/Margin/VBox" instance=ExtResource("25_b51k0")]
 custom_minimum_size = Vector2(190, 0)
 layout_mode = 2
-
-[node name="RewardSelection" type="Control" parent="UI"]
-visible = false
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = -960.0
-offset_top = -539.0
-offset_right = 960.0
-offset_bottom = 540.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="CharacterCreationBackground" parent="UI/RewardSelection" instance=ExtResource("27_b51k0")]
-layout_mode = 2
-offset_left = 965.0
-offset_top = 539.0
-offset_right = 1443.0
-offset_bottom = 811.0
-
-[node name="RewardSelectionManager" parent="UI/RewardSelection" instance=ExtResource("27_aj24y")]
-layout_mode = 2
-offset_left = 1568.0
-offset_top = 905.0
-offset_right = 2224.0
-offset_bottom = 1233.0
 
 [node name="CharacterCreation" type="Control" parent="UI"]
 z_index = 10

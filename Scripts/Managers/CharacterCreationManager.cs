@@ -114,11 +114,11 @@ public partial class CharacterCreationManager : Control
 	/// </summary>
 	public void SubmitForm()
 	{
-        _ = Managers.SoundEffectManager.PlayButtonClick();
-		Managers.PlayerManager.SetPlayerData(GetPlayerData());
+        _ = SoundEffectManager.Instance.PlayButtonClick();
+		PlayerManager.Instance.SetPlayerData(GetPlayerData());
 		var build = GenerateCharacterBuild();
 		ApplyBuild(build);
-		_ = Managers.TransitionManager.CharacterCreationToCutscene();
+		_ = TransitionManager.Instance.CharacterCreationToCutscene();
 	}
 
 	/// <summary>
@@ -178,7 +178,7 @@ public partial class CharacterCreationManager : Control
 			.ToDictionary(spinbox => spinbox.Trait.Name, spinbox => (int)spinbox.Value)
 			.ToList();
 
-		CharacterData characterData = Managers.PlayerManager.GetPlayer().CharacterData;
+		CharacterData characterData = PlayerManager.Instance.GetPlayer().CharacterData;
 
 		characterData.Name = PlayerNameInput.Text == "" ? "Unnamed Hero" : PlayerNameInput.Text;
 		characterData.BaseBenevolent = traitValues.FirstOrDefault(t => t.Key == "Benevolent").Value;
@@ -200,15 +200,15 @@ public partial class CharacterCreationManager : Control
 	{
 		foreach (var blessing in build.Blessings)
 		{
-			Managers.ManaSourceManager.AddBlessing(blessing);
+			ManaSourceManager.Instance.AddBlessing(blessing);
 		}
 
 		foreach (var spell in build.Spells)
 		{
-			Managers.SpellBookManager.AddSpell(spell.Data);
+			SpellBookManager.Instance.AddSpell(spell.Data);
 		}
 
-		Managers.PlayerManager.GetPlayer().CharacterData.Alignment = build.Alignment;
+		PlayerManager.Instance.GetPlayer().CharacterData.Alignment = build.Alignment;
 	}
 
 	/// <summary>

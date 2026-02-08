@@ -50,7 +50,7 @@ public partial class Enemy : Character
 		// For simplicity, we will just choose a random action from the available actions.
 		var selectedAction = AvailableActions[GD.RandRange(0, AvailableActions.Count - 1)];
 
-		var target = Managers.PlayerManager.GetPlayer();
+		var target = PlayerManager.Instance.GetPlayer();
 		QueueAction(selectedAction, target);
 	}
 
@@ -59,7 +59,7 @@ public partial class Enemy : Character
 	/// </summary>
 	public async override Task PlayDamageAnimation()
 	{
-		Managers.SoundEffectManager.PlaySoundEffect(CharacterData.HitSound);
+		_ = SoundEffectManager.Instance.PlaySoundEffect(CharacterData.HitSound);
 		float flickerDuration = 0.6f;
 		int flickerCount = 4;
 

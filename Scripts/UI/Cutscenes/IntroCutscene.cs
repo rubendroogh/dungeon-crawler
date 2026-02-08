@@ -78,10 +78,10 @@ public partial class IntroCutscene : Control
 
         if (eventKey.Pressed && eventKey.Keycode == Key.Space)
         {
-            if (Skippable)
+            if (true)
             {
                 Skippable = false; // Prevent multiple transitions
-                _ = Managers.TransitionManager.CutsceneToGame();
+                _ = TransitionManager.Instance.CutsceneToGame();
             }
             else
             {
@@ -95,7 +95,7 @@ public partial class IntroCutscene : Control
     /// </summary>
     private string GetAlignmentText()
     {
-        var alignment = Managers.PlayerManager.GetPlayer().CharacterData.Alignment;
+        var alignment = PlayerManager.Instance.GetPlayer().CharacterData.Alignment;
         var singleAlignment = alignment.Length == 1;
 
         var introTextGodsTemplate = singleAlignment ? IntroTextSingular : IntroTextPlural;

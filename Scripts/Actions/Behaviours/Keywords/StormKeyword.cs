@@ -6,7 +6,7 @@ public class StormKeyword : KeywordBase
 {
     public override async Task OnCast()
     {
-        var context = Managers.ActionManager.CastingContext;
+        var context = ActionManager.Instance.CastingContext;
         if (context.StormProcessed)
         {
             // Already processed this keyword effect for this cast.
@@ -45,11 +45,11 @@ public class StormKeyword : KeywordBase
             var syntheticBlessing = new Blessing(domain: Domain.Calina, level: Level.Minor);
 
             spellQueue.Enqueue(new ActionQueueEntry(spell, context.Target, [syntheticBlessing]));
-            Managers.BattleLogManager.Log($"Queued duplicate of {spell.Data.Name} due to Storm effect.");
+            BattleLogManager.Instance.Log($"Queued duplicate of {spell.Data.Name} due to Storm effect.");
         }
 
         // Update the spell queue to show the new spell queue.
-        Managers.SpellQueueManager.UpdateSpellQueue();
+        SpellQueueManager.Instance.UpdateSpellQueue();
 
         // Mark as processed to avoid re-processing in the same turn queue.
         context.StormProcessed = true;

@@ -6,6 +6,8 @@ using Godot;
 /// </summary>
 public partial class BattleLogManager : Node
 {
+    public static BattleLogManager Instance { get; private set; }
+
     /// <summary>
     /// The ComponentExposer that exposes the battle log components.
     /// </summary>
@@ -16,6 +18,11 @@ public partial class BattleLogManager : Node
     /// The RichTextLabel that displays the battle log messages.
     /// </summary>
     private RichTextLabel BattleLog => BattleLogExposer.GetComponent<RichTextLabel>(Components.BattleLog);
+
+    public override void _Ready()
+    {
+        Instance = this;
+    }
 
     /// <summary>
     /// Logs a message to the battle log.

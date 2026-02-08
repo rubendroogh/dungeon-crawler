@@ -6,6 +6,8 @@ using Godot;
 /// </summary>
 public partial class SpellQueueManager : Node
 {
+    public static SpellQueueManager Instance { get; private set; }
+
     /// <summary>
     /// The ComponentExposer that exposes the spell queue components.
     /// </summary>
@@ -23,6 +25,11 @@ public partial class SpellQueueManager : Node
     /// </summary>
     private Control SpellQueue => SpellQueueExposer.GetComponent<Control>(Components.SpellQueueList);
 
+    public override void _Ready()
+    {
+        Instance = this;
+    }
+
     /// <summary>
     /// Updates the spell queue list based on the player's spell queue.
     /// </summary>
@@ -38,7 +45,7 @@ public partial class SpellQueueManager : Node
         SpellQueue.GetChildren().ToList().ForEach(child => child.QueueFree());
 
         // Add instances for each spell in the player's spell queue
-        var spellQueue = Managers.PlayerManager.GetPlayer().ActionQueue;
+        var spellQueue = PlayerManager.Instance.GetPlayer().ActionQueue;
         foreach (var entry in spellQueue)
         {
             var spellQueueUIInstance = SpellQueueUIScene.Instantiate<SpellQueueUI>();

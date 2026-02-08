@@ -1,0 +1,48 @@
+[gd_scene load_steps=11 format=3 uid="uid://cm4ol12800rw2"]
+
+[ext_resource type="Script" uid="uid://bnm2mrdtnabvw" path="res://Scripts/Managers/SpellBookManager.cs" id="1_bhi4j"]
+[ext_resource type="PackedScene" uid="uid://csex8h13te3ep" path="res://Scenes/BattleUI/SpellBook/SpellListItem.tscn" id="2_inxxq"]
+[ext_resource type="Resource" uid="uid://cwyc4kfuwlt1k" path="res://Resources/Spells/StatusEffect/Plague.tres" id="3_t4o2d"]
+[ext_resource type="Resource" uid="uid://bqdxov8q2os7r" path="res://Resources/Spells/Damage/Rot.tres" id="4_mtts6"]
+[ext_resource type="Resource" uid="uid://ctiva4cktjag1" path="res://Resources/Spells/QueueSynergy/Duplication.tres" id="5_ff8ci"]
+[ext_resource type="Resource" uid="uid://d37yeyuey74u8" path="res://Resources/Spells/Damage/FileBolt.tres" id="6_86rlh"]
+[ext_resource type="Resource" uid="uid://b2obfc8fqqmsx" path="res://Resources/Spells/Damage/Discombobulate.tres" id="7_udd1i"]
+[ext_resource type="Resource" uid="uid://d0l20mb5voaph" path="res://Resources/Spells/Buff/UmbralShield.tres" id="8_jvdui"]
+[ext_resource type="Resource" uid="uid://g53ok3fb3puw" path="res://Resources/Spells/Damage/LightPierce.tres" id="9_m4ek0"]
+[ext_resource type="Resource" uid="uid://cn6ie7edpvr5j" path="res://Resources/Spells/Damage/Solidify.tres" id="10_5lcpl"]
+
+[node name="SpellBookManager" type="Node"]
+script = ExtResource("1_bhi4j")
+SpellListItemScene = ExtResource("2_inxxq")
+
+[node name="StartingSpellPreloaders" type="Node" parent="."]
+
+[node name="ZerSpellsPreloader" type="ResourcePreloader" parent="StartingSpellPreloaders"]
+resources = [PackedStringArray("Plague", "Rot"), [ExtResource("3_t4o2d"), ExtResource("4_mtts6")]]
+
+[node name="CalinaSpellsPreloader" type="ResourcePreloader" parent="StartingSpellPreloaders"]
+resources = [PackedStringArray("Duplication", "FileBolt"), [ExtResource("5_ff8ci"), ExtResource("6_86rlh")]]
+
+[node name="JaddisSpellsPreloader" type="ResourcePreloader" parent="StartingSpellPreloaders"]
+resources = [PackedStringArray("Discombobulate", "UmbralShield"), [ExtResource("7_udd1i"), ExtResource("8_jvdui")]]
+
+[node name="HaminSpellsPreloader" type="ResourcePreloader" parent="StartingSpellPreloaders"]
+resources = [PackedStringArray("LightPierce", "Solidify"), [ExtResource("9_m4ek0"), ExtResource("10_5lcpl")]]
+
+[node name="ZerHaminSpellsPreloader" type="ResourcePreloader" parent="StartingSpellPreloaders"]
+resources = [PackedStringArray("LightPierce", "Rot"), [ExtResource("9_m4ek0"), ExtResource("4_mtts6")]]
+
+[node name="ZerJaddisSpellsPreloader" type="ResourcePreloader" parent="StartingSpellPreloaders"]
+resources = [PackedStringArray("Discombobulate", "Rot"), [ExtResource("7_udd1i"), ExtResource("4_mtts6")]]
+
+[node name="ZerCalinaSpellsPreloader" type="ResourcePreloader" parent="StartingSpellPreloaders"]
+resources = [PackedStringArray("Duplication", "Rot"), [ExtResource("5_ff8ci"), ExtResource("4_mtts6")]]
+
+[node name="HaminJaddisSpellsPreloader" type="ResourcePreloader" parent="StartingSpellPreloaders"]
+resources = [PackedStringArray("Discombobulate", "LightPierce"), [ExtResource("7_udd1i"), ExtResource("9_m4ek0")]]
+
+[node name="HaminCalinaSpellsPreloader" type="ResourcePreloader" parent="StartingSpellPreloaders"]
+resources = [PackedStringArray("Duplication", "LightPierce"), [ExtResource("5_ff8ci"), ExtResource("9_m4ek0")]]
+
+[node name="JaddisCalinaSpellsPreloader" type="ResourcePreloader" parent="StartingSpellPreloaders"]
+resources = [PackedStringArray("Discombobulate", "Duplication"), [ExtResource("7_udd1i"), ExtResource("5_ff8ci")]]

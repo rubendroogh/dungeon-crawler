@@ -12,6 +12,8 @@ using System;
 /// </summary>
 public partial class ManaSourceManager : Node
 {
+	public static ManaSourceManager Instance { get; private set; }
+
 	/// <summary>
 	/// The blessing bar containing the player's blessings.
 	/// </summary>
@@ -48,7 +50,6 @@ public partial class ManaSourceManager : Node
 	/// <summary>
 	/// The component exposer for the blessing bar UI elements.
 	/// </summary>
-	[Export]
     private ComponentExposer BlessingsBarExposer;
 
 	/// <summary>
@@ -59,6 +60,8 @@ public partial class ManaSourceManager : Node
 
 	public override void _Ready()
 	{
+		Instance = this;
+		BlessingsBarExposer = GetTree().Root.FindChild("BlessingBar", true, false) as ComponentExposer;
 		CallDeferred(nameof(InitializeCustomSignals));
 	}
 
@@ -67,7 +70,7 @@ public partial class ManaSourceManager : Node
 	/// </summary>
 	public void InitializeCustomSignals()
 	{
-		Managers.ActionManager.SpellSelected += OnSpellSelectionChanged;
+		ActionManager.Instance.SpellSelected += OnSpellSelectionChanged;
 	}
 
 	/// <summary>
@@ -394,7 +397,7 @@ public class BlessingBar
 	public void SetBlessingState(Guid ID, State state)
 	{
 		AllBlessings.Find(b => b.ID == ID).State = state;
-		Managers.ManaSourceManager.EmitSignal("BlessingStateChanged");
+		ManaSourceManager.Instance.EmitSignal("BlessingStateChanged");
 	}
 
 	/// <summary>

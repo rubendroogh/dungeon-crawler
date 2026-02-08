@@ -8,6 +8,8 @@ using System.Linq;
 /// </summary>
 public partial class SpellBookManager : Node
 {
+    public static SpellBookManager Instance { get; private set; }
+
     /// <summary>
     /// The list of spells that the player can cast.
     /// </summary>
@@ -20,15 +22,8 @@ public partial class SpellBookManager : Node
     private PackedScene SpellListItemScene;
 
     /// <summary>
-    /// A preloader that loads spell resources from the project.
-    /// </summary>
-    [Export]
-    private ResourcePreloader SpellPreloader;
-
-    /// <summary>
     /// The ComponentExposer that exposes the spell book components.
     /// </summary>
-    [Export]
     private ComponentExposer SpellBookExposer;
 
     /// <summary>
@@ -51,6 +46,8 @@ public partial class SpellBookManager : Node
 
     public override void _Ready()
     {
+        Instance = this;
+        SpellBookExposer = GetTree().Root.FindChild("SpellBook", true, false) as ComponentExposer;
         UpdateSpellListUI();
     }
 

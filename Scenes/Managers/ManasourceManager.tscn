@@ -1,0 +1,8 @@
+[gd_scene load_steps=3 format=3 uid="uid://2n00rho2da6m"]
+
+[ext_resource type="Script" uid="uid://bb2xw40m0q3sm" path="res://Scripts/Managers/ManaSourceManager.cs" id="1_ptdl8"]
+[ext_resource type="PackedScene" uid="uid://bmviwuqe1s6be" path="res://Scenes/BattleUI/ManaSource/Blessing.tscn" id="2_kfeur"]
+
+[node name="ManasourceManager" type="Node"]
+script = ExtResource("1_ptdl8")
+BlessingUIScene = ExtResource("2_kfeur")

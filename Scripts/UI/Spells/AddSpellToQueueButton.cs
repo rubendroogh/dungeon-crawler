@@ -13,8 +13,8 @@ public partial class AddSpellToQueueButton : Button
 	/// </summary>
 	private void InitializeCustomSignals()
 	{
-        Managers.ActionManager.SpellSelected += UpdateButtonInteractableState;
-		Managers.ManaSourceManager.BlessingStateChanged += UpdateButtonInteractableState;
+        ActionManager.Instance.SpellSelected += UpdateButtonInteractableState;
+		ManaSourceManager.Instance.BlessingStateChanged += UpdateButtonInteractableState;
 	}
 
     /// <summary>
@@ -32,14 +32,14 @@ public partial class AddSpellToQueueButton : Button
     private void UpdateButtonInteractableState()
     {
         // If no spell is selected, we cannot queue one
-        if (!Managers.ActionManager.SpellIsSelected)
+        if (!ActionManager.Instance.SpellIsSelected)
         {
             Disabled = true;
             return;
         }
 
         // Whenever any mana changes, we need to check if the selected spell can be paid for agian
-        if (!Managers.ManaSourceManager.SelectedManaCanPay(Managers.ActionManager.SelectedSpell.Data.Cost))
+        if (!ManaSourceManager.Instance.SelectedManaCanPay(ActionManager.Instance.SelectedSpell.Data.Cost))
         {
             Disabled = true;
         }
@@ -54,31 +54,31 @@ public partial class AddSpellToQueueButton : Button
     /// </summary>
     public void OnPressed()
     {
-        if (Managers.ActionManager.SelectedSpell == null)
+        if (ActionManager.Instance.SelectedSpell == null)
         {
             GD.PrintErr("No spell selected to add to the queue.");
             return;
         }
 
-        if (Managers.BattleManager.CurrentTurnPhase != TurnPhase.Main)
+        if (BattleManager.Instance.CurrentTurnPhase != TurnPhase.Main)
         {
             GD.PrintErr("Cannot add a spell to the queue outside of the Main phase.");
             return;
         }
 
-        var player = Managers.PlayerManager.GetPlayer();
-        var selectedSpell = Managers.ActionManager.SelectedSpell;
-        if (!Managers.ManaSourceManager.SelectedManaCanPay(selectedSpell.Data.Cost))
+        var player = PlayerManager.Instance.GetPlayer();
+        var selectedSpell = ActionManager.Instance.SelectedSpell;
+        if (!ManaSourceManager.Instance.SelectedManaCanPay(selectedSpell.Data.Cost))
         {
             return;
         }
 
-        var manaUsed = Managers.ManaSourceManager.BlessingBar.BlessingsMarkedForUse;
-        Managers.ManaSourceManager.SpendSelectedMana();
-        Managers.ManaSourceManager.DeselectAllMana();
-        _ = Managers.SoundEffectManager.PlayButtonClick();
+        var manaUsed = ManaSourceManager.Instance.BlessingBar.BlessingsMarkedForUse;
+        ManaSourceManager.Instance.SpendSelectedMana();
+        ManaSourceManager.Instance.DeselectAllMana();
+        _ = SoundEffectManager.Instance.PlayButtonClick();
 
-        var target = Managers.ActionManager.SelectedTarget;
+        var target = ActionManager.Instance.SelectedTarget;
         player.QueueAction(selectedSpell, target, manaUsed);
     }
 }

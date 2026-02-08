@@ -43,7 +43,7 @@ public partial class DefaultActionBehaviour : IActionBehaviour
         }
 
         // Apply damage modifiers from keywords
-        foreach (var modifier in Managers.ActionManager.CastingContext.DamageModifiers)
+        foreach (var modifier in ActionManager.Instance.CastingContext.DamageModifiers)
         {
             foreach (var damage in damages)
             {
@@ -79,7 +79,7 @@ public partial class DefaultActionBehaviour : IActionBehaviour
         await caster.Delay(300);
 
         var originalPosition = caster.Position;
-        var targetPosition = originalPosition + new Vector2(0, 10);
+        var targetPosition = originalPosition + new Vector3(0, 10, 0);
 
         var tween = caster.CreateTween();
         tween.TweenProperty(caster, "position", targetPosition, 0.1f)

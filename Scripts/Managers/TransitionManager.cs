@@ -3,6 +3,8 @@ using Godot;
 
 public partial class TransitionManager : Node
 {
+    public static TransitionManager Instance { get; private set; }
+
     /// <summary>
     /// The root node of the world scene.
     /// </summary>
@@ -19,11 +21,6 @@ public partial class TransitionManager : Node
     private CanvasItem CharacterCreationNode { get; set; }
 
     /// <summary>
-    /// The root node of the reward selection UI.
-    /// </summary>
-    private CanvasItem RewardSelectionNode { get; set; }
-
-    /// <summary>
     /// The cutscene node (for intro text only for now).
     /// </summary>
     private IntroCutscene CutsceneNode { get; set; }
@@ -35,10 +32,10 @@ public partial class TransitionManager : Node
 
     public override void _Ready()
     {
+        Instance = this;
         WorldNode = GetTree().Root.GetNode("Root/World");
         HUDNode = GetTree().Root.GetNode("Root/UI/HUD") as CanvasItem;
         CharacterCreationNode = GetTree().Root.GetNode("Root/UI/CharacterCreation") as CanvasItem;
-        RewardSelectionNode = GetTree().Root.GetNode("Root/UI/RewardSelection") as CanvasItem;
         CutsceneNode = GetTree().Root.GetNode("Root/UI/IntroCutscene") as IntroCutscene;
     }
 
@@ -48,7 +45,6 @@ public partial class TransitionManager : Node
     public async Task ToCharacterCreation()
     {
         await SetWorldVisibility(false);
-        await SetRewardSelectionVisibility(false);
         await SetCharacterCreationVisibility(true);
     }
 
@@ -58,7 +54,6 @@ public partial class TransitionManager : Node
     public async Task CharacterCreationToCutscene()
     {
         await SetCharacterCreationVisibility(false, true);
-        await SetRewardSelectionVisibility(false);
 
         // Go to cutscene and set text based on build
         CutsceneNode.Visible = true;
@@ -75,30 +70,7 @@ public partial class TransitionManager : Node
 
         // Temporarily immediately start the battle
         // This is a placeholder for actual game logic to start properly in the dungeon
-        Managers.BattleManager.InitializeBattle();
-    }
-
-    /// <summary>
-    /// Transitions to the reward selection screen and generates 3 rewards.
-    /// </summary>
-    public async Task ToRewardSelection()
-    {
-        await SetWorldVisibility(false);
-        await SetRewardSelectionVisibility(true);
-
-        Managers.RewardSelectionManager.GenerateRewards(3);
-    }
-
-    /// <summary>
-    /// Transitions from reward selection to the game by showing the world and HUD nodes.
-    /// </summary>
-    public async Task RewardSelectionToGame()
-    {
-        await SetRewardSelectionVisibility(false);
-        await SetWorldVisibility(true);
-
-        // Temporarily immediately start the battle
-        Managers.BattleManager.InitializeBattle();
+        BattleManager.Instance.InitializeBattle();
     }
 
     /// <summary>
@@ -146,30 +118,6 @@ public partial class TransitionManager : Node
         {
             CharacterCreationNode.Visible = value;
             CharacterCreationNode.SetProcess(value);
-        }
-    }
-
-    /// <summary>
-    /// Sets the visibility of the reward selection UI.
-    /// </summary>
-    /// <param name="value">True if the reward selection UI should be visible.</param>
-    private async Task SetRewardSelectionVisibility(bool value, bool fade = false)
-    {
-        // Hide or show the reward selection UI
-        if (RewardSelectionNode == null)
-        {
-            GD.PrintErr("RewardSelectionNode is null!");
-            return;
-        }
-
-        if (fade)
-        {
-            await FadeCanvasItem(RewardSelectionNode, value, FadeDuration);
-        }
-        else
-        {
-            RewardSelectionNode.Visible = value;
-            RewardSelectionNode.SetProcess(value);
         }
     }
 

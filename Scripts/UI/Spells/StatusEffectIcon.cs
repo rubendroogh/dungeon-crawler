@@ -45,13 +45,13 @@ public partial class StatusEffectIcon : Control
     /// </summary>
     public override void _GuiInput(InputEvent @event)
     {
-        if (Managers.TooltipManager.IsTooltipVisible)
+        if (TooltipManager.Instance.IsTooltipVisible)
         {
-            Managers.TooltipManager.UpdatePosition(GetGlobalMousePosition());
+            TooltipManager.Instance.UpdatePosition(GetGlobalMousePosition());
         }
         else
         {
-            Managers.TooltipManager.Show(
+            TooltipManager.Instance.Show(
                 GetStatusEffectName(),
                 GetStatusEffectDescription(),
                 GetGlobalMousePosition()
@@ -64,7 +64,7 @@ public partial class StatusEffectIcon : Control
     /// </summary>
     private void OnMouseExited()
     {
-        Managers.TooltipManager.Hide();
+        TooltipManager.Instance.Hide();
     }
 
     /// <summary>

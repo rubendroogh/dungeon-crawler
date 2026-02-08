@@ -10,6 +10,8 @@ using Godot;
 /// </summary>
 public partial class BattleManager : Node
 {
+    public static BattleManager Instance { get; private set; }
+
     /// <summary>
     /// The characters involved in the battle.
     /// The key is the character, and the value is a boolean indicating if it's the character's turn.
@@ -60,6 +62,11 @@ public partial class BattleManager : Node
     /// </summary>
     private bool IsBattleInitialized { get; set; } = false;
 
+    public override void _Ready()
+    {
+        Instance = this;
+    }
+
     /// <summary>
     /// Starts a new turn phase and processes it for the current character.
     /// This method is called automatically after the current turn phase is completed.
@@ -106,9 +113,9 @@ public partial class BattleManager : Node
     {
         Characters = new Dictionary<Character, bool>
         {
-            { Managers.PlayerManager.GetPlayer(), true }
+            { PlayerManager.Instance.GetPlayer(), true }
         };
-        Managers.OpponentManager.SpawnRandomOpponent();
+        OpponentManager.Instance.SpawnRandomOpponent();
         IsBattleInitialized = true;
 
         // Kick off the battle loop
@@ -273,7 +280,7 @@ public partial class BattleManager : Node
     private bool ShouldAutoAdvancePhase(TurnPhase phase)
     {
         var isMain = phase == TurnPhase.Main;
-        var isPlayer = GetCurrentCharacter() == Managers.PlayerManager.GetPlayer();
+        var isPlayer = GetCurrentCharacter() == PlayerManager.Instance.GetPlayer();
 
         return !(isMain && isPlayer);
     }
@@ -318,7 +325,7 @@ public partial class BattleManager : Node
     /// </summary>
     private async Task EndBattleVictory()
     {
-        await Managers.TransitionManager.ToRewardSelection();
+        GD.Print("Game ended. Victory not implemented yet.");
         IsBattleInitialized = false;
     }
 

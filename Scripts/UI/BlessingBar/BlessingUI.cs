@@ -42,9 +42,9 @@ public partial class BlessingUI : TextureRect
     public override void _GuiInput(InputEvent @event)
     {
         // Show popup panel
-        Managers.TooltipManager.UpdatePosition(GetGlobalMousePosition());
+        TooltipManager.Instance.UpdatePosition(GetGlobalMousePosition());
 
-        if (!Managers.ManaSourceManager.ManaSelectionMode)
+        if (!ManaSourceManager.Instance.ManaSelectionMode)
         {
             return;
         }
@@ -55,12 +55,12 @@ public partial class BlessingUI : TextureRect
             if (Blessing.State == State.MarkedForUse)
             {
                 // If already marked for use, deselect
-                Managers.ManaSourceManager.BlessingBar.SetBlessingState(Blessing.ID, State.Available);
+                ManaSourceManager.Instance.BlessingBar.SetBlessingState(Blessing.ID, State.Available);
                 OnManaStateChanged();
             }
             else if (Blessing.State == State.Available)
             {
-                Managers.ManaSourceManager.BlessingBar.SetBlessingState(Blessing.ID, State.MarkedForUse);
+                ManaSourceManager.Instance.BlessingBar.SetBlessingState(Blessing.ID, State.MarkedForUse);
                 OnManaStateChanged();
             }
         }
@@ -81,14 +81,14 @@ public partial class BlessingUI : TextureRect
     {
         if (Blessing.State != State.Spent)
         {
-            if (Managers.ManaSourceManager.ManaSelectionMode)
+            if (ManaSourceManager.Instance.ManaSelectionMode)
             {
                 SetHighlight(true);
             }
         }
 
         var mousePosition = GetGlobalMousePosition();
-        Managers.TooltipManager.Show(Blessing.ToString(), Blessing.GetDescription(), mousePosition);
+        TooltipManager.Instance.Show(Blessing.ToString(), Blessing.GetDescription(), mousePosition);
     }
 
     /// <summary>
@@ -97,7 +97,7 @@ public partial class BlessingUI : TextureRect
     private void OnMouseExited()
     {
         SetHighlight(false);
-        Managers.TooltipManager.Hide();
+        TooltipManager.Instance.Hide();
     }
 
     /// <summary>
@@ -106,7 +106,7 @@ public partial class BlessingUI : TextureRect
     private void SetVisualMode(State state)
     {
         SelfModulate = Blessing.GetDomainColor();
-        if (Managers.ManaSourceManager.ManaSelectionMode)
+        if (ManaSourceManager.Instance.ManaSelectionMode)
         {
             MouseDefaultCursorShape = CursorShape.PointingHand;
         }
@@ -134,8 +134,8 @@ public partial class BlessingUI : TextureRect
     /// </summary>
     private void InitializeCustomSignals()
     {
-        Managers.ManaSourceManager.BlessingStateChanged += OnManaStateChanged;
-        Managers.ManaSourceManager.ManaSelectionModeChanged += _ => OnManaStateChanged();
+        ManaSourceManager.Instance.BlessingStateChanged += OnManaStateChanged;
+        ManaSourceManager.Instance.ManaSelectionModeChanged += _ => OnManaStateChanged();
     }
 
     /// <summary>
@@ -161,8 +161,8 @@ public partial class BlessingUI : TextureRect
     /// </summary>
     private void UpdateBlessingBarSize()
     {
-        var fullWidth = Managers.ManaSourceManager.Width;
-        var percentage = (float)Blessing.Level / Managers.ManaSourceManager.BlessingBar.MaxMana;
+        var fullWidth = ManaSourceManager.Instance.Width;
+        var percentage = (float)Blessing.Level / ManaSourceManager.Instance.BlessingBar.MaxMana;
 
         var xSize = (int)((fullWidth - 12) * percentage);
         var ySize = 48 - 12;

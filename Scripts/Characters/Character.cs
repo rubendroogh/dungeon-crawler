@@ -6,7 +6,7 @@ using Godot;
 /// <summary>
 /// An entity that is a participant in a battle on either side.
 /// </summary>
-public partial class Character : Node2D
+public partial class Character : Node3D
 {
     /// <summary>
     /// The current health of the character.
@@ -320,12 +320,12 @@ public partial class Character : Node2D
             return;
         }
 
-		Managers.ActionManager.CastingContext.ResetContext();
+		ActionManager.Instance.CastingContext.ResetContext();
 
         var queueIndex = 0;
         foreach (var entry in ActionQueue)
         {
-            Managers.ActionManager.CastingContext.IndexInQueue = queueIndex;
+            ActionManager.Instance.CastingContext.IndexInQueue = queueIndex;
             if (entry.Action.GetBehaviour() is ISpellBehaviour behaviour)
             {
                 await behaviour?.PreCastQueue();
@@ -347,11 +347,11 @@ public partial class Character : Node2D
 
             await ResolveQueueEntry(entry);
             
-		    Managers.SpellQueueManager.UpdateSpellQueue();
+		    SpellQueueManager.Instance.UpdateSpellQueue();
         }
 
         // Reset mana after resolving.
-        Managers.ManaSourceManager.ResetAllMana();
+        ManaSourceManager.Instance.ResetAllMana();
     }
 
     /// <summary>
@@ -436,7 +436,7 @@ public partial class Character : Node2D
     /// </summary>
     protected async virtual Task Die()
     {
-        Managers.BattleLogManager.Log($"{CharacterData.Name} has died.");
+        BattleLogManager.Instance.Log($"{CharacterData.Name} has died.");
         IsDead = true;
 
         await PlayDeathAnimation();
@@ -495,7 +495,7 @@ public partial class Character : Node2D
         }
 
         // Update the casting context for this action.
-        Managers.ActionManager.CastingContext.UpdateContext(entry.Action, this, entry.Target);
+        ActionManager.Instance.CastingContext.UpdateContext(entry.Action, this, entry.Target);
 
         await this.Delay(300);
         ResolveResult actionResolveResult;
@@ -517,10 +517,10 @@ public partial class Character : Node2D
         await actionBehaviour.AnimateAction(entry.Action.Data, entry.Target, this);
 
         // Apply the resolve result (damage, healing, status effects, etc.)
-        await Managers.ActionManager.ApplyResolveResult(actionResolveResult);
+        await ActionManager.Instance.ApplyResolveResult(actionResolveResult);
         await this.Delay(300);
 
-        Managers.BattleManager.CastSpellsThisTurn++;
+        BattleManager.Instance.CastSpellsThisTurn++;
     }
 
     /// <summary>

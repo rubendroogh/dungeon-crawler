@@ -46,17 +46,17 @@ public partial class Player : Character
 		
 		ActionQueue.Enqueue(entry);
 		EmitSignal(SignalName.SpellQueued);
-		Managers.BattleLogManager.Log($"Queued {spell.Data.Name} with {blessingList.Count} blessings for {target.Name}.");
+		BattleLogManager.Instance.Log($"Queued {spell.Data.Name} with {blessingList.Count} blessings for {target.Name}.");
 
-		Managers.SpellQueueManager.UpdateSpellQueue();
+		SpellQueueManager.Instance.UpdateSpellQueue();
 	}
 
 	public override async Task PlayDamageAnimation()
 	{
 		await Task.Delay(300);
-        _ = Managers.SoundEffectManager.PlaySoundEffect(CharacterData.HitSound);
+        _ = SoundEffectManager.Instance.PlaySoundEffect(CharacterData.HitSound);
 
-        if (Managers.PlayerManager.GetCamera() is CameraShake camera)
+        if (PlayerManager.Instance.GetCamera() is CameraShake camera)
         {
             await camera.StartShake(0.7f, 10f);
         }

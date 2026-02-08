@@ -2,10 +2,11 @@ using Godot;
 
 public partial class TooltipManager : Node
 {
+    public static TooltipManager Instance { get; private set; }
+
     /// <summary>
     /// The singleton tooltip component.
     /// </summary>
-    [Export]
     public TooltipPanel TooltipComponent { get; set; }
 
     /// <summary>
@@ -15,6 +16,8 @@ public partial class TooltipManager : Node
 
     public override void _Ready()
     {
+        Instance = this;
+        TooltipComponent = GetTree().Root.FindChild("TooltipRoot", true, false) as TooltipPanel;
         TooltipComponent.Hide();
     }
 

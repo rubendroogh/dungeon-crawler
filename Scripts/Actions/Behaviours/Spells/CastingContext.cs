@@ -59,7 +59,7 @@ public class CastingContext
     {
         get
         {
-            return Managers.BattleManager.CastSpellsThisTurn;
+            return BattleManager.Instance.CastSpellsThisTurn;
         }
     }
 

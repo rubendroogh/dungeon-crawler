@@ -15,6 +15,21 @@ run/main_scene="uid://ck8p1eru6l2f4"
 config/features=PackedStringArray("4.4", "C#", "Forward Plus")
 config/icon="res://icon.svg"
 
+[autoload]
+
+ActionManager="*res://Scripts/Managers/ActionManager.cs"
+BattleLogManager="*res://Scripts/Managers/BattleLogManager.cs"
+BattleManager="*res://Scripts/Managers/BattleManager.cs"
+SpellQueueManager="*res://Scripts/Managers/SpellQueueManager.cs"
+TooltipManager="*res://Scripts/Managers/TooltipManager.cs"
+TransitionManager="*res://Scripts/Managers/TransitionManager.cs"
+MusicManager="*res://Scenes/Managers/MusicManager.tscn"
+OpponentManager="*res://Scenes/Managers/OpponentManager.tscn"
+SoundEffectManager="*res://Scenes/Managers/SoundEffectManager.tscn"
+SpellBookManager="*res://Scenes/Managers/SpellBookManager.tscn"
+PlayerManager="*res://Scripts/Managers/PlayerManager.cs"
+ManasourceManager="*res://Scenes/Managers/ManasourceManager.tscn"
+
 [display]
 
 window/size/viewport_width=1920

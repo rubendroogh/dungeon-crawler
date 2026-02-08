@@ -53,7 +53,7 @@ public partial class SpellUI : PanelContainer
 
 	public override void _ExitTree()
 	{
-		Managers.ActionManager.SpellSelected -= OnSpellSelected;
+		ActionManager.Instance.SpellSelected -= OnSpellSelected;
 	}
 
 	/// <summary>
@@ -62,30 +62,30 @@ public partial class SpellUI : PanelContainer
 	public override void _GuiInput(InputEvent @event)
 	{
 		// Show tooltip
-		if (Managers.TooltipManager.IsTooltipVisible)
+		if (TooltipManager.Instance.IsTooltipVisible)
         {
-            Managers.TooltipManager.UpdatePosition(GetGlobalMousePosition());
+            TooltipManager.Instance.UpdatePosition(GetGlobalMousePosition());
         }
 
 		// Handle mouse input for selecting the spell
 		if (@event is InputEventMouseButton mouseEvent && mouseEvent.Pressed && mouseEvent.ButtonIndex == MouseButton.Left)
 		{
-			if (Managers.ActionManager.SelectedSpell?.Data == ActionData)
+			if (ActionManager.Instance.SelectedSpell?.Data == ActionData)
             {
 				// Already selected
                 return;
             }
 
-			if (!Managers.ManaSourceManager.CanPay(ActionData.Cost))
+			if (!ManaSourceManager.Instance.CanPay(ActionData.Cost))
 			{
-				Managers.BattleLogManager.Log("You do not have enough mana to cast this spell.");
+				BattleLogManager.Instance.Log("You do not have enough mana to cast this spell.");
 				return;
 			}
 
 			// Try to autoselect mana for the spell
-			Managers.ManaSourceManager.AutoselectMana(ActionData.Cost);
-			Managers.ActionManager.SetSelectedSpell(ActionData);
-			_ = Managers.SoundEffectManager.PlayButtonClick();
+			ManaSourceManager.Instance.AutoselectMana(ActionData.Cost);
+			ActionManager.Instance.SetSelectedSpell(ActionData);
+			_ = SoundEffectManager.Instance.PlayButtonClick();
 		}
 	}
 
@@ -120,7 +120,7 @@ public partial class SpellUI : PanelContainer
 	/// </summary>
 	private void InitializeCustomSignals()
 	{
-		Managers.ActionManager.SpellSelected += OnSpellSelected;
+		ActionManager.Instance.SpellSelected += OnSpellSelected;
 		MouseEntered += OnMouseEntered;
         MouseExited += OnMouseExited;
 	}
@@ -139,18 +139,18 @@ public partial class SpellUI : PanelContainer
 	/// </summary>
 	private void OnMouseEntered()
 	{
-		Managers.TooltipManager.Show(
+		TooltipManager.Instance.Show(
 			string.Empty,
 			SpellDescriptionText,
 			GetGlobalMousePosition()
 		);
 
 		// Highlight mana that would be autoselected for this spell
-		var manaToHighlight = Managers.ManaSourceManager.GetMostEfficientManaCombination(ActionData.Cost, out bool canPay);
+		var manaToHighlight = ManaSourceManager.Instance.GetMostEfficientManaCombination(ActionData.Cost, out bool canPay);
 		if (canPay)
 		{
 			// Only highlight if the spell can be paid for
-			Managers.ManaSourceManager.HighlightBlessings(manaToHighlight);
+			ManaSourceManager.Instance.HighlightBlessings(manaToHighlight);
 			return;
 		}
 	}
@@ -160,8 +160,8 @@ public partial class SpellUI : PanelContainer
     /// </summary>
     private void OnMouseExited()
     {
-        Managers.TooltipManager.Hide();
-		Managers.ManaSourceManager.ClearHighlighted();
+        TooltipManager.Instance.Hide();
+		ManaSourceManager.Instance.ClearHighlighted();
     }
 
 	/// <summary>

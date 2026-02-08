@@ -1,0 +1,14 @@
+[gd_scene load_steps=4 format=3 uid="uid://by3hf6vs3u5to"]
+
+[ext_resource type="Script" uid="uid://p81ss845glea" path="res://Scripts/Managers/OpponentManager.cs" id="1_5132h"]
+[ext_resource type="PackedScene" uid="uid://dchnspiwg3mmg" path="res://Scenes/BattleUI/Opponents/Opponent.tscn" id="2_5sx0o"]
+[ext_resource type="Resource" uid="uid://cfekhne75nmml" path="res://Resources/Characters/BasicEnemy.tres" id="3_frf0d"]
+
+[node name="OpponentManager" type="Node" node_paths=PackedStringArray("OpponentExposer", "OpponentsPreloader")]
+script = ExtResource("1_5132h")
+OpponentExposer = NodePath("")
+OpponentScene = ExtResource("2_5sx0o")
+OpponentsPreloader = NodePath("OpponentsPreloader")
+
+[node name="OpponentsPreloader" type="ResourcePreloader" parent="."]
+resources = [PackedStringArray("BasicEnemy"), [ExtResource("3_frf0d")]]

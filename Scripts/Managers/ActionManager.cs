@@ -8,6 +8,8 @@ using System.Threading.Tasks;
 /// </summary>
 public partial class ActionManager : Node
 {
+    public static ActionManager Instance { get; private set; }
+
     /// <summary>
     /// Signal that is emitted when a spell is selected.
     /// </summary>
@@ -37,6 +39,7 @@ public partial class ActionManager : Node
 
     public override void _Ready()
     {
+        Instance = this;
         CallDeferred(nameof(InitializeCustomSignals));
     }
 
@@ -61,7 +64,7 @@ public partial class ActionManager : Node
             return;
         }
 
-        var selectedSpell = Managers.SpellBookManager.GetSpell(spellData.Name);
+        var selectedSpell = SpellBookManager.Instance.GetSpell(spellData.Name);
         SetSelectedSpell(selectedSpell);
     }
 
@@ -111,7 +114,7 @@ public partial class ActionManager : Node
     /// </summary>
     private void InitializeCustomSignals()
     {
-        Managers.PlayerManager.GetPlayer().SpellQueued += OnPlayerSpellQueued;
+        PlayerManager.Instance.GetPlayer().SpellQueued += OnPlayerSpellQueued;
     }
 
     /// <summary>

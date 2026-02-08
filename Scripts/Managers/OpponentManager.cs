@@ -6,6 +6,8 @@ using System;
 /// </summary>
 public partial class OpponentManager : Node
 {
+    public static OpponentManager Instance { get; private set; }
+
     /// <summary>
     /// The ComponentExposer that exposes the opponent components.
     /// </summary>
@@ -23,7 +25,12 @@ public partial class OpponentManager : Node
     /// </summary>
     [Export]
     private ResourcePreloader OpponentsPreloader;
-    
+
+    public override void _Ready()
+    {
+        Instance = this;
+    }
+
     /// <summary>
     /// Spawns a random opponent from the preloaded resources.
     /// </summary>
@@ -62,12 +69,12 @@ public partial class OpponentManager : Node
         // Add opponent at root of the opponent scene
         var opponentRoot = OpponentExposer.GetComponent<Node>(Components.Opponents);
         opponentRoot.AddChild(opponentScene);
-        Managers.BattleManager.Characters.Add(opponent, false);
+        BattleManager.Instance.Characters.Add(opponent, false);
 
         // Set the opponent as the selected target for spell casting
         // TODO We want to add target selection logic later
-        Managers.ActionManager.SelectedTarget = opponent;
+        ActionManager.Instance.SelectedTarget = opponent;
 
-        Managers.BattleLogManager.Log($"{opponentData.Name} encountered!");
+        BattleLogManager.Instance.Log($"{opponentData.Name} encountered!");
     }
 }

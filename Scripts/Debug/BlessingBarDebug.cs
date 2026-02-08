@@ -41,9 +41,9 @@ public partial class BlessingBarDebug : TextureProgressBar
         BlessingsContainer.AddChild(b3);
         BlessingsContainer.AddChild(b4);
 
-        Managers.ManaSourceManager.AddBlessing(b1.Blessing);
-        Managers.ManaSourceManager.AddBlessing(b2.Blessing);
-        Managers.ManaSourceManager.AddBlessing(b3.Blessing);
-        Managers.ManaSourceManager.AddBlessing(b4.Blessing);
+        ManaSourceManager.Instance.AddBlessing(b1.Blessing);
+        ManaSourceManager.Instance.AddBlessing(b2.Blessing);
+        ManaSourceManager.Instance.AddBlessing(b3.Blessing);
+        ManaSourceManager.Instance.AddBlessing(b4.Blessing);
     }
 }
