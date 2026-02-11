@@ -33,7 +33,7 @@ layout_mode = 3
 anchors_preset = 0
 script = ExtResource("1_dxxnc")
 
-[node name="CharacterData" type="Node3D" parent="."]
+[node name="CharacterData" type="Node2D" parent="."]
 script = ExtResource("1_xeo28")
 
 [node name="CharacterSprite" type="Sprite2D" parent="CharacterData"]
