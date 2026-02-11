@@ -6,7 +6,7 @@ using Godot;
 /// <summary>
 /// An entity that is a participant in a battle on either side.
 /// </summary>
-public partial class Character : Node3D
+public partial class Character : Node2D
 {
     /// <summary>
     /// The current health of the character.

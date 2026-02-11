@@ -79,7 +79,7 @@ public partial class DefaultActionBehaviour : IActionBehaviour
         await caster.Delay(300);
 
         var originalPosition = caster.Position;
-        var targetPosition = originalPosition + new Vector3(0, 10, 0);
+        var targetPosition = originalPosition + new Vector2(0, 10);
 
         var tween = caster.CreateTween();
         tween.TweenProperty(caster, "position", targetPosition, 0.1f)

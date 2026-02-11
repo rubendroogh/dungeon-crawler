@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://ck8p1eru6l2f4"]
+[gd_scene load_steps=16 format=3 uid="uid://ck8p1eru6l2f4"]
 
 [ext_resource type="Script" uid="uid://di2h8gf1377s5" path="res://Scripts/UI/CameraShake.cs" id="1_hojmo"]
 [ext_resource type="Resource" uid="uid://cdn0d7ugm3gse" path="res://Resources/Characters/Player.tres" id="15_aw745"]
@@ -15,25 +15,16 @@
 [ext_resource type="PackedScene" uid="uid://2drx4r22f0mk" path="res://Scenes/CharacterCreationUI/CharacterCreationBackground.tscn" id="31_ogsbt"]
 [ext_resource type="PackedScene" uid="uid://c6c50r7e37xs6" path="res://Scenes/CharacterCreationUI/CharacterCreationPanel.tscn" id="32_ogsbt"]
 [ext_resource type="PackedScene" uid="uid://df8xyouslar30" path="res://Scenes/Cutscenes/IntroCutscene.tscn" id="38_21fen"]
-[ext_resource type="PackedScene" uid="uid://c08focnuf0ky6" path="res://Scenes/Dungeon/hallway-straight.glb" id="45_7gdy0"]
 
 [node name="Root" type="Node"]
 
 [node name="World" type="Node" parent="."]
 
-[node name="Camera3D" type="Camera3D" parent="World"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.47228, 1.53983)
+[node name="Camera" type="Camera2D" parent="World"]
+position = Vector2(0, 1.47228)
 script = ExtResource("1_hojmo")
 
-[node name="hallway-straight2" parent="World" instance=ExtResource("45_7gdy0")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -3.79706)
-
-[node name="hallway-straight" parent="World" instance=ExtResource("45_7gdy0")]
-
-[node name="OmniLight3D" type="OmniLight3D" parent="World"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.14938, -2.51348)
-
-[node name="Player" type="Node3D" parent="World"]
+[node name="Player" type="Node2D" parent="World"]
 script = ExtResource("15_irpm1")
 CharacterData = ExtResource("15_aw745")
 
