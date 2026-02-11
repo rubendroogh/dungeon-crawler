@@ -44,8 +44,8 @@ public partial class TransitionManager : Node
     /// </summary>
     public async Task ToCharacterCreation()
     {
-        await SetWorldVisibility(false);
-        await SetCharacterCreationVisibility(true);
+        await SetWorldVisibility(true);
+        await SetCharacterCreationVisibility(false);
     }
 
     /// <summary>
