@@ -1,8 +1,8 @@
-[gd_scene load_steps=18 format=4 uid="uid://ck8p1eru6l2f4"]
+[gd_scene load_steps=18 format=3 uid="uid://ck8p1eru6l2f4"]
 
 [ext_resource type="Script" uid="uid://di2h8gf1377s5" path="res://Scripts/UI/CameraShake.cs" id="1_hojmo"]
+[ext_resource type="Script" uid="uid://dn8it3541bwkj" path="res://Scripts/DungeonGeneration/DungeonTileDrawer.cs" id="1_wg3rq"]
 [ext_resource type="TileSet" uid="uid://deodolei3vmsp" path="res://Assets/TileSets/WorldTileSet.tres" id="4_irpm1"]
-[ext_resource type="Script" uid="uid://ct36ha57saja3" path="res://Scripts/DungeonGeneration/DungeonGenerator.cs" id="5_fvp6m"]
 [ext_resource type="Resource" uid="uid://cdn0d7ugm3gse" path="res://Resources/Characters/Player.tres" id="15_aw745"]
 [ext_resource type="Script" uid="uid://bc7r5kh0kegqt" path="res://Scripts/Characters/Player.cs" id="15_irpm1"]
 [ext_resource type="PackedScene" uid="uid://c52h746nogb6c" path="res://Scenes/BattleUI/SpellBook/SpellBook.tscn" id="20_2dbf0"]
@@ -20,7 +20,9 @@
 
 [node name="Root" type="Node"]
 
-[node name="World" type="Node" parent="."]
+[node name="World" type="Node" parent="." node_paths=PackedStringArray("GroundLayer")]
+script = ExtResource("1_wg3rq")
+GroundLayer = NodePath("GroundTileMapLayer")
 
 [node name="Camera" type="Camera2D" parent="World"]
 position = Vector2(0, 1.47228)
@@ -32,9 +34,7 @@ CharacterData = ExtResource("15_aw745")
 
 [node name="GroundTileMapLayer" type="TileMapLayer" parent="World"]
 position = Vector2(-3, 4)
-tile_map_data = PackedByteArray("AAABAP3/AAAIAAUAAAAAAPz/AAAKAAUAAAACAP7/AAAKAAUAADAAAP7/AAAKAAUAACACAPz/AAAKAAUAABAAAP3/AAAJAAUAAAACAP3/AAAJAAUAABABAPz/AAAJAAUAAFABAP7/AAAJAAUAAGD+//v/AAAFAAEAAAAEAP7/AAAFAAEAAAAFAPv/AAAFAAEAAAD9//7/AAAFAAEAAAD+//3/AAAGAAAAAAAEAPz/AAAGAAAAAAA=")
 tile_set = ExtResource("4_irpm1")
-script = ExtResource("5_fvp6m")
 
 [node name="UI" type="Control" parent="."]
 visible = false
@@ -50,6 +50,7 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="HUD" type="VBoxContainer" parent="UI"]
+visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -176,7 +177,6 @@ custom_minimum_size = Vector2(190, 0)
 layout_mode = 2
 
 [node name="CharacterCreation" type="Control" parent="UI"]
-visible = false
 z_index = 10
 layout_mode = 1
 anchor_left = -0.5

@@ -1,3 +1,5 @@
+using Godot;
+
 namespace Priest.DungeonGeneration;
 
 /// <summary>
@@ -5,5 +7,8 @@ namespace Priest.DungeonGeneration;
 /// </summary>
 public class Tile
 {
-    
+    /// <summary>
+    /// The drawn sprite of the tile.
+    /// </summary>
+    public Vector2I Sprite { get; set; }
 }
