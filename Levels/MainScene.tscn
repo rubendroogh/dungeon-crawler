@@ -1,8 +1,6 @@
-[gd_scene load_steps=18 format=3 uid="uid://ck8p1eru6l2f4"]
+[gd_scene load_steps=16 format=3 uid="uid://ck8p1eru6l2f4"]
 
 [ext_resource type="Script" uid="uid://di2h8gf1377s5" path="res://Scripts/UI/CameraShake.cs" id="1_hojmo"]
-[ext_resource type="Script" uid="uid://dn8it3541bwkj" path="res://Scripts/DungeonGeneration/DungeonTileDrawer.cs" id="1_wg3rq"]
-[ext_resource type="TileSet" uid="uid://deodolei3vmsp" path="res://Assets/TileSets/WorldTileSet.tres" id="4_irpm1"]
 [ext_resource type="Resource" uid="uid://cdn0d7ugm3gse" path="res://Resources/Characters/Player.tres" id="15_aw745"]
 [ext_resource type="Script" uid="uid://bc7r5kh0kegqt" path="res://Scripts/Characters/Player.cs" id="15_irpm1"]
 [ext_resource type="PackedScene" uid="uid://c52h746nogb6c" path="res://Scenes/BattleUI/SpellBook/SpellBook.tscn" id="20_2dbf0"]
@@ -20,9 +18,7 @@
 
 [node name="Root" type="Node"]
 
-[node name="World" type="Node" parent="." node_paths=PackedStringArray("GroundLayer")]
-script = ExtResource("1_wg3rq")
-GroundLayer = NodePath("GroundTileMapLayer")
+[node name="World" type="Node" parent="."]
 
 [node name="Camera" type="Camera2D" parent="World"]
 position = Vector2(0, 1.47228)
@@ -31,10 +27,6 @@ script = ExtResource("1_hojmo")
 [node name="Player" type="Node2D" parent="World"]
 script = ExtResource("15_irpm1")
 CharacterData = ExtResource("15_aw745")
-
-[node name="GroundTileMapLayer" type="TileMapLayer" parent="World"]
-position = Vector2(-3, 4)
-tile_set = ExtResource("4_irpm1")
 
 [node name="UI" type="Control" parent="."]
 visible = false
