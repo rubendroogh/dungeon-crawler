@@ -1,13 +1,15 @@
-[gd_resource type="Resource" script_class="CharacterData" load_steps=3 format=3 uid="uid://cdn0d7ugm3gse"]
+[gd_resource type="Resource" script_class="CharacterData" load_steps=4 format=3 uid="uid://cdn0d7ugm3gse"]
 
+[ext_resource type="Script" uid="uid://d31wkdgrcylv3" path="res://Scripts/Actions/ActionData.cs" id="1_gly1p"]
 [ext_resource type="Script" uid="uid://bu8g8lcrmtl0e" path="res://Scripts/Characters/CharacterData.cs" id="1_mx4uj"]
 [ext_resource type="AudioStream" uid="uid://b4m7vgwigswxj" path="res://Assets/Sound/oof.wav" id="1_yklq2"]
 
 [resource]
 script = ExtResource("1_mx4uj")
+AvailableActions = Array[ExtResource("1_gly1p")]([])
 Name = "Player"
 HitSound = ExtResource("1_yklq2")
-MaxHealth = 60.0
+MaxHealth = 30.0
 BaseBenevolent = 10
 BaseDominant = 10
 BaseCharming = 10
