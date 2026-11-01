@@ -1,12 +1,10 @@
 [gd_scene load_steps=4 format=3 uid="uid://bc1feg8j1aip5"]
 
 [ext_resource type="Script" uid="uid://bvpjo5oy62hbg" path="res://Scripts/Managers/SceneManager.cs" id="1_wx451"]
-
+[ext_resource type="PackedScene" uid="uid://dgpgmxny2er70" path="res://Scenes/SceneUI/ChoiceButton.tscn" id="choice"]
 [ext_resource type="Resource" path="res://Resources/Dungeon/Alderwick.tres" id="floor"]
-[ext_resource type="PackedScene" path="res://Scenes/SceneUI/ChoiceButton.tscn" id="choice"]
 
 [node name="SceneManager" type="Node"]
 script = ExtResource("1_wx451")
-
 Floor = ExtResource("floor")
 ChoiceButtonScene = ExtResource("choice")

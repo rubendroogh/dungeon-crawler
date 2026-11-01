@@ -1,9 +1,8 @@
-[gd_scene load_steps=35 format=3 uid="uid://ck8p1eru6l2f4"]
+[gd_scene load_steps=34 format=3 uid="uid://ck8p1eru6l2f4"]
 
 [ext_resource type="Script" uid="uid://di2h8gf1377s5" path="res://Scripts/UI/CameraShake.cs" id="1_hojmo"]
 [ext_resource type="Resource" uid="uid://cdn0d7ugm3gse" path="res://Resources/Characters/Player.tres" id="15_aw745"]
 [ext_resource type="Script" uid="uid://bc7r5kh0kegqt" path="res://Scripts/Characters/Player.cs" id="15_irpm1"]
-[ext_resource type="PackedScene" uid="uid://dgpgmxny2er70" path="res://Scenes/SceneUI/ChoiceButton.tscn" id="16_irpm1"]
 [ext_resource type="PackedScene" uid="uid://c52h746nogb6c" path="res://Scenes/BattleUI/SpellBook/SpellBook.tscn" id="20_2dbf0"]
 [ext_resource type="PackedScene" uid="uid://c0ol2s1uon0x3" path="res://Scenes/BattleUI/SpellBook/SpellQueue.tscn" id="21_2dbf0"]
 [ext_resource type="PackedScene" uid="uid://da86qewhcsw42" path="res://Scenes/BattleUI/BattleLog/BattleLog.tscn" id="22_8287p"]
@@ -16,6 +15,9 @@
 [ext_resource type="PackedScene" uid="uid://2drx4r22f0mk" path="res://Scenes/CharacterCreationUI/CharacterCreationBackground.tscn" id="31_ogsbt"]
 [ext_resource type="PackedScene" uid="uid://c6c50r7e37xs6" path="res://Scenes/CharacterCreationUI/CharacterCreationPanel.tscn" id="32_ogsbt"]
 [ext_resource type="PackedScene" uid="uid://df8xyouslar30" path="res://Scenes/Cutscenes/IntroCutscene.tscn" id="38_21fen"]
+[ext_resource type="PackedScene" path="res://Scenes/SceneUI/DungeonBackdrop.tscn" id="backdrop"]
+[ext_resource type="PackedScene" path="res://Scenes/SceneUI/ExplorationView.tscn" id="exploration"]
+[ext_resource type="PackedScene" path="res://Scenes/SceneUI/DungeonMap.tscn" id="grid_map"]
 [ext_resource type="Script" uid="uid://fi2i0pb2xx5u" path="res://Scripts/Managers/ActionManager.cs" id="mvp_0"]
 [ext_resource type="Script" uid="uid://87g108e3say3" path="res://Scripts/Managers/BattleLogManager.cs" id="mvp_1"]
 [ext_resource type="Script" uid="uid://ccfu4bppobwlv" path="res://Scripts/Managers/BattleManager.cs" id="mvp_2"]
@@ -29,13 +31,8 @@
 [ext_resource type="Script" uid="uid://dpayadwmj0w0j" path="res://Scripts/Managers/PlayerManager.cs" id="mvp_10"]
 [ext_resource type="PackedScene" uid="uid://2n00rho2da6m" path="res://Scenes/Managers/ManasourceManager.tscn" id="mvp_11"]
 [ext_resource type="PackedScene" uid="uid://bc1feg8j1aip5" path="res://Scenes/Managers/SceneManager.tscn" id="mvp_12"]
-
-[ext_resource type="PackedScene" path="res://Scenes/SceneUI/ExplorationView.tscn" id="exploration"]
-[ext_resource type="PackedScene" path="res://Scenes/SceneUI/DungeonMap.tscn" id="grid_map"]
-[ext_resource type="PackedScene" path="res://Scenes/SceneUI/DungeonBackdrop.tscn" id="backdrop"]
-[ext_resource type="Script" path="res://Scripts/Debug/MvpPlaytest.cs" id="playtest"]
-
-[ext_resource type="PackedScene" path="res://Scenes/BattleUI/SpellQueue/SpellQueueItem.tscn" id="queue_item"]
+[ext_resource type="Script" uid="uid://cnsy0iusnk1uy" path="res://Scripts/Debug/MvpPlaytest.cs" id="playtest"]
+[ext_resource type="PackedScene" uid="uid://s0xnqcjg4cqj" path="res://Scenes/BattleUI/SpellQueue/SpellQueueItem.tscn" id="queue_item"]
 
 [node name="Root" type="Node"]
 
@@ -43,48 +40,32 @@
 
 [node name="Camera" type="Camera2D" parent="World"]
 position = Vector2(0, 1.47228)
-script = ExtResource("1_hojmo")
 enabled = false
-
+script = ExtResource("1_hojmo")
 
 [node name="Player" type="Node2D" parent="World" node_paths=PackedStringArray("PlayerHealthBar")]
 script = ExtResource("15_irpm1")
-CharacterData = ExtResource("15_aw745")
 PlayerHealthBar = NodePath("../../UI/BattleHUD/Bottom/Margin/VBox/PlayerHealthBar")
-
+CharacterData = ExtResource("15_aw745")
 
 [node name="UI" type="Control" parent="."]
-grow_horizontal = 2
-grow_vertical = 2
-layout_mode = 1
+layout_mode = 3
 anchors_preset = 15
-anchor_left = 0.0
-anchor_top = 0.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = 0.0
-offset_top = 0.0
-offset_right = 0.0
-offset_bottom = 0.0
-
+grow_horizontal = 2
+grow_vertical = 2
 
 [node name="BattleHUD" type="VBoxContainer" parent="UI"]
 visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_constants/separation = 0
 alignment = 1
-layout_mode = 1
-anchors_preset = 15
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = 0.0
-offset_top = 0.0
-offset_right = 0.0
-offset_bottom = 0.0
-
 
 [node name="BattleAndResources" type="HBoxContainer" parent="UI/BattleHUD"]
 layout_mode = 2
@@ -95,12 +76,12 @@ theme_override_constants/separation = 0
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="CombatHelp" type="Label" parent="UI/BattleHUD/BattleAndResources/Battle" index="0"]
+[node name="CombatHelp" type="Label" parent="UI/BattleHUD/BattleAndResources/Battle"]
 custom_minimum_size = Vector2(600, 100)
 layout_mode = 2
-autowrap_mode = 3
-theme_override_constants/outline_size = 4
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 4
+autowrap_mode = 3
 
 [node name="Opponents" parent="UI/BattleHUD/BattleAndResources/Battle" instance=ExtResource("22_ogsbt")]
 layout_mode = 2
@@ -113,8 +94,6 @@ layout_mode = 2
 custom_minimum_size = Vector2(425, 0)
 layout_mode = 2
 current_tab = 0
-tab_alignment = 0
-
 
 [node name="Spells" type="PanelContainer" parent="UI/BattleHUD/BattleAndResources/ResourcesTabs"]
 layout_mode = 2
@@ -142,7 +121,7 @@ layout_mode = 2
 [node name="Map" type="VBoxContainer" parent="UI/BattleHUD/BattleAndResources/ResourcesTabs"]
 visible = false
 layout_mode = 2
-metadata/_tab_index = 2
+metadata/_tab_index = 1
 
 [node name="DungeonMap" parent="UI/BattleHUD/BattleAndResources/ResourcesTabs/Map" instance=ExtResource("grid_map")]
 layout_mode = 2
@@ -185,8 +164,6 @@ alignment = 1
 
 [node name="PlayerHealthBar" parent="UI/BattleHUD/Bottom/Margin/VBox" instance=ExtResource("28_ghvpb")]
 layout_mode = 2
-size_flags_horizontal = 3
-
 
 [node name="TurnIndicationPanel" parent="UI/BattleHUD/Bottom/Margin/VBox" instance=ExtResource("25_b51k0")]
 custom_minimum_size = Vector2(190, 0)
@@ -196,59 +173,38 @@ layout_mode = 2
 z_index = 10
 layout_mode = 1
 anchors_preset = 15
-anchor_left = 0.0
-anchor_top = 0.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = 0.0
-offset_top = 0.0
-offset_right = 0.0
-offset_bottom = 0.0
-
-
-[node name="CharacterCreationBackground" parent="UI/CharacterCreation" instance=ExtResource("31_ogsbt")]
 grow_horizontal = 2
 grow_vertical = 2
+
+[node name="CharacterCreationBackground" parent="UI/CharacterCreation" instance=ExtResource("31_ogsbt")]
 layout_mode = 1
 anchors_preset = 15
-anchor_left = 0.0
-anchor_top = 0.0
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = 0.0
 offset_top = 0.0
 offset_right = 0.0
 offset_bottom = 0.0
+grow_horizontal = 2
+grow_vertical = 2
 scale = Vector2(1, 1)
 
-
 [node name="CharacterCreationCenter" parent="UI/CharacterCreation" instance=ExtResource("32_ogsbt")]
-
 layout_mode = 1
-anchors_preset = 15
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = 0.0
 offset_top = 0.0
-offset_right = 0.0
-offset_bottom = 0.0
-
 
 [node name="IntroCutscene" parent="UI" instance=ExtResource("38_21fen")]
 visible = false
 layout_mode = 1
 anchors_preset = 15
-anchor_left = 0.0
-anchor_top = 0.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = 0.0
-offset_top = 0.0
 offset_right = 0.0
 offset_bottom = 0.0
-
+grow_horizontal = 2
+grow_vertical = 2
 
 [node name="TooltipRoot" parent="UI" instance=ExtResource("24_hojmo")]
 visible = false
@@ -261,6 +217,11 @@ offset_bottom = 60.0
 visible = false
 layout_mode = 1
 
+[node name="DungeonBackdrop" parent="UI" node_paths=PackedStringArray("CombatHud", "CombatStage") instance=ExtResource("backdrop")]
+layout_mode = 1
+CombatHud = NodePath("../BattleHUD")
+CombatStage = NodePath("../BattleHUD/BattleAndResources/Battle/Opponents")
+
 [node name="Managers" type="Node" parent="."]
 
 [node name="ActionManager" type="Node" parent="Managers"]
@@ -270,17 +231,14 @@ script = ExtResource("mvp_0")
 script = ExtResource("mvp_1")
 BattleLogExposer = NodePath("../../UI/BattleHUD/BattleAndResources/Battle/BattleLog")
 
-
 [node name="BattleManager" type="Node" parent="Managers" node_paths=PackedStringArray("TurnIndicationExposer")]
 script = ExtResource("mvp_2")
 TurnIndicationExposer = NodePath("../../UI/BattleHUD/Bottom/Margin/VBox/TurnIndicationPanel")
-
 
 [node name="SpellQueueManager" type="Node" parent="Managers" node_paths=PackedStringArray("SpellQueueExposer")]
 script = ExtResource("mvp_3")
 SpellQueueExposer = NodePath("../../UI/BattleHUD/BattleAndResources/ResourcesTabs/Spells/Margin/SpellSelection/SpellQueue")
 SpellQueueUIScene = ExtResource("queue_item")
-
 
 [node name="TooltipManager" type="Node" parent="Managers"]
 script = ExtResource("mvp_4")
@@ -293,13 +251,10 @@ CharacterCreationNode = NodePath("../../UI/CharacterCreation")
 SceneNode = NodePath("../../UI/Scene")
 CutsceneNode = NodePath("../../UI/IntroCutscene")
 
-
 [node name="MusicManager" parent="Managers" instance=ExtResource("mvp_6")]
 
-[node name="OpponentManager" parent="Managers" instance=ExtResource("mvp_7") node_paths=PackedStringArray("OpponentExposer")]
-
+[node name="OpponentManager" parent="Managers" node_paths=PackedStringArray("OpponentExposer") instance=ExtResource("mvp_7")]
 OpponentExposer = NodePath("../../UI/BattleHUD/BattleAndResources/Battle/Opponents")
-
 
 [node name="SoundEffectManager" parent="Managers" instance=ExtResource("mvp_8")]
 
@@ -310,18 +265,10 @@ script = ExtResource("mvp_10")
 
 [node name="ManasourceManager" parent="Managers" instance=ExtResource("mvp_11")]
 
-[node name="SceneManager" parent="Managers" instance=ExtResource("mvp_12") node_paths=PackedStringArray("ExplorationExposer", "BattleHud", "CombatHelp")]
-
+[node name="SceneManager" parent="Managers" node_paths=PackedStringArray("ExplorationExposer", "BattleHud", "CombatHelp") instance=ExtResource("mvp_12")]
 ExplorationExposer = NodePath("../../UI/Scene")
 BattleHud = NodePath("../../UI/BattleHUD")
 CombatHelp = NodePath("../../UI/BattleHUD/BattleAndResources/Battle/CombatHelp")
-
-
-[node name="DungeonBackdrop" parent="UI" node_paths=PackedStringArray("CombatHud", "CombatStage") instance=ExtResource("backdrop")]
-layout_mode = 1
-CombatHud = NodePath("../BattleHUD")
-CombatStage = NodePath("../BattleHUD/BattleAndResources/Battle/Opponents")
-
 
 [node name="Playtest" type="Node" parent="." node_paths=PackedStringArray("ExplorationExposer", "Creation", "Intro", "ResourceTabs", "AddSpell", "SpellBookExposer", "ClearQueue", "Music")]
 script = ExtResource("playtest")
