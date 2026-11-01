@@ -6,83 +6,116 @@ using DungeonRPG.Blessings.Enums;
 using Godot;
 using Priest.Managers;
 
-/// <summary>Runs one branching descent, including encounters, choices and one-time rewards.</summary>
+/// <summary>
+/// Coordinates room interactions, one-time rewards, and encounter transitions for a run.
+/// </summary>
 public partial class SceneManager : Node
 {
     public static SceneManager Instance { get; private set; }
+
+    [Export]
+
+    private DungeonFloorData Floor;
+    [Export]
+    private ComponentExposer ExplorationExposer;
+    [Export]
+    private CanvasItem BattleHud;
+    [Export]
+    private Label CombatHelp;
+    [Export]
+    private PackedScene ChoiceButtonScene;
+
     public DungeonGenerator Dungeon { get; private set; }
-    public DungeonRoom CurrentRoom { get; private set; }
-    public HashSet<string> ClearedRooms { get; } = new();
-    public HashSet<string> VisitedRooms { get; } = new();
+    public DungeonRoomData CurrentRoom { get; private set; }
+    public HashSet<string> ClearedRooms { get; } = [];
+    public HashSet<string> VisitedRooms { get; } = [];
     public bool RunFinished { get; private set; }
     public bool ChoosingReward { get; private set; }
-    private readonly HashSet<string> UsedEvents = new();
-    private CanvasItem SceneNode;
-    private CanvasItem BattleNode;
-    private RichTextLabel Title;
-    private RichTextLabel Text;
-    private VBoxContainer Choices;
-    private Label RunStatus;
-    private Label CombatHelp;
-    public event System.Action MapChanged;
-    public bool IsRoomComplete(string id) => ClearedRooms.Contains(id) || UsedEvents.Contains(id);
-    private bool ChoiceInProgress;
-    public bool IsResolvingChoice => ChoiceInProgress;
+    public bool IsResolvingChoice { get; private set; }
+
+    /// <summary>
+    /// Notifies map views after room progress or a one-time interaction changes.
+    /// </summary>
+    [Signal]
+    public delegate void MapChangedEventHandler();
+
+    private HashSet<string> UsedEvents { get; } = [];
+    private RichTextLabel Title { get; set; }
+    private RichTextLabel Text { get; set; }
+    private VBoxContainer Choices { get; set; }
+    private Label RunStatus { get; set; }
+    private BattleManager Battle { get; set; }
 
     public override void _Ready()
     {
         Instance = this;
-        SceneNode = GetTree().Root.GetNode<CanvasItem>("Root/UI/Scene");
-        BattleNode = GetTree().Root.GetNode<CanvasItem>("Root/UI/BattleHUD");
-        Title = SceneNode.FindChild("SceneTitle") as RichTextLabel;
-        Text = SceneNode.FindChild("SceneText") as RichTextLabel;
-        Choices = SceneNode.FindChild("SceneChoices") as VBoxContainer;
-        Text.CustomMinimumSize = new Vector2(900, 0);
-        Text.AddThemeFontSizeOverride("normal_font_size", 24);
-        Text.BbcodeEnabled = false;
-        var column = Title.GetParent();
-        RunStatus = new Label { Name = "RunStatus" };
-        column.AddChild(RunStatus);
-        column.MoveChild(RunStatus, 0);
-        RunStatus.AddThemeColorOverride("font_color", new Color("c9b786"));
-        var mapTab = BattleNode.FindChild("Map") as Control;
-        foreach (var child in mapTab.GetChildren()) { mapTab.RemoveChild(child); child.QueueFree(); }
-        var combatMap = new DungeonMap();
-        mapTab.AddChild(combatMap);
-        combatMap.Bind(this);
-        var explorationPanel = new PanelContainer
+        if (Floor == null || ExplorationExposer == null || BattleHud == null
+            || CombatHelp == null || ChoiceButtonScene == null)
         {
-            CustomMinimumSize = new Vector2(400, 800),
-            SizeFlagsVertical = Control.SizeFlags.ShrinkCenter
-        };
-        (SceneNode as Control).AddThemeConstantOverride("separation", 28);
-        SceneNode.AddChild(explorationPanel);
-        var explorationMap = new DungeonMap();
-        explorationPanel.AddChild(explorationMap);
-        explorationMap.Bind(this);
-        var inventory = BattleNode.FindChild("Inventory") as Control;
-        if (inventory != null) inventory.GetParent<TabContainer>().SetTabHidden(inventory.GetIndex(), true);
-        CombatHelp = new Label { AutowrapMode = TextServer.AutowrapMode.WordSmart, CustomMinimumSize = new Vector2(600, 100) };
-        CombatHelp.AddThemeConstantOverride("outline_size", 4);
-        CombatHelp.AddThemeColorOverride("font_outline_color", Colors.Black);
-        var combatColumn = BattleNode.GetNode("BattleAndResources/Battle");
-        combatColumn.AddChild(CombatHelp);
-        combatColumn.MoveChild(CombatHelp, 0);
-        BattleManager.Instance.BattleEnded += OnBattleEnded;
+            GD.PrintErr("SceneManager requires floor content, screen components, and a choice scene.");
+            return;
+        }
+
+        InitializeComponents();
+        InitializeCustomSignals();
+    }
+
+    private void InitializeComponents()
+    {
+        Title = ExplorationExposer.GetComponent<RichTextLabel>(Components.SceneTitle);
+        Text = ExplorationExposer.GetComponent<RichTextLabel>(Components.SceneText);
+        Choices = ExplorationExposer.GetComponent<VBoxContainer>(Components.SceneChoices);
+        RunStatus = ExplorationExposer.GetComponent<Label>(Components.RunStatus);
+    }
+
+    private void InitializeCustomSignals()
+    {
+        Battle = BattleManager.Instance;
+        Battle.BattleEnded += OnBattleEnded;
+    }
+
+    public override void _ExitTree()
+    {
+        if (IsInstanceValid(Battle))
+        {
+            Battle.BattleEnded -= OnBattleEnded;
+        }
+    }
+
+    public bool IsRoomComplete(string id)
+    {
+        return ClearedRooms.Contains(id) || UsedEvents.Contains(id);
     }
 
     public void StartDungeon()
     {
-        Dungeon = new DungeonGenerator();
+        Dungeon = new DungeonGenerator(Floor);
         EnterRoom(Dungeon.Generate().Id);
     }
 
+    /// <summary>
+    /// Enters an adjacent room when the player is free to travel.
+    /// </summary>
     public void EnterRoom(string id)
     {
-        if (RunFinished || BattleManager.Instance.IsBattleActive || ChoosingReward) return;
-        if (CurrentRoom != null && !CurrentRoom.Exits.Contains(id) && id != CurrentRoom.Id
-            && !(CurrentRoom.Id == "crossroads" && (id == "shrine" || id == "archive"))) return;
-        CurrentRoom = Dungeon.Rooms[id];
+        if (RunFinished || Battle.IsBattleActive || ChoosingReward)
+        {
+            return;
+        }
+
+        if (!Dungeon.Rooms.TryGetValue(id, out var room))
+        {
+            GD.PrintErr($"Unknown dungeon room: {id}");
+            return;
+        }
+
+        if (CurrentRoom != null && CurrentRoom.Id != id
+            && !CurrentRoom.Exits.Contains(id) && !CurrentRoom.OptionalBranches.Contains(id))
+        {
+            return;
+        }
+
+        CurrentRoom = room;
         VisitedRooms.Add(id);
         ShowRoom();
     }
@@ -90,137 +123,177 @@ public partial class SceneManager : Node
     private void ShowRoom()
     {
         ChoosingReward = false;
-        var room = CurrentRoom;
-        SetScene(new Scene { Title = room.Title, Text = room.Text });
+        SetScene(new Scene { Title = CurrentRoom.Title, Text = CurrentRoom.Text });
         UpdateStatus();
-        if (room.Kind == RoomKind.Exit)
+
+        if (CurrentRoom.Kind == RoomKind.Exit)
         {
             RunFinished = true;
-            AddChoice("Begin another descent", Restart);
+            AddChoice(Floor.FormatText("restart"), Restart);
             return;
         }
-        if ((room.Kind == RoomKind.Battle || room.Kind == RoomKind.Archive || room.Kind == RoomKind.Boss) && !ClearedRooms.Contains(room.Id))
+
+        if (CurrentRoom.HasEncounter && !ClearedRooms.Contains(CurrentRoom.Id))
         {
-            AddChoice(room.Kind == RoomKind.Boss ? "Challenge the Keeper" : "Face the guardian", BeginEncounter);
+            var key = CurrentRoom.Kind == RoomKind.Boss ? "challenge" : "face";
+            AddChoice(Floor.FormatText(key), BeginEncounter);
             return;
         }
-        if (room.Kind == RoomKind.Shrine && !UsedEvents.Contains(room.Id))
+
+        AddEventChoices();
+        AddTravelChoices();
+    }
+
+    private void AddEventChoices()
+    {
+        if (UsedEvents.Contains(CurrentRoom.Id))
         {
-            AddAsyncChoice("Drink from the basin · recover 24 health", async () =>
-            {
-                UsedEvents.Add(room.Id);
-                await PlayerManager.Instance.GetPlayer().Heal(24);
-                ShowRoom();
-            });
+            return;
+        }
+
+        if (CurrentRoom.Healing > 0)
+        {
+            var key = CurrentRoom.Kind == RoomKind.Shrine ? "shrine_heal" : "lantern_heal";
+            AddAsyncChoice(Floor.FormatText(key, CurrentRoom.Healing), UseHealingEvent);
+        }
+
+        if (CurrentRoom.Kind == RoomKind.Shrine)
+        {
             foreach (var domain in Enum.GetValues<Domain>())
             {
-                var chosen = domain;
-                AddChoice($"Ask {domain} for a blessing · +1 mana each turn", () =>
-                {
-                    UsedEvents.Add(room.Id);
-                    GrantBlessing(chosen);
-                    ShowRoom();
-                });
+                AddChoice(Floor.FormatText("shrine_blessing", domain), () => UseBlessingEvent(domain));
             }
-        }
-        if (room.Kind == RoomKind.Crossroads && !UsedEvents.Contains(room.Id))
-        {
-            AddAsyncChoice("Rest beside the lantern · recover 18 health", async () =>
-            {
-                UsedEvents.Add(room.Id);
-                await PlayerManager.Instance.GetPlayer().Heal(18);
-                ShowRoom();
-            });
-        }
-        if (room.Kind == RoomKind.Crossroads)
-        {
-            foreach (var branch in new[] { "shrine", "archive" })
-            {
-                var destination = branch;
-                if (!UsedEvents.Contains(branch) && !ClearedRooms.Contains(branch))
-                    AddChoice($"Explore the {(branch == "shrine" ? "shrine" : "archive")}", () => EnterRoom(destination));
-            }
-        }
-        foreach (var exit in room.Exits)
-        {
-            var destination = exit;
-            AddChoice($"Continue · {Dungeon.Rooms[exit].Title}", () => EnterRoom(destination));
         }
     }
 
+    private void AddTravelChoices()
+    {
+        foreach (var id in CurrentRoom.OptionalBranches)
+        {
+            if (!IsRoomComplete(id))
+            {
+                AddChoice(Floor.FormatText("explore", id), () => EnterRoom(id));
+            }
+        }
+
+        foreach (var id in CurrentRoom.Exits)
+        {
+            AddChoice(Floor.FormatText("continue", Dungeon.Rooms[id].Title), () => EnterRoom(id));
+        }
+    }
+
+    private async Task UseHealingEvent()
+    {
+        UsedEvents.Add(CurrentRoom.Id);
+        await PlayerManager.Instance.GetPlayer().Heal(CurrentRoom.Healing);
+        ShowRoom();
+    }
+
+    private void UseBlessingEvent(Domain domain)
+    {
+        UsedEvents.Add(CurrentRoom.Id);
+        GrantBlessing(domain);
+        ShowRoom();
+    }
+
+    /// <summary>
+    /// Starts the current room's configured encounter once, preserving the player's run state.
+    /// </summary>
     public void BeginEncounter()
     {
-        if (BattleManager.Instance.IsBattleActive || RunFinished || ClearedRooms.Contains(CurrentRoom.Id)) return;
-        SceneNode.Hide();
-        BattleNode.Show();
-        TooltipManager.Instance.Hide();
-        BattleManager.Instance.InitializeBattle(CreateOpponent(CurrentRoom.Kind));
-        UpdateCombatHelp();
-    }
-
-    public static CharacterData CreateOpponent(RoomKind kind)
-    {
-        var data = (CharacterData)GD.Load<CharacterData>("res://Resources/Characters/BasicEnemy.tres").Duplicate();
-        data.Name = kind == RoomKind.Boss ? "Keeper of the Influx" : kind == RoomKind.Archive ? "Drowned Archivist" : "Undead Squid";
-        data.MaxHealth = kind == RoomKind.Boss ? 100 : kind == RoomKind.Archive ? 52 : 36;
-        data.BaseFireDamageMultiplier = kind == RoomKind.Boss ? 0.75f : 1;
-        data.BaseLightDamageMultiplier = 1.25f;
-        data.BaseIceDamageMultiplier = kind == RoomKind.Boss ? 1.25f : 1;
-        data.BaseDiseaseDamageMultiplier = 1;
-        data.Image = new AtlasTexture
+        if (Battle.IsBattleActive || RunFinished || CurrentRoom?.Opponent == null
+            || ClearedRooms.Contains(CurrentRoom.Id))
         {
-            Atlas = GD.Load<Texture2D>("res://Assets/Textures/Atlasses/CreaturesTileMap.png"),
-            Region = new Rect2(kind == RoomKind.Boss ? 192 : kind == RoomKind.Archive ? 64 : 0, 0, 32, 32)
-        };
-        return data;
+            return;
+        }
+
+        ExplorationExposer.Hide();
+        BattleHud.Show();
+        TooltipManager.Instance.Hide();
+        Battle.InitializeBattle((CharacterData)CurrentRoom.Opponent.Duplicate());
+        UpdateCombatHelp();
     }
 
     private void OnBattleEnded(bool victory)
     {
-        BattleNode.Hide();
+        BattleHud.Hide();
         TooltipManager.Instance.Hide();
+
         if (!victory)
         {
             RunFinished = true;
-            SetScene(new Scene { Title = "The dungeon remembers", Text = "Your blessings fade beneath Alderwick. The old world's secret remains beyond your reach.\n\nTry another personality, change the order of your spells, and watch the enemy's next attack." });
-            AddChoice("Begin another descent", Restart);
+            SetScene(new Scene
+            {
+                Title = Floor.FormatText("defeat_title"),
+                Text = Floor.FormatText("defeat_text")
+            });
+            AddChoice(Floor.FormatText("restart"), Restart);
             return;
         }
+
         ClearedRooms.Add(CurrentRoom.Id);
-        if (CurrentRoom.Kind == RoomKind.Boss) EnterRoom("exit");
-        else ShowRewards();
+        if (CurrentRoom.Kind == RoomKind.Boss)
+        {
+            EnterRoom(CurrentRoom.Exits[0]);
+        }
+        else
+        {
+            ShowRewards();
+        }
     }
 
     private void ShowRewards()
     {
         ChoosingReward = true;
-        SetScene(new Scene { Title = "A gift from the remnants", Text = "The guardian falls. The gods offer a single gift for your descent.\n\nChoose one reward. Your blessings refresh at the start of every turn; your health carries between encounters." });
-        var mana = ManaSourceManager.Instance;
-        var domains = mana.BlessingBar.AllBlessings.Select(b => b.Domain).Distinct().ToArray();
-        var paths = new[] { "Damage/FireBall", "Damage/FileBolt", "Damage/LightPierce", "Damage/Rot", "Damage/Solidify", "Damage/Discombobulate", "StatusEffect/Plague", "Buff/UmbralShield", "QueueSynergy/Duplication", "QueueSynergy/Echo" };
-        foreach (var path in paths)
+        SetScene(new Scene
         {
-            var spell = GD.Load<ActionData>($"res://Resources/Spells/{path}.tres");
-            spell.Initialize();
-            if (SpellBookManager.Instance.AvailableSpells.Any(s => s.Data.Name == spell.Name)
-                || spell.Cost.Costs.Any(c => !domains.Contains(c.Type))) continue;
-            AddChoice($"Learn {spell.Name} · {spell.Cost}", () =>
-            {
-                SpellBookManager.Instance.AddSpell(spell);
-                ShowRoom();
-            });
-        }
+            Title = Floor.FormatText("reward_title"),
+            Text = Floor.FormatText("reward_text")
+        });
+
+        var domains = ManaSourceManager.Instance.BlessingBar.AllBlessings
+            .Select(blessing => blessing.Domain).Distinct().ToArray();
+        AddSpellRewards(domains);
         foreach (var domain in domains)
         {
-            var chosen = domain;
-            AddChoice($"Accept a {domain} blessing · +1 mana each turn", () => { GrantBlessing(chosen); ShowRoom(); });
+            AddChoice(Floor.FormatText("reward_blessing", domain), () => AcceptBlessingReward(domain));
         }
-        AddAsyncChoice("Mend your wounds · recover 22 health", async () =>
-        {
-            await PlayerManager.Instance.GetPlayer().Heal(22);
-            ShowRoom();
-        });
+
+        AddAsyncChoice(Floor.FormatText("reward_heal", Floor.RewardHealing), AcceptHealingReward);
         UpdateStatus();
+    }
+
+    private void AddSpellRewards(Domain[] domains)
+    {
+        foreach (var spell in Floor.RewardSpells)
+        {
+            spell.Initialize();
+            if (SpellBookManager.Instance.AvailableSpells.Any(known => known.Data.Name == spell.Name)
+                || spell.Cost.Costs.Any(cost => !domains.Contains(cost.Type)))
+            {
+                continue;
+            }
+
+            AddChoice(Floor.FormatText("learn", spell.Name, spell.Cost), () => AcceptSpellReward(spell));
+        }
+    }
+
+    private void AcceptSpellReward(ActionData spell)
+    {
+        SpellBookManager.Instance.AddSpell(spell);
+        ShowRoom();
+    }
+
+    private void AcceptBlessingReward(Domain domain)
+    {
+        GrantBlessing(domain);
+        ShowRoom();
+    }
+
+    private async Task AcceptHealingReward()
+    {
+        await PlayerManager.Instance.GetPlayer().Heal(Floor.RewardHealing);
+        ShowRoom();
     }
 
     private void GrantBlessing(Domain domain)
@@ -232,44 +305,81 @@ public partial class SceneManager : Node
 
     public void SetScene(Scene scene)
     {
-        BattleNode.Hide();
-        SceneNode.Show();
+        BattleHud.Hide();
+        ExplorationExposer.Show();
         Title.Text = scene.Title;
         Text.Text = scene.Text;
-        foreach (var child in Choices.GetChildren()) { Choices.RemoveChild(child); child.QueueFree(); }
+
+        foreach (var child in Choices.GetChildren())
+        {
+            Choices.RemoveChild(child);
+            child.QueueFree();
+        }
+
         foreach (var choice in scene.Choices)
+        {
             AddChoice(choice.Title, choice.Effect, choice.Prerequisite?.Invoke() ?? true);
+        }
     }
 
     private void AddChoice(string title, System.Action effect, bool enabled = true)
-        => AddAsyncChoice(title, () => { effect?.Invoke(); return Task.CompletedTask; }, enabled);
+    {
+        AddAsyncChoice(title, () =>
+        {
+            effect?.Invoke();
+            return Task.CompletedTask;
+        }, enabled);
+    }
 
     private void AddAsyncChoice(string title, Func<Task> effect, bool enabled = true)
     {
-        var button = new Button { Text = title, Disabled = !enabled, CustomMinimumSize = new Vector2(900, 52), Alignment = HorizontalAlignment.Left, MouseDefaultCursorShape = Control.CursorShape.PointingHand };
-        button.Pressed += async () =>
-        {
-            if (ChoiceInProgress || !IsInstanceValid(button) || button.IsQueuedForDeletion()) return;
-            ChoiceInProgress = true;
-            foreach (var child in Choices.GetChildren().OfType<Button>()) child.Disabled = true;
-            try { await effect(); }
-            finally { ChoiceInProgress = false; }
-        };
+        var button = ChoiceButtonScene.Instantiate<SceneChoiceButton>();
+        button.Setup(title, effect, enabled);
         Choices.AddChild(button);
+    }
+
+    /// <summary>
+    /// Locks all room choices until the selected action finishes updating the view.
+    /// </summary>
+    public async Task ResolveChoice(Func<Task> effect)
+    {
+        if (IsResolvingChoice)
+        {
+            return;
+        }
+
+        IsResolvingChoice = true;
+        foreach (var child in Choices.GetChildren().OfType<Button>())
+        {
+            child.Disabled = true;
+        }
+
+        try
+        {
+            await effect();
+        }
+        finally
+        {
+            IsResolvingChoice = false;
+        }
     }
 
     private void UpdateStatus()
     {
         var player = PlayerManager.Instance.GetPlayer();
-        RunStatus.Text = $"PRIEST  /  ALDERWICK · FIRST DESCENT\n{player.CharacterData.Name} · Health {player.Health:0}/{player.CharacterData.MaxHealth:0} · Blessings {ManaSourceManager.Instance.BlessingBar.AllMana} · Guardians defeated {ClearedRooms.Count}/3\n";
-        MapChanged?.Invoke();
+        RunStatus.Text = Floor.FormatText("status", player.CharacterData.Name, player.Health,
+            player.CharacterData.MaxHealth, ManaSourceManager.Instance.BlessingBar.AllMana, ClearedRooms.Count);
+        EmitSignal(SignalName.MapChanged);
     }
 
     private void UpdateCombatHelp()
     {
-        var enemy = BattleManager.Instance.Characters.Keys.OfType<Enemy>().First();
-        CombatHelp.Text = $"{CurrentRoom.Title}\n{enemy.GetResistanceSummary()}\nSelect a spell → Add to queue → Cast queue. Blessings refresh each turn. Order matters!";
+        var enemy = Battle.Characters.Keys.OfType<Enemy>().First();
+        CombatHelp.Text = Floor.FormatText("combat_help", CurrentRoom.Title, enemy.GetResistanceSummary());
     }
 
-    private void Restart() => GetTree().ReloadCurrentScene();
+    private void Restart()
+    {
+        GetTree().ReloadCurrentScene();
+    }
 }

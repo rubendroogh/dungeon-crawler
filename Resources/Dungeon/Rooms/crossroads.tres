@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="DungeonRoomData" load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://Scripts/Dungeon/DungeonRoomData.cs" id="1"]
+
+[ext_resource type="Texture2D" path="res://Assets/Textures/UI/Map/crossroads.svg" id="map_icon"]
+
+[resource]
+script = ExtResource("1")
+Id = "crossroads"
+Title = "The last lantern"
+MapTitle = "Last lantern"
+Text = "Two paths meet under a dying lantern. Behind you: the flooded halls. Ahead: the Keeper of the Influx.\n\nA quiet alcove offers one final moment of rest."
+Kind = 4
+MapPosition = Vector2i(3, 7)
+Exits = PackedStringArray("boss")
+OptionalBranches = PackedStringArray("shrine", "archive")
+Healing = 18
+MapIcon = ExtResource("map_icon")

@@ -37,3 +37,10 @@ The integration checks exercise all starting-domain combinations, character crea
 To also capture rendered screens, omit `--headless` and add `--rendering-method gl_compatibility` before `--`, and `--mvp-capture` after it. Captures go to `.godot/mvp-preview/`.
 
 Managers are owned by the main scene so replay recreates their state together with the player and UI.
+
+## Editing the existing content and presentation
+
+- `Resources/Dungeon/Alderwick.tres` owns the floor's room catalog, reward spells, and shared text. Room resources under `Resources/Dungeon/Rooms` hold descriptions, map coordinates, icons, exits, and encounter references.
+- Enemy character resources under `Resources/Characters` reference their ordered attacks under `Resources/Actions`.
+- `Scenes/SceneUI` contains the reusable exploration view, map, backdrop, and choice button. Shared palettes and dimensions are in `Resources/Themes/DungeonMapStyle.tres` and `DungeonBackdropStyle.tres`; map icons are in `Assets/Textures/UI/Map`.
+- `Levels/MainScene.tscn` composes the screens and supplies exported node references. `Scripts/Debug/MvpPlaytest.cs` contains only the opt-in diagnostic playthrough and captures.

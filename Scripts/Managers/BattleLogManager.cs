@@ -22,7 +22,6 @@ public partial class BattleLogManager : Node
     public override void _Ready()
     {
         Instance = this;
-        BattleLogExposer = GetTree().Root.FindChild("BattleLog", true, false) as ComponentExposer;
     }
 
     /// <summary>

@@ -1,6 +1,9 @@
 using Godot;
 using System.Threading.Tasks;
 
+/// <summary>
+/// Presents the player's divine alignment and accepts input to enter the dungeon.
+/// </summary>
 public partial class IntroCutscene : Control
 {
     [Export(PropertyHint.MultilineText)] public string IntroTextStory { get; set; }
@@ -8,6 +11,9 @@ public partial class IntroCutscene : Control
     [Export(PropertyHint.MultilineText)] public string IntroTextPlural { get; set; }
     private bool Continuing;
 
+    /// <summary>
+    /// Starts the text presentation; user input completes the transition separately.
+    /// </summary>
     public Task Start()
     {
         var story = FindChild("StoryText") as AnimatedText;
@@ -24,7 +30,11 @@ public partial class IntroCutscene : Control
 
     public override void _Input(InputEvent input)
     {
-        if (!IsVisibleInTree() || Continuing) return;
+        if (!IsVisibleInTree() || Continuing)
+        {
+            return;
+        }
+
         if (input is InputEventKey key && key.Pressed && !key.Echo && (key.Keycode == Key.Space || key.Keycode == Key.Enter)
             || input is InputEventMouseButton mouse && mouse.Pressed && mouse.ButtonIndex == MouseButton.Left)
         {

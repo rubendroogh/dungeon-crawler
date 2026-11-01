@@ -5,3 +5,8 @@ charset = utf-8
 
 # CS1998: Async method lacks 'await' operators and will run synchronously
 dotnet_diagnostic.CS1998.severity = silent
+
+[*.cs]
+csharp_new_line_before_open_brace = all
+csharp_prefer_braces = true:suggestion
+csharp_preserve_single_line_statements = false

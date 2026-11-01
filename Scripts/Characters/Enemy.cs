@@ -2,6 +2,9 @@ using Godot;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
+/// <summary>
+/// Executes resource-defined enemy attacks and presents damage and attack intentions.
+/// </summary>
 public partial class Enemy : Character
 {
 	/// <summary>
@@ -26,8 +29,12 @@ public partial class Enemy : Character
 	/// This is used to manage actions that are queued for the enemy, allowing for multiple actions to be performed in a single turn.
 	/// </summary>
 	public List<Action> AvailableActions { get; } = new List<Action>();
-	private int AttacksTaken;
-	private Label Intent;
+	private int AttacksTaken { get; set; }
+
+	[Export] private Label Intent;
+	[Export] private string IntentFormat;
+	[Export] private string WeaknessFormat;
+	[Export] private string ResistanceFormat;
 
 	public override void _Ready()
 	{
@@ -36,8 +43,6 @@ public partial class Enemy : Character
 
 		DamageAnimationSprite = GetNode<Sprite2D>("DamageSprite");
 		DamageAnimationSprite.Visible = false;
-		Intent = new Label { Position = new Vector2(-240, 160), Size = new Vector2(480, 60), HorizontalAlignment = HorizontalAlignment.Center };
-		AddChild(Intent);
 		UpdateIntent();
 	}
 
@@ -46,13 +51,13 @@ public partial class Enemy : Character
 	/// </summary>
 	public void ChooseAction(List<Character> targets)
 	{
-		if (targets == null || targets.Count == 0)
+		if (targets == null || targets.Count == 0 || AvailableActions.Count == 0)
 		{
 			GD.PrintErr("Invalid parameters for getting action for enemy.");
 			return;
 		}
 
-		// For simplicity, we will just choose a random action from the available actions.
+		// Cycle through the configured attacks so the displayed intention is predictable.
 		var selectedAction = AvailableActions[AttacksTaken % AvailableActions.Count];
 		AttacksTaken++;
 
@@ -106,37 +111,55 @@ public partial class Enemy : Character
 	/// </summary>
 	private void InitializeAvailableActions()
 	{
-		// TODO: Load actions dynamically
-		AvailableActions.Add(new Action
-		(
-			new ActionData
-			{
-				Name = "Basic Attack",
-				BasePhysicalDamage = CharacterData.Name == "Keeper of the Influx" ? 6 : 4,
-			},
-			new DefaultActionBehaviour()
-		));
-		if (CharacterData.Name == "Keeper of the Influx")
+		foreach (var actionData in CharacterData.AvailableActions)
 		{
-			AvailableActions.Add(new Action(new ActionData { Name = "Gathered flame", BaseFireDamage = 12 }, new DefaultActionBehaviour()));
+			AvailableActions.Add(new Action(actionData, new DefaultActionBehaviour()));
 		}
 	}
 
 	private void UpdateIntent()
 	{
+		if (AvailableActions.Count == 0)
+		{
+			return;
+		}
+
 		var next = AvailableActions[AttacksTaken % AvailableActions.Count].Data;
-		Intent.Text = $"Next: {next.Name} · {(next.BaseFireDamage > 0 ? next.BaseFireDamage + " fire" : next.BasePhysicalDamage + " physical")}\nHealth {Health:0}/{CharacterData.MaxHealth:0}";
+		var damage = string.Join(", ", next.DamageTypes).ToLowerInvariant();
+		var amount = next.BaseFireDamage > 0 ? next.BaseFireDamage : next.BasePhysicalDamage;
+		Intent.Text = string.Format(IntentFormat, next.Name, $"{amount} {damage}", Health, CharacterData.MaxHealth);
 	}
 
 	public override void _Process(double delta)
 	{
-		if (Intent != null) UpdateIntent();
-	}
+		if (Intent != null)
+        {
+            UpdateIntent();
+        }
+    }
 
+	/// <summary>
+	/// Describes the encounter's elemental weaknesses and resistances.
+	/// </summary>
 	public string GetResistanceSummary()
-		=> $"Weak to light (×{CharacterData.BaseLightDamageMultiplier:0.##})"
-		+ (CharacterData.BaseIceDamageMultiplier > 1 ? $", ice (×{CharacterData.BaseIceDamageMultiplier:0.##})" : "")
-		+ (CharacterData.BaseFireDamageMultiplier < 1 ? $" · Resists fire (×{CharacterData.BaseFireDamageMultiplier:0.##})" : "");
+	{
+		var descriptions = new List<string>
+		{
+			string.Format(WeaknessFormat, DamageType.Light.ToString().ToLowerInvariant(), CharacterData.BaseLightDamageMultiplier)
+		};
+
+		if (CharacterData.BaseIceDamageMultiplier > 1)
+		{
+			descriptions.Add(string.Format(WeaknessFormat, DamageType.Ice.ToString().ToLowerInvariant(), CharacterData.BaseIceDamageMultiplier));
+		}
+
+		if (CharacterData.BaseFireDamageMultiplier < 1)
+		{
+			descriptions.Add(string.Format(ResistanceFormat, DamageType.Fire.ToString().ToLowerInvariant(), CharacterData.BaseFireDamageMultiplier));
+		}
+
+		return string.Join(" · ", descriptions);
+	}
 
 	/// <summary>
 	/// Queue an action for the enemy to perform in the next damage phase.

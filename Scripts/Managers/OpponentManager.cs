@@ -29,7 +29,6 @@ public partial class OpponentManager : Node
     public override void _Ready()
     {
         Instance = this;
-        OpponentExposer = GetTree().Root.FindChild("Opponents", true, false) as ComponentExposer;
     }
 
     /// <summary>

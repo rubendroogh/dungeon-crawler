@@ -28,8 +28,6 @@ public partial class SpellQueueManager : Node
     public override void _Ready()
     {
         Instance = this;
-        SpellQueueExposer = GetTree().Root.FindChild("SpellQueue", true, false) as ComponentExposer;
-        SpellQueueUIScene = GD.Load<PackedScene>("res://Scenes/BattleUI/SpellQueue/SpellQueueItem.tscn");
     }
 
     /// <summary>

@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="DungeonRoomData" load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://Scripts/Dungeon/DungeonRoomData.cs" id="1"]
+
+[ext_resource type="Texture2D" path="res://Assets/Textures/UI/Map/shrine.svg" id="map_icon"]
+
+[resource]
+script = ExtResource("1")
+Id = "shrine"
+Title = "Left · The forgotten shrine"
+MapTitle = "Forgotten shrine"
+Text = "A stone basin holds clear water. Four worn figures watch over a single unlit candle. You can drink, or ask a god for another blessing."
+Kind = 2
+MapPosition = Vector2i(1, 5)
+Exits = PackedStringArray("crossroads")
+Healing = 24
+MapIcon = ExtResource("map_icon")

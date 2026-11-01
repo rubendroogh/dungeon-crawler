@@ -2,10 +2,9 @@ using Godot;
 using Godot.Collections;
 
 /// <summary>
-/// Added to the root note of a scene to expose its components to other scripts.
-/// This should be used for components that do not contain any logic by itself.
+/// Caches typed references to named components within reusable UI scenes.
 /// </summary>
-public partial class ComponentExposer : Node
+public partial class ComponentExposer : Control
 {
     /// <summary>
     /// A dictionary to hold references to exposed components.

@@ -1,4 +1,4 @@
-[gd_scene load_steps=31 format=3 uid="uid://ck8p1eru6l2f4"]
+[gd_scene load_steps=35 format=3 uid="uid://ck8p1eru6l2f4"]
 
 [ext_resource type="Script" uid="uid://di2h8gf1377s5" path="res://Scripts/UI/CameraShake.cs" id="1_hojmo"]
 [ext_resource type="Resource" uid="uid://cdn0d7ugm3gse" path="res://Resources/Characters/Player.tres" id="15_aw745"]
@@ -29,45 +29,62 @@
 [ext_resource type="Script" uid="uid://dpayadwmj0w0j" path="res://Scripts/Managers/PlayerManager.cs" id="mvp_10"]
 [ext_resource type="PackedScene" uid="uid://2n00rho2da6m" path="res://Scenes/Managers/ManasourceManager.tscn" id="mvp_11"]
 [ext_resource type="PackedScene" uid="uid://bc1feg8j1aip5" path="res://Scenes/Managers/SceneManager.tscn" id="mvp_12"]
-[ext_resource type="Script" uid="uid://cnsy0iusnk1uy" path="res://Scripts/MvpPlaytest.cs" id="mvp_test"]
+
+[ext_resource type="PackedScene" path="res://Scenes/SceneUI/ExplorationView.tscn" id="exploration"]
+[ext_resource type="PackedScene" path="res://Scenes/SceneUI/DungeonMap.tscn" id="grid_map"]
+[ext_resource type="PackedScene" path="res://Scenes/SceneUI/DungeonBackdrop.tscn" id="backdrop"]
+[ext_resource type="Script" path="res://Scripts/Debug/MvpPlaytest.cs" id="playtest"]
+
+[ext_resource type="PackedScene" path="res://Scenes/BattleUI/SpellQueue/SpellQueueItem.tscn" id="queue_item"]
 
 [node name="Root" type="Node"]
-script = ExtResource("mvp_test")
 
 [node name="World" type="Node" parent="."]
 
 [node name="Camera" type="Camera2D" parent="World"]
 position = Vector2(0, 1.47228)
 script = ExtResource("1_hojmo")
+enabled = false
 
-[node name="Player" type="Node2D" parent="World"]
+
+[node name="Player" type="Node2D" parent="World" node_paths=PackedStringArray("PlayerHealthBar")]
 script = ExtResource("15_irpm1")
 CharacterData = ExtResource("15_aw745")
+PlayerHealthBar = NodePath("../../UI/BattleHUD/Bottom/Margin/VBox/PlayerHealthBar")
+
 
 [node name="UI" type="Control" parent="."]
-layout_mode = 3
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = -960.0
-offset_top = -540.0
-offset_right = -960.0
-offset_bottom = -531.0
 grow_horizontal = 2
 grow_vertical = 2
+layout_mode = 1
+anchors_preset = 15
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 0.0
+offset_top = 0.0
+offset_right = 0.0
+offset_bottom = 0.0
+
 
 [node name="BattleHUD" type="VBoxContainer" parent="UI"]
 visible = false
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_right = -3.0
-offset_bottom = -8.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_constants/separation = 0
 alignment = 1
+layout_mode = 1
+anchors_preset = 15
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 0.0
+offset_top = 0.0
+offset_right = 0.0
+offset_bottom = 0.0
+
 
 [node name="BattleAndResources" type="HBoxContainer" parent="UI/BattleHUD"]
 layout_mode = 2
@@ -77,6 +94,13 @@ theme_override_constants/separation = 0
 [node name="Battle" type="VBoxContainer" parent="UI/BattleHUD/BattleAndResources"]
 layout_mode = 2
 size_flags_horizontal = 3
+
+[node name="CombatHelp" type="Label" parent="UI/BattleHUD/BattleAndResources/Battle" index="0"]
+custom_minimum_size = Vector2(600, 100)
+layout_mode = 2
+autowrap_mode = 3
+theme_override_constants/outline_size = 4
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 
 [node name="Opponents" parent="UI/BattleHUD/BattleAndResources/Battle" instance=ExtResource("22_ogsbt")]
 layout_mode = 2
@@ -89,6 +113,8 @@ layout_mode = 2
 custom_minimum_size = Vector2(425, 0)
 layout_mode = 2
 current_tab = 0
+tab_alignment = 0
+
 
 [node name="Spells" type="PanelContainer" parent="UI/BattleHUD/BattleAndResources/ResourcesTabs"]
 layout_mode = 2
@@ -113,31 +139,13 @@ layout_mode = 2
 [node name="SpellQueue" parent="UI/BattleHUD/BattleAndResources/ResourcesTabs/Spells/Margin/SpellSelection" instance=ExtResource("21_2dbf0")]
 layout_mode = 2
 
-[node name="Inventory" type="VBoxContainer" parent="UI/BattleHUD/BattleAndResources/ResourcesTabs"]
-visible = false
-layout_mode = 2
-metadata/_tab_index = 1
-
-[node name="CenterContainer" type="CenterContainer" parent="UI/BattleHUD/BattleAndResources/ResourcesTabs/Inventory"]
-layout_mode = 2
-size_flags_vertical = 3
-
-[node name="Label" type="Label" parent="UI/BattleHUD/BattleAndResources/ResourcesTabs/Inventory/CenterContainer"]
-layout_mode = 2
-text = "Feature not implemented yet!"
-
 [node name="Map" type="VBoxContainer" parent="UI/BattleHUD/BattleAndResources/ResourcesTabs"]
 visible = false
 layout_mode = 2
 metadata/_tab_index = 2
 
-[node name="CenterContainer" type="CenterContainer" parent="UI/BattleHUD/BattleAndResources/ResourcesTabs/Map"]
+[node name="DungeonMap" parent="UI/BattleHUD/BattleAndResources/ResourcesTabs/Map" instance=ExtResource("grid_map")]
 layout_mode = 2
-size_flags_vertical = 3
-
-[node name="Label" type="Label" parent="UI/BattleHUD/BattleAndResources/ResourcesTabs/Map/CenterContainer"]
-layout_mode = 2
-text = "Feature not implemented yet!"
 
 [node name="Manasource" type="PanelContainer" parent="UI/BattleHUD"]
 z_index = -2
@@ -177,7 +185,8 @@ alignment = 1
 
 [node name="PlayerHealthBar" parent="UI/BattleHUD/Bottom/Margin/VBox" instance=ExtResource("28_ghvpb")]
 layout_mode = 2
-size_flags_horizontal = 1
+size_flags_horizontal = 3
+
 
 [node name="TurnIndicationPanel" parent="UI/BattleHUD/Bottom/Margin/VBox" instance=ExtResource("25_b51k0")]
 custom_minimum_size = Vector2(190, 0)
@@ -186,37 +195,60 @@ layout_mode = 2
 [node name="CharacterCreation" type="Control" parent="UI"]
 z_index = 10
 layout_mode = 1
-anchor_left = -0.5
-anchor_top = -0.5
-anchor_right = 0.5
-anchor_bottom = 0.508
-offset_bottom = -8.64001
-
-[node name="CharacterCreationBackground" parent="UI/CharacterCreation" instance=ExtResource("31_ogsbt")]
-layout_mode = 1
 anchors_preset = 15
+anchor_left = 0.0
+anchor_top = 0.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = 953.0
-offset_top = 543.5
-offset_right = -487.0
-offset_bottom = -266.5
+offset_left = 0.0
+offset_top = 0.0
+offset_right = 0.0
+offset_bottom = 0.0
+
+
+[node name="CharacterCreationBackground" parent="UI/CharacterCreation" instance=ExtResource("31_ogsbt")]
 grow_horizontal = 2
 grow_vertical = 2
+layout_mode = 1
+anchors_preset = 15
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 0.0
+offset_top = 0.0
+offset_right = 0.0
+offset_bottom = 0.0
+scale = Vector2(1, 1)
+
 
 [node name="CharacterCreationCenter" parent="UI/CharacterCreation" instance=ExtResource("32_ogsbt")]
+
 layout_mode = 1
-offset_left = 961.0
-offset_top = 543.5
-offset_right = 961.0
-offset_bottom = 542.5
+anchors_preset = 15
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 0.0
+offset_top = 0.0
+offset_right = 0.0
+offset_bottom = 0.0
+
 
 [node name="IntroCutscene" parent="UI" instance=ExtResource("38_21fen")]
 visible = false
-offset_left = 960.0
-offset_top = 549.0
-offset_right = 1000.0
-offset_bottom = 589.0
+layout_mode = 1
+anchors_preset = 15
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 0.0
+offset_top = 0.0
+offset_right = 0.0
+offset_bottom = 0.0
+
 
 [node name="TooltipRoot" parent="UI" instance=ExtResource("24_hojmo")]
 visible = false
@@ -225,92 +257,49 @@ layout_mode = 0
 offset_right = 172.0
 offset_bottom = 60.0
 
-[node name="Scene" type="HBoxContainer" parent="UI"]
+[node name="Scene" parent="UI" instance=ExtResource("exploration")]
 visible = false
 layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-alignment = 1
-
-[node name="ImageCenterContainer" type="CenterContainer" parent="UI/Scene"]
-visible = false
-layout_mode = 2
-
-[node name="ImageMarginContainer" type="MarginContainer" parent="UI/Scene/ImageCenterContainer"]
-layout_mode = 2
-theme_override_constants/margin_left = 10
-theme_override_constants/margin_top = 10
-theme_override_constants/margin_right = 10
-theme_override_constants/margin_bottom = 10
-
-[node name="Image" type="TextureRect" parent="UI/Scene/ImageCenterContainer/ImageMarginContainer"]
-layout_mode = 2
-stretch_mode = 2
-
-[node name="ContentCenterContainer" type="CenterContainer" parent="UI/Scene"]
-custom_minimum_size = Vector2(200, 0)
-layout_mode = 2
-
-[node name="ContentMarginContainer" type="MarginContainer" parent="UI/Scene/ContentCenterContainer"]
-layout_mode = 2
-
-[node name="VBoxContainer" type="VBoxContainer" parent="UI/Scene/ContentCenterContainer/ContentMarginContainer"]
-layout_mode = 2
-alignment = 1
-
-[node name="SceneTitle" type="RichTextLabel" parent="UI/Scene/ContentCenterContainer/ContentMarginContainer/VBoxContainer"]
-custom_minimum_size = Vector2(800, 0)
-layout_mode = 2
-theme_override_font_sizes/normal_font_size = 36
-bbcode_enabled = true
-text = "Titel!"
-fit_content = true
-
-[node name="SceneText" type="RichTextLabel" parent="UI/Scene/ContentCenterContainer/ContentMarginContainer/VBoxContainer"]
-layout_mode = 2
-text = "Lorem ipsum dolor sit amet."
-fit_content = true
-
-[node name="SceneChoices" type="VBoxContainer" parent="UI/Scene/ContentCenterContainer/ContentMarginContainer/VBoxContainer"]
-layout_mode = 2
-
-[node name="Button" parent="UI/Scene/ContentCenterContainer/ContentMarginContainer/VBoxContainer/SceneChoices" instance=ExtResource("16_irpm1")]
-layout_mode = 2
-
-[node name="Button2" type="Button" parent="UI/Scene/ContentCenterContainer/ContentMarginContainer/VBoxContainer/SceneChoices"]
-layout_mode = 2
-text = "Gevaarlijke optie!"
-
-[node name="Button3" type="Button" parent="UI/Scene/ContentCenterContainer/ContentMarginContainer/VBoxContainer/SceneChoices"]
-layout_mode = 2
-text = "Fun optie!"
 
 [node name="Managers" type="Node" parent="."]
 
 [node name="ActionManager" type="Node" parent="Managers"]
 script = ExtResource("mvp_0")
 
-[node name="BattleLogManager" type="Node" parent="Managers"]
+[node name="BattleLogManager" type="Node" parent="Managers" node_paths=PackedStringArray("BattleLogExposer")]
 script = ExtResource("mvp_1")
+BattleLogExposer = NodePath("../../UI/BattleHUD/BattleAndResources/Battle/BattleLog")
 
-[node name="BattleManager" type="Node" parent="Managers"]
+
+[node name="BattleManager" type="Node" parent="Managers" node_paths=PackedStringArray("TurnIndicationExposer")]
 script = ExtResource("mvp_2")
+TurnIndicationExposer = NodePath("../../UI/BattleHUD/Bottom/Margin/VBox/TurnIndicationPanel")
 
-[node name="SpellQueueManager" type="Node" parent="Managers"]
+
+[node name="SpellQueueManager" type="Node" parent="Managers" node_paths=PackedStringArray("SpellQueueExposer")]
 script = ExtResource("mvp_3")
+SpellQueueExposer = NodePath("../../UI/BattleHUD/BattleAndResources/ResourcesTabs/Spells/Margin/SpellSelection/SpellQueue")
+SpellQueueUIScene = ExtResource("queue_item")
+
 
 [node name="TooltipManager" type="Node" parent="Managers"]
 script = ExtResource("mvp_4")
 
-[node name="TransitionManager" type="Node" parent="Managers"]
+[node name="TransitionManager" type="Node" parent="Managers" node_paths=PackedStringArray("WorldNode", "BattleHUDNode", "CharacterCreationNode", "SceneNode", "CutsceneNode")]
 script = ExtResource("mvp_5")
+WorldNode = NodePath("../../World")
+BattleHUDNode = NodePath("../../UI/BattleHUD")
+CharacterCreationNode = NodePath("../../UI/CharacterCreation")
+SceneNode = NodePath("../../UI/Scene")
+CutsceneNode = NodePath("../../UI/IntroCutscene")
+
 
 [node name="MusicManager" parent="Managers" instance=ExtResource("mvp_6")]
 
-[node name="OpponentManager" parent="Managers" instance=ExtResource("mvp_7")]
+[node name="OpponentManager" parent="Managers" instance=ExtResource("mvp_7") node_paths=PackedStringArray("OpponentExposer")]
+
+OpponentExposer = NodePath("../../UI/BattleHUD/BattleAndResources/Battle/Opponents")
+
 
 [node name="SoundEffectManager" parent="Managers" instance=ExtResource("mvp_8")]
 
@@ -321,4 +310,26 @@ script = ExtResource("mvp_10")
 
 [node name="ManasourceManager" parent="Managers" instance=ExtResource("mvp_11")]
 
-[node name="SceneManager" parent="Managers" instance=ExtResource("mvp_12")]
+[node name="SceneManager" parent="Managers" instance=ExtResource("mvp_12") node_paths=PackedStringArray("ExplorationExposer", "BattleHud", "CombatHelp")]
+
+ExplorationExposer = NodePath("../../UI/Scene")
+BattleHud = NodePath("../../UI/BattleHUD")
+CombatHelp = NodePath("../../UI/BattleHUD/BattleAndResources/Battle/CombatHelp")
+
+
+[node name="DungeonBackdrop" parent="UI" node_paths=PackedStringArray("CombatHud", "CombatStage") instance=ExtResource("backdrop")]
+layout_mode = 1
+CombatHud = NodePath("../BattleHUD")
+CombatStage = NodePath("../BattleHUD/BattleAndResources/Battle/Opponents")
+
+
+[node name="Playtest" type="Node" parent="." node_paths=PackedStringArray("ExplorationExposer", "Creation", "Intro", "ResourceTabs", "AddSpell", "SpellBookExposer", "ClearQueue", "Music")]
+script = ExtResource("playtest")
+ExplorationExposer = NodePath("../UI/Scene")
+Creation = NodePath("../UI/CharacterCreation/CharacterCreationCenter/CharacterCreationManager")
+Intro = NodePath("../UI/IntroCutscene")
+ResourceTabs = NodePath("../UI/BattleHUD/BattleAndResources/ResourcesTabs")
+AddSpell = NodePath("../UI/BattleHUD/BattleAndResources/ResourcesTabs/Spells/Margin/SpellSelection/SpellBook/MarginContainer/HBoxContainer/AddSpellToQueue")
+SpellBookExposer = NodePath("../UI/BattleHUD/BattleAndResources/ResourcesTabs/Spells/Margin/SpellSelection/SpellBook")
+ClearQueue = NodePath("../UI/BattleHUD/BattleAndResources/ResourcesTabs/Spells/Margin/SpellSelection/SpellQueue/MarginContainer/SpellQueue/ClearQueue")
+Music = NodePath("../Managers/MusicManager/AudioStreamPlayer2D")

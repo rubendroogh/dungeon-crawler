@@ -27,13 +27,16 @@ offset_top = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="CharacterCreationManager" type="PanelContainer" parent="." node_paths=PackedStringArray("AvailablePointsExposer")]
+[node name="CharacterCreationManager" type="PanelContainer" parent="." node_paths=PackedStringArray("AvailablePointsExposer", "AlignmentPreview")]
 layout_mode = 2
 script = ExtResource("1_vwkv2")
 MaxTotalPoints = 0
 AvailablePointsTextSingular = "available personality point"
 AvailablePointsTextPlural = "available personality points"
 AvailablePointsExposer = NodePath("MarginContainer/HBoxContainer/Form/FormMargin/VBoxContainer/AvailablePointsMargin")
+AlignmentPreview = NodePath("MarginContainer/HBoxContainer/Form/AlignmentPreview")
+AlignmentPreviewFormat = "Your affinity: {0}"
+
 
 [node name="MarginContainer" type="MarginContainer" parent="CharacterCreationManager"]
 layout_mode = 2
@@ -275,8 +278,9 @@ text = "Start game"
 script = ExtResource("12_dmxv2")
 
 [node name="HelperText" type="VBoxContainer" parent="CharacterCreationManager/MarginContainer/HBoxContainer"]
-visible = false
 layout_mode = 2
+visible = true
+
 
 [node name="MarginContainer" type="MarginContainer" parent="CharacterCreationManager/MarginContainer/HBoxContainer/HelperText"]
 layout_mode = 2
@@ -286,6 +290,13 @@ theme_override_constants/margin_left = 5
 [node name="Label" type="Label" parent="CharacterCreationManager/MarginContainer/HBoxContainer/HelperText/MarginContainer"]
 layout_mode = 2
 size_flags_vertical = 3
-text = "Test"
-horizontal_alignment = 1
 vertical_alignment = 1
+custom_minimum_size = Vector2(420, 0)
+autowrap_mode = 3
+horizontal_alignment = 0
+text = "PRIEST\nThe first descent into Alderwick\n\nTrade personality points between traits until the total returns to zero. Negative traits can be just as useful. Leave everything at zero for a balanced start.\n\nYour strongest traits decide which gods give you spells and four starting blessings.\n\nZer: Genuine + Optimistic\nHamin: Curious + Focused\nJaddis: Charming + Benevolent\nCalina: Dominant + Fearless\n\nExplore the ruin, shape your spellbook, and confront the Keeper."
+
+
+[node name="AlignmentPreview" type="Label" parent="CharacterCreationManager/MarginContainer/HBoxContainer/Form"]
+layout_mode = 2
+autowrap_mode = 3

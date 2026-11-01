@@ -8,6 +8,12 @@ using Godot;
 public partial class CharacterData : Resource
 {
     /// <summary>
+    /// The ordered attacks used by an enemy with this character definition.
+    /// </summary>
+    [Export]
+    public Godot.Collections.Array<ActionData> AvailableActions { get; set; } = [];
+
+    /// <summary>
     /// The name.
     /// </summary>
     [Export]

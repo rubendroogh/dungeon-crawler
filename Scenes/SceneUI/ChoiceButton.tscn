@@ -1,4 +1,9 @@
-[gd_scene format=3 uid="uid://dgpgmxny2er70"]
+[gd_scene load_steps=2 format=3 uid="uid://dgpgmxny2er70"]
 
-[node name="Button" type="Button"]
-text = "Coole optie"
+[ext_resource type="Script" path="res://Scripts/UI/SceneChoiceButton.cs" id="1"]
+
+[node name="ChoiceButton" type="Button"]
+custom_minimum_size = Vector2(900, 52)
+alignment = 0
+mouse_default_cursor_shape = 2
+script = ExtResource("1")

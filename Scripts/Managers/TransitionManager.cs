@@ -1,6 +1,9 @@
 using System.Threading.Tasks;
 using Godot;
 
+/// <summary>
+/// Coordinates visibility and fade transitions between the main game screens.
+/// </summary>
 public partial class TransitionManager : Node
 {
     public static TransitionManager Instance { get; private set; }
@@ -8,26 +11,31 @@ public partial class TransitionManager : Node
     /// <summary>
     /// The root node of the world scene.
     /// </summary>
+    [Export]
     private Node WorldNode { get; set; }
 
     /// <summary>
     /// The root node of the main game HUD.
     /// </summary>
+    [Export]
     private CanvasItem BattleHUDNode { get; set; }
 
     /// <summary>
     /// The root node of the character creation UI.
     /// </summary>
+    [Export]
     private CanvasItem CharacterCreationNode { get; set; }
 
     /// <summary>
     /// The root node of the character creation UI.
     /// </summary>
+    [Export]
     private CanvasItem SceneNode { get; set; }
 
     /// <summary>
     /// The cutscene node (for intro text only for now).
     /// </summary>
+    [Export]
     private IntroCutscene CutsceneNode { get; set; }
 
     /// <summary>
@@ -38,11 +46,6 @@ public partial class TransitionManager : Node
     public override void _Ready()
     {
         Instance = this;
-        WorldNode = GetTree().Root.GetNode("Root/World");
-        BattleHUDNode = GetTree().Root.GetNode("Root/UI/BattleHUD") as CanvasItem;
-        CharacterCreationNode = GetTree().Root.GetNode("Root/UI/CharacterCreation") as CanvasItem;
-        SceneNode = GetTree().Root.GetNode("Root/UI/Scene") as CanvasItem;
-        CutsceneNode = GetTree().Root.GetNode("Root/UI/IntroCutscene") as IntroCutscene;
     }
 
     /// <summary>

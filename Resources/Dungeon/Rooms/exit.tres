@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="DungeonRoomData" load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://Scripts/Dungeon/DungeonRoomData.cs" id="1"]
+
+[ext_resource type="Texture2D" path="res://Assets/Textures/UI/Map/exit.svg" id="map_icon"]
+
+[resource]
+script = ExtResource("1")
+Id = "exit"
+Title = "Beyond the first door"
+MapTitle = "The first door"
+Text = "The Keeper falls. For the first time since the Influx, light reaches the doorway.\n\nYou have survived the first descent into Alderwick."
+Kind = 6
+MapPosition = Vector2i(3, 11)
+Exits = PackedStringArray()
+MapIcon = ExtResource("map_icon")

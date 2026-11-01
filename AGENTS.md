@@ -6,8 +6,6 @@ In essence, it’s a deckbuilder, but the cards are disguised as spells and more
 
 # Code standards
 
-These standards follow the original project code, before the MVP additions (commit `0ebe6fe`). Representative examples are `SpellBookManager`, `CharacterCreationManager`, `ActionData`, `ComponentExposer`, and the spell and status-effect behaviours.
-
 ## Documentation
 
 - Document all classes concisely and clearly with XML `/// <summary>` comments describing their responsibility.
@@ -43,6 +41,7 @@ These standards follow the original project code, before the MVP additions (comm
 - Use resource preloaders and the existing registries for available content and starting builds. Put a new definition in its appropriate resource or registry rather than duplicating it in consumers.
 - Keep reusable UI layouts and visual components in `.tscn` scenes under `Scenes`; keep level composition under `Levels`. Instantiate reusable scenes for lists, queues, opponents, and effects.
 - Reuse themes, style boxes, materials, and shaders under `Resources` for shared presentation. Centralize shared domain colors and formatting through helpers such as `DomainExtensions`.
+- Do not create content unless specifically asked for.
 
 ## Godot nodes and UI references
 

@@ -19,6 +19,7 @@ public partial class Player : Character
 	/// <summary>
 	/// The HealthBar UI element for the player.
 	/// </summary>
+	[Export]
 	private PlayerHealthBar PlayerHealthBar { get; set; }
 
 	public override void _Ready()
@@ -66,9 +67,6 @@ public partial class Player : Character
 
 	protected override void InitializeNodes(CharacterData characterData)
 	{
-		// Find health bar in the scene tree by name
-		PlayerHealthBar = GetTree().Root.FindChild("PlayerHealthBar", true, false) as PlayerHealthBar;
-
 		if (PlayerHealthBar == null)
 		{
 			GD.PrintErr("Player.cs: Player HealthBar is not set up in the scene.");

@@ -1,36 +1,83 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Priest.Managers;
 
-public enum RoomKind { Entrance, Battle, Shrine, Archive, Crossroads, Boss, Exit }
-
-/// <summary>A small branching floor. Each room has a stable identity for one-time rewards.</summary>
-public class DungeonGenerator
+/// <summary>
+/// Identifies the interaction offered by a dungeon room.
+/// </summary>
+public enum RoomKind
 {
-    public Dictionary<string, DungeonRoom> Rooms { get; } = new()
-    {
-        ["entrance"] = new("entrance", "The stairs of Alderwick", "Everyone from the old world walked into this dungeon on the day of the Influx. None returned. Now the gods have sent you to discover what called them.\n\nA damp passage descends beneath the ruined chapel.", RoomKind.Entrance, ["gate"]),
-        ["gate"] = new("gate", "The flooded threshold", "A dead thing stirs in the water. Beyond it, the passage divides.", RoomKind.Battle, ["shrine", "archive"]),
-        ["shrine"] = new("shrine", "Left · The forgotten shrine", "A stone basin holds clear water. Four worn figures watch over a single unlit candle. You can drink, or ask a god for another blessing.", RoomKind.Shrine, ["crossroads"]),
-        ["archive"] = new("archive", "Right · The drowned archive", "Waterlogged books lie beneath a watchful sentinel. A sealed grimoire glows on its pedestal. Defeat the sentinel to claim a spell.", RoomKind.Archive, ["crossroads"]),
-        ["crossroads"] = new("crossroads", "The last lantern", "Two paths meet under a dying lantern. Behind you: the flooded halls. Ahead: the Keeper of the Influx.\n\nA quiet alcove offers one final moment of rest.", RoomKind.Crossroads, ["boss"]),
-        ["boss"] = new("boss", "The Keeper of the Influx", "At the heart of the ruin, the Keeper guards the old world's final doorway. It raises its hand, gathering heat. There is no passage without a fight.", RoomKind.Boss, ["exit"]),
-        ["exit"] = new("exit", "Beyond the first door", "The Keeper falls. For the first time since the Influx, light reaches the doorway.\n\nYou have survived the first descent into Alderwick.", RoomKind.Exit, [])
-    };
+    /// <summary>
+    /// Starting room that introduces the floor and leads into the dungeon.
+    /// </summary>
+    Entrance,
 
-    public DungeonRoom Generate() => Rooms["entrance"];
+    /// <summary>
+    /// Regular combat encounter that offers a reward after victory.
+    /// </summary>
+    Battle,
+
+    /// <summary>
+    /// Sanctuary offering a one-time choice between healing and a divine blessing.
+    /// </summary>
+    Shrine,
+
+    /// <summary>
+    /// Optional archive guarded by an enemy, with spell learning among its victory rewards.
+    /// </summary>
+    Archive,
+
+    /// <summary>
+    /// Junction offering a one-time rest and access to optional branches before the boss.
+    /// </summary>
+    Crossroads,
+
+    /// <summary>
+    /// Final combat encounter whose defeat opens the route to the floor's exit.
+    /// </summary>
+    Boss,
+
+    /// <summary>
+    /// Destination that completes the run and offers a fresh descent.
+    /// </summary>
+    Exit
 }
 
-public record DungeonRoom(string Id, string Title, string Text, RoomKind Kind, string[] Exits);
+/// <summary>
+/// Resolves the resource-defined floor into a room graph for a new run.
+/// </summary>
+public class DungeonGenerator
+{
+    public DungeonFloorData Definition { get; }
+    public Dictionary<string, DungeonRoomData> Rooms { get; }
 
+    public DungeonGenerator(DungeonFloorData definition)
+    {
+        Definition = definition;
+        Rooms = definition.Rooms.ToDictionary(room => room.Id);
+    }
+
+    public DungeonRoomData Generate()
+    {
+        return Rooms[Definition.StartingRoomId];
+    }
+}
+
+/// <summary>
+/// Presentation content and choices for a dungeon interaction.
+/// </summary>
 public class Scene
 {
     public string Title { get; set; }
     public string Text { get; set; }
-    public List<Choice> Choices { get; } = new();
+    public List<Choice> Choices { get; } = [];
 }
 
+/// <summary>
+/// A selectable action with an optional eligibility check.
+/// </summary>
 public class Choice
 {
     public string Title { get; set; }

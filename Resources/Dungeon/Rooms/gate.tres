@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="DungeonRoomData" load_steps=4 format=3]
+
+[ext_resource type="Script" path="res://Scripts/Dungeon/DungeonRoomData.cs" id="1"]
+[ext_resource type="Resource" path="res://Resources/Characters/ThresholdGuardian.tres" id="2"]
+
+[ext_resource type="Texture2D" path="res://Assets/Textures/UI/Map/gate.svg" id="map_icon"]
+
+[resource]
+script = ExtResource("1")
+Id = "gate"
+Title = "The flooded threshold"
+MapTitle = "Flooded threshold"
+Text = "A dead thing stirs in the water. Beyond it, the passage divides."
+Kind = 1
+MapPosition = Vector2i(3, 3)
+Exits = PackedStringArray("shrine", "archive")
+Opponent = ExtResource("2")
+MapIcon = ExtResource("map_icon")

@@ -15,19 +15,32 @@ public partial class BattleManager : Node
     public bool IsBattleActive { get; private set; }
     public bool CanQueueSpells => IsBattleActive && CurrentTurnPhase == TurnPhase.Main
         && Characters.GetValueOrDefault(PlayerManager.Instance.GetPlayer());
-    public event System.Action<bool> BattleEnded;
-    private TaskCompletionSource<bool> EndMainPhase;
-    private Label TurnLabel;
+    /// <summary>
+    /// Notifies run progression once combat and status cleanup have finished.
+    /// </summary>
+    [Signal]
+    public delegate void BattleEndedEventHandler(bool victory);
+
+    private TaskCompletionSource<bool> EndMainPhase { get; set; }
+
+    [Export]
+    private ComponentExposer TurnIndicationExposer;
+
+    private Label TurnLabel { get; set; }
 
     public override void _Ready()
     {
         Instance = this;
-        TurnLabel = GetTree().Root.FindChild("TurnLabel", true, false) as Label;
+        TurnLabel = TurnIndicationExposer.GetComponent<Label>(Components.TurnLabel);
     }
 
     public void InitializeBattle(CharacterData opponentData = null)
     {
-        if (IsBattleActive) return;
+        if (IsBattleActive)
+        {
+            return;
+        }
+
         OpponentManager.Instance.ClearOpponents();
         Characters = new() { { PlayerManager.Instance.GetPlayer(), true } };
         var player = PlayerManager.Instance.GetPlayer();
@@ -38,8 +51,15 @@ public partial class BattleManager : Node
         BattleLogManager.Instance.ClearLog();
         Round = 0;
         IsBattleActive = true;
-        if (opponentData == null) OpponentManager.Instance.SpawnRandomOpponent();
-        else OpponentManager.Instance.SpawnOpponent(opponentData);
+        if (opponentData == null)
+        {
+            OpponentManager.Instance.SpawnRandomOpponent();
+        }
+        else
+        {
+            OpponentManager.Instance.SpawnOpponent(opponentData);
+        }
+
         _ = RunBattleLoop();
     }
 
@@ -64,25 +84,54 @@ public partial class BattleManager : Node
                 Round++;
                 foreach (var character in Characters.Keys.ToArray())
                 {
-                    if (character.IsDead) continue;
-                    foreach (var key in Characters.Keys.ToArray()) Characters[key] = key == character;
+                    if (character.IsDead)
+                    {
+                        continue;
+                    }
+
+                    foreach (var key in Characters.Keys.ToArray())
+                    {
+                        Characters[key] = key == character;
+                    }
+
                     CastSpellsThisTurn = 0;
                     SetPhase(TurnPhase.Start, character);
-                    if (character.IsPlayer) ManaSourceManager.Instance.ResetAllMana();
+                    if (character.IsPlayer)
+                    {
+                        ManaSourceManager.Instance.ResetAllMana();
+                    }
+
                     await character.StartTurn();
-                    if (await CheckBattleEnd()) return;
+                    if (await CheckBattleEnd())
+                    {
+                        return;
+                    }
 
                     EndMainPhase = new TaskCompletionSource<bool>();
                     SetPhase(TurnPhase.Main, character);
-                    if (character.IsPlayer) await EndMainPhase.Task;
-                    else ((Enemy)character).ChooseAction(Characters.Keys.Where(c => !c.IsDead).ToList());
+                    if (character.IsPlayer)
+                    {
+                        await EndMainPhase.Task;
+                    }
+                    else
+                    {
+                        ((Enemy)character).ChooseAction(Characters.Keys.Where(c => !c.IsDead).ToList());
+                    }
 
                     SetPhase(TurnPhase.Damage, character);
                     await character.ResolveQueue();
-                    if (await CheckBattleEnd()) return;
+                    if (await CheckBattleEnd())
+                    {
+                        return;
+                    }
+
                     SetPhase(TurnPhase.End, character);
                     await character.EndTurn();
-                    if (await CheckBattleEnd()) return;
+                    if (await CheckBattleEnd())
+                    {
+                        return;
+                    }
+
                     SetPhase(TurnPhase.PostEnd, character);
                 }
             }
@@ -91,7 +140,7 @@ public partial class BattleManager : Node
         {
             GD.PushError($"Battle failed: {exception}");
             IsBattleActive = false;
-            BattleEnded?.Invoke(false);
+            EmitSignal(SignalName.BattleEnded, false);
         }
     }
 
@@ -105,16 +154,34 @@ public partial class BattleManager : Node
     {
         var player = PlayerManager.Instance.GetPlayer();
         var victory = Characters.Keys.Where(c => !c.IsPlayer).All(c => c.IsDead);
-        if (!player.IsDead && !victory) return false;
-        foreach (var character in Characters.Keys) character.ActionQueue.Clear();
+        if (!player.IsDead && !victory)
+        {
+            return false;
+        }
+
+        foreach (var character in Characters.Keys)
+        {
+            character.ActionQueue.Clear();
+        }
+
         await player.ClearAllEffects();
         ActionManager.Instance.ClearSelectedSpell();
         ManaSourceManager.Instance.ResetAllMana();
         SpellQueueManager.Instance.UpdateSpellQueue();
         IsBattleActive = false;
-        BattleEnded?.Invoke(!player.IsDead);
+        EmitSignal(SignalName.BattleEnded, !player.IsDead);
         return true;
     }
 }
 
-public enum TurnPhase { Start, Main, Damage, End, PostEnd }
+/// <summary>
+/// The ordered phases processed during each character's combat turn.
+/// </summary>
+public enum TurnPhase
+{
+    Start,
+    Main,
+    Damage,
+    End,
+    PostEnd
+}

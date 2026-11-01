@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="DungeonRoomData" load_steps=4 format=3]
+
+[ext_resource type="Script" path="res://Scripts/Dungeon/DungeonRoomData.cs" id="1"]
+[ext_resource type="Resource" path="res://Resources/Characters/DrownedArchivist.tres" id="2"]
+
+[ext_resource type="Texture2D" path="res://Assets/Textures/UI/Map/archive.svg" id="map_icon"]
+
+[resource]
+script = ExtResource("1")
+Id = "archive"
+Title = "Right · The drowned archive"
+MapTitle = "Drowned archive"
+Text = "Waterlogged books lie beneath a watchful sentinel. A sealed grimoire glows on its pedestal. Defeat the sentinel to claim a spell."
+Kind = 3
+MapPosition = Vector2i(5, 5)
+Exits = PackedStringArray("crossroads")
+Opponent = ExtResource("2")
+MapIcon = ExtResource("map_icon")

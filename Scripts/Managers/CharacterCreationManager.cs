@@ -66,7 +66,11 @@ public partial class CharacterCreationManager : Control
     /// The Submit Button for submitting the character creation form.
     /// </summary>
 	private Button SubmitButton { get; set; }
+	[Export]
 	private Label AlignmentPreview;
+
+	[Export]
+	private string AlignmentPreviewFormat;
 	
 	/// <summary>
     /// Calculates the number of available points left for allocation.
@@ -93,17 +97,8 @@ public partial class CharacterCreationManager : Control
 	public override void _Ready()
 	{
 		// Initialize form fields and points label
-		PlayerNameInput = FindChild("PlayerNameInput") as LineEdit;
-		SubmitButton = FindChild("SubmitButton") as Button;
-		var hintColumn = FindChild("HelperText") as Control;
-		hintColumn.Show();
-		var hint = hintColumn.FindChild("Label") as Label;
-		hint.CustomMinimumSize = new Vector2(420, 0);
-		hint.AutowrapMode = TextServer.AutowrapMode.WordSmart;
-		hint.HorizontalAlignment = HorizontalAlignment.Left;
-		hint.Text = "PRIEST\nThe first descent into Alderwick\n\nTrade personality points between traits until the total returns to zero. Negative traits can be just as useful. Leave everything at zero for a balanced start.\n\nYour strongest traits decide which gods give you spells and four starting blessings.\n\nZer: Genuine + Optimistic\nHamin: Curious + Focused\nJaddis: Charming + Benevolent\nCalina: Dominant + Fearless\n\nExplore the ruin, shape your spellbook, and confront the Keeper.";
-		AlignmentPreview = new Label { AutowrapMode = TextServer.AutowrapMode.WordSmart };
-		SubmitButton.GetParent().AddChild(AlignmentPreview);
+		PlayerNameInput = FindChild(Components.PlayerNameInput) as LineEdit;
+		SubmitButton = FindChild(Components.SubmitButton) as Button;
 
 		// Managers.TransitionManager.ToCharacterCreation();
 		UpdateAvailablePoints();
@@ -111,7 +106,7 @@ public partial class CharacterCreationManager : Control
 		UpdateAlignmentPreview();
 
 		// Connect the player name input text changed signal to update the submit button state.
-		PlayerNameInput.TextChanged += (text) => UpdateSubmitButtonState();
+		PlayerNameInput.TextChanged += OnPlayerNameChanged;
 
 		if (SkipCharacterCreation)
 		{
@@ -125,8 +120,12 @@ public partial class CharacterCreationManager : Control
 	/// </summary>
 	public void SubmitForm()
 	{
-		if (SubmitButton.Disabled || Submitted) return;
-		Submitted = true;
+		if (SubmitButton.Disabled || Submitted)
+        {
+            return;
+        }
+
+        Submitted = true;
         _ = SoundEffectManager.Instance.PlayButtonClick();
 		PlayerManager.Instance.SetPlayerData(GetPlayerData());
 		var build = GenerateCharacterBuild();
@@ -146,10 +145,22 @@ public partial class CharacterCreationManager : Control
 		UpdateAlignmentPreview();
 	}
 
+	private void OnPlayerNameChanged(string text)
+	{
+		UpdateSubmitButtonState();
+	}
+
+	/// <summary>
+	/// Shows the gods selected by the current balanced personality allocation.
+	/// </summary>
 	private void UpdateAlignmentPreview()
 	{
-		if (AlignmentPreview == null || AvailablePoints != 0) return;
-		AlignmentPreview.Text = "Your affinity: " + string.Join(" & ", GetStartingDomains());
+		if (AlignmentPreview == null || AvailablePoints != 0)
+        {
+            return;
+        }
+
+        AlignmentPreview.Text = string.Format(AlignmentPreviewFormat, string.Join(" & ", GetStartingDomains()));
 	}
 
 	/// <summary>

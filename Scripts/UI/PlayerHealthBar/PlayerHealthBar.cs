@@ -2,26 +2,22 @@ using Godot;
 using System;
 using System.Threading.Tasks;
 
+/// <summary>
+/// Presents player health with immediate and delayed progress bars.
+/// </summary>
 public partial class PlayerHealthBar : TextureProgressBar
 {
+    [Export]
     private Label HealthText;
 
-    public override void _Ready()
-    {
-        NinePatchStretch = true;
-        HealthBarOver.NinePatchStretch = true;
-        SizeFlagsHorizontal = SizeFlags.ExpandFill;
-        HealthBarOver.SetAnchorsAndOffsetsPreset(LayoutPreset.FullRect);
-        var gloss = HealthBarOver.GetNode<TextureRect>("TextureRect");
-        gloss.ExpandMode = TextureRect.ExpandModeEnum.IgnoreSize;
-        HealthText = new Label { HorizontalAlignment = HorizontalAlignment.Center, VerticalAlignment = VerticalAlignment.Center, MouseFilter = MouseFilterEnum.Ignore };
-        AddChild(HealthText);
-        HealthText.SetAnchorsAndOffsetsPreset(LayoutPreset.FullRect);
-    }
+    [Export]
+    private string HealthFormat;
+
     /// <summary>
     /// The overlaid health bar representing current health.
     /// </summary>
-    private TextureProgressBar HealthBarOver => GetNode<TextureProgressBar>("HealthBarOver");
+    [Export]
+    private TextureProgressBar HealthBarOver;
 
     /// <summary>
     /// The underlaid health bar representing delayed health change.
@@ -33,7 +29,7 @@ public partial class PlayerHealthBar : TextureProgressBar
     /// </summary>
     public void Initialize(float maxHealth, float currentHealth)
     {
-        HealthText.Text = $"Health {currentHealth:0}/{maxHealth:0}";
+        HealthText.Text = string.Format(HealthFormat, currentHealth, maxHealth);
         HealthBarOver.MaxValue = maxHealth;
         HealthBarUnder.MaxValue = maxHealth;
 
@@ -46,7 +42,7 @@ public partial class PlayerHealthBar : TextureProgressBar
     /// </summary>
     public async Task SetHealth(float health)
     {
-        HealthText.Text = $"Health {health:0}/{HealthBarOver.MaxValue:0}";
+        HealthText.Text = string.Format(HealthFormat, health, HealthBarOver.MaxValue);
         var tween = CreateTween();
         tween.TweenProperty(HealthBarOver, "value", health, .2f)
             .SetTrans(Tween.TransitionType.Cubic)

@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="DungeonRoomData" load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://Scripts/Dungeon/DungeonRoomData.cs" id="1"]
+
+[ext_resource type="Texture2D" path="res://Assets/Textures/UI/Map/entrance.svg" id="map_icon"]
+
+[resource]
+script = ExtResource("1")
+Id = "entrance"
+Title = "The stairs of Alderwick"
+MapTitle = "Chapel stairs"
+Text = "Everyone from the old world walked into this dungeon on the day of the Influx. None returned. Now the gods have sent you to discover what called them.\n\nA damp passage descends beneath the ruined chapel."
+Kind = 0
+MapPosition = Vector2i(3, 1)
+Exits = PackedStringArray("gate")
+MapIcon = ExtResource("map_icon")
