@@ -1,8 +1,9 @@
-[gd_scene load_steps=16 format=3 uid="uid://ck8p1eru6l2f4"]
+[gd_scene load_steps=17 format=3 uid="uid://ck8p1eru6l2f4"]
 
 [ext_resource type="Script" uid="uid://di2h8gf1377s5" path="res://Scripts/UI/CameraShake.cs" id="1_hojmo"]
 [ext_resource type="Resource" uid="uid://cdn0d7ugm3gse" path="res://Resources/Characters/Player.tres" id="15_aw745"]
 [ext_resource type="Script" uid="uid://bc7r5kh0kegqt" path="res://Scripts/Characters/Player.cs" id="15_irpm1"]
+[ext_resource type="PackedScene" uid="uid://dgpgmxny2er70" path="res://Scenes/SceneUI/ChoiceButton.tscn" id="16_irpm1"]
 [ext_resource type="PackedScene" uid="uid://c52h746nogb6c" path="res://Scenes/BattleUI/SpellBook/SpellBook.tscn" id="20_2dbf0"]
 [ext_resource type="PackedScene" uid="uid://c0ol2s1uon0x3" path="res://Scenes/BattleUI/SpellBook/SpellQueue.tscn" id="21_2dbf0"]
 [ext_resource type="PackedScene" uid="uid://da86qewhcsw42" path="res://Scenes/BattleUI/BattleLog/BattleLog.tscn" id="22_8287p"]
@@ -29,7 +30,6 @@ script = ExtResource("15_irpm1")
 CharacterData = ExtResource("15_aw745")
 
 [node name="UI" type="Control" parent="."]
-visible = false
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -41,7 +41,7 @@ offset_bottom = -531.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="HUD" type="VBoxContainer" parent="UI"]
+[node name="BattleHUD" type="VBoxContainer" parent="UI"]
 visible = false
 layout_mode = 1
 anchors_preset = 15
@@ -54,117 +54,117 @@ grow_vertical = 2
 theme_override_constants/separation = 0
 alignment = 1
 
-[node name="BattleAndResources" type="HBoxContainer" parent="UI/HUD"]
+[node name="BattleAndResources" type="HBoxContainer" parent="UI/BattleHUD"]
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_constants/separation = 0
 
-[node name="Battle" type="VBoxContainer" parent="UI/HUD/BattleAndResources"]
+[node name="Battle" type="VBoxContainer" parent="UI/BattleHUD/BattleAndResources"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="Opponents" parent="UI/HUD/BattleAndResources/Battle" instance=ExtResource("22_ogsbt")]
+[node name="Opponents" parent="UI/BattleHUD/BattleAndResources/Battle" instance=ExtResource("22_ogsbt")]
 layout_mode = 2
 
-[node name="BattleLog" parent="UI/HUD/BattleAndResources/Battle" instance=ExtResource("22_8287p")]
+[node name="BattleLog" parent="UI/BattleHUD/BattleAndResources/Battle" instance=ExtResource("22_8287p")]
 custom_minimum_size = Vector2(0, 147)
 layout_mode = 2
 
-[node name="ResourcesTabs" type="TabContainer" parent="UI/HUD/BattleAndResources"]
+[node name="ResourcesTabs" type="TabContainer" parent="UI/BattleHUD/BattleAndResources"]
 custom_minimum_size = Vector2(425, 0)
 layout_mode = 2
 current_tab = 0
 
-[node name="Spells" type="PanelContainer" parent="UI/HUD/BattleAndResources/ResourcesTabs"]
+[node name="Spells" type="PanelContainer" parent="UI/BattleHUD/BattleAndResources/ResourcesTabs"]
 layout_mode = 2
 theme_override_styles/panel = ExtResource("24_jk3s6")
 metadata/_tab_index = 0
 
-[node name="Margin" type="MarginContainer" parent="UI/HUD/BattleAndResources/ResourcesTabs/Spells"]
+[node name="Margin" type="MarginContainer" parent="UI/BattleHUD/BattleAndResources/ResourcesTabs/Spells"]
 layout_mode = 2
 theme_override_constants/margin_left = 10
 theme_override_constants/margin_top = 10
 theme_override_constants/margin_right = 10
 theme_override_constants/margin_bottom = 10
 
-[node name="SpellSelection" type="VBoxContainer" parent="UI/HUD/BattleAndResources/ResourcesTabs/Spells/Margin"]
+[node name="SpellSelection" type="VBoxContainer" parent="UI/BattleHUD/BattleAndResources/ResourcesTabs/Spells/Margin"]
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_constants/separation = 10
 
-[node name="SpellBook" parent="UI/HUD/BattleAndResources/ResourcesTabs/Spells/Margin/SpellSelection" instance=ExtResource("20_2dbf0")]
+[node name="SpellBook" parent="UI/BattleHUD/BattleAndResources/ResourcesTabs/Spells/Margin/SpellSelection" instance=ExtResource("20_2dbf0")]
 layout_mode = 2
 
-[node name="SpellQueue" parent="UI/HUD/BattleAndResources/ResourcesTabs/Spells/Margin/SpellSelection" instance=ExtResource("21_2dbf0")]
+[node name="SpellQueue" parent="UI/BattleHUD/BattleAndResources/ResourcesTabs/Spells/Margin/SpellSelection" instance=ExtResource("21_2dbf0")]
 layout_mode = 2
 
-[node name="Inventory" type="VBoxContainer" parent="UI/HUD/BattleAndResources/ResourcesTabs"]
+[node name="Inventory" type="VBoxContainer" parent="UI/BattleHUD/BattleAndResources/ResourcesTabs"]
 visible = false
 layout_mode = 2
 metadata/_tab_index = 1
 
-[node name="CenterContainer" type="CenterContainer" parent="UI/HUD/BattleAndResources/ResourcesTabs/Inventory"]
+[node name="CenterContainer" type="CenterContainer" parent="UI/BattleHUD/BattleAndResources/ResourcesTabs/Inventory"]
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="Label" type="Label" parent="UI/HUD/BattleAndResources/ResourcesTabs/Inventory/CenterContainer"]
+[node name="Label" type="Label" parent="UI/BattleHUD/BattleAndResources/ResourcesTabs/Inventory/CenterContainer"]
 layout_mode = 2
 text = "Feature not implemented yet!"
 
-[node name="Map" type="VBoxContainer" parent="UI/HUD/BattleAndResources/ResourcesTabs"]
+[node name="Map" type="VBoxContainer" parent="UI/BattleHUD/BattleAndResources/ResourcesTabs"]
 visible = false
 layout_mode = 2
 metadata/_tab_index = 2
 
-[node name="CenterContainer" type="CenterContainer" parent="UI/HUD/BattleAndResources/ResourcesTabs/Map"]
+[node name="CenterContainer" type="CenterContainer" parent="UI/BattleHUD/BattleAndResources/ResourcesTabs/Map"]
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="Label" type="Label" parent="UI/HUD/BattleAndResources/ResourcesTabs/Map/CenterContainer"]
+[node name="Label" type="Label" parent="UI/BattleHUD/BattleAndResources/ResourcesTabs/Map/CenterContainer"]
 layout_mode = 2
 text = "Feature not implemented yet!"
 
-[node name="Manasource" type="PanelContainer" parent="UI/HUD"]
+[node name="Manasource" type="PanelContainer" parent="UI/BattleHUD"]
 z_index = -2
 layout_mode = 2
 theme_override_styles/panel = ExtResource("24_jk3s6")
 
-[node name="Margin" type="MarginContainer" parent="UI/HUD/Manasource"]
+[node name="Margin" type="MarginContainer" parent="UI/BattleHUD/Manasource"]
 layout_mode = 2
 theme_override_constants/margin_left = 8
 theme_override_constants/margin_top = 0
 theme_override_constants/margin_right = 8
 theme_override_constants/margin_bottom = 4
 
-[node name="VBox" type="HBoxContainer" parent="UI/HUD/Manasource/Margin"]
+[node name="VBox" type="HBoxContainer" parent="UI/BattleHUD/Manasource/Margin"]
 layout_mode = 2
 alignment = 1
 
-[node name="BlessingBar" parent="UI/HUD/Manasource/Margin/VBox" instance=ExtResource("28_n6swl")]
+[node name="BlessingBar" parent="UI/BattleHUD/Manasource/Margin/VBox" instance=ExtResource("28_n6swl")]
 layout_mode = 2
 
-[node name="Bottom" type="PanelContainer" parent="UI/HUD"]
+[node name="Bottom" type="PanelContainer" parent="UI/BattleHUD"]
 layout_mode = 2
 theme_override_styles/panel = ExtResource("24_jk3s6")
 
-[node name="Margin" type="MarginContainer" parent="UI/HUD/Bottom"]
+[node name="Margin" type="MarginContainer" parent="UI/BattleHUD/Bottom"]
 layout_mode = 2
 theme_override_constants/margin_left = 8
 theme_override_constants/margin_top = 4
 theme_override_constants/margin_right = 8
 theme_override_constants/margin_bottom = 8
 
-[node name="VBox" type="HBoxContainer" parent="UI/HUD/Bottom/Margin"]
+[node name="VBox" type="HBoxContainer" parent="UI/BattleHUD/Bottom/Margin"]
 custom_minimum_size = Vector2(0, 48)
 layout_mode = 2
 theme_override_constants/separation = 7
 alignment = 1
 
-[node name="PlayerHealthBar" parent="UI/HUD/Bottom/Margin/VBox" instance=ExtResource("28_ghvpb")]
+[node name="PlayerHealthBar" parent="UI/BattleHUD/Bottom/Margin/VBox" instance=ExtResource("28_ghvpb")]
 layout_mode = 2
 size_flags_horizontal = 1
 
-[node name="TurnIndicationPanel" parent="UI/HUD/Bottom/Margin/VBox" instance=ExtResource("25_b51k0")]
+[node name="TurnIndicationPanel" parent="UI/BattleHUD/Bottom/Margin/VBox" instance=ExtResource("25_b51k0")]
 custom_minimum_size = Vector2(190, 0)
 layout_mode = 2
 
@@ -209,3 +209,66 @@ z_index = 100
 layout_mode = 0
 offset_right = 172.0
 offset_bottom = 60.0
+
+[node name="Scene" type="HBoxContainer" parent="UI"]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
+
+[node name="ImageCenterContainer" type="CenterContainer" parent="UI/Scene"]
+visible = false
+layout_mode = 2
+
+[node name="ImageMarginContainer" type="MarginContainer" parent="UI/Scene/ImageCenterContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="Image" type="TextureRect" parent="UI/Scene/ImageCenterContainer/ImageMarginContainer"]
+layout_mode = 2
+stretch_mode = 2
+
+[node name="ContentCenterContainer" type="CenterContainer" parent="UI/Scene"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+
+[node name="ContentMarginContainer" type="MarginContainer" parent="UI/Scene/ContentCenterContainer"]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="UI/Scene/ContentCenterContainer/ContentMarginContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="SceneTitle" type="RichTextLabel" parent="UI/Scene/ContentCenterContainer/ContentMarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(800, 0)
+layout_mode = 2
+theme_override_font_sizes/normal_font_size = 36
+bbcode_enabled = true
+text = "Titel!"
+fit_content = true
+
+[node name="SceneText" type="RichTextLabel" parent="UI/Scene/ContentCenterContainer/ContentMarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Lorem ipsum dolor sit amet."
+fit_content = true
+
+[node name="SceneChoices" type="VBoxContainer" parent="UI/Scene/ContentCenterContainer/ContentMarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Button" parent="UI/Scene/ContentCenterContainer/ContentMarginContainer/VBoxContainer/SceneChoices" instance=ExtResource("16_irpm1")]
+layout_mode = 2
+
+[node name="Button2" type="Button" parent="UI/Scene/ContentCenterContainer/ContentMarginContainer/VBoxContainer/SceneChoices"]
+layout_mode = 2
+text = "Gevaarlijke optie!"
+
+[node name="Button3" type="Button" parent="UI/Scene/ContentCenterContainer/ContentMarginContainer/VBoxContainer/SceneChoices"]
+layout_mode = 2
+text = "Fun optie!"

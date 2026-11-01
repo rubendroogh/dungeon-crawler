@@ -13,12 +13,17 @@ public partial class TransitionManager : Node
     /// <summary>
     /// The root node of the main game HUD.
     /// </summary>
-    private CanvasItem HUDNode { get; set; }
+    private CanvasItem BattleHUDNode { get; set; }
 
     /// <summary>
     /// The root node of the character creation UI.
     /// </summary>
     private CanvasItem CharacterCreationNode { get; set; }
+
+    /// <summary>
+    /// The root node of the character creation UI.
+    /// </summary>
+    private CanvasItem SceneNode { get; set; }
 
     /// <summary>
     /// The cutscene node (for intro text only for now).
@@ -34,8 +39,9 @@ public partial class TransitionManager : Node
     {
         Instance = this;
         WorldNode = GetTree().Root.GetNode("Root/World");
-        HUDNode = GetTree().Root.GetNode("Root/UI/HUD") as CanvasItem;
+        BattleHUDNode = GetTree().Root.GetNode("Root/UI/BattleHUD") as CanvasItem;
         CharacterCreationNode = GetTree().Root.GetNode("Root/UI/CharacterCreation") as CanvasItem;
+        SceneNode = GetTree().Root.GetNode("Root/UI/Scene") as CanvasItem;
         CutsceneNode = GetTree().Root.GetNode("Root/UI/IntroCutscene") as IntroCutscene;
     }
 
@@ -66,11 +72,9 @@ public partial class TransitionManager : Node
     public async Task CutsceneToGame()
     {
         await SetCutsceneVisibility(false, true);
-        await SetWorldVisibility(true);
+        await SetSceneVisibility(true);
 
-        // Temporarily immediately start the battle
-        // This is a placeholder for actual game logic to start properly in the dungeon
-        BattleManager.Instance.InitializeBattle();
+        SceneManager.Instance.StartDungeon();
     }
 
     /// <summary>
@@ -79,7 +83,7 @@ public partial class TransitionManager : Node
     /// <param name="value">True if the world and HUD should be visible.</param>
     private async Task SetWorldVisibility(bool value, bool fade = false)
     {
-        if (WorldNode == null || HUDNode == null)
+        if (WorldNode == null || BattleHUDNode == null)
         {
             GD.PrintErr("WorldNode or HUDNode is null! (or both!)");
             return;
@@ -88,12 +92,12 @@ public partial class TransitionManager : Node
         // Toggle the visibility of the HUD
         if (fade)
         {
-            await FadeCanvasItem(HUDNode, value, FadeDuration);
+            await FadeCanvasItem(BattleHUDNode, value, FadeDuration);
         }
         else
         {
-            HUDNode.Visible = value;
-            HUDNode.SetProcess(value);
+            BattleHUDNode.Visible = value;
+            BattleHUDNode.SetProcess(value);
         }
     }
 
@@ -142,6 +146,30 @@ public partial class TransitionManager : Node
         {
             CutsceneNode.Visible = value;
             CutsceneNode.SetProcess(value);
+        }
+    }
+
+    /// <summary>
+    /// Sets the visibility of the scene UI.
+    /// </summary>
+    /// <param name="value">True if the scene UI should be visible.</param>\
+    private async Task SetSceneVisibility(bool value, bool fade = false)
+    {
+        // Hide or show the scene UI
+        if (SceneNode == null)
+        {
+            GD.PrintErr("SceneNode is null!");
+            return;
+        }
+
+        if (fade)
+        {
+            await FadeCanvasItem(SceneNode, value, FadeDuration);
+        }
+        else
+        {
+            SceneNode.Visible = value;
+            SceneNode.SetProcess(value);
         }
     }
 

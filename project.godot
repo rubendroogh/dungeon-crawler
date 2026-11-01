@@ -29,6 +29,7 @@ SoundEffectManager="*res://Scenes/Managers/SoundEffectManager.tscn"
 SpellBookManager="*res://Scenes/Managers/SpellBookManager.tscn"
 PlayerManager="*res://Scripts/Managers/PlayerManager.cs"
 ManasourceManager="*res://Scenes/Managers/ManasourceManager.tscn"
+SceneManager="*res://Scripts/Managers/SceneManager.cs"
 
 [display]
 
