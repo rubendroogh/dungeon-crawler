@@ -50,6 +50,7 @@ public partial class MvpPlaytest : Node
         ui.AddChild(background);
         ui.MoveChild(background, 0);
         background.SetAnchorsAndOffsetsPreset(Control.LayoutPreset.FullRect);
+        background.FollowCombatArea(GetNode<Control>("UI/BattleHUD"), GetNode("UI/BattleHUD/BattleAndResources/Battle/Opponents"));
         var panel = new StyleBoxFlat { BgColor = new Color(.035f, .045f, .065f, .94f), ContentMarginLeft = 36, ContentMarginRight = 36, ContentMarginTop = 24, ContentMarginBottom = 24 };
         var sceneColumn = GetNode("UI/Scene").FindChild("ContentMarginContainer") as Control;
         var scenePanel = new PanelContainer { ZIndex = -1, MouseFilter = Control.MouseFilterEnum.Ignore };
