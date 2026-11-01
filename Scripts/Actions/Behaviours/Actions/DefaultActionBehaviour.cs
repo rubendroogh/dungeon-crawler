@@ -38,7 +38,7 @@ public partial class DefaultActionBehaviour : IActionBehaviour
             var keywordEffect = Keywords.GetKeywordBehaviour(keyword);
             if (keywordEffect != null)
             {
-                _ = keywordEffect.OnCast(); // TODO: Handle async properly
+                await keywordEffect.OnCast();
             }
         }
 

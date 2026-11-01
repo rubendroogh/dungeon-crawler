@@ -38,7 +38,7 @@ public partial class ActionData : Resource
     /// </summary>
     [Export]
     [ExportGroup("Spell damage info")]
-    public float BasePhysicalDamage { get; set; } = 100;
+    public float BasePhysicalDamage { get; set; } = 0;
     
     /// <summary>
     /// The base dark damage dealt by the spell.

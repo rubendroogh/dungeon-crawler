@@ -29,6 +29,7 @@ public partial class OpponentManager : Node
     public override void _Ready()
     {
         Instance = this;
+        OpponentExposer = GetTree().Root.FindChild("Opponents", true, false) as ComponentExposer;
     }
 
     /// <summary>
@@ -63,12 +64,13 @@ public partial class OpponentManager : Node
             return;
         }
 
-        _ = opponent.Setup(opponentData);
+        opponent.CharacterData = opponentData;
         opponent.Name = opponentData.Name;
 
         // Add opponent at root of the opponent scene
         var opponentRoot = OpponentExposer.GetComponent<Node>(Components.Opponents);
         opponentRoot.AddChild(opponentScene);
+        _ = opponent.Setup(opponentData);
         BattleManager.Instance.Characters.Add(opponent, false);
 
         // Set the opponent as the selected target for spell casting
@@ -76,5 +78,16 @@ public partial class OpponentManager : Node
         ActionManager.Instance.SelectedTarget = opponent;
 
         BattleLogManager.Instance.Log($"{opponentData.Name} encountered!");
+    }
+
+    public void ClearOpponents()
+    {
+        var root = OpponentExposer.GetComponent<Node>(Components.Opponents);
+        foreach (var child in root.GetChildren())
+        {
+            root.RemoveChild(child);
+            child.QueueFree();
+        }
+        ActionManager.Instance.SelectedTarget = null;
     }
 }

@@ -3,104 +3,34 @@ using System.Threading.Tasks;
 
 public partial class IntroCutscene : Control
 {
-    /// <summary>
-    /// The story text to show before the godly alignment.
-    /// </summary>
-    [Export(PropertyHint.MultilineText)]
-    public string IntroTextStory { get; set; }
+    [Export(PropertyHint.MultilineText)] public string IntroTextStory { get; set; }
+    [Export(PropertyHint.MultilineText)] public string IntroTextSingular { get; set; }
+    [Export(PropertyHint.MultilineText)] public string IntroTextPlural { get; set; }
+    private bool Continuing;
 
-    /// <summary>
-    /// The introduction text to show if the player is only aligned to one god.
-    /// </summary>
-    [Export(PropertyHint.MultilineText)]
-    public string IntroTextSingular { get; set; }
-
-    /// <summary>
-    /// The introduction text to show if the player is aligned to two gods.
-    /// </summary>
-    [Export(PropertyHint.MultilineText)]
-    public string IntroTextPlural { get; set; }
-
-    /// <summary>
-    /// True if the cutscene can be skipped by pressing space.
-    /// </summary>
-    private bool Skippable { get; set; } = false;
-
-    /// <summary>
-    /// Starts the intro cutscene sequence, and resolves when it is done.
-    /// </summary>
-    public async Task Start()
+    public Task Start()
     {
-        if (FindChild("AlignmentText") is not AnimatedText alignmentText)
-        {
-            GD.PrintErr("AlignmentText not found!");
-            return;
-        }
-
-        if (FindChild("StoryText") is not AnimatedText storyText)
-        {
-            GD.PrintErr("StoryText not found!");
-            return;
-        }
-
-        if (FindChild("ContinueText") is not RichTextLabel continueText)
-        {
-            GD.PrintErr("ContinueText not found!");
-            return;
-        }
-
-        continueText.AddThemeColorOverride("default_color", Colors.Transparent);
-
-        await this.Delay(1_000);
-        storyText.Text = IntroTextStory;
-        storyText.Start();
-
-        // TODO: Add a pling sound when the alignment is announced
-        await this.Delay(9_000);
-        alignmentText.Text = GetAlignmentText();
-        alignmentText.Start();
-
-        // Controls when to go next to the game.
-        await this.Delay(5_000);
-        continueText.AddThemeColorOverride("default_color", Colors.Gray);
-        Skippable = true;
+        var story = FindChild("StoryText") as AnimatedText;
+        var alignment = FindChild("AlignmentText") as AnimatedText;
+        story.Text = IntroTextStory;
+        story.Start();
+        var domains = PlayerManager.Instance.GetPlayer().CharacterData.Alignment;
+        alignment.Text = domains.Length == 1
+            ? string.Format(IntroTextSingular, domains[0].ToRichString())
+            : string.Format(IntroTextPlural, domains[0].ToRichString(), domains[1].ToRichString());
+        alignment.Start();
+        return Task.CompletedTask;
     }
 
-    /// <summary>
-    /// Handle button presses to skip cutscene.
-    /// </summary>
-    public override void _Input(InputEvent @event)
+    public override void _Input(InputEvent input)
     {
-        if (@event is not InputEventKey eventKey)
+        if (!IsVisibleInTree() || Continuing) return;
+        if (input is InputEventKey key && key.Pressed && !key.Echo && (key.Keycode == Key.Space || key.Keycode == Key.Enter)
+            || input is InputEventMouseButton mouse && mouse.Pressed && mouse.ButtonIndex == MouseButton.Left)
         {
-            return;
+            Continuing = true;
+            GetViewport().SetInputAsHandled();
+            _ = TransitionManager.Instance.CutsceneToGame();
         }
-
-        if (eventKey.Pressed && eventKey.Keycode == Key.Space)
-        {
-            if (true)
-            {
-                Skippable = false; // Prevent multiple transitions
-                _ = TransitionManager.Instance.CutsceneToGame();
-            }
-            else
-            {
-                // TODO: make text faster when pressing space
-            }
-        }
-    }
-
-    /// <summary>
-    /// Gets the text to show the player's alignment.
-    /// </summary>
-    private string GetAlignmentText()
-    {
-        var alignment = PlayerManager.Instance.GetPlayer().CharacterData.Alignment;
-        var singleAlignment = alignment.Length == 1;
-
-        var introTextGodsTemplate = singleAlignment ? IntroTextSingular : IntroTextPlural;
-        return singleAlignment
-            ? string.Format(introTextGodsTemplate, alignment[0].ToRichString())
-            : string.Format(introTextGodsTemplate, alignment[0].ToRichString(), alignment[1].ToRichString());
     }
 }

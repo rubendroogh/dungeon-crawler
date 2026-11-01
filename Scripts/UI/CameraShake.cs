@@ -16,7 +16,7 @@ public partial class CameraShake : Camera2D
 			float offsetY = (float)(random.NextDouble() * 2 - 1) * magnitude;
 			Position = originalPosition + new Vector2(offsetX, offsetY);
 
-			await Task.Delay(106); // Approximate 60 FPS
+			await this.Delay(32);
 			elapsed += 0.16f;
 		}
 

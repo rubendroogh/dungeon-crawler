@@ -47,6 +47,9 @@ public partial class SpellUI : PanelContainer
 
 	public override void _Ready()
 	{
+		// Let clicks on the title, icon and description reach this spell card.
+		foreach (var control in this.GetDescendantsOfType<Control>(this))
+			control.MouseFilter = control is StatusEffectIcon ? MouseFilterEnum.Pass : MouseFilterEnum.Ignore;
 		UpdateStyle();
 		CallDeferred(nameof(InitializeCustomSignals));
 	}
@@ -70,6 +73,7 @@ public partial class SpellUI : PanelContainer
 		// Handle mouse input for selecting the spell
 		if (@event is InputEventMouseButton mouseEvent && mouseEvent.Pressed && mouseEvent.ButtonIndex == MouseButton.Left)
 		{
+			if (!BattleManager.Instance.CanQueueSpells) return;
 			if (ActionManager.Instance.SelectedSpell?.Data == ActionData)
             {
 				// Already selected
@@ -190,6 +194,7 @@ public partial class SpellUI : PanelContainer
 	/// </summary>
 	public override void _Draw()
 	{
+		if (ActionData == null || ActionData.DamageTypes.Length == 0) return;
 		var gradient = new Gradient();
 		var offsets = new List<float>();
 		var colors = new List<Color>();
@@ -198,7 +203,7 @@ public partial class SpellUI : PanelContainer
 			var color = DamageTypeColors.TryGetValue(ActionData.DamageTypes[i], out var damageColor) ? damageColor : new Color(1, 0, 0);
 
 			// Get the position of the color in the gradient
-			float position = (float)i / (ActionData.DamageTypes.Length - 1f);
+			float position = ActionData.DamageTypes.Length == 1 ? 0 : (float)i / (ActionData.DamageTypes.Length - 1f);
 			offsets.Add(position);
 			colors.Add(color);
 		}

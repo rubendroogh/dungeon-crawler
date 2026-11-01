@@ -135,7 +135,7 @@ public partial class Character : Node2D
     public async Task StartTurn()
     {
         // Process the effects at the start of the turn
-        foreach (var effect in StatusEffects)
+        foreach (var effect in StatusEffects.ToArray())
         {
             await effect.Behaviour.ProcessEffectStartTurn(this);
         }
@@ -152,6 +152,13 @@ public partial class Character : Node2D
             return;
         }
 
+        // Effects run on their final turn before their duration expires.
+        foreach (var effect in StatusEffects.ToArray())
+        {
+            await effect.Behaviour.ProcessEffectEndTurn(this);
+            if (IsDead) return;
+        }
+
         var expiredStatusEffects = new List<StatusEffect>();
         foreach (var effect in StatusEffects)
         {
@@ -165,13 +172,6 @@ public partial class Character : Node2D
         foreach (var effect in expiredStatusEffects)
         {
             await ClearEffect(effect.Type);
-        }
-
-        // Process the effects at the end of the turn
-        // Maybe move this up?
-        foreach (var effect in StatusEffects)
-        {
-            await effect.Behaviour.ProcessEffectEndTurn(this);
         }
 
         UpdateStatusEffectLabel();
@@ -238,7 +238,8 @@ public partial class Character : Node2D
 
         // Apply the total damage to the character's health
         // And show animations
-        Health -= totalDamage;
+        Health = Mathf.Max(0, Health - totalDamage);
+        BattleLogManager.Instance.Log($"{CharacterData.Name} takes {totalDamage:0.#} damage ({string.Join(", ", damage.Damages.Select(d => d.Type).Distinct())}).");
         await PlayDamageAnimation();
         await UpdateHealthBar();
         if (Health <= 0)
@@ -309,6 +310,11 @@ public partial class Character : Node2D
         UpdateStatusEffectLabel();
     }
 
+    public async Task ClearAllEffects()
+    {
+        foreach (var effect in StatusEffects.ToArray()) await ClearEffect(effect.Type);
+    }
+
     /// <summary>
     /// Resolves the actions in the character's action queue, executing all queued actions, applying their effects, and showing animations.
     /// </summary>
@@ -316,14 +322,13 @@ public partial class Character : Node2D
     {
         if (ActionQueue.Count == 0)
         {
-            GD.PrintErr("No actions in queue to resolve.");
             return;
         }
 
 		ActionManager.Instance.CastingContext.ResetContext();
 
         var queueIndex = 0;
-        foreach (var entry in ActionQueue)
+        foreach (var entry in ActionQueue.ToArray())
         {
             ActionManager.Instance.CastingContext.IndexInQueue = queueIndex;
             if (entry.Action.GetBehaviour() is ISpellBehaviour behaviour)
@@ -338,11 +343,10 @@ public partial class Character : Node2D
         {
             // TODO: When entry is being processed, highlight it in the queue
             var entry = ActionQueue.Dequeue();
-            if (entry.Target.IsDead)
+            if (entry.Target == null || entry.Target.IsDead)
             {
                 GD.Print("Target is dead, ending queue.");
-                ActionQueue.Clear();
-                break;
+                continue;
             }
 
             await ResolveQueueEntry(entry);
@@ -351,7 +355,7 @@ public partial class Character : Node2D
         }
 
         // Reset mana after resolving.
-        ManaSourceManager.Instance.ResetAllMana();
+        // Blessings refresh at the start of the player's next turn.
     }
 
     /// <summary>
@@ -496,6 +500,8 @@ public partial class Character : Node2D
 
         // Update the casting context for this action.
         ActionManager.Instance.CastingContext.UpdateContext(entry.Action, this, entry.Target);
+        ActionManager.Instance.CastingContext.DamageModifiers.Clear();
+        BattleLogManager.Instance.Log($"{CharacterData.Name} casts {entry.Action.Data.Name}.");
 
         await this.Delay(300);
         ResolveResult actionResolveResult;

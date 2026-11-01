@@ -26,6 +26,8 @@ public partial class Enemy : Character
 	/// This is used to manage actions that are queued for the enemy, allowing for multiple actions to be performed in a single turn.
 	/// </summary>
 	public List<Action> AvailableActions { get; } = new List<Action>();
+	private int AttacksTaken;
+	private Label Intent;
 
 	public override void _Ready()
 	{
@@ -34,6 +36,9 @@ public partial class Enemy : Character
 
 		DamageAnimationSprite = GetNode<Sprite2D>("DamageSprite");
 		DamageAnimationSprite.Visible = false;
+		Intent = new Label { Position = new Vector2(-240, 160), Size = new Vector2(480, 60), HorizontalAlignment = HorizontalAlignment.Center };
+		AddChild(Intent);
+		UpdateIntent();
 	}
 
 	/// <summary>
@@ -48,10 +53,12 @@ public partial class Enemy : Character
 		}
 
 		// For simplicity, we will just choose a random action from the available actions.
-		var selectedAction = AvailableActions[GD.RandRange(0, AvailableActions.Count - 1)];
+		var selectedAction = AvailableActions[AttacksTaken % AvailableActions.Count];
+		AttacksTaken++;
 
 		var target = PlayerManager.Instance.GetPlayer();
 		QueueAction(selectedAction, target);
+		UpdateIntent();
 	}
 
 	/// <summary>
@@ -60,7 +67,7 @@ public partial class Enemy : Character
 	public async override Task PlayDamageAnimation()
 	{
 		_ = SoundEffectManager.Instance.PlaySoundEffect(CharacterData.HitSound);
-		float flickerDuration = 0.6f;
+		float flickerDuration = 0.24f;
 		int flickerCount = 4;
 
 		float interval = flickerDuration / (flickerCount * 2);
@@ -74,7 +81,7 @@ public partial class Enemy : Character
 		}
 
 		CharacterSprite.Visible = true; // Hide the sprite after flickering
-		await this.Delay(1000);
+		await this.Delay(80);
 	}
 
 	/// <summary>
@@ -82,16 +89,16 @@ public partial class Enemy : Character
 	/// </summary>
 	protected override async Task PlayDeathAnimation()
 	{
-		await this.Delay(1000);
+		await this.Delay(120);
 
 		// Create a fade out animation for the enemy
 		var tween = CreateTween();
-		tween.TweenProperty(CharacterSprite, "modulate:a", 0f, 2f)
+		tween.TweenProperty(CharacterSprite, "modulate:a", 0f, .35f)
 			.SetTrans(Tween.TransitionType.Cubic)
 			.SetEase(Tween.EaseType.Out);
 
 		await ToSignal(tween, "finished");
-		await this.Delay(1000);
+		await this.Delay(100);
 	}
 
 	/// <summary>
@@ -105,11 +112,31 @@ public partial class Enemy : Character
 			new ActionData
 			{
 				Name = "Basic Attack",
-				BasePhysicalDamage = 10,
+				BasePhysicalDamage = CharacterData.Name == "Keeper of the Influx" ? 6 : 4,
 			},
 			new DefaultActionBehaviour()
 		));
+		if (CharacterData.Name == "Keeper of the Influx")
+		{
+			AvailableActions.Add(new Action(new ActionData { Name = "Gathered flame", BaseFireDamage = 12 }, new DefaultActionBehaviour()));
+		}
 	}
+
+	private void UpdateIntent()
+	{
+		var next = AvailableActions[AttacksTaken % AvailableActions.Count].Data;
+		Intent.Text = $"Next: {next.Name} · {(next.BaseFireDamage > 0 ? next.BaseFireDamage + " fire" : next.BasePhysicalDamage + " physical")}\nHealth {Health:0}/{CharacterData.MaxHealth:0}";
+	}
+
+	public override void _Process(double delta)
+	{
+		if (Intent != null) UpdateIntent();
+	}
+
+	public string GetResistanceSummary()
+		=> $"Weak to light (×{CharacterData.BaseLightDamageMultiplier:0.##})"
+		+ (CharacterData.BaseIceDamageMultiplier > 1 ? $", ice (×{CharacterData.BaseIceDamageMultiplier:0.##})" : "")
+		+ (CharacterData.BaseFireDamageMultiplier < 1 ? $" · Resists fire (×{CharacterData.BaseFireDamageMultiplier:0.##})" : "");
 
 	/// <summary>
 	/// Queue an action for the enemy to perform in the next damage phase.

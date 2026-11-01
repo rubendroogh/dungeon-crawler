@@ -66,6 +66,7 @@ public partial class CharacterCreationManager : Control
     /// The Submit Button for submitting the character creation form.
     /// </summary>
 	private Button SubmitButton { get; set; }
+	private Label AlignmentPreview;
 	
 	/// <summary>
     /// Calculates the number of available points left for allocation.
@@ -94,10 +95,20 @@ public partial class CharacterCreationManager : Control
 		// Initialize form fields and points label
 		PlayerNameInput = FindChild("PlayerNameInput") as LineEdit;
 		SubmitButton = FindChild("SubmitButton") as Button;
+		var hintColumn = FindChild("HelperText") as Control;
+		hintColumn.Show();
+		var hint = hintColumn.FindChild("Label") as Label;
+		hint.CustomMinimumSize = new Vector2(420, 0);
+		hint.AutowrapMode = TextServer.AutowrapMode.WordSmart;
+		hint.HorizontalAlignment = HorizontalAlignment.Left;
+		hint.Text = "PRIEST\nThe first descent into Alderwick\n\nTrade personality points between traits until the total returns to zero. Negative traits can be just as useful. Leave everything at zero for a balanced start.\n\nYour strongest traits decide which gods give you spells and four starting blessings.\n\nZer: Genuine + Optimistic\nHamin: Curious + Focused\nJaddis: Charming + Benevolent\nCalina: Dominant + Fearless\n\nExplore the ruin, shape your spellbook, and confront the Keeper.";
+		AlignmentPreview = new Label { AutowrapMode = TextServer.AutowrapMode.WordSmart };
+		SubmitButton.GetParent().AddChild(AlignmentPreview);
 
 		// Managers.TransitionManager.ToCharacterCreation();
 		UpdateAvailablePoints();
 		UpdateSubmitButtonState();
+		UpdateAlignmentPreview();
 
 		// Connect the player name input text changed signal to update the submit button state.
 		PlayerNameInput.TextChanged += (text) => UpdateSubmitButtonState();
@@ -114,12 +125,16 @@ public partial class CharacterCreationManager : Control
 	/// </summary>
 	public void SubmitForm()
 	{
+		if (SubmitButton.Disabled || Submitted) return;
+		Submitted = true;
         _ = SoundEffectManager.Instance.PlayButtonClick();
 		PlayerManager.Instance.SetPlayerData(GetPlayerData());
 		var build = GenerateCharacterBuild();
 		ApplyBuild(build);
 		_ = TransitionManager.Instance.CharacterCreationToCutscene();
 	}
+
+	private bool Submitted;
 
 	/// <summary>
 	/// Called when a SpinBox value changes to update the available points and labels.
@@ -128,6 +143,13 @@ public partial class CharacterCreationManager : Control
 	{
 		UpdateAvailablePoints();
 		UpdateSubmitButtonState();
+		UpdateAlignmentPreview();
+	}
+
+	private void UpdateAlignmentPreview()
+	{
+		if (AlignmentPreview == null || AvailablePoints != 0) return;
+		AlignmentPreview.Text = "Your affinity: " + string.Join(" & ", GetStartingDomains());
 	}
 
 	/// <summary>
@@ -181,14 +203,15 @@ public partial class CharacterCreationManager : Control
 		CharacterData characterData = PlayerManager.Instance.GetPlayer().CharacterData;
 
 		characterData.Name = PlayerNameInput.Text == "" ? "Unnamed Hero" : PlayerNameInput.Text;
-		characterData.BaseBenevolent = traitValues.FirstOrDefault(t => t.Key == "Benevolent").Value;
-		characterData.BaseCurious = traitValues.FirstOrDefault(t => t.Key == "Curious").Value;
-		characterData.BaseCharming = traitValues.FirstOrDefault(t => t.Key == "Charming").Value;
-		characterData.BaseDominant = traitValues.FirstOrDefault(t => t.Key == "Dominant").Value;
-		characterData.BaseFearless = traitValues.FirstOrDefault(t => t.Key == "Fearless").Value;
-		characterData.BaseFocused = traitValues.FirstOrDefault(t => t.Key == "Focused").Value;
-		characterData.BaseGenuine = traitValues.FirstOrDefault(t => t.Key == "Genuine").Value;
-		characterData.BaseOptimistic = traitValues.FirstOrDefault(t => t.Key == "Optimistic").Value;
+		// UI uses -10..10 around neutral; character data uses 0..20.
+		characterData.BaseBenevolent = 10 + traitValues.FirstOrDefault(t => t.Key == "Benevolent").Value;
+		characterData.BaseCurious = 10 + traitValues.FirstOrDefault(t => t.Key == "Curious").Value;
+		characterData.BaseCharming = 10 + traitValues.FirstOrDefault(t => t.Key == "Charming").Value;
+		characterData.BaseDominant = 10 + traitValues.FirstOrDefault(t => t.Key == "Dominant").Value;
+		characterData.BaseFearless = 10 + traitValues.FirstOrDefault(t => t.Key == "Fearless").Value;
+		characterData.BaseFocused = 10 + traitValues.FirstOrDefault(t => t.Key == "Focused").Value;
+		characterData.BaseGenuine = 10 + traitValues.FirstOrDefault(t => t.Key == "Genuine").Value;
+		characterData.BaseOptimistic = 10 + traitValues.FirstOrDefault(t => t.Key == "Optimistic").Value;
 		
 		return characterData;
 	}
@@ -215,6 +238,12 @@ public partial class CharacterCreationManager : Control
 	/// Generates the character build based on the selected personality traits.
 	/// </summary>
 	private Build GenerateCharacterBuild()
+	{
+		var domains = GetStartingDomains();
+		return domains.Length == 1 ? Builds.GetSingleDomainBuild(domains[0]) : Builds.GetDualDomainBuild(domains[0], domains[1]);
+	}
+
+	private Domain[] GetStartingDomains()
 	{
 		// Builds will be generated based on the personality traits of the player
 		// See https://www.notion.so/Damage-types-and-domains-285b94d5324680a5b55dd0b70998646c for the personality traits related to the different Godly domains
@@ -281,15 +310,15 @@ public partial class CharacterCreationManager : Control
 		var secondDomain = sortedDomains[1];
 
 		// Assign starting build based on dominant domains
-		if (topDomain.Value >= secondDomain.Value * 1.5)
+		if (topDomain.Value > 0 && topDomain.Value >= secondDomain.Value + 8)
 		{
 			// 1-domain build
-			return Builds.GetSingleDomainBuild(topDomain.Key);
+			return [topDomain.Key];
 		}
 		else
 		{
 			// 2-domain build
-			return Builds.GetDualDomainBuild(topDomain.Key, secondDomain.Key);
+			return [topDomain.Key, secondDomain.Key];
 		}
 	}
 }

@@ -5,7 +5,7 @@ public partial class AddSpellToQueueButton : Button
     public override void _Ready()
     {
         Pressed += OnPressed;
-        InitializeCustomSignals();
+        CallDeferred(nameof(InitializeCustomSignals));
     }
 
 	/// <summary>
@@ -32,7 +32,7 @@ public partial class AddSpellToQueueButton : Button
     private void UpdateButtonInteractableState()
     {
         // If no spell is selected, we cannot queue one
-        if (!ActionManager.Instance.SpellIsSelected)
+        if (!BattleManager.Instance.CanQueueSpells || !ActionManager.Instance.SpellIsSelected)
         {
             Disabled = true;
             return;
@@ -60,7 +60,7 @@ public partial class AddSpellToQueueButton : Button
             return;
         }
 
-        if (BattleManager.Instance.CurrentTurnPhase != TurnPhase.Main)
+        if (!BattleManager.Instance.CanQueueSpells)
         {
             GD.PrintErr("Cannot add a spell to the queue outside of the Main phase.");
             return;
@@ -81,4 +81,6 @@ public partial class AddSpellToQueueButton : Button
         var target = ActionManager.Instance.SelectedTarget;
         player.QueueAction(selectedSpell, target, manaUsed);
     }
+
+    public override void _Process(double delta) => UpdateButtonInteractableState();
 }

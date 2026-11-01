@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://ck8p1eru6l2f4"]
+[gd_scene load_steps=31 format=3 uid="uid://ck8p1eru6l2f4"]
 
 [ext_resource type="Script" uid="uid://di2h8gf1377s5" path="res://Scripts/UI/CameraShake.cs" id="1_hojmo"]
 [ext_resource type="Resource" uid="uid://cdn0d7ugm3gse" path="res://Resources/Characters/Player.tres" id="15_aw745"]
@@ -16,8 +16,23 @@
 [ext_resource type="PackedScene" uid="uid://2drx4r22f0mk" path="res://Scenes/CharacterCreationUI/CharacterCreationBackground.tscn" id="31_ogsbt"]
 [ext_resource type="PackedScene" uid="uid://c6c50r7e37xs6" path="res://Scenes/CharacterCreationUI/CharacterCreationPanel.tscn" id="32_ogsbt"]
 [ext_resource type="PackedScene" uid="uid://df8xyouslar30" path="res://Scenes/Cutscenes/IntroCutscene.tscn" id="38_21fen"]
+[ext_resource type="Script" uid="uid://fi2i0pb2xx5u" path="res://Scripts/Managers/ActionManager.cs" id="mvp_0"]
+[ext_resource type="Script" uid="uid://87g108e3say3" path="res://Scripts/Managers/BattleLogManager.cs" id="mvp_1"]
+[ext_resource type="Script" uid="uid://ccfu4bppobwlv" path="res://Scripts/Managers/BattleManager.cs" id="mvp_2"]
+[ext_resource type="Script" uid="uid://omqimuu5thub" path="res://Scripts/Managers/SpellQueueManager.cs" id="mvp_3"]
+[ext_resource type="Script" uid="uid://ca0fvsfshmiyq" path="res://Scripts/Managers/TooltipManager.cs" id="mvp_4"]
+[ext_resource type="Script" uid="uid://qvd64pgadui" path="res://Scripts/Managers/TransitionManager.cs" id="mvp_5"]
+[ext_resource type="PackedScene" uid="uid://086ceb5pmf84" path="res://Scenes/Managers/MusicManager.tscn" id="mvp_6"]
+[ext_resource type="PackedScene" uid="uid://by3hf6vs3u5to" path="res://Scenes/Managers/OpponentManager.tscn" id="mvp_7"]
+[ext_resource type="PackedScene" uid="uid://bw0bf3msh1joa" path="res://Scenes/Managers/SoundEffectManager.tscn" id="mvp_8"]
+[ext_resource type="PackedScene" uid="uid://cm4ol12800rw2" path="res://Scenes/Managers/SpellBookManager.tscn" id="mvp_9"]
+[ext_resource type="Script" uid="uid://dpayadwmj0w0j" path="res://Scripts/Managers/PlayerManager.cs" id="mvp_10"]
+[ext_resource type="PackedScene" uid="uid://2n00rho2da6m" path="res://Scenes/Managers/ManasourceManager.tscn" id="mvp_11"]
+[ext_resource type="PackedScene" uid="uid://bc1feg8j1aip5" path="res://Scenes/Managers/SceneManager.tscn" id="mvp_12"]
+[ext_resource type="Script" uid="uid://cnsy0iusnk1uy" path="res://Scripts/MvpPlaytest.cs" id="mvp_test"]
 
 [node name="Root" type="Node"]
+script = ExtResource("mvp_test")
 
 [node name="World" type="Node" parent="."]
 
@@ -272,3 +287,38 @@ text = "Gevaarlijke optie!"
 [node name="Button3" type="Button" parent="UI/Scene/ContentCenterContainer/ContentMarginContainer/VBoxContainer/SceneChoices"]
 layout_mode = 2
 text = "Fun optie!"
+
+[node name="Managers" type="Node" parent="."]
+
+[node name="ActionManager" type="Node" parent="Managers"]
+script = ExtResource("mvp_0")
+
+[node name="BattleLogManager" type="Node" parent="Managers"]
+script = ExtResource("mvp_1")
+
+[node name="BattleManager" type="Node" parent="Managers"]
+script = ExtResource("mvp_2")
+
+[node name="SpellQueueManager" type="Node" parent="Managers"]
+script = ExtResource("mvp_3")
+
+[node name="TooltipManager" type="Node" parent="Managers"]
+script = ExtResource("mvp_4")
+
+[node name="TransitionManager" type="Node" parent="Managers"]
+script = ExtResource("mvp_5")
+
+[node name="MusicManager" parent="Managers" instance=ExtResource("mvp_6")]
+
+[node name="OpponentManager" parent="Managers" instance=ExtResource("mvp_7")]
+
+[node name="SoundEffectManager" parent="Managers" instance=ExtResource("mvp_8")]
+
+[node name="SpellBookManager" parent="Managers" instance=ExtResource("mvp_9")]
+
+[node name="PlayerManager" type="Node" parent="Managers"]
+script = ExtResource("mvp_10")
+
+[node name="ManasourceManager" parent="Managers" instance=ExtResource("mvp_11")]
+
+[node name="SceneManager" parent="Managers" instance=ExtResource("mvp_12")]

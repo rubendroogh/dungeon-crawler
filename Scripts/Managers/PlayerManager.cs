@@ -23,6 +23,7 @@ public partial class PlayerManager : Node
         {
             GD.PrintErr("Player character not found in the scene.");
         }
+        else PlayerCharacter.CharacterData = (CharacterData)PlayerCharacter.CharacterData.Duplicate();
     }
 
     /// <summary>

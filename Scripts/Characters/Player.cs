@@ -53,7 +53,7 @@ public partial class Player : Character
 
 	public override async Task PlayDamageAnimation()
 	{
-		await Task.Delay(300);
+		await this.Delay(150);
         _ = SoundEffectManager.Instance.PlaySoundEffect(CharacterData.HitSound);
 
         if (PlayerManager.Instance.GetCamera() is CameraShake camera)
@@ -61,13 +61,13 @@ public partial class Player : Character
             await camera.StartShake(0.7f, 10f);
         }
 
-        await Task.Delay(300);
+		await this.Delay(150);
 	}
 
 	protected override void InitializeNodes(CharacterData characterData)
 	{
 		// Find health bar in the scene tree by name
-		PlayerHealthBar = GetTree().Root.GetNode<PlayerHealthBar>("Root/UI/HUD/Bottom/Margin/VBox/PlayerHealthBar");
+		PlayerHealthBar = GetTree().Root.FindChild("PlayerHealthBar", true, false) as PlayerHealthBar;
 
 		if (PlayerHealthBar == null)
 		{
@@ -88,4 +88,6 @@ public partial class Player : Character
 		// We should implement a status effect label for the player later in the UI.
 		// This method is overridden to prevent the base class from trying to update a non-existent label.
 	}
+
+	protected override Task PlayDeathAnimation() => Task.CompletedTask;
 }

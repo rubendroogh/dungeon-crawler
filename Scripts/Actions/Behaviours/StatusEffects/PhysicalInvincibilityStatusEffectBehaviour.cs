@@ -10,7 +10,8 @@ public partial class PhysicalInvincibilityStatusEffectBehaviour : BaseStatusEffe
 
     public override async Task ProcessEffectOnRemove(Character target)
     {
-        target.PhysicalDamageModifiers.Remove(new DamageModifier(DamageModifierType.Multiplicative, 0f));
+        var modifier = target.PhysicalDamageModifiers.FindLast(m => m.Type == DamageModifierType.Multiplicative && m.Value == 0f);
+        if (modifier != null) target.PhysicalDamageModifiers.Remove(modifier);
         BattleLogManager.Instance.Log($"Removed Physical Invincibility from {target.Name}, restoring normal physical damage taken.");
     }
 }

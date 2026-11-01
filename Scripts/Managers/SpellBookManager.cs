@@ -73,6 +73,8 @@ public partial class SpellBookManager : Node
     /// </summary>
     public void AddSpell(ActionData spellData)
     {
+        if (AvailableSpells.Any(s => s.Data.Name == spellData.Name)) return;
+        spellData.Initialize();
         var spellBehaviour = GetSpellBehaviour(spellData.Name);
         if (spellBehaviour != null)
         {
@@ -94,7 +96,8 @@ public partial class SpellBookManager : Node
         ResourcePreloader spellPreloader;
 
         // Create the key from the provided domains
-        var preloaderName = $"{string.Join("", domains)}SpellsPreloader";
+        var domainOrder = new[] { Domain.Zer, Domain.Hamin, Domain.Jaddis, Domain.Calina };
+        var preloaderName = $"{string.Join("", domainOrder.Where(domains.Contains))}SpellsPreloader";
         spellPreloader = FindChild(preloaderName) as ResourcePreloader;
 
         if (spellPreloader == null)

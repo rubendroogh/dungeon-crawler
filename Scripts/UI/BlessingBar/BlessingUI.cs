@@ -27,6 +27,10 @@ public partial class BlessingUI : TextureRect
     public BlessingUI Setup(Blessing blessing)
     {
         Blessing = blessing;
+        MouseFilter = MouseFilterEnum.Stop;
+        TextLabel.MouseFilter = MouseFilterEnum.Ignore;
+        TextLabel.LabelSettings = null;
+        TextLabel.AddThemeFontSizeOverride("font_size", 20);
 
         UpdateBlessingBarSize();
         SetLabelText();
@@ -44,7 +48,7 @@ public partial class BlessingUI : TextureRect
         // Show popup panel
         TooltipManager.Instance.UpdatePosition(GetGlobalMousePosition());
 
-        if (!ManaSourceManager.Instance.ManaSelectionMode)
+        if (!BattleManager.Instance.CanQueueSpells || !ManaSourceManager.Instance.ManaSelectionMode)
         {
             return;
         }
@@ -118,13 +122,13 @@ public partial class BlessingUI : TextureRect
         switch (state)
         {
             case State.MarkedForUse:
-                TextLabel.Text = "Marked for use";
+                TextLabel.Text = $"{Blessing.Domain} · Selected";
                 break;
             case State.Available:
-                TextLabel.Text = "Available";
+                TextLabel.Text = $"{Blessing.Domain} · {Blessing.ManaAmount} mana";
                 break;
             case State.Spent:
-                TextLabel.Text = "Spent";
+                TextLabel.Text = $"{Blessing.Domain} · Spent";
                 break;
         }
     }
@@ -161,19 +165,12 @@ public partial class BlessingUI : TextureRect
     /// </summary>
     private void UpdateBlessingBarSize()
     {
-        var fullWidth = ManaSourceManager.Instance.Width;
-        var percentage = (float)Blessing.Level / ManaSourceManager.Instance.BlessingBar.MaxMana;
-
-        var xSize = (int)((fullWidth - 12) * percentage);
-        var ySize = 48 - 12;
-
         SelfModulate = Blessing.GetDomainColor();
-        Texture = new AtlasTexture
-        {
-            Atlas = Blessing.GetTexture(),
-            Region = new Rect2(Vector2.Zero, new Vector2(xSize, ySize))
-        };
-
-        CustomMinimumSize = new Vector2((int)Blessing.Level, ySize);
+        Texture = Blessing.GetTexture();
+        ExpandMode = ExpandModeEnum.IgnoreSize;
+        StretchMode = StretchModeEnum.Tile;
+        SizeFlagsHorizontal = SizeFlags.ExpandFill;
+        SizeFlagsStretchRatio = Blessing.ManaAmount;
+        CustomMinimumSize = new Vector2(80, 36);
     }
 }

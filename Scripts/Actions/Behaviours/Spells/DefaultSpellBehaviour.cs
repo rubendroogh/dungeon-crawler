@@ -38,7 +38,7 @@ public partial class DefaultSpellBehaviour : ISpellBehaviour
             var keywordEffect = Keywords.GetKeywordBehaviour(keyword);
             if (keywordEffect != null)
             {
-                _ = keywordEffect.OnCast(); // TODO: Handle async properly
+                await keywordEffect.OnCast();
             }
         }
 
@@ -70,9 +70,10 @@ public partial class DefaultSpellBehaviour : ISpellBehaviour
 
     public async Task AnimateAction(ActionData spellData, Character target, Character caster = null)
     {
-        if (spellData.CastEffectScene != null)
+        var effectScene = spellData.CastEffectScene ?? GD.Load<PackedScene>("res://Scenes/SpellCastEffects/BaseEffect.tscn");
+        if (effectScene != null)
         {
-            var effectInstance = spellData.CastEffectScene.Instantiate<BaseEffect>();
+            var effectInstance = effectScene.Instantiate<BaseEffect>();
             if (spellData.DefaultCastEffectTexture != null)
             {
                 effectInstance.SetSprite(spellData.DefaultCastEffectTexture);

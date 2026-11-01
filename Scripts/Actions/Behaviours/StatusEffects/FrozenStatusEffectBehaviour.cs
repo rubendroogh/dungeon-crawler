@@ -10,7 +10,8 @@ public partial class FrozenStatusEffectBehaviour : BaseStatusEffectBehaviour
 
     public override async Task ProcessEffectOnRemove(Character target)
     {
-        target.PhysicalDamageModifiers.Remove(new DamageModifier(DamageModifierType.Multiplicative, 2f));
+        var modifier = target.PhysicalDamageModifiers.FindLast(m => m.Type == DamageModifierType.Multiplicative && m.Value == 2f);
+        if (modifier != null) target.PhysicalDamageModifiers.Remove(modifier);
         BattleLogManager.Instance.Log($"{target.Name} is no longer frozen and physical damage modifiers are removed.");
     }
 }

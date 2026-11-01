@@ -8,34 +8,21 @@
 
 config_version=5
 
+"ï»¿config_version"=5
+
 [application]
 
-config/name="new tiles game"
-run/main_scene="uid://ck8p1eru6l2f4"
+config/name="Priest"
+run/main_scene="res://Levels/MainScene.tscn"
 config/features=PackedStringArray("4.4", "C#", "Forward Plus")
 config/icon="res://icon.svg"
-
-[autoload]
-
-ActionManager="*res://Scripts/Managers/ActionManager.cs"
-BattleLogManager="*res://Scripts/Managers/BattleLogManager.cs"
-BattleManager="*res://Scripts/Managers/BattleManager.cs"
-SpellQueueManager="*res://Scripts/Managers/SpellQueueManager.cs"
-TooltipManager="*res://Scripts/Managers/TooltipManager.cs"
-TransitionManager="*res://Scripts/Managers/TransitionManager.cs"
-MusicManager="*res://Scenes/Managers/MusicManager.tscn"
-OpponentManager="*res://Scenes/Managers/OpponentManager.tscn"
-SoundEffectManager="*res://Scenes/Managers/SoundEffectManager.tscn"
-SpellBookManager="*res://Scenes/Managers/SpellBookManager.tscn"
-PlayerManager="*res://Scripts/Managers/PlayerManager.cs"
-ManasourceManager="*res://Scenes/Managers/ManasourceManager.tscn"
-SceneManager="*res://Scripts/Managers/SceneManager.cs"
 
 [display]
 
 window/size/viewport_width=1920
 window/size/viewport_height=1080
-window/size/mode=3
+window/size/window_width_override=1280
+window/size/window_height_override=720
 window/stretch/mode="viewport"
 
 [dotnet]

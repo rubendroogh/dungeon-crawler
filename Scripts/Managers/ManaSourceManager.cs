@@ -177,6 +177,7 @@ public partial class ManaSourceManager : Node
 
 		// Get the most efficient combination of blessings to pay the cost
 		var blessingsToSelect = GetMostEfficientManaCombination(cost, out bool canPay);
+		if (!canPay) return false;
 
 		// Mark the blessings as selected
 		blessingsToSelect.ForEach(b => b.State = State.MarkedForUse);
@@ -414,10 +415,9 @@ public class BlessingBar
 	/// </summary>
 	public void AddBlessing(Blessing blessing)
 	{
-		// Check if there is enough space
-		if (AvailableBlessings.Count + (int)blessing.Level < MaxMana)
+		if (AllMana + blessing.ManaAmount <= MaxMana)
 		{
-			AvailableBlessings.Add(blessing);
+			AllBlessings.Add(blessing);
 		}
 	}
 }

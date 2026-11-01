@@ -28,6 +28,8 @@ public partial class SpellQueueManager : Node
     public override void _Ready()
     {
         Instance = this;
+        SpellQueueExposer = GetTree().Root.FindChild("SpellQueue", true, false) as ComponentExposer;
+        SpellQueueUIScene = GD.Load<PackedScene>("res://Scenes/BattleUI/SpellQueue/SpellQueueItem.tscn");
     }
 
     /// <summary>
@@ -42,7 +44,11 @@ public partial class SpellQueueManager : Node
         }
 
         // Remove all existing children
-        SpellQueue.GetChildren().ToList().ForEach(child => child.QueueFree());
+        foreach (var child in SpellQueue.GetChildren())
+        {
+            SpellQueue.RemoveChild(child);
+            child.QueueFree();
+        }
 
         // Add instances for each spell in the player's spell queue
         var spellQueue = PlayerManager.Instance.GetPlayer().ActionQueue;

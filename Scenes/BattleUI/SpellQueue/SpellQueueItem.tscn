@@ -10,11 +10,10 @@ atlas = ExtResource("3_oo281")
 region = Rect2(595, 357, 16, 16)
 
 [node name="SpellQueueItem" type="PanelContainer" node_paths=PackedStringArray("NameLabel", "SpellIcon")]
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_right = -1813.0
-offset_bottom = -1040.0
+custom_minimum_size = Vector2(0, 48)
+anchors_preset = 0
+offset_right = 400.0
+offset_bottom = 48.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = ExtResource("1_0m38t")

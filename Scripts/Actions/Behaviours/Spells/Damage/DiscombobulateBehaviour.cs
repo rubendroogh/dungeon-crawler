@@ -8,12 +8,12 @@ public partial class DiscombobulateBehaviour : DefaultSpellBehaviour
     public override async Task<ResolveResult> Resolve(List<Blessing> blessings, ActionData spellData, Character target)
     {
         // Hits 3-6 times
-        var hitCount = GD.Randi() % 5 + 3;
+        var hitCount = GD.Randi() % 4 + 3;
         List<Damage> damages = [];
 
         for (int i = 0; i < hitCount; i++)
         {
-            GD.Print("poopy");
+            if (target.IsDead) break;
             foreach (var damageType in spellData.DamageTypes)
             {
                 float damage = CalculateDamage(damageType, 1f, spellData);
@@ -26,6 +26,7 @@ public partial class DiscombobulateBehaviour : DefaultSpellBehaviour
         return new ResolveResult
         {
             HasResolved = true,
+            Target = target,
             Damages = damages,
         };
     }
