@@ -153,6 +153,10 @@ public partial class MvpPlaytest : Node
             await opponent.EndTurn();
             Require(!opponent.HasEffect(StatusEffectType.Frozen) && opponent.PhysicalDamageModifiers.Count == modifiers, "Frozen weakness is removed on expiry");
             await Capture("03-spell-combat");
+            var tabs = GetNode<TabContainer>("UI/BattleHUD/BattleAndResources/ResourcesTabs");
+            tabs.CurrentTab = 2;
+            await Capture("07-grid-map");
+            tabs.CurrentTab = 0;
             await CheckMouseSelection();
             await WinBattle();
             Require(SceneManager.Instance.ChoosingReward, "Victory opens rewards");

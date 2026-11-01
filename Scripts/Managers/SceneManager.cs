@@ -24,7 +24,8 @@ public partial class SceneManager : Node
     private VBoxContainer Choices;
     private Label RunStatus;
     private Label CombatHelp;
-    private Label Map;
+    public event System.Action MapChanged;
+    public bool IsRoomComplete(string id) => ClearedRooms.Contains(id) || UsedEvents.Contains(id);
     private bool ChoiceInProgress;
     public bool IsResolvingChoice => ChoiceInProgress;
 
@@ -45,9 +46,20 @@ public partial class SceneManager : Node
         column.MoveChild(RunStatus, 0);
         RunStatus.AddThemeColorOverride("font_color", new Color("c9b786"));
         var mapTab = BattleNode.FindChild("Map") as Control;
-        foreach (var child in mapTab.GetChildren()) child.QueueFree();
-        Map = new Label { AutowrapMode = TextServer.AutowrapMode.WordSmart };
-        mapTab.AddChild(Map);
+        foreach (var child in mapTab.GetChildren()) { mapTab.RemoveChild(child); child.QueueFree(); }
+        var combatMap = new DungeonMap();
+        mapTab.AddChild(combatMap);
+        combatMap.Bind(this);
+        var explorationPanel = new PanelContainer
+        {
+            CustomMinimumSize = new Vector2(400, 800),
+            SizeFlagsVertical = Control.SizeFlags.ShrinkCenter
+        };
+        (SceneNode as Control).AddThemeConstantOverride("separation", 28);
+        SceneNode.AddChild(explorationPanel);
+        var explorationMap = new DungeonMap();
+        explorationPanel.AddChild(explorationMap);
+        explorationMap.Bind(this);
         var inventory = BattleNode.FindChild("Inventory") as Control;
         if (inventory != null) inventory.GetParent<TabContainer>().SetTabHidden(inventory.GetIndex(), true);
         CombatHelp = new Label { AutowrapMode = TextServer.AutowrapMode.WordSmart, CustomMinimumSize = new Vector2(600, 100) };
@@ -250,7 +262,7 @@ public partial class SceneManager : Node
     {
         var player = PlayerManager.Instance.GetPlayer();
         RunStatus.Text = $"PRIEST  /  ALDERWICK · FIRST DESCENT\n{player.CharacterData.Name} · Health {player.Health:0}/{player.CharacterData.MaxHealth:0} · Blessings {ManaSourceManager.Instance.BlessingBar.AllMana} · Guardians defeated {ClearedRooms.Count}/3\n";
-        Map.Text = "ALDERWICK\n\nStairs\n  ↓\nFlooded threshold\n  ↙          ↘\nShrine       Archive\n  ↘          ↙\nLast lantern\n  ↓\nKeeper of the Influx\n  ↓\nThe first door\n\nVisited: " + string.Join(", ", VisitedRooms.Select(id => Dungeon.Rooms[id].Title)) + "\n\nYou may visit both branches. Events and rewards can only be claimed once.";
+        MapChanged?.Invoke();
     }
 
     private void UpdateCombatHelp()
