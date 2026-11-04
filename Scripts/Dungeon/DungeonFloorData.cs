@@ -28,6 +28,18 @@ public partial class DungeonFloorData : Resource
     [Export]
     public int RewardHealing { get; set; }
 
+    /// <summary>
+    /// The player's recurring mana budget before earning a rare blessing.
+    /// </summary>
+    [Export(PropertyHint.Range, "2,8,1")]
+    public int StartingMana { get; set; }
+
+    /// <summary>
+    /// Maximum number of permanent mana upgrades that can be claimed on this floor.
+    /// </summary>
+    [Export(PropertyHint.Range, "0,8,1")]
+    public int MaximumBlessingRewards { get; set; }
+
     [Export]
     public Dictionary Text { get; set; } = new();
 

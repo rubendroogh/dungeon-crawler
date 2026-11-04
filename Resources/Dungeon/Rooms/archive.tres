@@ -1,18 +1,20 @@
-[gd_resource type="Resource" script_class="DungeonRoomData" load_steps=4 format=3]
+[gd_resource type="Resource" script_class="DungeonRoomData" load_steps=4 format=3 uid="uid://c0m28lymoktcj"]
 
-[ext_resource type="Script" path="res://Scripts/Dungeon/DungeonRoomData.cs" id="1"]
-[ext_resource type="Resource" path="res://Resources/Characters/DrownedArchivist.tres" id="2"]
-
-[ext_resource type="Texture2D" path="res://Assets/Textures/UI/Map/archive.svg" id="map_icon"]
+[ext_resource type="Script" uid="uid://ddrwd3rgmnrr3" path="res://Scripts/Dungeon/DungeonRoomData.cs" id="1"]
+[ext_resource type="Resource" uid="uid://ckpv15vl7sxjb" path="res://Resources/Characters/DrownedArchivist.tres" id="2"]
+[ext_resource type="Texture2D" uid="uid://cg1c73yq32gk5" path="res://Assets/Textures/UI/Map/archive.svg" id="map_icon"]
 
 [resource]
 script = ExtResource("1")
 Id = "archive"
 Title = "Right · The drowned archive"
 MapTitle = "Drowned archive"
-Text = "Waterlogged books lie beneath a watchful sentinel. A sealed grimoire glows on its pedestal. Defeat the sentinel to claim a spell."
+Text = "Waterlogged books lie beneath a watchful sentinel. A rare divine blessing remains beside a sealed grimoire. Defeat the sentinel and choose: one extra mana every turn, a spell, or recovery."
 Kind = 3
 MapPosition = Vector2i(5, 5)
-Exits = PackedStringArray("crossroads")
-Opponent = ExtResource("2")
 MapIcon = ExtResource("map_icon")
+Exits = Array[String]([])
+OptionalBranches = Array[String]([])
+Healing = 0
+Opponent = ExtResource("2")
+OffersBlessingReward = true

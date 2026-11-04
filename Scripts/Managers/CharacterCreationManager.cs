@@ -71,6 +71,9 @@ public partial class CharacterCreationManager : Control
 
 	[Export]
 	private string AlignmentPreviewFormat;
+
+	[Export]
+	private DungeonFloorData StartingFloor;
 	
 	/// <summary>
     /// Calculates the number of available points left for allocation.
@@ -232,6 +235,8 @@ public partial class CharacterCreationManager : Control
 	/// </summary>
 	private static void ApplyBuild(Build build)
 	{
+		ManaSourceManager.Instance.BlessingBar.MaxMana = build.Blessings.Sum(blessing => blessing.ManaAmount);
+
 		foreach (var blessing in build.Blessings)
 		{
 			ManaSourceManager.Instance.AddBlessing(blessing);
@@ -251,7 +256,9 @@ public partial class CharacterCreationManager : Control
 	private Build GenerateCharacterBuild()
 	{
 		var domains = GetStartingDomains();
-		return domains.Length == 1 ? Builds.GetSingleDomainBuild(domains[0]) : Builds.GetDualDomainBuild(domains[0], domains[1]);
+		return domains.Length == 1
+			? Builds.GetSingleDomainBuild(domains[0], StartingFloor.StartingMana)
+			: Builds.GetDualDomainBuild(domains[0], domains[1], StartingFloor.StartingMana);
 	}
 
 	private Domain[] GetStartingDomains()

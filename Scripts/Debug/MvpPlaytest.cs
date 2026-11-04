@@ -2,6 +2,7 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 using DungeonRPG.Blessings.Enums;
+using DungeonRPG.Characters;
 using Godot;
 using Priest.Managers;
 
@@ -11,6 +12,8 @@ using Priest.Managers;
 public partial class MvpPlaytest : Node
 {
     private static int TestStage;
+    private static int BaselineBossRounds { get; set; }
+    private static float BaselineBossHealth { get; set; }
     [Export]
     private ComponentExposer ExplorationExposer;
     [Export]
@@ -94,9 +97,11 @@ public partial class MvpPlaytest : Node
             foreach (var first in Enum.GetValues<Domain>())
             {
                 Require(SpellBookManager.Instance.GetStartingSpellsByDomain([first]).Count >= 2, $"Starting spells for {first}");
+                CheckStartingMana(Builds.GetSingleDomainBuild(first, 3), first);
                 foreach (var second in Enum.GetValues<Domain>().Where(d => d != first))
                 {
                     Require(SpellBookManager.Instance.GetStartingSpellsByDomain([first, second]).Count >= 2, $"Starting spells for {first}/{second}");
+                    CheckStartingMana(Builds.GetDualDomainBuild(first, second, 3), first);
                 }
             }
             PlayerNameInput.Text = "Mart";
@@ -107,6 +112,8 @@ public partial class MvpPlaytest : Node
             Intro._Input(new InputEventKey { Pressed = true, Keycode = Key.Space });
             await WaitUntil(() => SceneManager.Instance.CurrentRoom != null, "Dungeon entered");
             Require(SpellBookManager.Instance.AvailableSpells.Count == 2, "Personality grants two starting spells");
+            Require(ManaSourceManager.Instance.BlessingBar.AllMana == 3
+                && ManaSourceManager.Instance.BlessingBar.MaxMana == 3, "Run starts with three mana and no spare capacity");
             var player = PlayerManager.Instance.GetPlayer();
             Require(player.CharacterData.BaseFocused == 10, "Neutral UI traits map to base value 10");
             await player.ApplyEffect(StatusEffectType.PhysicalInvincibility, 1);
@@ -139,24 +146,35 @@ public partial class MvpPlaytest : Node
             await WinBattle();
             Require(SceneManager.Instance.ChoosingReward, "Victory opens rewards");
             await Capture("04-reward-choice");
-            var blessings = ManaSourceManager.Instance.BlessingBar.AllMana;
-            await ClickChoice("Accept a");
-            Require(ManaSourceManager.Instance.BlessingBar.AllMana == blessings + 1, "Reward increases mana capacity");
+            Require(!HasChoice("Claim a rare"), "Ordinary victory offers no mana upgrade");
+            await ClickChoice("Learn");
+            Require(SpellBookManager.Instance.AvailableSpells.Count == 3, "Spell reward enters spellbook");
+            Require(ManaSourceManager.Instance.BlessingBar.AllMana == 3, "Learning a spell does not increase mana");
             await ClickChoice("Continue · Left");
+            Require(!HasChoice("Ask") && !HasChoice("Claim a rare"), "Shrine offers recovery without mana");
             await ClickChoice("Drink");
             await ClickChoice("Continue");
             await ClickChoice("Rest");
             await ClickChoice("Explore the archive");
             await ClickChoice("Face");
             await WinBattle();
-            await ClickChoice("Learn");
-            Require(SpellBookManager.Instance.AvailableSpells.Count == 3, "Spell reward enters spellbook");
+            Require(HasChoice("Claim a rare"), "Archive offers the floor's rare mana upgrade");
+            Require(!HasChoice("Learn Solidify"), "Rewards exclude spells outside the current domain budget");
+            await Capture("08-rare-blessing-choice");
+            await ClickChoice("Mend your wounds");
+            Require(ManaSourceManager.Instance.BlessingBar.AllMana == 3
+                && SceneManager.Instance.BlessingRewardsClaimed == 0, "Choosing recovery forfeits the mana upgrade");
             await ClickChoice("Continue");
             await ClickChoice("Continue");
             await ClickChoice("Challenge");
             await WinBattle();
             Require(SceneManager.Instance.RunFinished && SceneManager.Instance.CurrentRoom.Id == "exit", "Boss victory finishes run");
             Require(SceneManager.Instance.ClearedRooms.Count == 3, "Both branches and boss are completable");
+            BaselineBossRounds = BattleManager.Instance.Round;
+            BaselineBossHealth = player.Health;
+            Require(ManaSourceManager.Instance.BlessingBar.AllMana == 3, "Boss can be defeated without a mana upgrade");
+            Require(player.Health < player.CharacterData.MaxHealth / 3, "Starting mana produces a narrow victory against the boss");
+            GD.Print($"MANA BASELINE: {BaselineBossRounds} boss rounds, {BaselineBossHealth:0} health remaining at 3 mana.");
             await Capture("05-victory");
             TestStage = 1;
             await ClickChoice("Begin another");
@@ -175,17 +193,19 @@ public partial class MvpPlaytest : Node
         Require(SpellBookManager.Instance.AvailableSpells.Count == 0 && ManaSourceManager.Instance.BlessingBar.AllMana == 0,
             "Replay clears spells and blessings");
         Require(SceneManager.Instance.CurrentRoom == null && SceneManager.Instance.ClearedRooms.Count == 0, "Replay clears dungeon progress");
-        if (TestStage == 2)
+        Require(SceneManager.Instance.BlessingRewardsClaimed == 0, "Replay resets the floor's blessing reward limit");
+        if (TestStage == 3)
         {
             await FinishChecks();
             return;
         }
-        PlayerNameInput.Text = "Mart";
-        Creation.OnSpinboxValueChanged();
-        Creation.SubmitForm();
-        await WaitUntil(() => Intro.Visible, "Replay intro opened");
-        Intro._Input(new InputEventKey { Pressed = true, Keycode = Key.Space });
-        await WaitUntil(() => SceneManager.Instance.CurrentRoom != null, "Replay dungeon entered");
+        if (TestStage == 1)
+        {
+            await CheckRareBlessingRun();
+            return;
+        }
+
+        await StartReplayRun();
         await ClickChoice("Continue");
         await ClickChoice("Face");
         var battle = BattleManager.Instance;
@@ -200,6 +220,73 @@ public partial class MvpPlaytest : Node
         await WaitUntil(() => SceneManager.Instance.RunFinished, "Defeat screen shown");
         Require(player.IsDead && player.Health == 0, "Empty queues pass turns until defeat without negative health");
         await Capture("06-defeat");
+        TestStage = 3;
+        await ClickChoice("Begin another");
+    }
+
+    private bool HasChoice(string prefix)
+    {
+        return Choices.GetChildren().OfType<Button>().Any(button => button.Text.StartsWith(prefix));
+    }
+
+    /// <summary>
+    /// Every starting alignment must retain both a tight budget and castable initial spells.
+    /// </summary>
+    private void CheckStartingMana(Build build, Domain dominantDomain)
+    {
+        Require(build.Blessings.Sum(blessing => blessing.ManaAmount) == 3, $"Three starting mana for {string.Join("/", build.Alignment)}");
+        Require(build.Blessings.Count(blessing => blessing.Domain == dominantDomain) >= 2, "Dominant domain receives the larger share");
+        foreach (var spell in build.Spells)
+        {
+            Require(spell.Data.Cost.Costs.GroupBy(cost => cost.Type).All(costs =>
+                costs.Sum(cost => cost.Amount) <= build.Blessings.Where(blessing => blessing.Domain == costs.Key)
+                    .Sum(blessing => blessing.ManaAmount)), $"Starting mana can cast {spell.Data.Name}");
+        }
+    }
+
+    private async Task StartReplayRun()
+    {
+        PlayerNameInput.Text = "Mart";
+        Creation.OnSpinboxValueChanged();
+        Creation.SubmitForm();
+        await WaitUntil(() => Intro.Visible, "Replay intro opened");
+        Intro._Input(new InputEventKey { Pressed = true, Keycode = Key.Space });
+        await WaitUntil(() => SceneManager.Instance.CurrentRoom != null, "Replay dungeon entered");
+    }
+
+    /// <summary>
+    /// Compares the earned upgrade with the baseline run and checks that it cannot be farmed.
+    /// </summary>
+    private async Task CheckRareBlessingRun()
+    {
+        await StartReplayRun();
+        await ClickChoice("Continue");
+        await ClickChoice("Face");
+        await WinBattle();
+        Require(!HasChoice("Claim a rare"), "Mana remains unavailable at the ordinary guardian");
+        await ClickChoice("Learn");
+        await ClickChoice("Continue · Right");
+        await ClickChoice("Face");
+        await WinBattle();
+        await ClickChoice("Claim a rare");
+        Require(ManaSourceManager.Instance.BlessingBar.AllMana == 4
+            && ManaSourceManager.Instance.BlessingBar.MaxMana == 4
+            && SceneManager.Instance.BlessingRewardsClaimed == 1, "Rare blessing adds exactly one recurring mana");
+        Require(!HasChoice("Learn") && !HasChoice("Mend"), "Claiming mana forfeits the other archive rewards");
+        await ClickChoice("Continue");
+        SceneManager.Instance.EnterRoom("archive");
+        Require(!SceneManager.Instance.ChoosingReward && !HasChoice("Claim a rare"), "Revisiting the archive cannot grant another blessing");
+        Require(ManaSourceManager.Instance.BlessingBar.AllMana == 4, "Mana remains capped after revisiting");
+        await ClickChoice("Continue");
+        await ClickChoice("Rest");
+        await ClickChoice("Continue");
+        await ClickChoice("Challenge");
+        await WinBattle();
+        var player = PlayerManager.Instance.GetPlayer();
+        Require(SceneManager.Instance.RunFinished, "Rare blessing run reaches victory");
+        Require(BattleManager.Instance.Round < BaselineBossRounds && player.Health > BaselineBossHealth,
+            "One extra mana wins faster and saves health against the same boss");
+        GD.Print($"MANA UPGRADE: {BattleManager.Instance.Round} boss rounds, {player.Health:0} health remaining at 4 mana.");
         TestStage = 2;
         await ClickChoice("Begin another");
     }

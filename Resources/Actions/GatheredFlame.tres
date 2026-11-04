@@ -1,9 +1,20 @@
-[gd_resource type="Resource" script_class="ActionData" load_steps=2 format=3]
+[gd_resource type="Resource" script_class="ActionData" load_steps=2 format=3 uid="uid://bbmqbtdlvbb7k"]
 
-[ext_resource type="Script" path="res://Scripts/Actions/ActionData.cs" id="1"]
+[ext_resource type="Script" uid="uid://d31wkdgrcylv3" path="res://Scripts/Actions/ActionData.cs" id="1"]
 
 [resource]
 script = ExtResource("1")
 Name = "Gathered flame"
+Description = "You forgot to fill this in!"
+SpellCostExpression = ""
 BasePhysicalDamage = 0.0
+BaseDarkDamage = 0.0
+BaseLightDamage = 0.0
 BaseFireDamage = 12.0
+BaseIceDamage = 0.0
+BaseLightningDamage = 0.0
+BaseSanityDamage = 0.0
+BaseDiseaseDamage = 0.0
+Keywords = Array[int]([])
+StatusEffects = Array[int]([])
+Rarity = 1

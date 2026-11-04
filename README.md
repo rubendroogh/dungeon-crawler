@@ -10,10 +10,12 @@ Open `project.godot` in **Godot 4.4.1 .NET**, build the C# project, then press *
 2. Start the game, then press Space, Enter, or click to continue the introduction.
 3. Choose a route through the dungeon. You can visit both the shrine and archive before challenging the Keeper.
 4. In combat, click a spell, check the automatically selected blessings, and click **Add to queue**. Repeat, then **Cast queue**. Spells resolve in order. **Clear queue** returns your blessings; **Pass turn** ends an empty turn.
-5. Watch the enemy's next attack. Blessings refresh every player turn; health carries between fights. Choose one reward after each regular encounter.
+5. Watch the enemy's next attack. Your three starting blessings refresh every player turn; health carries between fights. Choose one reward after each regular encounter.
 6. Defeat the Keeper to finish. Victory and defeat both offer a fresh run.
 
 Hover over spells for their cost, effects, and keywords. The Map tab shows the floor and visited rooms.
+
+Extra mana is scarce: ordinary victories and the shrine do not grant blessings. The optional archive offers the floor's only permanent mana upgrade, chosen instead of a spell or recovery. A run therefore has three mana per turn, or four after claiming that upgrade. Dual-domain builds begin with two mana in their strongest domain and one in the other.
 
 ## Included
 
@@ -32,7 +34,7 @@ dotnet build --no-restore
 & 'path/to/Godot_console.exe' --headless --path . -- --mvp-test
 ```
 
-The integration checks exercise all starting-domain combinations, character creation, status expiry, mouse spell selection, queue refunds, both dungeon branches, rewards, boss victory, passing turns until defeat, and fresh replay after both outcomes. They exit with code 1 on failure.
+The integration checks exercise all starting-domain combinations and their castable mana budgets, character creation, status expiry, mouse spell selection, queue refunds, both dungeon branches, rewards, boss victories with three and four mana, the one-time blessing limit, passing turns until defeat, and fresh replay after both outcomes. They exit with code 1 on failure.
 
 To also capture rendered screens, omit `--headless` and add `--rendering-method gl_compatibility` before `--`, and `--mvp-capture` after it. Captures go to `.godot/mvp-preview/`.
 
@@ -40,7 +42,7 @@ Managers are owned by the main scene so replay recreates their state together wi
 
 ## Editing the existing content and presentation
 
-- `Resources/Dungeon/Alderwick.tres` owns the floor's room catalog, reward spells, and shared text. Room resources under `Resources/Dungeon/Rooms` hold descriptions, map coordinates, icons, exits, and encounter references.
+- `Resources/Dungeon/Alderwick.tres` owns the floor's room catalog, starting mana, blessing reward limit, reward spells, and shared text. Room resources under `Resources/Dungeon/Rooms` hold descriptions, map coordinates, icons, exits, encounter references, and whether a blessing reward is available.
 - Enemy character resources under `Resources/Characters` reference their ordered attacks under `Resources/Actions`.
 - `Scenes/SceneUI` contains the reusable exploration view, map, backdrop, and choice button. Shared palettes and dimensions are in `Resources/Themes/DungeonMapStyle.tres` and `DungeonBackdropStyle.tres`; map icons are in `Assets/Textures/UI/Map`.
 - `Levels/MainScene.tscn` composes the screens and supplies exported node references. `Scripts/Debug/MvpPlaytest.cs` contains only the opt-in diagnostic playthrough and captures.

@@ -20,12 +20,12 @@ public enum RoomKind
     Battle,
 
     /// <summary>
-    /// Sanctuary offering a one-time choice between healing and a divine blessing.
+    /// Sanctuary offering one-time healing before the next encounter.
     /// </summary>
     Shrine,
 
     /// <summary>
-    /// Optional archive guarded by an enemy, with spell learning among its victory rewards.
+    /// Optional guarded archive whose victory can offer a rare blessing, a spell, or recovery.
     /// </summary>
     Archive,
 

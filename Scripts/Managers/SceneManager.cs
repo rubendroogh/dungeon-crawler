@@ -33,6 +33,11 @@ public partial class SceneManager : Node
     public bool ChoosingReward { get; private set; }
     public bool IsResolvingChoice { get; private set; }
 
+    public int BlessingRewardsClaimed { get; private set; }
+
+    private bool CanOfferBlessingReward => CurrentRoom.OffersBlessingReward
+        && BlessingRewardsClaimed < Floor.MaximumBlessingRewards;
+
     /// <summary>
     /// Notifies map views after room progress or a one-time interaction changes.
     /// </summary>
@@ -156,14 +161,6 @@ public partial class SceneManager : Node
             var key = CurrentRoom.Kind == RoomKind.Shrine ? "shrine_heal" : "lantern_heal";
             AddAsyncChoice(Floor.FormatText(key, CurrentRoom.Healing), UseHealingEvent);
         }
-
-        if (CurrentRoom.Kind == RoomKind.Shrine)
-        {
-            foreach (var domain in Enum.GetValues<Domain>())
-            {
-                AddChoice(Floor.FormatText("shrine_blessing", domain), () => UseBlessingEvent(domain));
-            }
-        }
     }
 
     private void AddTravelChoices()
@@ -186,13 +183,6 @@ public partial class SceneManager : Node
     {
         UsedEvents.Add(CurrentRoom.Id);
         await PlayerManager.Instance.GetPlayer().Heal(CurrentRoom.Healing);
-        ShowRoom();
-    }
-
-    private void UseBlessingEvent(Domain domain)
-    {
-        UsedEvents.Add(CurrentRoom.Id);
-        GrantBlessing(domain);
         ShowRoom();
     }
 
@@ -245,18 +235,27 @@ public partial class SceneManager : Node
     private void ShowRewards()
     {
         ChoosingReward = true;
+        var description = Floor.FormatText("reward_text");
+        if (CanOfferBlessingReward)
+        {
+            description += "\n\n" + Floor.FormatText("rare_blessing_text");
+        }
+
         SetScene(new Scene
         {
             Title = Floor.FormatText("reward_title"),
-            Text = Floor.FormatText("reward_text")
+            Text = description
         });
 
         var domains = ManaSourceManager.Instance.BlessingBar.AllBlessings
             .Select(blessing => blessing.Domain).Distinct().ToArray();
         AddSpellRewards(domains);
-        foreach (var domain in domains)
+        if (CanOfferBlessingReward)
         {
-            AddChoice(Floor.FormatText("reward_blessing", domain), () => AcceptBlessingReward(domain));
+            foreach (var domain in domains)
+            {
+                AddChoice(Floor.FormatText("reward_blessing", domain), () => AcceptBlessingReward(domain));
+            }
         }
 
         AddAsyncChoice(Floor.FormatText("reward_heal", Floor.RewardHealing), AcceptHealingReward);
@@ -274,6 +273,14 @@ public partial class SceneManager : Node
                 continue;
             }
 
+            // A reward must be castable with the player's present mana budget.
+            if (spell.Cost.Costs.GroupBy(cost => cost.Type).Any(costs =>
+                costs.Sum(cost => cost.Amount) > ManaSourceManager.Instance.BlessingBar.AllBlessings
+                    .Where(blessing => blessing.Domain == costs.Key).Sum(blessing => blessing.ManaAmount)))
+            {
+                continue;
+            }
+
             AddChoice(Floor.FormatText("learn", spell.Name, spell.Cost), () => AcceptSpellReward(spell));
         }
     }
@@ -286,7 +293,13 @@ public partial class SceneManager : Node
 
     private void AcceptBlessingReward(Domain domain)
     {
+        if (!ChoosingReward || !CanOfferBlessingReward)
+        {
+            return;
+        }
+
         GrantBlessing(domain);
+        BlessingRewardsClaimed++;
         ShowRoom();
     }
 

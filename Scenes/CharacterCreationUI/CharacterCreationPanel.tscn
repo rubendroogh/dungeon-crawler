@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://c6c50r7e37xs6"]
+[gd_scene load_steps=16 format=3 uid="uid://c6c50r7e37xs6"]
 
 [ext_resource type="Script" uid="uid://cr3tq3ldbn5dl" path="res://Scripts/Managers/CharacterCreationManager.cs" id="1_vwkv2"]
 [ext_resource type="Texture2D" uid="uid://exboe6jk0wnb" path="res://Assets/Textures/Atlasses/FullTileMap.png" id="2_fwyi0"]
@@ -13,6 +13,8 @@
 [ext_resource type="Resource" uid="uid://di70yuvrx0ctx" path="res://Resources/PersonalityTraits/Optimistic.tres" id="11_caqsy"]
 [ext_resource type="Script" uid="uid://dphi8b28kelq" path="res://Scripts/UI/CharacterCreation/CharacterCreationSubmit.cs" id="12_dmxv2"]
 [ext_resource type="PackedScene" uid="uid://8fc8j5unty8k" path="res://Scenes/CharacterCreationUI/AvailablePointsIndicator.tscn" id="12_fwyi0"]
+
+[ext_resource type="Resource" path="res://Resources/Dungeon/Alderwick.tres" id="starting_floor"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_sth1w"]
 atlas = ExtResource("2_fwyi0")
@@ -36,6 +38,7 @@ AvailablePointsTextPlural = "available personality points"
 AvailablePointsExposer = NodePath("MarginContainer/HBoxContainer/Form/FormMargin/VBoxContainer/AvailablePointsMargin")
 AlignmentPreview = NodePath("MarginContainer/HBoxContainer/Form/AlignmentPreview")
 AlignmentPreviewFormat = "Your affinity: {0}"
+StartingFloor = ExtResource("starting_floor")
 
 
 [node name="MarginContainer" type="MarginContainer" parent="CharacterCreationManager"]
@@ -294,7 +297,7 @@ vertical_alignment = 1
 custom_minimum_size = Vector2(420, 0)
 autowrap_mode = 3
 horizontal_alignment = 0
-text = "PRIEST\nThe first descent into Alderwick\n\nTrade personality points between traits until the total returns to zero. Negative traits can be just as useful. Leave everything at zero for a balanced start.\n\nYour strongest traits decide which gods give you spells and four starting blessings.\n\nZer: Genuine + Optimistic\nHamin: Curious + Focused\nJaddis: Charming + Benevolent\nCalina: Dominant + Fearless\n\nExplore the ruin, shape your spellbook, and confront the Keeper."
+text = "PRIEST\nThe first descent into Alderwick\n\nTrade personality points between traits until the total returns to zero. Negative traits can be just as useful. Leave everything at zero for a balanced start.\n\nYour strongest traits decide which gods give you spells and three starting blessings. Further blessings are rare.\n\nZer: Genuine + Optimistic\nHamin: Curious + Focused\nJaddis: Charming + Benevolent\nCalina: Dominant + Fearless\n\nExplore the ruin, shape your spellbook, and confront the Keeper."
 
 
 [node name="AlignmentPreview" type="Label" parent="CharacterCreationManager/MarginContainer/HBoxContainer/Form"]

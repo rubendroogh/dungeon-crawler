@@ -40,5 +40,11 @@ public partial class DungeonRoomData : Resource
     [Export]
     public CharacterData Opponent { get; set; }
 
+    /// <summary>
+    /// Allows this encounter to offer a blessing within the floor's upgrade limit.
+    /// </summary>
+    [Export]
+    public bool OffersBlessingReward { get; set; }
+
     public bool HasEncounter => Opponent != null;
 }

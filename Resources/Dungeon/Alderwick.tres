@@ -1,23 +1,25 @@
-[gd_resource type="Resource" script_class="DungeonFloorData" load_steps=19 format=3]
+[gd_resource type="Resource" script_class="DungeonFloorData" load_steps=21 format=3 uid="uid://ctmex56xhu6th"]
 
-[ext_resource type="Script" path="res://Scripts/Dungeon/DungeonFloorData.cs" id="1"]
-[ext_resource type="Resource" path="res://Resources/Dungeon/Rooms/entrance.tres" id="room_entrance"]
-[ext_resource type="Resource" path="res://Resources/Dungeon/Rooms/gate.tres" id="room_gate"]
-[ext_resource type="Resource" path="res://Resources/Dungeon/Rooms/shrine.tres" id="room_shrine"]
-[ext_resource type="Resource" path="res://Resources/Dungeon/Rooms/archive.tres" id="room_archive"]
-[ext_resource type="Resource" path="res://Resources/Dungeon/Rooms/crossroads.tres" id="room_crossroads"]
+[ext_resource type="Script" uid="uid://dntqy1forgsa0" path="res://Scripts/Dungeon/DungeonFloorData.cs" id="1"]
+[ext_resource type="Script" uid="uid://d31wkdgrcylv3" path="res://Scripts/Actions/ActionData.cs" id="1_3gou2"]
+[ext_resource type="Script" uid="uid://ddrwd3rgmnrr3" path="res://Scripts/Dungeon/DungeonRoomData.cs" id="12_0fmaj"]
+[ext_resource type="Resource" uid="uid://c0m28lymoktcj" path="res://Resources/Dungeon/Rooms/archive.tres" id="room_archive"]
 [ext_resource type="Resource" path="res://Resources/Dungeon/Rooms/boss.tres" id="room_boss"]
+[ext_resource type="Resource" path="res://Resources/Dungeon/Rooms/crossroads.tres" id="room_crossroads"]
+[ext_resource type="Resource" path="res://Resources/Dungeon/Rooms/entrance.tres" id="room_entrance"]
 [ext_resource type="Resource" path="res://Resources/Dungeon/Rooms/exit.tres" id="room_exit"]
-[ext_resource type="Resource" path="res://Resources/Spells/Damage/FireBall.tres" id="spell_0"]
-[ext_resource type="Resource" path="res://Resources/Spells/Damage/FileBolt.tres" id="spell_1"]
-[ext_resource type="Resource" path="res://Resources/Spells/Damage/LightPierce.tres" id="spell_2"]
-[ext_resource type="Resource" path="res://Resources/Spells/Damage/Rot.tres" id="spell_3"]
-[ext_resource type="Resource" path="res://Resources/Spells/Damage/Solidify.tres" id="spell_4"]
-[ext_resource type="Resource" path="res://Resources/Spells/Damage/Discombobulate.tres" id="spell_5"]
-[ext_resource type="Resource" path="res://Resources/Spells/StatusEffect/Plague.tres" id="spell_6"]
-[ext_resource type="Resource" path="res://Resources/Spells/Buff/UmbralShield.tres" id="spell_7"]
-[ext_resource type="Resource" path="res://Resources/Spells/QueueSynergy/Duplication.tres" id="spell_8"]
-[ext_resource type="Resource" path="res://Resources/Spells/QueueSynergy/Echo.tres" id="spell_9"]
+[ext_resource type="Resource" path="res://Resources/Dungeon/Rooms/gate.tres" id="room_gate"]
+[ext_resource type="Resource" uid="uid://cxkfv7xecx8mj" path="res://Resources/Dungeon/Rooms/shrine.tres" id="room_shrine"]
+[ext_resource type="Resource" uid="uid://b1jhmr0xq4603" path="res://Resources/Spells/Damage/FireBall.tres" id="spell_0"]
+[ext_resource type="Resource" uid="uid://d37yeyuey74u8" path="res://Resources/Spells/Damage/FileBolt.tres" id="spell_1"]
+[ext_resource type="Resource" uid="uid://g53ok3fb3puw" path="res://Resources/Spells/Damage/LightPierce.tres" id="spell_2"]
+[ext_resource type="Resource" uid="uid://bqdxov8q2os7r" path="res://Resources/Spells/Damage/Rot.tres" id="spell_3"]
+[ext_resource type="Resource" uid="uid://cn6ie7edpvr5j" path="res://Resources/Spells/Damage/Solidify.tres" id="spell_4"]
+[ext_resource type="Resource" uid="uid://b2obfc8fqqmsx" path="res://Resources/Spells/Damage/Discombobulate.tres" id="spell_5"]
+[ext_resource type="Resource" uid="uid://cwyc4kfuwlt1k" path="res://Resources/Spells/StatusEffect/Plague.tres" id="spell_6"]
+[ext_resource type="Resource" uid="uid://d0l20mb5voaph" path="res://Resources/Spells/Buff/UmbralShield.tres" id="spell_7"]
+[ext_resource type="Resource" uid="uid://ctiva4cktjag1" path="res://Resources/Spells/QueueSynergy/Duplication.tres" id="spell_8"]
+[ext_resource type="Resource" uid="uid://3f5dt78r8pmf" path="res://Resources/Spells/QueueSynergy/Echo.tres" id="spell_9"]
 
 [resource]
 script = ExtResource("1")
@@ -25,31 +27,41 @@ StartingRoomId = "entrance"
 MapSize = Vector2i(7, 13)
 Name = "ALDERWICK"
 Subtitle = "FLOOR 01  /  THE FIRST DESCENT"
-Rooms = [ExtResource("room_entrance"), ExtResource("room_gate"), ExtResource("room_shrine"), ExtResource("room_archive"), ExtResource("room_crossroads"), ExtResource("room_boss"), ExtResource("room_exit")]
-RewardSpells = [ExtResource("spell_0"), ExtResource("spell_1"), ExtResource("spell_2"), ExtResource("spell_3"), ExtResource("spell_4"), ExtResource("spell_5"), ExtResource("spell_6"), ExtResource("spell_7"), ExtResource("spell_8"), ExtResource("spell_9")]
+Rooms = Array[ExtResource("12_0fmaj")]([ExtResource("room_entrance"), ExtResource("room_gate"), ExtResource("room_shrine"), ExtResource("room_archive"), ExtResource("room_crossroads"), ExtResource("room_boss"), ExtResource("room_exit")])
+RewardSpells = Array[ExtResource("1_3gou2")]([ExtResource("spell_0"), ExtResource("spell_1"), ExtResource("spell_2"), ExtResource("spell_3"), ExtResource("spell_4"), ExtResource("spell_5"), ExtResource("spell_6"), ExtResource("spell_7"), ExtResource("spell_8"), ExtResource("spell_9")])
 RewardHealing = 22
+StartingMana = 3
+MaximumBlessingRewards = 1
 Text = {
-"restart": "Begin another descent",
 "challenge": "Challenge the Keeper",
-"face": "Face the guardian",
-"shrine_heal": "Drink from the basin · recover {0} health",
-"lantern_heal": "Rest beside the lantern · recover {0} health",
-"shrine_blessing": "Ask {0} for a blessing · +1 mana each turn",
-"explore": "Explore the {0}",
+"combat_help": "{0}
+{1}
+Select a spell → Add to queue → Cast queue. Blessings refresh each turn. Order matters!",
 "continue": "Continue · {0}",
+"defeat_text": "Your blessings fade beneath Alderwick. The old world's secret remains beyond your reach.
+
+Try another personality, change the order of your spells, and watch the enemy's next attack.",
 "defeat_title": "The dungeon remembers",
-"defeat_text": "Your blessings fade beneath Alderwick. The old world's secret remains beyond your reach.\n\nTry another personality, change the order of your spells, and watch the enemy's next attack.",
-"reward_title": "A gift from the remnants",
-"reward_text": "The guardian falls. The gods offer a single gift for your descent.\n\nChoose one reward. Your blessings refresh at the start of every turn; your health carries between encounters.",
+"explore": "Explore the {0}",
+"face": "Face the guardian",
+"lantern_heal": "Rest beside the lantern · recover {0} health",
 "learn": "Learn {0} · {1}",
-"reward_blessing": "Accept a {0} blessing · +1 mana each turn",
-"reward_heal": "Mend your wounds · recover {0} health",
-"status": "PRIEST  /  ALDERWICK · FIRST DESCENT\n{0} · Health {1:0}/{2:0} · Blessings {3} · Guardians defeated {4}/3\n",
-"combat_help": "{0}\n{1}\nSelect a spell → Add to queue → Cast queue. Blessings refresh each turn. Order matters!",
-"map_you": "YOU",
-"map_visited": "VISITED",
-"map_unexplored": "UNEXPLORED",
-"map_here": "YOU ARE HERE",
 "map_completed": "COMPLETED",
-"map_hint": "Both branches can be explored."
+"map_here": "YOU ARE HERE",
+"map_hint": "Both branches can be explored.",
+"map_unexplored": "UNEXPLORED",
+"map_visited": "VISITED",
+"map_you": "YOU",
+"rare_blessing_text": "A rare blessing remains in the archive. Take +1 mana every turn instead of a spell or healing. Only one blessing can be earned on this floor.",
+"restart": "Begin another descent",
+"reward_blessing": "Claim a rare {0} blessing · +1 mana every turn",
+"reward_heal": "Mend your wounds · recover {0} health",
+"reward_text": "The guardian falls. The gods offer a single gift for your descent.
+
+Choose one reward. Your blessings refresh at the start of every turn; your health carries between encounters.",
+"reward_title": "A gift from the remnants",
+"shrine_heal": "Drink from the basin · recover {0} health",
+"status": "PRIEST  /  ALDERWICK · FIRST DESCENT
+{0} · Health {1:0}/{2:0} · Blessings {3} · Guardians defeated {4}/3
+"
 }

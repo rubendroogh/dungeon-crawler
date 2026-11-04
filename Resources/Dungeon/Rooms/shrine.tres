@@ -1,17 +1,18 @@
-[gd_resource type="Resource" script_class="DungeonRoomData" load_steps=3 format=3]
+[gd_resource type="Resource" script_class="DungeonRoomData" load_steps=3 format=3 uid="uid://cxkfv7xecx8mj"]
 
-[ext_resource type="Script" path="res://Scripts/Dungeon/DungeonRoomData.cs" id="1"]
-
-[ext_resource type="Texture2D" path="res://Assets/Textures/UI/Map/shrine.svg" id="map_icon"]
+[ext_resource type="Script" uid="uid://ddrwd3rgmnrr3" path="res://Scripts/Dungeon/DungeonRoomData.cs" id="1"]
+[ext_resource type="Texture2D" uid="uid://bc6bs2bv8p8mr" path="res://Assets/Textures/UI/Map/shrine.svg" id="map_icon"]
 
 [resource]
 script = ExtResource("1")
 Id = "shrine"
 Title = "Left · The forgotten shrine"
 MapTitle = "Forgotten shrine"
-Text = "A stone basin holds clear water. Four worn figures watch over a single unlit candle. You can drink, or ask a god for another blessing."
+Text = "A stone basin holds clear water. Four worn figures watch over a single unlit candle. Their divine power has faded, but the water can still mend your wounds."
 Kind = 2
 MapPosition = Vector2i(1, 5)
-Exits = PackedStringArray("crossroads")
-Healing = 24
 MapIcon = ExtResource("map_icon")
+Exits = Array[String]([])
+OptionalBranches = Array[String]([])
+Healing = 24
+OffersBlessingReward = false

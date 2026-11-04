@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using DungeonRPG.Blessings.Enums;
 
@@ -11,18 +12,19 @@ public static class Builds
     /// <summary>
     /// Get the starting build for the specified domain.
     /// </summary>
-    public static Build GetSingleDomainBuild(Domain domain)
+    public static Build GetSingleDomainBuild(Domain domain, int startingMana)
     {
-        var build = new Build();
-
-        // Get 4 starting blessings
-        var startingBlessings = new List<Blessing>
+        if (startingMana < 1)
         {
-            new(Level.Minor, domain),
-            new(Level.Minor, domain),
-            new(Level.Minor, domain),
-            new(Level.Minor, domain),
-        };
+            throw new ArgumentOutOfRangeException(nameof(startingMana));
+        }
+
+        var build = new Build();
+        var startingBlessings = new List<Blessing>();
+        for (var index = 0; index < startingMana; index++)
+        {
+            startingBlessings.Add(new Blessing(Level.Minor, domain));
+        }
 
         build.Blessings = startingBlessings;
         build.Alignment = [domain];
@@ -32,20 +34,23 @@ public static class Builds
     }
 
     /// <summary>
-    /// Get the starting dual-domain build for the specified domains.
+    /// Splits the starting mana between two domains, favoring the dominant domain for odd totals.
     /// </summary>
-    public static Build GetDualDomainBuild(Domain domain1, Domain domain2)
+    public static Build GetDualDomainBuild(Domain domain1, Domain domain2, int startingMana)
     {
-        var build = new Build();
-
-        // Get 2 starting blessings of each domain
-        var startingBlessings = new List<Blessing>
+        if (startingMana < 2)
         {
-            new(Level.Minor, domain1),
-            new(Level.Minor, domain1),
-            new(Level.Minor, domain2),
-            new(Level.Minor, domain2),
-        };
+            throw new ArgumentOutOfRangeException(nameof(startingMana));
+        }
+
+        var build = new Build();
+        var startingBlessings = new List<Blessing>();
+        var primaryMana = (startingMana + 1) / 2;
+        for (var index = 0; index < startingMana; index++)
+        {
+            var domain = index < primaryMana ? domain1 : domain2;
+            startingBlessings.Add(new Blessing(Level.Minor, domain));
+        }
 
         build.Blessings = startingBlessings;
         build.Alignment = [domain1, domain2];
