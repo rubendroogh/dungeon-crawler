@@ -2,6 +2,9 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Godot;
 
+/// <summary>
+/// Queues player spells and connects combat state to the player's health and block display.
+/// </summary>
 public partial class Player : Character
 {
 	/// <summary>
@@ -35,6 +38,7 @@ public partial class Player : Character
 	/// <param name="action">The action to queue.</param>
 	public void QueueAction(Spell spell, Character target, List<Blessing> blessings = null)
 	{
+		target = spell?.Data.TargetsCaster == true ? this : target;
 		if (spell == null || target == null)
 		{
 			GD.PrintErr("Invalid parameters for adding action to queue.");
@@ -83,8 +87,7 @@ public partial class Player : Character
 
 	protected override void UpdateStatusEffectLabel()
 	{
-		// We should implement a status effect label for the player later in the UI.
-		// This method is overridden to prevent the base class from trying to update a non-existent label.
+		PlayerHealthBar?.SetBlock(Block);
 	}
 
 	protected override Task PlayDeathAnimation() => Task.CompletedTask;

@@ -23,6 +23,11 @@ public partial class ResolveResult
     public Character Target { get; set; }
 
     /// <summary>
+    /// Block granted to the target, independent of damage and healing.
+    /// </summary>
+    public float Block { get; set; }
+
+    /// <summary>
     /// Whether the action has been fully resolved and applied to the target.
     /// </summary>
     public bool HasResolved { get; set; }

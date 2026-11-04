@@ -31,6 +31,13 @@ public partial class Enemy : Character
 	public List<Action> AvailableActions { get; } = new List<Action>();
 	private int AttacksTaken { get; set; }
 
+	/// <summary>
+	/// The attack shown to the player, chosen deterministically from the resource-defined cycle.
+	/// </summary>
+	public ActionData NextAction => AvailableActions.Count == 0
+		? null
+		: AvailableActions[AttacksTaken % AvailableActions.Count].Data;
+
 	[Export] private Label Intent;
 	[Export] private string IntentFormat;
 	[Export] private string WeaknessFormat;
@@ -124,7 +131,7 @@ public partial class Enemy : Character
 			return;
 		}
 
-		var next = AvailableActions[AttacksTaken % AvailableActions.Count].Data;
+		var next = NextAction;
 		var damage = string.Join(", ", next.DamageTypes).ToLowerInvariant();
 		var amount = next.BaseFireDamage > 0 ? next.BaseFireDamage : next.BasePhysicalDamage;
 		Intent.Text = string.Format(IntentFormat, next.Name, $"{amount} {damage}", Health, CharacterData.MaxHealth);

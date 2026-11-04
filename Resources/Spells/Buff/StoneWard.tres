@@ -1,0 +1,29 @@
+[gd_resource type="Resource" script_class="ActionData" load_steps=4 format=3 uid="uid://cnqhpqf2eh5w0"]
+
+[ext_resource type="Texture2D" uid="uid://exboe6jk0wnb" path="res://Assets/Textures/Atlasses/FullTileMap.png" id="atlas"]
+[ext_resource type="Script" uid="uid://d31wkdgrcylv3" path="res://Scripts/Actions/ActionData.cs" id="script"]
+
+[sub_resource type="AtlasTexture" id="icon"]
+atlas = ExtResource("atlas")
+region = Rect2(680, 34, 16, 16)
+
+[resource]
+script = ExtResource("script")
+Name = "Stone Ward"
+Description = "Gain 9 block."
+Image = SubResource("icon")
+SpellCostExpression = "[H:1]"
+BasePhysicalDamage = 0.0
+BaseBlock = 9.0
+TargetsCaster = true
+BaseDarkDamage = 0.0
+BaseLightDamage = 0.0
+BaseFireDamage = 0.0
+BaseIceDamage = 0.0
+BaseLightningDamage = 0.0
+BaseSanityDamage = 0.0
+BaseDiseaseDamage = 0.0
+Keywords = Array[int]([])
+StatusEffects = Array[int]([])
+DefaultCastEffectTexture = SubResource("icon")
+Rarity = 1

@@ -39,6 +39,9 @@ public partial class SpellBookManager : Node
         { "Fireball", new FireBallBehaviour() },
         { "Solidify", new SolidifyBehaviour() },
         { "Umbral Shield", new UmbralShieldBehaviour() },
+        { "Flame Ward", new BlockSpellBehaviour() },
+        { "Stone Ward", new BlockSpellBehaviour() },
+        { "Grave Ward", new BlockSpellBehaviour() },
         { "Plague" , new PlagueBehaviour() },
         { "Discombobulate", new DiscombobulateBehaviour() },
         { "Duplication", new DuplicationBehaviour() },
@@ -73,7 +76,11 @@ public partial class SpellBookManager : Node
     /// </summary>
     public void AddSpell(ActionData spellData)
     {
-        if (AvailableSpells.Any(s => s.Data.Name == spellData.Name)) return;
+        if (AvailableSpells.Any(s => s.Data.Name == spellData.Name))
+        {
+            return;
+        }
+
         spellData.Initialize();
         var spellBehaviour = GetSpellBehaviour(spellData.Name);
         if (spellBehaviour != null)

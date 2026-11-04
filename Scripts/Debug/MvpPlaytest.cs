@@ -14,6 +14,7 @@ public partial class MvpPlaytest : Node
     private static int TestStage;
     private static int BaselineBossRounds { get; set; }
     private static float BaselineBossHealth { get; set; }
+    private static int BlockAlignmentIndex { get; set; }
     [Export]
     private ComponentExposer ExplorationExposer;
     [Export]
@@ -111,11 +112,12 @@ public partial class MvpPlaytest : Node
             await WaitUntil(() => Intro.Visible, "Intro opened");
             Intro._Input(new InputEventKey { Pressed = true, Keycode = Key.Space });
             await WaitUntil(() => SceneManager.Instance.CurrentRoom != null, "Dungeon entered");
-            Require(SpellBookManager.Instance.AvailableSpells.Count == 2, "Personality grants two starting spells");
+            Require(SpellBookManager.Instance.AvailableSpells.Count == 4, "Personality grants offensive spells and both domains' wards");
             Require(ManaSourceManager.Instance.BlessingBar.AllMana == 3
                 && ManaSourceManager.Instance.BlessingBar.MaxMana == 3, "Run starts with three mana and no spare capacity");
             var player = PlayerManager.Instance.GetPlayer();
             Require(player.CharacterData.BaseFocused == 10, "Neutral UI traits map to base value 10");
+            await CheckBlockMechanics();
             await player.ApplyEffect(StatusEffectType.PhysicalInvincibility, 1);
             await player.ClearEffect(StatusEffectType.PhysicalInvincibility);
             Require(player.PhysicalDamageModifiers.All(m => m.Value != 0), "Shield modifier expires");
@@ -148,7 +150,7 @@ public partial class MvpPlaytest : Node
             await Capture("04-reward-choice");
             Require(!HasChoice("Claim a rare"), "Ordinary victory offers no mana upgrade");
             await ClickChoice("Learn");
-            Require(SpellBookManager.Instance.AvailableSpells.Count == 3, "Spell reward enters spellbook");
+            Require(SpellBookManager.Instance.AvailableSpells.Count == 5, "Spell reward enters spellbook");
             Require(ManaSourceManager.Instance.BlessingBar.AllMana == 3, "Learning a spell does not increase mana");
             await ClickChoice("Continue · Left");
             Require(!HasChoice("Ask") && !HasChoice("Claim a rare"), "Shrine offers recovery without mana");
@@ -173,7 +175,8 @@ public partial class MvpPlaytest : Node
             BaselineBossRounds = BattleManager.Instance.Round;
             BaselineBossHealth = player.Health;
             Require(ManaSourceManager.Instance.BlessingBar.AllMana == 3, "Boss can be defeated without a mana upgrade");
-            Require(player.Health < player.CharacterData.MaxHealth / 3, "Starting mana produces a narrow victory against the boss");
+            Require(player.Health < player.CharacterData.MaxHealth / 3, "Starting mana and timed wards produce a narrow victory against the boss");
+            Require(player.Block == 0, "Combat completion clears remaining block");
             GD.Print($"MANA BASELINE: {BaselineBossRounds} boss rounds, {BaselineBossHealth:0} health remaining at 3 mana.");
             await Capture("05-victory");
             TestStage = 1;
@@ -196,7 +199,12 @@ public partial class MvpPlaytest : Node
         Require(SceneManager.Instance.BlessingRewardsClaimed == 0, "Replay resets the floor's blessing reward limit");
         if (TestStage == 3)
         {
-            await FinishChecks();
+            if (OS.GetCmdlineUserArgs().Contains("--mvp-smoke"))
+            {
+                await FinishChecks();
+                return;
+            }
+            await CheckAlignmentBossRun();
             return;
         }
         if (TestStage == 1)
@@ -205,20 +213,11 @@ public partial class MvpPlaytest : Node
             return;
         }
 
-        await StartReplayRun();
-        await ClickChoice("Continue");
-        await ClickChoice("Face");
-        var battle = BattleManager.Instance;
-        for (var turn = 0; turn < 30 && battle.IsBattleActive; turn++)
-        {
-            await WaitUntil(() => battle.CanQueueSpells || !battle.IsBattleActive, "Defeat test player turn");
-            if (battle.CanQueueSpells)
-            {
-                battle.StartNewTurnPhaseFrom(TurnPhase.Main);
-            }
-        }
+        await ReachKeeperRoom();
+        await ClickChoice("Challenge");
+        await ResolveBattle(false);
         await WaitUntil(() => SceneManager.Instance.RunFinished, "Defeat screen shown");
-        Require(player.IsDead && player.Health == 0, "Empty queues pass turns until defeat without negative health");
+        Require(player.IsDead && player.Health == 0, "Attacking without block loses the boss fight at three mana");
         await Capture("06-defeat");
         TestStage = 3;
         await ClickChoice("Begin another");
@@ -236,6 +235,8 @@ public partial class MvpPlaytest : Node
     {
         Require(build.Blessings.Sum(blessing => blessing.ManaAmount) == 3, $"Three starting mana for {string.Join("/", build.Alignment)}");
         Require(build.Blessings.Count(blessing => blessing.Domain == dominantDomain) >= 2, "Dominant domain receives the larger share");
+        Require(build.Alignment.All(domain => build.Spells.Any(spell => spell.Data.BaseBlock > 0
+            && spell.Data.TargetsCaster && spell.Data.Cost.Costs.Any(cost => cost.Type == domain))), "Every aligned domain supplies a starting self-targeted ward");
         foreach (var spell in build.Spells)
         {
             Require(spell.Data.Cost.Costs.GroupBy(cost => cost.Type).All(costs =>
@@ -321,6 +322,12 @@ public partial class MvpPlaytest : Node
 
     private async Task WinBattle()
     {
+        await ResolveBattle(true);
+        Require(!PlayerManager.Instance.GetPlayer().IsDead, "Player survived encounter");
+    }
+
+    private async Task ResolveBattle(bool useBlock)
+    {
         var battle = BattleManager.Instance;
         var player = PlayerManager.Instance.GetPlayer();
         for (var round = 0; round < 30 && battle.IsBattleActive; round++)
@@ -331,23 +338,187 @@ public partial class MvpPlaytest : Node
                 break;
             }
 
-            foreach (var spell in SpellBookManager.Instance.AvailableSpells.Where(s => s.Data.Name is "Light Pierce" or "Rot"))
+            var opponent = (Enemy)ActionManager.Instance.SelectedTarget;
+            if (useBlock && opponent.CharacterData.Name == "Keeper of the Influx" && battle.Round > 1)
+            {
+                QueueWards(opponent.NextAction);
+            }
+
+            foreach (var spell in SpellBookManager.Instance.AvailableSpells.Where(spell =>
+                spell.Data.Name is "Light Pierce" or "Rot" or "Fire Bolt" or "Discombobulate"))
             {
                 var guard = 0;
                 while (ManaSourceManager.Instance.CanPay(spell.Data.Cost) && guard++ < 10)
                 {
-                    ManaSourceManager.Instance.AutoselectMana(spell.Data.Cost);
-                    ActionManager.Instance.SetSelectedSpell(spell);
-                    AddSpell.OnPressed();
+                    QueueSpell(spell);
                 }
             }
+            var duplication = SpellBookManager.Instance.AvailableSpells.FirstOrDefault(spell => spell.Data.Name == "Duplication");
+            while (duplication != null && player.ActionQueue.Count > 0 && ManaSourceManager.Instance.CanPay(duplication.Data.Cost))
+            {
+                QueueSpell(duplication);
+            }
             Require(player.ActionQueue.Count > 0, "Player can queue affordable spells");
+            var captureBlock = TestStage == 0 && opponent.CharacterData.Name == "Keeper of the Influx"
+                && battle.Round == 2 && OS.GetCmdlineUserArgs().Contains("--mvp-capture");
             battle.StartNewTurnPhaseFrom(TurnPhase.Main);
             battle.StartNewTurnPhaseFrom(TurnPhase.Main);
             Require(!battle.CanQueueSpells, "Casting locks input against duplicate clicks");
+            if (captureBlock)
+            {
+                await WaitUntil(() => player.Block > 0, "Queued ward grants block");
+                var timeScale = Engine.TimeScale;
+                Engine.TimeScale = 1;
+                await Capture("09-block-and-wards");
+                Engine.TimeScale = timeScale;
+            }
         }
         await WaitUntil(() => !battle.IsBattleActive, "Battle completed");
-        Require(!player.IsDead, "Player survived encounter");
+    }
+
+    private void QueueSpell(Spell spell)
+    {
+        ManaSourceManager.Instance.AutoselectMana(spell.Data.Cost);
+        ActionManager.Instance.SetSelectedSpell(spell);
+        AddSpell.OnPressed();
+        if (spell.Data.TargetsCaster)
+        {
+            Require(PlayerManager.Instance.GetPlayer().ActionQueue.Last().Target == PlayerManager.Instance.GetPlayer(),
+                "Ward queues on the player while an opponent is selected");
+        }
+    }
+
+    /// <summary>
+    /// Trades offensive mana for wards against the displayed attack, without spending the rare upgrade.
+    /// </summary>
+    private void QueueWards(ActionData attack)
+    {
+        var incoming = attack.BasePhysicalDamage + attack.BaseFireDamage;
+        var wards = SpellBookManager.Instance.AvailableSpells.Where(spell => spell.Data.BaseBlock > 0).ToArray();
+        var preferredWard = attack.BaseFireDamage > 0 ? "Stone Ward" : "Grave Ward";
+        if (wards.Any(spell => spell.Data.Name == "Flame Ward") && wards.Length > 1)
+        {
+            // Save the other domain for attacks on smaller hits, and copy its ward on heavy hits.
+            preferredWard = attack.BaseFireDamage > 0
+                ? wards.First(spell => spell.Data.Name != "Flame Ward").Data.Name
+                : "Flame Ward";
+        }
+        var ward = wards.FirstOrDefault(spell => spell.Data.Name == preferredWard)
+            ?? wards.OrderByDescending(spell => spell.Data.BaseBlock).First();
+        var casts = Math.Max(1, (int)(incoming / ward.Data.BaseBlock));
+        for (var cast = 0; cast < casts && ManaSourceManager.Instance.CanPay(ward.Data.Cost); cast++)
+        {
+            QueueSpell(ward);
+        }
+
+        var graveWard = wards.FirstOrDefault(spell => spell.Data.Name == "Grave Ward");
+        if (attack.BaseFireDamage > 0 && ward.Data.Name == "Umbral Shield" && graveWard != null
+            && ManaSourceManager.Instance.BlessingBar.AllBlessings.Count(blessing => blessing.Domain == Domain.Jaddis) == 1)
+        {
+            // Combining both wards avoids relying on high Discombobulate rolls to survive the flame.
+            QueueSpell(graveWard);
+        }
+    }
+
+    private async Task CheckBlockMechanics()
+    {
+        var player = PlayerManager.Instance.GetPlayer();
+        var health = player.Health;
+        player.GainBlock(4);
+        player.GainBlock(6);
+        Require(player.Block == 10 && player.Health == health, "Block stacks without healing");
+        await player.Damage(new Damage(4, DamageType.Physical));
+        Require(player.Block == 6 && player.Health == health, "Physical hits consume block before health");
+        await player.Damage(new ResolveResult
+        {
+            Damages = [new Damage(4, DamageType.Fire), new Damage(4, DamageType.Light)]
+        });
+        Require(player.Block == 0 && player.Health == health - 2, "Mixed damage shares one block pool and excess reaches health");
+        player.GainBlock(7);
+        await player.EndTurn();
+        Require(player.Block == 7, "Unused block survives the casting turn's end");
+        await player.StartTurn();
+        Require(player.Block == 0, "Unused block expires before the next player turn");
+        var resistance = new DamageModifier(DamageModifierType.Multiplicative, 0.5f);
+        player.FireDamageModifiers.Add(resistance);
+        player.GainBlock(3);
+        await player.Damage(new Damage(8, DamageType.Fire));
+        Require(player.Health == health - 3 && player.Block == 0, "Resistance applies before block");
+        player.FireDamageModifiers.Remove(resistance);
+        player.GainBlock(5);
+        await player.ApplyEffect(StatusEffectType.PhysicalInvincibility, 1);
+        await player.Damage(new Damage(8, DamageType.Physical));
+        Require(player.Block == 5 && player.Health == health - 3, "Invulnerability preserves block");
+        await player.ClearAllEffects();
+        Require(player.Block == 0, "Clearing combat effects removes block");
+        await player.Heal(3);
+    }
+
+    /// <summary>
+    /// Exercises every starting alignment in a real boss encounter through character creation.
+    /// </summary>
+    private async Task CheckAlignmentBossRun()
+    {
+        var domains = Enum.GetValues<Domain>();
+        var alignments = domains.Select(domain => new[] { domain }).Concat(domains.SelectMany(first =>
+            domains.Where(second => second != first).Select(second => new[] { first, second }))).ToArray();
+        if (BlockAlignmentIndex == alignments.Length)
+        {
+            await FinishChecks();
+            return;
+        }
+
+        var alignment = alignments[BlockAlignmentIndex++];
+        ConfigureAlignment(alignment);
+        await ReachKeeperRoom();
+        Require(PlayerManager.Instance.GetPlayer().CharacterData.Alignment.SequenceEqual(alignment), "Character form creates the requested alignment");
+        await ClickChoice("Challenge");
+        await WinBattle();
+        var name = string.Join("/", alignment);
+        Require(SceneManager.Instance.RunFinished, $"{name} can win using starting wards and three mana");
+        GD.Print($"BLOCK ALIGNMENT: {name}, {BattleManager.Instance.Round} rounds, {PlayerManager.Instance.GetPlayer().Health:0.#} HP remaining.");
+        await ClickChoice("Begin another");
+    }
+
+    private void ConfigureAlignment(Domain[] alignment)
+    {
+        var traits = Creation.GetDescendantsOfType<PersonalityPointsSpinBox>(Creation).ToArray();
+        foreach (var trait in traits)
+        {
+            trait.Value = 0;
+        }
+
+        foreach (var domain in alignment)
+        {
+            var traitName = GetAlignmentTraitName(domain);
+            traits.First(trait => trait.Trait.Name == traitName).Value = alignment.Length == 1
+                ? 10
+                : domain == alignment[0] ? 6 : 4;
+        }
+        var counterDomain = Enum.GetValues<Domain>().First(domain => !alignment.Contains(domain));
+        traits.First(trait => trait.Trait.Name == GetAlignmentTraitName(counterDomain)).Value = -10;
+    }
+
+    private static string GetAlignmentTraitName(Domain domain) => domain switch
+    {
+        Domain.Calina => "Dominant",
+        Domain.Hamin => "Curious",
+        Domain.Jaddis => "Charming",
+        _ => "Genuine"
+    };
+
+    private async Task ReachKeeperRoom()
+    {
+        await StartReplayRun();
+        await ClickChoice("Continue");
+        await ClickChoice("Face");
+        await WinBattle();
+        await ClickChoice("Mend your wounds");
+        await ClickChoice("Continue · Left");
+        await ClickChoice("Drink");
+        await ClickChoice("Continue");
+        await ClickChoice("Rest");
+        await ClickChoice("Continue");
     }
 
     private async Task CheckMouseSelection()

@@ -3,7 +3,7 @@ using System;
 using System.Threading.Tasks;
 
 /// <summary>
-/// Presents player health with immediate and delayed progress bars.
+/// Presents player health with immediate and delayed progress bars and the current block pool.
 /// </summary>
 public partial class PlayerHealthBar : TextureProgressBar
 {
@@ -12,6 +12,12 @@ public partial class PlayerHealthBar : TextureProgressBar
 
     [Export]
     private string HealthFormat;
+
+    [Export]
+    private Label BlockText;
+
+    [Export]
+    private string BlockFormat;
 
     /// <summary>
     /// The overlaid health bar representing current health.
@@ -35,6 +41,12 @@ public partial class PlayerHealthBar : TextureProgressBar
 
         HealthBarOver.Value = currentHealth;
         HealthBarUnder.Value = currentHealth;
+        SetBlock(0);
+    }
+
+    public void SetBlock(float block)
+    {
+        BlockText.Text = string.Format(BlockFormat, block);
     }
 
     /// <summary>

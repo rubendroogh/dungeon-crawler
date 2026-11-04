@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://cm4ol12800rw2"]
+[gd_scene load_steps=14 format=3 uid="uid://cm4ol12800rw2"]
 
 [ext_resource type="Script" uid="uid://bnm2mrdtnabvw" path="res://Scripts/Managers/SpellBookManager.cs" id="1_bhi4j"]
 [ext_resource type="PackedScene" uid="uid://csex8h13te3ep" path="res://Scenes/BattleUI/SpellBook/SpellListItem.tscn" id="2_inxxq"]
@@ -11,6 +11,10 @@
 [ext_resource type="Resource" uid="uid://g53ok3fb3puw" path="res://Resources/Spells/Damage/LightPierce.tres" id="9_m4ek0"]
 [ext_resource type="Resource" uid="uid://cn6ie7edpvr5j" path="res://Resources/Spells/Damage/Solidify.tres" id="10_5lcpl"]
 
+[ext_resource type="Resource" path="res://Resources/Spells/Buff/FlameWard.tres" id="ward_calina"]
+[ext_resource type="Resource" path="res://Resources/Spells/Buff/StoneWard.tres" id="ward_hamin"]
+[ext_resource type="Resource" path="res://Resources/Spells/Buff/GraveWard.tres" id="ward_zer"]
+
 [node name="SpellBookManager" type="Node"]
 script = ExtResource("1_bhi4j")
 SpellListItemScene = ExtResource("2_inxxq")
@@ -18,31 +22,31 @@ SpellListItemScene = ExtResource("2_inxxq")
 [node name="StartingSpellPreloaders" type="Node" parent="."]
 
 [node name="ZerSpellsPreloader" type="ResourcePreloader" parent="StartingSpellPreloaders"]
-resources = [PackedStringArray("Plague", "Rot"), [ExtResource("3_t4o2d"), ExtResource("4_mtts6")]]
+resources = [PackedStringArray("Plague", "Rot", "GraveWard"), [ExtResource("3_t4o2d"), ExtResource("4_mtts6"), ExtResource("ward_zer")]]
 
 [node name="CalinaSpellsPreloader" type="ResourcePreloader" parent="StartingSpellPreloaders"]
-resources = [PackedStringArray("Duplication", "FileBolt"), [ExtResource("5_ff8ci"), ExtResource("6_86rlh")]]
+resources = [PackedStringArray("Duplication", "FileBolt", "FlameWard"), [ExtResource("5_ff8ci"), ExtResource("6_86rlh"), ExtResource("ward_calina")]]
 
 [node name="JaddisSpellsPreloader" type="ResourcePreloader" parent="StartingSpellPreloaders"]
 resources = [PackedStringArray("Discombobulate", "UmbralShield"), [ExtResource("7_udd1i"), ExtResource("8_jvdui")]]
 
 [node name="HaminSpellsPreloader" type="ResourcePreloader" parent="StartingSpellPreloaders"]
-resources = [PackedStringArray("LightPierce", "Solidify"), [ExtResource("9_m4ek0"), ExtResource("10_5lcpl")]]
+resources = [PackedStringArray("LightPierce", "Solidify", "StoneWard"), [ExtResource("9_m4ek0"), ExtResource("10_5lcpl"), ExtResource("ward_hamin")]]
 
 [node name="ZerHaminSpellsPreloader" type="ResourcePreloader" parent="StartingSpellPreloaders"]
-resources = [PackedStringArray("LightPierce", "Rot"), [ExtResource("9_m4ek0"), ExtResource("4_mtts6")]]
+resources = [PackedStringArray("LightPierce", "Rot", "StoneWard", "GraveWard"), [ExtResource("9_m4ek0"), ExtResource("4_mtts6"), ExtResource("ward_hamin"), ExtResource("ward_zer")]]
 
 [node name="ZerJaddisSpellsPreloader" type="ResourcePreloader" parent="StartingSpellPreloaders"]
-resources = [PackedStringArray("Discombobulate", "Rot"), [ExtResource("7_udd1i"), ExtResource("4_mtts6")]]
+resources = [PackedStringArray("Discombobulate", "Rot", "GraveWard", "UmbralShield"), [ExtResource("7_udd1i"), ExtResource("4_mtts6"), ExtResource("ward_zer"), ExtResource("8_jvdui")]]
 
 [node name="ZerCalinaSpellsPreloader" type="ResourcePreloader" parent="StartingSpellPreloaders"]
-resources = [PackedStringArray("Duplication", "Rot"), [ExtResource("5_ff8ci"), ExtResource("4_mtts6")]]
+resources = [PackedStringArray("Duplication", "Rot", "FlameWard", "GraveWard"), [ExtResource("5_ff8ci"), ExtResource("4_mtts6"), ExtResource("ward_calina"), ExtResource("ward_zer")]]
 
 [node name="HaminJaddisSpellsPreloader" type="ResourcePreloader" parent="StartingSpellPreloaders"]
-resources = [PackedStringArray("Discombobulate", "LightPierce"), [ExtResource("7_udd1i"), ExtResource("9_m4ek0")]]
+resources = [PackedStringArray("Discombobulate", "LightPierce", "StoneWard", "UmbralShield"), [ExtResource("7_udd1i"), ExtResource("9_m4ek0"), ExtResource("ward_hamin"), ExtResource("8_jvdui")]]
 
 [node name="HaminCalinaSpellsPreloader" type="ResourcePreloader" parent="StartingSpellPreloaders"]
-resources = [PackedStringArray("Duplication", "LightPierce"), [ExtResource("5_ff8ci"), ExtResource("9_m4ek0")]]
+resources = [PackedStringArray("Duplication", "LightPierce", "FlameWard", "StoneWard"), [ExtResource("5_ff8ci"), ExtResource("9_m4ek0"), ExtResource("ward_calina"), ExtResource("ward_hamin")]]
 
 [node name="JaddisCalinaSpellsPreloader" type="ResourcePreloader" parent="StartingSpellPreloaders"]
-resources = [PackedStringArray("Discombobulate", "Duplication"), [ExtResource("7_udd1i"), ExtResource("5_ff8ci")]]
+resources = [PackedStringArray("Discombobulate", "Duplication", "FlameWard", "UmbralShield"), [ExtResource("7_udd1i"), ExtResource("5_ff8ci"), ExtResource("ward_calina"), ExtResource("8_jvdui")]]

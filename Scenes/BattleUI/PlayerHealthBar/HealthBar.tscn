@@ -11,7 +11,7 @@
 atlas = ExtResource("1_tvd7f")
 region = Rect2(377, 217, 46, 46)
 
-[node name="HealthBarUnder" type="TextureProgressBar" node_paths=PackedStringArray("HealthBarOver", "HealthText")]
+[node name="HealthBarUnder" type="TextureProgressBar" node_paths=PackedStringArray("HealthBarOver", "HealthText", "BlockText")]
 size_flags_horizontal = 3
 value = 50.0
 stretch_margin_left = 8
@@ -27,6 +27,8 @@ nine_patch_stretch = true
 HealthBarOver = NodePath("HealthBarOver")
 HealthText = NodePath("HealthText")
 HealthFormat = "Health {0:0}/{1:0}"
+BlockText = NodePath("BlockText")
+BlockFormat = "Block {0:0.#}"
 
 
 [node name="BottomPanel" type="PanelContainer" parent="."]
@@ -77,3 +79,15 @@ anchor_bottom = 1.0
 mouse_filter = 2
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="BlockText" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = -12.0
+mouse_filter = 2
+theme_override_colors/font_color = Color(0.62, 0.85, 0.95, 1)
+horizontal_alignment = 2
+vertical_alignment = 1
+text = "Block 0"

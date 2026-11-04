@@ -96,13 +96,14 @@ public partial class ActionManager : Node
             return 0f;
         }
 
-        if (resolveResult.Target?.IsDead == true)
+        if (resolveResult.Target == null || resolveResult.Target.IsDead)
         {
             return 0f;
         }
 
         if (!resolveResult.HasResolved)
         {
+            resolveResult.Target.GainBlock(resolveResult.Block);
             await resolveResult.Target.Damage(resolveResult);
         }
 

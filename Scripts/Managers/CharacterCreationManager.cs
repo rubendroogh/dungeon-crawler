@@ -66,6 +66,7 @@ public partial class CharacterCreationManager : Control
     /// The Submit Button for submitting the character creation form.
     /// </summary>
 	private Button SubmitButton { get; set; }
+	
 	[Export]
 	private Label AlignmentPreview;
 

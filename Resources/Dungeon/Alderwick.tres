@@ -4,7 +4,7 @@
 [ext_resource type="Script" uid="uid://d31wkdgrcylv3" path="res://Scripts/Actions/ActionData.cs" id="1_3gou2"]
 [ext_resource type="Script" uid="uid://ddrwd3rgmnrr3" path="res://Scripts/Dungeon/DungeonRoomData.cs" id="12_0fmaj"]
 [ext_resource type="Resource" uid="uid://c0m28lymoktcj" path="res://Resources/Dungeon/Rooms/archive.tres" id="room_archive"]
-[ext_resource type="Resource" path="res://Resources/Dungeon/Rooms/boss.tres" id="room_boss"]
+[ext_resource type="Resource" uid="uid://bn583j2f3mag" path="res://Resources/Dungeon/Rooms/boss.tres" id="room_boss"]
 [ext_resource type="Resource" path="res://Resources/Dungeon/Rooms/crossroads.tres" id="room_crossroads"]
 [ext_resource type="Resource" path="res://Resources/Dungeon/Rooms/entrance.tres" id="room_entrance"]
 [ext_resource type="Resource" path="res://Resources/Dungeon/Rooms/exit.tres" id="room_exit"]
@@ -36,7 +36,7 @@ Text = {
 "challenge": "Challenge the Keeper",
 "combat_help": "{0}
 {1}
-Select a spell → Add to queue → Cast queue. Blessings refresh each turn. Order matters!",
+Queue attacks and wards, then cast. Wards spend mana to block damage. Unused block expires next turn.",
 "continue": "Continue · {0}",
 "defeat_text": "Your blessings fade beneath Alderwick. The old world's secret remains beyond your reach.
 

@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using Godot;
 using Godot.Collections;
 
+/// <summary>
+/// Defines editable spell and enemy action costs, damage, block, effects, and presentation.
+/// </summary>
 [GlobalClass] // Makes it creatable from the "New Resource" menu
 public partial class ActionData : Resource
 {
@@ -39,6 +42,18 @@ public partial class ActionData : Resource
     [Export]
     [ExportGroup("Spell damage info")]
     public float BasePhysicalDamage { get; set; } = 0;
+
+    /// <summary>
+    /// Damage absorbed by the caster's block before their next turn.
+    /// </summary>
+    [Export(PropertyHint.Range, "0,100,1")]
+    public float BaseBlock { get; set; }
+
+    /// <summary>
+    /// Queues this spell on its caster instead of the selected opponent.
+    /// </summary>
+    [Export]
+    public bool TargetsCaster { get; set; }
     
     /// <summary>
     /// The base dark damage dealt by the spell.
@@ -129,17 +144,52 @@ public partial class ActionData : Resource
     /// <summary>
     /// A list of all the damage types that this spell can deal.
     /// </summary>
-    public DamageType[] DamageTypes { get {
-        var damageTypes = new List<DamageType>();
-        if (BasePhysicalDamage > 0) damageTypes.Add(DamageType.Physical);
-        if (BaseDarkDamage > 0) damageTypes.Add(DamageType.Dark);
-        if (BaseLightDamage > 0) damageTypes.Add(DamageType.Light);
-        if (BaseFireDamage > 0) damageTypes.Add(DamageType.Fire);
-        if (BaseIceDamage > 0) damageTypes.Add(DamageType.Ice);
-        if (BaseLightningDamage > 0) damageTypes.Add(DamageType.Lightning);
-        if (BaseSanityDamage > 0) damageTypes.Add(DamageType.Sanity);
-        if (BaseDiseaseDamage > 0) damageTypes.Add(DamageType.Disease);
+    public DamageType[] DamageTypes
+    {
+        get
+        {
+            var damageTypes = new List<DamageType>();
+            if (BasePhysicalDamage > 0)
+            {
+                damageTypes.Add(DamageType.Physical);
+            }
 
-        return [.. damageTypes];
-    } }
+            if (BaseDarkDamage > 0)
+            {
+                damageTypes.Add(DamageType.Dark);
+            }
+
+            if (BaseLightDamage > 0)
+            {
+                damageTypes.Add(DamageType.Light);
+            }
+
+            if (BaseFireDamage > 0)
+            {
+                damageTypes.Add(DamageType.Fire);
+            }
+
+            if (BaseIceDamage > 0)
+            {
+                damageTypes.Add(DamageType.Ice);
+            }
+
+            if (BaseLightningDamage > 0)
+            {
+                damageTypes.Add(DamageType.Lightning);
+            }
+
+            if (BaseSanityDamage > 0)
+            {
+                damageTypes.Add(DamageType.Sanity);
+            }
+
+            if (BaseDiseaseDamage > 0)
+            {
+                damageTypes.Add(DamageType.Disease);
+            }
+
+            return [.. damageTypes];
+        }
+    }
 }

@@ -15,6 +15,11 @@ public partial class Character : Node2D
     public float Health { get; private set; }
 
     /// <summary>
+    /// Absorbs incoming damage after resistances; expires at the start of this character's turn.
+    /// </summary>
+    public float Block { get; private set; }
+
+    /// <summary>
     /// The character data associated with this character.
     /// This data contains the base stats, personality traits, and other information about the character.
     /// </summary>
@@ -134,6 +139,8 @@ public partial class Character : Node2D
     /// </summary>
     public async Task StartTurn()
     {
+        ClearBlock();
+
         // Process the effects at the start of the turn
         foreach (var effect in StatusEffects.ToArray())
         {
@@ -156,7 +163,10 @@ public partial class Character : Node2D
         foreach (var effect in StatusEffects.ToArray())
         {
             await effect.Behaviour.ProcessEffectEndTurn(this);
-            if (IsDead) return;
+            if (IsDead)
+            {
+                return;
+            }
         }
 
         var expiredStatusEffects = new List<StatusEffect>();
@@ -231,6 +241,20 @@ public partial class Character : Node2D
         }
 
         // If total damage is 0, do nothing.
+        if (totalDamage <= 0)
+        {
+            return 0;
+        }
+
+        var absorbed = Mathf.Min(Block, totalDamage);
+        if (absorbed > 0)
+        {
+            Block -= absorbed;
+            totalDamage -= absorbed;
+            BattleLogManager.Instance.Log($"{CharacterData.Name} blocks {absorbed:0.#} damage ({Block:0.#} block left).");
+            UpdateStatusEffectLabel();
+        }
+
         if (totalDamage <= 0)
         {
             return 0;
@@ -312,7 +336,32 @@ public partial class Character : Node2D
 
     public async Task ClearAllEffects()
     {
-        foreach (var effect in StatusEffects.ToArray()) await ClearEffect(effect.Type);
+        ClearBlock();
+        foreach (var effect in StatusEffects.ToArray())
+        {
+            await ClearEffect(effect.Type);
+        }
+    }
+
+    /// <summary>
+    /// Stacks block for the current turn without restoring health.
+    /// </summary>
+    public void GainBlock(float amount)
+    {
+        if (IsDead || amount <= 0)
+        {
+            return;
+        }
+
+        Block += amount;
+        BattleLogManager.Instance.Log($"{CharacterData.Name} gains {amount:0.#} block ({Block:0.#} total).");
+        UpdateStatusEffectLabel();
+    }
+
+    public void ClearBlock()
+    {
+        Block = 0;
+        UpdateStatusEffectLabel();
     }
 
     /// <summary>
@@ -480,11 +529,13 @@ public partial class Character : Node2D
             return;
         }
 
-        StatusEffectLabel.Text = string.Join(", ", StatusEffects.Select(e => $"{e.Type} ({e.Duration})"));
-        if (StatusEffects.Count == 0)
+        var effects = StatusEffects.Select(effect => $"{effect.Type} ({effect.Duration})").ToList();
+        if (Block > 0)
         {
-            StatusEffectLabel.Text = "";
+            effects.Insert(0, $"Block {Block:0.#}");
         }
+
+        StatusEffectLabel.Text = string.Join(", ", effects);
     }
 
     /// <summary>
@@ -520,7 +571,7 @@ public partial class Character : Node2D
         }
 
         // Animate the action and target damage
-        await actionBehaviour.AnimateAction(entry.Action.Data, entry.Target, this);
+        await actionBehaviour.AnimateAction(entry.Action.Data, actionResolveResult.Target ?? entry.Target, this);
 
         // Apply the resolve result (damage, healing, status effects, etc.)
         await ActionManager.Instance.ApplyResolveResult(actionResolveResult);
@@ -537,6 +588,7 @@ public partial class Character : Node2D
     {
         CharacterData = characterData;
         Health = characterData.MaxHealth;
+        Block = 0;
 
         // Reset the damage modifiers to the base values
         PhysicalDamageModifiers.Clear();

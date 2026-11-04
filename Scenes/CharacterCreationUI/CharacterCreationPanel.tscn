@@ -297,7 +297,7 @@ vertical_alignment = 1
 custom_minimum_size = Vector2(420, 0)
 autowrap_mode = 3
 horizontal_alignment = 0
-text = "PRIEST\nThe first descent into Alderwick\n\nTrade personality points between traits until the total returns to zero. Negative traits can be just as useful. Leave everything at zero for a balanced start.\n\nYour strongest traits decide which gods give you spells and three starting blessings. Further blessings are rare.\n\nZer: Genuine + Optimistic\nHamin: Curious + Focused\nJaddis: Charming + Benevolent\nCalina: Dominant + Fearless\n\nExplore the ruin, shape your spellbook, and confront the Keeper."
+text = "PRIEST\nThe first descent into Alderwick\n\nTrade personality points between traits until the total returns to zero. Negative traits can be just as useful. Leave everything at zero for a balanced start.\n\nYour strongest traits decide which gods give you spells and three starting blessings. Further blessings are rare. Each god also grants a ward: spend mana on block to preserve health.\n\nZer: Genuine + Optimistic\nHamin: Curious + Focused\nJaddis: Charming + Benevolent\nCalina: Dominant + Fearless\n\nExplore the ruin, shape your spellbook, and confront the Keeper."
 
 
 [node name="AlignmentPreview" type="Label" parent="CharacterCreationManager/MarginContainer/HBoxContainer/Form"]
